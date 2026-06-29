@@ -1,0 +1,43 @@
+name: Sync Upstream Zed
+
+on:
+  schedule:
+    # 每天 UTC 0:00（北京时间 8:00）执行
+    - cron: '0 0 * * *'
+  # 也支持手动触发
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/zed-industries/zed.git
+
+      - name: Fetch upstream changes
+        run: git fetch upstream
+
+      - name: Sync main branch (fast-forward only)
+        run: |
+          git checkout main
+          if git merge-base --is-ancestor upstream/main main; then
+            echo "Already up-to-date."
+          else
+            git merge upstream/main --ff-only
+            git push origin main
+          fi
+
+      - name: Sync tags
+        run: |
+          git fetch upstream --tags
+          git push origin --tags --force
