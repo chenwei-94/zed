@@ -18,8 +18,8 @@ use crate::sandboxing::{
 use crate::tools::{SandboxGitPathCandidates, sandbox_git_paths};
 use agent_client_protocol::schema::v1 as acp;
 use agent_settings::{
-    AgentProfileId, AgentSettings, AutoCompactThreshold, COMPACTION_PROMPT,
-    SUMMARIZE_THREAD_DETAILED_PROMPT, SUMMARIZE_THREAD_PROMPT,
+    AgentProfileId, AgentProfileSettings, AgentSettings, AutoCompactThreshold, COMPACTION_PROMPT,
+    SUMMARIZE_THREAD_DETAILED_PROMPT, SUMMARIZE_THREAD_PROMPT, builtin_profiles,
 };
 use anyhow::{Context as _, Result, anyhow};
 use chrono::{DateTime, Local, Utc};
@@ -46,7 +46,7 @@ use language_model::{
     LanguageModelToolUse, LanguageModelToolUseId, MessageContent, Role, SelectedModel, Speed,
     StopReason, TokenUsage, ZED_CLOUD_PROVIDER_ID,
 };
-use project::Project;
+use project::{Project, trusted_worktrees::TrustedWorktrees};
 use prompt_store::ProjectContext;
 use schemars::{JsonSchema, Schema};
 use serde::de::DeserializeOwned;
@@ -71,6 +71,27 @@ use uuid::Uuid;
 const TOOL_CANCELED_MESSAGE: &str = "Tool canceled by user";
 pub const MAX_TOOL_NAME_LENGTH: usize = 64;
 pub const MAX_SUBAGENT_DEPTH: u8 = 1;
+
+pub(crate) fn provider_compatible_tool_name(tool_name: &str) -> String {
+    let mut sanitized = String::new();
+    for character in tool_name.chars() {
+        if sanitized.len() >= MAX_TOOL_NAME_LENGTH {
+            break;
+        }
+
+        if character.is_ascii_alphanumeric() || character == '_' || character == '-' {
+            sanitized.push(character);
+        } else {
+            sanitized.push('_');
+        }
+    }
+
+    if sanitized.is_empty() {
+        sanitized.push_str("tool");
+    }
+
+    sanitized
+}
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct SandboxStatusKey {
@@ -1226,6 +1247,9 @@ pub struct Thread {
     initial_project_snapshot: Shared<Task<Option<Arc<ProjectSnapshot>>>>,
     pub(crate) context_server_registry: Entity<ContextServerRegistry>,
     profile_id: AgentProfileId,
+    /// Whether `profile_id` was downgraded to `minimal` at thread start because
+    /// the workspace is restricted. Used purely to surface a warning in the UI.
+    profile_downgraded_for_restricted_workspace: bool,
     project_context: Entity<ProjectContext>,
     pub(crate) templates: Arc<Templates>,
     model: ThreadModel,
@@ -1320,7 +1344,8 @@ impl Thread {
         cx: &mut Context<Self>,
     ) -> Self {
         let settings = AgentSettings::get_global(cx);
-        let profile_id = settings.default_profile.clone();
+        let (profile_id, profile_downgraded_for_restricted_workspace) =
+            Self::profile_for_restricted_workspace(settings.default_profile.clone(), &project, cx);
         let enable_thinking = settings
             .default_model
             .as_ref()
@@ -1363,6 +1388,7 @@ impl Thread {
             },
             context_server_registry,
             profile_id,
+            profile_downgraded_for_restricted_workspace,
             project_context,
             templates,
             model,
@@ -1395,6 +1421,8 @@ impl Thread {
         self.thinking_effort = parent.thinking_effort.clone();
         self.summarization_model = parent.summarization_model.clone();
         self.profile_id = parent.profile_id.clone();
+        self.profile_downgraded_for_restricted_workspace =
+            parent.profile_downgraded_for_restricted_workspace;
     }
 
     fn apply_model_selection(
@@ -1738,6 +1766,7 @@ impl Thread {
             initial_project_snapshot: Task::ready(db_thread.initial_project_snapshot).shared(),
             context_server_registry,
             profile_id,
+            profile_downgraded_for_restricted_workspace: false,
             project_context,
             templates,
             model,
@@ -2195,7 +2224,44 @@ impl Thread {
         &self.profile_id
     }
 
+    /// Whether this thread's profile was downgraded to `minimal` at thread start
+    /// because the workspace is restricted.
+    pub fn profile_was_downgraded(&self) -> bool {
+        self.profile_downgraded_for_restricted_workspace
+    }
+
+    /// Computes the profile a thread should start with, given the user's chosen
+    /// profile. In a restricted workspace, the built-in `write`/`ask` profiles
+    /// are downgraded to `minimal` — but only when both the chosen profile and
+    /// `minimal` are unmodified, shipped defaults, so we never override a user's
+    /// custom or customized profiles.
+    ///
+    /// Returns the (possibly downgraded) profile and whether a downgrade
+    /// happened.
+    fn profile_for_restricted_workspace(
+        profile_id: AgentProfileId,
+        project: &Entity<Project>,
+        cx: &App,
+    ) -> (AgentProfileId, bool) {
+        let is_write_or_ask = profile_id.as_str() == builtin_profiles::WRITE
+            || profile_id.as_str() == builtin_profiles::ASK;
+        let minimal = AgentProfileId(builtin_profiles::MINIMAL.into());
+        if is_write_or_ask
+            && TrustedWorktrees::has_restricted_worktrees(&project.read(cx).worktree_store(), cx)
+            && AgentProfileSettings::is_unmodified_default(&profile_id, cx)
+            && AgentProfileSettings::is_unmodified_default(&minimal, cx)
+        {
+            (minimal, true)
+        } else {
+            (profile_id, false)
+        }
+    }
+
     pub fn set_profile(&mut self, profile_id: AgentProfileId, cx: &mut Context<Self>) {
+        // An explicit selection means any earlier automatic downgrade no longer
+        // applies, even if the user re-selects the same profile.
+        self.profile_downgraded_for_restricted_workspace = false;
+
         if self.profile_id == profile_id {
             return;
         }
@@ -3458,6 +3524,26 @@ impl Thread {
         cancellation_rx: watch::Receiver<bool>,
         cx: &mut Context<Self>,
     ) -> Task<LanguageModelToolResult> {
+        // A workspace can become restricted after a thread has already started.
+        // Tools that aren't allowed in restricted workspaces must never run in
+        // that state, even though they were exposed to the model earlier.
+        if !tool.allow_in_restricted_mode()
+            && TrustedWorktrees::has_restricted_worktrees(
+                &self.project.read(cx).worktree_store(),
+                cx,
+            )
+        {
+            return Task::ready(LanguageModelToolResult {
+                tool_use_id,
+                tool_name,
+                is_error: true,
+                content: vec![LanguageModelToolResultContent::Text(Arc::from(
+                    "workspace has become restricted",
+                ))],
+                output: None,
+            });
+        }
+
         let fs = self.project.read(cx).fs().clone();
         let tool_event_stream = ToolCallEventStream::new(
             tool_use_id.clone(),
@@ -3670,9 +3756,7 @@ impl Thread {
             ..Default::default()
         };
 
-        for message in &self.messages {
-            request.messages.extend(message.to_request());
-        }
+        self.extend_request_history_until(&mut request.messages, self.messages.len());
 
         request.messages.push(LanguageModelRequestMessage {
             role: Role::User,
@@ -3923,24 +4007,21 @@ impl Thread {
         let Some(profile) = AgentSettings::get_global(cx).profiles.get(&self.profile_id) else {
             return BTreeMap::new();
         };
-        fn truncate(tool_name: &SharedString) -> SharedString {
-            if tool_name.len() > MAX_TOOL_NAME_LENGTH {
-                let mut truncated = tool_name.to_string();
-                truncated.truncate(MAX_TOOL_NAME_LENGTH);
-                truncated.into()
-            } else {
-                tool_name.clone()
-            }
-        }
-
         // Terminal variants are configured by users under the canonical
         // `terminal` name. Expose the one matching the current sandbox state
         // to the model under that name.
         let use_sandboxed_terminal = sandboxing_enabled_for_project(self.project.read(cx), cx);
 
+        // Tools that aren't allowed in restricted workspaces must never be
+        // provided to the model while the workspace is restricted, regardless
+        // of what the active profile enables.
+        let is_restricted =
+            TrustedWorktrees::has_restricted_worktrees(&self.project.read(cx).worktree_store(), cx);
+
         let mut tools = self
             .tools
             .iter()
+            .filter(|(_, tool)| !is_restricted || tool.allow_in_restricted_mode())
             .filter_map(|(tool_name, tool)| {
                 let terminal_variant = matches!(
                     tool_name.as_ref(),
@@ -3960,7 +4041,10 @@ impl Thread {
                             Some((SharedString::from(TerminalTool::NAME), tool.clone()))
                         }
                         (TerminalTool::NAME | SandboxedTerminalTool::NAME, _) => None,
-                        _ => Some((truncate(tool_name), tool.clone())),
+                        _ => Some((
+                            provider_compatible_tool_name(tool_name.as_ref()).into(),
+                            tool.clone(),
+                        )),
                     }
                 } else {
                     None
@@ -3975,7 +4059,8 @@ impl Thread {
         for (server_id, server_tools) in self.context_server_registry.read(cx).servers() {
             for (tool_name, tool) in server_tools {
                 if profile.is_context_server_tool_enabled(&server_id.0, &tool_name) {
-                    let tool_name = truncate(tool_name);
+                    let tool_name: SharedString =
+                        provider_compatible_tool_name(tool_name.as_ref()).into();
                     if !seen_tools.insert(tool_name.clone()) {
                         duplicate_tool_names.insert(tool_name.clone());
                     }
@@ -3992,7 +4077,8 @@ impl Thread {
             if duplicate_tool_names.contains(&tool_name) {
                 let available = MAX_TOOL_NAME_LENGTH.saturating_sub(tool_name.len());
                 if available >= 2 {
-                    let mut disambiguated = server_id.0.to_snake_case();
+                    let mut disambiguated =
+                        provider_compatible_tool_name(&server_id.0.to_snake_case()).to_string();
                     disambiguated.truncate(available - 1);
                     disambiguated.push('_');
                     disambiguated.push_str(&tool_name);
@@ -4134,32 +4220,10 @@ impl Thread {
 
     fn extend_request_history_until(
         &self,
-        messages: &mut Vec<LanguageModelRequestMessage>,
+        request_messages: &mut Vec<LanguageModelRequestMessage>,
         end_ix: usize,
     ) {
-        let Some(compaction_ix) = self.latest_compaction_message_ix_before(end_ix) else {
-            for message in &self.messages[..end_ix] {
-                messages.extend(message.to_request());
-            }
-            return;
-        };
-
-        if matches!(
-            &*self.messages[compaction_ix],
-            Message::Compaction(CompactionInfo::Summary(_))
-        ) {
-            messages.extend(self.retained_user_request_messages_before(compaction_ix));
-        }
-
-        for message in &self.messages[compaction_ix..end_ix] {
-            messages.extend(message.to_request());
-        }
-    }
-
-    fn latest_compaction_message_ix_before(&self, end_ix: usize) -> Option<usize> {
-        self.messages[..end_ix]
-            .iter()
-            .rposition(|message| matches!(&**message, Message::Compaction(_)))
+        extend_request_history_until(&self.messages, request_messages, end_ix);
     }
 
     /// Captures the data for an `"Agent Compaction Completed"` telemetry event
@@ -4236,8 +4300,7 @@ impl Thread {
                         .map(|usage| (ix, usage))
                 })
         }?;
-        if self
-            .latest_compaction_message_ix_before(self.messages.len())
+        if latest_compaction_message_ix_before(&self.messages, self.messages.len())
             .is_some_and(|compaction_ix| compaction_ix > usage_ix)
         {
             return None;
@@ -4299,41 +4362,6 @@ impl Thread {
         });
 
         request
-    }
-
-    fn retained_user_request_messages_before(
-        &self,
-        compaction_ix: usize,
-    ) -> Vec<LanguageModelRequestMessage> {
-        let mut remaining_bytes = COMPACTION_RETAINED_USER_MESSAGES_BYTE_BUDGET;
-        let mut retained_messages = Vec::new();
-
-        for message in self.messages[..compaction_ix].iter().rev() {
-            let Message::User(user_message) = &**message else {
-                continue;
-            };
-            if user_message.content.is_empty() {
-                continue;
-            }
-
-            let request_message = user_message.to_request();
-            let byte_count = user_message_byte_len(&request_message);
-            if let Some(bytes) = remaining_bytes.checked_sub(byte_count) {
-                remaining_bytes = bytes;
-                retained_messages.push(request_message);
-            } else {
-                if remaining_bytes > 0
-                    && let Some(request_message) =
-                        truncate_user_message_to_byte_budget(request_message, remaining_bytes)
-                {
-                    retained_messages.push(request_message);
-                }
-                break;
-            }
-        }
-
-        retained_messages.reverse();
-        retained_messages
     }
 
     pub fn to_markdown(&self) -> String {
@@ -4673,6 +4701,75 @@ pub(crate) fn messages_to_markdown(messages: &[Arc<Message>]) -> String {
     markdown
 }
 
+fn extend_request_history_until(
+    messages: &[Arc<Message>],
+    request_messages: &mut Vec<LanguageModelRequestMessage>,
+    end_ix: usize,
+) {
+    let end_ix = end_ix.min(messages.len());
+    let Some(compaction_ix) = latest_compaction_message_ix_before(messages, end_ix) else {
+        for message in &messages[..end_ix] {
+            request_messages.extend(message.to_request());
+        }
+        return;
+    };
+
+    if matches!(
+        &*messages[compaction_ix],
+        Message::Compaction(CompactionInfo::Summary(_))
+    ) {
+        request_messages.extend(retained_user_request_messages_before(
+            messages,
+            compaction_ix,
+        ));
+    }
+
+    for message in &messages[compaction_ix..end_ix] {
+        request_messages.extend(message.to_request());
+    }
+}
+
+fn latest_compaction_message_ix_before(messages: &[Arc<Message>], end_ix: usize) -> Option<usize> {
+    messages[..end_ix]
+        .iter()
+        .rposition(|message| matches!(&**message, Message::Compaction(_)))
+}
+
+fn retained_user_request_messages_before(
+    messages: &[Arc<Message>],
+    compaction_ix: usize,
+) -> Vec<LanguageModelRequestMessage> {
+    let mut remaining_bytes = COMPACTION_RETAINED_USER_MESSAGES_BYTE_BUDGET;
+    let mut retained_messages = Vec::new();
+
+    for message in messages[..compaction_ix].iter().rev() {
+        let Message::User(user_message) = &**message else {
+            continue;
+        };
+        if user_message.content.is_empty() {
+            continue;
+        }
+
+        let request_message = user_message.to_request();
+        let byte_count = user_message_byte_len(&request_message);
+        if let Some(bytes) = remaining_bytes.checked_sub(byte_count) {
+            remaining_bytes = bytes;
+            retained_messages.push(request_message);
+        } else {
+            if remaining_bytes > 0
+                && let Some(request_message) =
+                    truncate_user_message_to_byte_budget(request_message, remaining_bytes)
+            {
+                retained_messages.push(request_message);
+            }
+            break;
+        }
+    }
+
+    retained_messages.reverse();
+    retained_messages
+}
+
 pub fn build_thread_title_request(
     messages: &[Arc<Message>],
     temperature: Option<f32>,
@@ -4682,9 +4779,7 @@ pub fn build_thread_title_request(
         temperature,
         ..Default::default()
     };
-    for message in messages {
-        request.messages.extend(message.to_request());
-    }
+    extend_request_history_until(messages, &mut request.messages, messages.len());
     request.messages.push(LanguageModelRequestMessage {
         role: Role::User,
         content: vec![SUMMARIZE_THREAD_PROMPT.into()],
@@ -4897,6 +4992,14 @@ where
         true
     }
 
+    /// Whether this tool may be provided to an agent in a restricted workspace.
+    ///
+    /// Tools that return `false` are never exposed to the model while the
+    /// workspace is restricted, and will fail if invoked in that state.
+    fn allow_in_restricted_mode() -> bool {
+        true
+    }
+
     /// Runs the tool with the provided input.
     ///
     /// Returns `Result<Self::Output, Self::Output>` rather than `Result<Self::Output, anyhow::Error>`
@@ -4960,6 +5063,9 @@ pub trait AnyAgentTool {
     fn supports_provider(&self, _provider: &LanguageModelProviderId) -> bool {
         true
     }
+    fn allow_in_restricted_mode(&self) -> bool {
+        true
+    }
     /// See [`AgentTool::run`] for why this returns `Result<AgentToolOutput, AgentToolOutput>`.
     fn run(
         self: Arc<Self>,
@@ -5009,6 +5115,10 @@ where
 
     fn supports_provider(&self, provider: &LanguageModelProviderId) -> bool {
         T::supports_provider(provider)
+    }
+
+    fn allow_in_restricted_mode(&self) -> bool {
+        T::allow_in_restricted_mode()
     }
 
     fn run(
@@ -6518,6 +6628,96 @@ mod tests {
             .skip(1)
             .map(LanguageModelRequestMessage::string_contents)
             .collect()
+    }
+
+    fn request_texts(messages: &[LanguageModelRequestMessage]) -> Vec<String> {
+        messages
+            .iter()
+            .map(LanguageModelRequestMessage::string_contents)
+            .collect()
+    }
+
+    #[gpui::test]
+    async fn test_thread_summary_request_uses_compacted_history(cx: &mut TestAppContext) {
+        let (thread, _event_stream) = setup_thread_for_test(cx).await;
+        let summary_model = Arc::new(FakeLanguageModel::default());
+
+        let summary_task = cx.update(|cx| {
+            thread.update(cx, |thread, cx| {
+                thread.set_summarization_model(Some(summary_model.clone()), cx);
+                thread
+                    .messages
+                    .push(user_text_message(ClientUserMessageId::new(), "old user"));
+                thread.messages.push(agent_text_message("old assistant"));
+                thread.messages.push(summary_compaction("first summary"));
+                thread.messages.push(user_text_message(
+                    ClientUserMessageId::new(),
+                    "between user",
+                ));
+                thread
+                    .messages
+                    .push(agent_text_message("between assistant"));
+                thread.messages.push(summary_compaction("latest summary"));
+                thread
+                    .messages
+                    .push(user_text_message(ClientUserMessageId::new(), "after user"));
+                thread.messages.push(agent_text_message("after assistant"));
+
+                thread.summary(cx)
+            })
+        });
+        cx.run_until_parked();
+
+        let summary_request = summary_model.pending_completions().pop().unwrap();
+        assert_eq!(
+            summary_request.intent,
+            Some(CompletionIntent::ThreadContextSummarization)
+        );
+        assert_eq!(
+            request_texts(&summary_request.messages),
+            vec![
+                "old user".to_string(),
+                "between user".to_string(),
+                summary_request_text("latest summary"),
+                "after user".to_string(),
+                "after assistant".to_string(),
+                SUMMARIZE_THREAD_DETAILED_PROMPT.to_string(),
+            ]
+        );
+
+        summary_model.send_completion_stream_text_chunk(&summary_request, "thread summary");
+        summary_model.end_completion_stream(&summary_request);
+        assert_eq!(summary_task.await.as_deref(), Some("thread summary"));
+    }
+
+    #[test]
+    fn test_thread_title_request_uses_compacted_history() {
+        let messages = vec![
+            user_text_message(ClientUserMessageId::new(), "old user"),
+            agent_text_message("old assistant"),
+            summary_compaction("first summary"),
+            user_text_message(ClientUserMessageId::new(), "between user"),
+            agent_text_message("between assistant"),
+            summary_compaction("latest summary"),
+            user_text_message(ClientUserMessageId::new(), "after user"),
+            agent_text_message("after assistant"),
+        ];
+
+        let request = build_thread_title_request(&messages, Some(0.2));
+
+        assert_eq!(request.intent, Some(CompletionIntent::ThreadSummarization));
+        assert_eq!(request.temperature, Some(0.2));
+        assert_eq!(
+            request_texts(&request.messages),
+            vec![
+                "old user".to_string(),
+                "between user".to_string(),
+                summary_request_text("latest summary"),
+                "after user".to_string(),
+                "after assistant".to_string(),
+                SUMMARIZE_THREAD_PROMPT.to_string(),
+            ]
+        );
     }
 
     #[gpui::test]
