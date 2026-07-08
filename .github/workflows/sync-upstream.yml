@@ -27,15 +27,11 @@ jobs:
       - name: Fetch upstream changes
         run: git fetch upstream
 
-      - name: Sync main branch (fast-forward only)
-        run: |
-          git checkout main
-          if git merge-base --is-ancestor upstream/main main; then
-            echo "Already up-to-date."
-          else
-            git merge upstream/main --ff-only
-            git push origin main
-          fi
+- name: Sync main branch
+  run: |
+    git checkout main
+    git merge upstream/main -m "Sync with upstream"
+    git push origin main
 
       - name: Sync tags
         run: |
