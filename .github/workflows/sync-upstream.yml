@@ -27,11 +27,11 @@ jobs:
       - name: Fetch upstream changes
         run: git fetch upstream
 
-- name: Sync main branch
-  run: |
-    git checkout main
-    git merge upstream/main -m "Sync with upstream"
-    git push origin main
+      - name: Sync main branch
+        run: |
+          git checkout main
+          git merge upstream/main -m "Sync with upstream"
+          git push origin main
 
       - name: Sync tags
         run: |
