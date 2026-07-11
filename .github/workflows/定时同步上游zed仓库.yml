@@ -1,0 +1,106 @@
+name: Scheduled sync from upstream
+
+# 自动计划与手动触发
+on:
+  schedule:
+    - cron: '0 1 * * *' # 每天 01:00 UTC
+  workflow_dispatch:
+
+# 需要写权限以便推送分支与创建 PR
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  # 替换下面这三项为实际值
+  UPSTREAM_REPO: 'UPSTREAM_OWNER/UPSTREAM_REPO'  # 例如: upstream-owner/upstream-repo
+  UPSTREAM_BRANCH: 'main'                        # 上游分支名
+  DESTINATION_BRANCH: 'main'                     # 本仓库要同步到的分支名
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream remote and fetch
+        run: |
+          # 使用 GITHUB_TOKEN 以便能访问私有上游（若需要）。如果上游是公共仓库，也可以直接用 https://github.com/... 不带 token。
+          git remote add upstream "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.UPSTREAM_REPO }}.git"
+          git fetch --no-tags --prune upstream
+          git fetch --no-tags --prune origin
+
+      - name: Try fast-forward merge and push to destination branch
+        id: try_ff
+        run: |
+          set -o pipefail
+          UPSTREAM_BRANCH=${{ env.UPSTREAM_BRANCH }}
+          DEST_BRANCH=${{ env.DESTINATION_BRANCH }}
+
+          # 确保本地存在目标分支的最新 origin
+          git checkout -B "$DEST_BRANCH" "origin/$DEST_BRANCH"
+
+          # 尝试 ff-only 合并
+          if git merge --ff-only "upstream/$UPSTREAM_BRANCH"; then
+            echo "Fast-forward merge succeeded. Pushing to origin..."
+            git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" "$DEST_BRANCH"
+            echo "merged=true" >> $GITHUB_OUTPUT
+          else
+            echo "Fast-forward merge NOT possible (non-ff or conflicts). Will create a PR branch instead."
+            echo "merged=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create fallback branch from upstream and push (when ff failed)
+        if: steps.try_ff.outputs.merged == 'false'
+        id: create_branch
+        run: |
+          set -e
+          TS=$(date -u +"%Y%m%d-%H%M%S")
+          BRANCH="sync/upstream-${TS}"
+          UPSTREAM_BRANCH=${{ env.UPSTREAM_BRANCH }}
+          DEST_BRANCH=${{ env.DESTINATION_BRANCH }}
+
+          # 基于上游分支新建本地分支（不会影响目标分支）
+          git fetch upstream "$UPSTREAM_BRANCH"
+          git checkout -B "$BRANCH" "upstream/$UPSTREAM_BRANCH"
+
+          # 推到 origin
+          git push "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" "HEAD:refs/heads/${BRANCH}"
+
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request for fallback branch (when ff failed)
+        if: steps.try_ff.outputs.merged == 'false'
+        run: |
+          BRANCH="${{ steps.create_branch.outputs.branch }}"
+          DEST_BRANCH=${{ env.DESTINATION_BRANCH }}
+          TITLE="chore: sync from upstream ($BRANCH)"
+          BODY="Automated sync from upstream repository: ${{ env.UPSTREAM_REPO }}:${{ env.UPSTREAM_BRANCH }}\n\nThis PR was created automatically by the scheduled sync workflow."
+
+          # 使用 REST API 创建 PR（若已存在相同 head->base 的 PR，API 会返回错误 422）
+          RESPONSE=$(curl -s -o /tmp/pr_response -w "%{http_code}" -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/pulls \
+            -d "{\"title\":\"${TITLE}\",\"head\":\"${BRANCH}\",\"base\":\"${DEST_BRANCH}\",\"body\":\"${BODY}\"}")
+
+          if [ "$RESPONSE" = "201" ]; then
+            echo "Pull request created successfully."
+            cat /tmp/pr_response
+          elif [ "$RESPONSE" = "422" ]; then
+            echo "A pull request may already exist for this branch -> base. Response:"
+            cat /tmp/pr_response
+          else
+            echo "Failed to create PR. HTTP status: $RESPONSE"
+            cat /tmp/pr_response
+            exit 1
+          fi
