@@ -215,7 +215,7 @@ async fn synthesize_repo(
             let step_progress = Arc::new(progress.start(Step::Synthesize, &commit_label));
 
             // Single Claude call to identify and copy hunks
-            step_progress.set_substatus("analyzing...");
+            step_progress.set_substatus("分析中…");
             let claude_response =
                 match analyze_commit(client, repo_url, &commit, step_progress.clone()).await {
                     Ok(Some(response)) => response,
@@ -232,7 +232,7 @@ async fn synthesize_repo(
                 };
 
             // Validate and build the example
-            step_progress.set_substatus("validating...");
+            step_progress.set_substatus("校验中…");
             match build_example(repo_url, &commit, &repo_path, &claude_response).await {
                 Ok(spec) => {
                     let timestamp = Local::now().format("%Y-%m-%d--%H-%M-%S");

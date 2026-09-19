@@ -867,7 +867,7 @@ impl ConfigurationView {
                 )
                 .color(Color::Muted),
             )
-            .child(Label::new("To use local Ollama:").color(Color::Muted))
+            .child(Label::new("使用本地 Ollama：").color(Color::Muted))
             .child(
                 List::new()
                     .child(

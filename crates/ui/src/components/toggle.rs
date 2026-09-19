@@ -970,7 +970,7 @@ impl Component for Checkbox {
                 example_group_with_title(
                     "额外",
                     vec![single_example(
-                        "Visualization-Only",
+                        "仅可视化",
                         Checkbox::new("viz_only", ToggleState::Selected)
                             .visualization_only(true)
                             .into_any_element(),

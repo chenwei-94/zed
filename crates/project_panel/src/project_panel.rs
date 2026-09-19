@@ -1230,7 +1230,7 @@ impl ProjectPanel {
                             })
                             .when(is_remote, |menu| {
                                 menu.separator()
-                                    .action("Download...", Box::new(DownloadFromRemote))
+                                    .action("下载…", Box::new(DownloadFromRemote))
                             })
                             .separator()
                             .action("复制路径", Box::new(zed_actions::workspace::CopyPath))

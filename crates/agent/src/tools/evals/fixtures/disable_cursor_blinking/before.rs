@@ -21130,7 +21130,7 @@ impl Render for MissingEditPredictionKeybindingTooltip {
                         .flex_1()
                         .text_ui_sm(cx)
                         .child(Label::new("与接受快捷键冲突"))
-                        .child("Your keymap currently overrides the default accept keybinding. To continue, assign one keybinding for the `editor::AcceptEditPrediction` action.")
+                        .child("你的键位映射当前覆盖了默认的接受快捷键。要继续，请为 `editor::AcceptEditPrediction` 动作指定一个快捷键。")
                 )
                 .child(
                     h_flex()

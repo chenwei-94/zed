@@ -723,7 +723,7 @@ impl DebugPanel {
                                                     let focus_handle = focus_handle.clone();
                                                     move |_window, cx| {
                                                         Tooltip::for_action_in(
-                                                            "Pause Program",
+                                                            "暂停程序",
                                                             &Pause,
                                                             &focus_handle,
                                                             cx,

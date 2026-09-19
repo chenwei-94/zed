@@ -764,7 +764,7 @@ impl Render for ExecutionView {
                         .color(Color::Muted)
                         .with_rotate_animation(3),
                 )
-                .child(Label::new("Executing...").color(Color::Muted))
+                .child(Label::new("执行中…").color(Color::Muted))
                 .into_any_element(),
             ExecutionStatus::Finished => Icon::new(IconName::Check)
                 .size(IconSize::Small)
@@ -781,7 +781,7 @@ impl Render for ExecutionView {
             ExecutionStatus::Shutdown => Label::new("内核已关闭")
                 .color(Color::Muted)
                 .into_any_element(),
-            ExecutionStatus::Queued => Label::new("Queued...")
+            ExecutionStatus::Queued => Label::new("排队中…")
                 .color(Color::Muted)
                 .into_any_element(),
             ExecutionStatus::KernelErrored(error) => Label::new(format!("内核错误：{}", error))

@@ -378,7 +378,7 @@ impl ThemePreview {
             .child(v_flex()
                 .gap_4()
                 .child(Headline::new("标题 1").size(HeadlineSize::XLarge))
-                .child(Label::new("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."))
+                .child(Label::new("这是一段用于预览字体与排版的示例文本，请确认显示效果符合预期。"))
                 .child(Headline::new("标题 2").size(HeadlineSize::Large))
                 .child(Label::new("中文字形与拉丁文差异明显，可在此核对字重、字距与换行表现。"))
                 .child(Headline::new("标题 3").size(HeadlineSize::Medium))
@@ -386,9 +386,9 @@ impl ThemePreview {
                 .child(Headline::new("标题 4").size(HeadlineSize::Small))
                 .child(Label::new("评估主题可读性时，可将本段多行文本作为参考。"))
                 .child(Headline::new("标题 5").size(HeadlineSize::XSmall))
-                .child(Label::new("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."))
+                .child(Label::new("这是一段用于预览字体与排版的示例文本。中文排版涉及字距、行高与标点挤压等细节，请在下方逐项确认显示效果是否符合预期。"))
                 .child(Headline::new("正文").size(HeadlineSize::Small))
-                .child(Label::new("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."))
+                .child(Label::new("这是一段用于预览字体与排版的示例文本。中文排版涉及字距、行高与标点挤压等细节，请逐项确认显示效果是否符合预期。示例文本还会展示不同字重与字号下的观感差异，便于挑选合适的界面字体配置。"))
             )
     }
 

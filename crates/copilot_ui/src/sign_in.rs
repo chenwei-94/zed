@@ -373,7 +373,7 @@ impl CopilotCodeVerification {
             .justify_center()
             .child(Headline::new("Copilot 编辑预测已启用！").size(HeadlineSize::Large))
             .child(
-                Label::new("You're all set to use Copilot edit predictions.").color(Color::Muted),
+                Label::new("你已可以开始使用 Copilot 编辑预测。").color(Color::Muted),
             )
             .child(
                 Button::new("copilot-enabled-done-button", "完成")
@@ -650,7 +650,7 @@ impl CopilotChatCodeVerification {
             .text_center()
             .justify_center()
             .child(Headline::new("Copilot Chat 已启用！").size(HeadlineSize::Large))
-            .child(Label::new("You're all set to use Copilot Chat.").color(Color::Muted))
+            .child(Label::new("你已可以开始使用 Copilot Chat。").color(Color::Muted))
             .child(
                 Button::new("copilot-chat-enabled-done-button", "完成")
                     .full_width()

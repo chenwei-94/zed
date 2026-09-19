@@ -1366,7 +1366,7 @@ fn preview_form_schema() -> acp::ElicitationSchema {
                 acp::EnumOption::new("terminal", "终端命令"),
             ])
             .title("访问权限")
-            .description("Choose what the agent can use for this authorization.")
+            .description("选择智能体在此授权中可用的内容。")
             .min_items(1)
             .default_value(vec!["profile".to_string(), "repository".to_string()]),
             true,

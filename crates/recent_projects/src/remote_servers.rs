@@ -2523,7 +2523,7 @@ impl RemoteServerProjects {
                                     .gap_1()
                                     .child(
                                         Label::new(
-                                            "Enter the command you use to SSH into this server.",
+                                            "输入用于 SSH 登录此服务器的命令。",
                                         )
                                         .color(Color::Muted)
                                         .size(LabelSize::Small),

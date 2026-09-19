@@ -6913,7 +6913,7 @@ impl ThreadView {
                                 })
                                 .tooltip(move |window, cx| match feedback {
                                     Some(ThreadFeedback::Negative) => Tooltip::text(
-                                        "We appreciate your feedback and will use it to improve in the future.",
+                                        "感谢你的反馈，我们会用它把产品做得更好。",
                                     )(
                                         window, cx
                                     ),

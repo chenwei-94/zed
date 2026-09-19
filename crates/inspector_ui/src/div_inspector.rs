@@ -526,7 +526,7 @@ impl Render for DivInspector {
             })
             .map(|this| match &self.state {
                 State::Loading | State::BuffersLoaded { .. } => {
-                    this.child(Label::new("Loading..."))
+                    this.child(Label::new("加载中…"))
                 }
                 State::LoadError { message } => this.child(
                     div()

@@ -169,7 +169,7 @@ fn render_provider_dropdown(window: &mut Window, cx: &mut App) -> AnyElement {
                         .max_w_1_2()
                         .child(Label::new("提供商"))
                         .child(
-                            Label::new("Select which provider to use for edit predictions.")
+                            Label::new("选择用于编辑预测的提供商。")
                                 .size(LabelSize::Small)
                                 .color(Color::Muted),
                         ),
@@ -412,7 +412,7 @@ fn ollama_settings() -> Box<[SettingsPageItem]> {
         }),
         SettingsPageItem::SettingItem(SettingItem {
             title: "模型",
-            description: "The Ollama model to use for edit predictions.",
+            description: "用于编辑预测的 Ollama 模型。",
             field: Box::new(SettingField {
                 organization_override: None,
                 pick: |settings| {
@@ -446,7 +446,7 @@ fn ollama_settings() -> Box<[SettingsPageItem]> {
         }),
         SettingsPageItem::SettingItem(SettingItem {
             title: "提示词格式",
-            description: "The prompt format to use when requesting predictions. Set to Infer to have the format inferred based on the model name.",
+            description: "请求预测时使用的提示词格式。设为 Infer 则根据模型名推断格式。",
             field: Box::new(SettingField {
                 organization_override: None,
                 pick: |settings| {
@@ -612,7 +612,7 @@ fn open_ai_compatible_settings() -> Box<[SettingsPageItem]> {
         }),
         SettingsPageItem::SettingItem(SettingItem {
             title: "提示词格式",
-            description: "The prompt format to use when requesting predictions. Set to Infer to have the format inferred based on the model name.",
+            description: "请求预测时使用的提示词格式。设为 Infer 则根据模型名推断格式。",
             field: Box::new(SettingField {
                 organization_override: None,
                 pick: |settings| {
@@ -710,7 +710,7 @@ fn codestral_settings() -> Box<[SettingsPageItem]> {
     Box::new([
         SettingsPageItem::SettingItem(SettingItem {
             title: "API URL",
-            description: "The API URL to use for Codestral.",
+            description: "Codestral 使用的 API 地址。",
             field: Box::new(SettingField {
                 organization_override: None,
                 pick: |settings| {

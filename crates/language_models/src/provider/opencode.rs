@@ -907,7 +907,7 @@ impl Render for ConfigurationView {
         let api_key_section = v_flex()
             .on_action(cx.listener(Self::save_api_key))
             .child(Label::new(
-                "To use OpenCode models in Zed, you need an API key:",
+                "要在 Zed 中使用 OpenCode 模型，需要提供 API 密钥：",
             ).color(Color::Muted))
             .child(
                 List::new()
@@ -977,7 +977,7 @@ impl Render for ConfigurationView {
 
             let no_subscriptions_warning = if !show_zen && !show_go {
                 Some(Banner::new().severity(Severity::Warning).child(Label::new(
-                    "No subscriptions enabled. Enable at least one subscription to use OpenCode.",
+                    "未启用任何订阅。请至少启用一个订阅才能使用 OpenCode。",
                 )))
             } else {
                 None

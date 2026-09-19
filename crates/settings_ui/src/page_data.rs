@@ -327,7 +327,7 @@ fn general_page(cx: &App) -> SettingsPage {
             SettingsPageItem::SectionHeader("安全"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "默认信任所有项目",
-                description: "When opening Zed, avoid Restricted Mode by auto-trusting all projects, enabling use of all features without having to give permission to each new project.",
+                description: "打开 Zed 时自动信任所有项目以避免受限模式，从而无需为每个新项目单独授权即可使用全部功能。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("session.trust_all_projects"),
@@ -633,7 +633,7 @@ fn appearance_page() -> SettingsPage {
                             SettingItem {
                                 files: USER,
                                 title: "模式",
-                                description: "Choose whether to use the selected light or dark theme or to follow your OS appearance configuration.",
+                                description: "选择使用所选的亮色或暗色主题，还是跟随操作系统外观设置。",
                                 field: Box::new(SettingField {
                                     organization_override: None,
                                     json_path: Some("theme.mode"),
@@ -660,7 +660,7 @@ fn appearance_page() -> SettingsPage {
                             SettingItem {
                                 files: USER,
                                 title: "浅色主题",
-                                description: "The theme to use when mode is set to light, or when mode is set to system and it is in light mode.",
+                                description: "模式设为亮色、或设为跟随系统且系统处于亮色模式时使用的主题。",
                                 field: Box::new(SettingField {
                                     organization_override: None,
                                     json_path: Some("theme.light"),
@@ -687,7 +687,7 @@ fn appearance_page() -> SettingsPage {
                             SettingItem {
                                 files: USER,
                                 title: "深色主题",
-                                description: "The theme to use when mode is set to dark, or when mode is set to system and it is in dark mode.",
+                                description: "模式设为暗色、或设为跟随系统且系统处于暗色模式时使用的主题。",
                                 field: Box::new(SettingField {
                                     organization_override: None,
                                     json_path: Some("theme.dark"),
@@ -814,7 +814,7 @@ fn appearance_page() -> SettingsPage {
                             SettingItem {
                                 files: USER,
                                 title: "模式",
-                                description: "Choose whether to use the selected light or dark icon theme or to follow your OS appearance configuration.",
+                                description: "选择使用所选的亮色或暗色图标主题，还是跟随操作系统外观设置。",
                                 field: Box::new(SettingField {
                                     organization_override: None,
                                     json_path: Some("icon_theme"),
@@ -841,7 +841,7 @@ fn appearance_page() -> SettingsPage {
                             SettingItem {
                                 files: USER,
                                 title: "浅色图标主题",
-                                description: "The icon theme to use when mode is set to light, or when mode is set to system and it is in light mode.",
+                                description: "模式设为亮色、或设为跟随系统且系统处于亮色模式时使用的图标主题。",
                                 field: Box::new(SettingField {
                                     organization_override: None,
                                     json_path: Some("icon_theme.light"),
@@ -868,7 +868,7 @@ fn appearance_page() -> SettingsPage {
                             SettingItem {
                                 files: USER,
                                 title: "深色图标主题",
-                                description: "The icon theme to use when mode is set to dark, or when mode is set to system and it is in dark mode.",
+                                description: "模式设为暗色、或设为跟随系统且系统处于暗色模式时使用的图标主题。",
                                 field: Box::new(SettingField {
                                     organization_override: None,
                                     json_path: Some("icon_theme.dark"),
@@ -1059,7 +1059,7 @@ fn appearance_page() -> SettingsPage {
             SettingsPageItem::SettingItem(SettingItem {
                 files: USER,
                 title: "后备字体",
-                description: "The font fallbacks to use for rendering in text buffers.",
+                description: "文本缓冲区渲染使用的后备字体。",
                 field: Box::new(
                     SettingField {
                         organization_override: None,
@@ -1143,7 +1143,7 @@ fn appearance_page() -> SettingsPage {
             SettingsPageItem::SettingItem(SettingItem {
                 files: USER,
                 title: "后备字体",
-                description: "The font fallbacks to use for rendering in the UI.",
+                description: "界面渲染使用的后备字体。",
                 field: Box::new(
                     SettingField {
                         organization_override: None,
@@ -1415,7 +1415,7 @@ fn appearance_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "隐藏鼠标",
-                description: "When to hide the mouse cursor.",
+                description: "何时隐藏鼠标光标。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("hide_mouse"),
@@ -2008,8 +2008,8 @@ fn editor_page() -> SettingsPage {
                 files: USER,
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Mouse Wheel Zoom",
-                description: "Whether to zoom the editor font size with the mouse wheel while holding the primary modifier key.",
+                title: "鼠标滚轮缩放",
+                description: "按住主修饰键时是否用鼠标滚轮缩放编辑器字号。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("mouse_wheel_zoom"),
@@ -2136,7 +2136,7 @@ fn editor_page() -> SettingsPage {
             SettingsPageItem::SectionHeader("悬停浮层"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "已启用",
-                description: "Show the informational hover box when moving the mouse over symbols in the editor.",
+                description: "鼠标移到编辑器中的符号上时显示信息悬浮框。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("hover_popover_enabled"),
@@ -2165,7 +2165,7 @@ fn editor_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "粘性",
-                description: "Whether the hover popover sticks when the mouse moves toward it, allowing interaction with its contents.",
+                description: "鼠标移向悬浮窗时是否保持展开，以便与其内容交互。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("hover_popover_sticky"),
@@ -2180,7 +2180,7 @@ fn editor_page() -> SettingsPage {
             // todo(settings ui): add units to this number input
             SettingsPageItem::SettingItem(SettingItem {
                 title: "隐藏延迟",
-                description: "Time to wait in milliseconds before hiding the hover popover after the mouse moves away.",
+                description: "鼠标移开后延迟多少毫秒隐藏悬浮窗。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("hover_popover_hiding_delay"),
@@ -3060,7 +3060,7 @@ fn editor_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "使用系统剪贴板",
-                description: "Controls when to use system clipboard in Vim mode.",
+                description: "控制 Vim 模式下何时使用系统剪贴板。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("vim.use_system_clipboard"),
@@ -3358,7 +3358,7 @@ fn languages_and_tools_page(cx: &App) -> SettingsPage {
             SettingsPageItem::SectionHeader("诊断"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "最高严重级别",
-                description: "Which level to use to filter out diagnostics displayed in the editor.",
+                description: "使用哪个级别过滤编辑器中显示的诊断。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("diagnostics_max_severity"),
@@ -3837,7 +3837,7 @@ fn search_and_files_page() -> SettingsPage {
             SettingsPageItem::SectionHeader("命令面板"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "使用命令历史",
-                description: "Whether to use command history ranking for sorting in the command palette.",
+                description: "命令面板排序是否使用命令历史排名。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("command_palette.use_command_history"),
@@ -3984,7 +3984,7 @@ fn search_and_files_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "文件扫描深度",
-                description: "Maximum directory depth to eagerly index outside of git repositories; contents of directories at this depth or deeper are indexed on demand. Repositories rooted shallower than this depth are always indexed fully. In projects that are not rooted at a git repository, repositories directly inside a root folder activate their git features immediately; deeper ones activate on first use. 0 means no limit and activates all git repositories immediately",
+                description: "在 git 仓库之外主动索引的最大目录深度；位于该深度及更深处的目录内容按需索引。根目录浅于该深度的仓库始终完整索引。在根目录不是 git 仓库的项目中，直接位于根文件夹内的仓库会立即启用其 git 功能，更深的仓库在首次使用时启用。0 表示不限制，所有 git 仓库都立即启用。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("file_scan_depth"),
@@ -5052,7 +5052,7 @@ fn window_and_layout_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "焦点跟随鼠标",
-                description: "Whether to change focus to a pane when the mouse hovers over it.",
+                description: "鼠标悬停在窗格上时是否将焦点切换到该窗格。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("focus_follows_mouse.enabled"),
@@ -5075,7 +5075,7 @@ fn window_and_layout_page() -> SettingsPage {
                 files: USER,
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Focus Follows Mouse Debounce ms",
+                title: "焦点跟随鼠标的防抖毫秒数",
                 description: "更改焦点前的等待时长。",
                 field: Box::new(SettingField {
                     organization_override: None,
@@ -5106,7 +5106,7 @@ fn window_and_layout_page() -> SettingsPage {
             SettingsPageItem::SectionHeader("窗口"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "标题格式",
-                description: "Window title template. Available variables are `${projectName}`, `${fileName}`, `${filePath}`, `${relativePath}`, `${fileStem}`, `${remoteName}`, `${remoteHost}`, `${appName}`, `${branch}`, and `${separator}`. `${separator}` is omitted when adjacent variables are empty, but literal text is preserved. The collaboration indicator, when present, is appended after the rendered template. If the template renders to nothing, the default template is used instead.",
+                description: "窗口标题模板。可用变量：`${projectName}`、`${fileName}`、`${filePath}`、`${relativePath}`、`${fileStem}`、`${remoteName}`、`${remoteHost}`、`${appName}`、`${branch}`、`${separator}`。相邻变量为空时 `${separator}` 会被省略，但字面文本保留。存在协作指示器时会追加在渲染结果之后。若模板渲染结果为空，则改用默认模板。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("window_title_format"),
@@ -6118,7 +6118,7 @@ fn panels_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "终端面板弹性尺寸",
-                description: "Whether the terminal panel should use flexible (proportional) sizing when docked to the left or right.",
+                description: "终端面板停靠在左右两侧时是否使用弹性（按比例）尺寸。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("terminal.flexible"),
@@ -6862,7 +6862,7 @@ fn panels_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "智能体面板弹性尺寸",
-                description: "Whether the agent panel should use flexible (proportional) sizing when docked to the left or right. When enabled, the default width does not control the panel width, and resetting the panel restores the default proportion.",
+                description: "智能体面板停靠在左右两侧时是否使用弹性（按比例）尺寸。启用后，默认宽度不再决定面板宽度，重置面板会恢复默认比例。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("agent.flexible"),
@@ -7154,7 +7154,7 @@ fn terminal_page() -> SettingsPage {
                     discriminant: SettingItem {
                         files: USER | PROJECT,
                         title: "Shell",
-                        description: "What shell to use when opening a terminal.",
+                        description: "打开终端时使用的 shell。",
                         field: Box::new(SettingField {
                             organization_override: None,
                             json_path: Some("terminal.shell$"),
@@ -7371,7 +7371,7 @@ fn terminal_page() -> SettingsPage {
                     discriminant: SettingItem {
                         files: USER | PROJECT,
                         title: "工作目录",
-                        description: "What working directory to use when launching the terminal.",
+                        description: "启动终端时使用的工作目录。",
                         field: Box::new(SettingField {
                             organization_override: None,
                             json_path: Some("terminal.working_directory$"),
@@ -7445,7 +7445,7 @@ fn terminal_page() -> SettingsPage {
                             settings::WorkingDirectoryDiscriminants::Always => vec![SettingItem {
                                 files: USER | PROJECT,
                                 title: "目录",
-                                description: "The directory path to use (will be shell expanded).",
+                                description: "使用的目录路径（会做 shell 展开）。",
                                 field: Box::new(SettingField {
                                     organization_override: None,
                                     json_path: Some("terminal.working_directory.always"),
@@ -7695,7 +7695,7 @@ fn terminal_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "备用滚动",
-                description: "Whether alternate scroll mode is active by default (converts mouse scroll to arrow keys in apps like Vim).",
+                description: "是否默认启用备用滚动模式（在 Vim 等应用中将鼠标滚轮转换为方向键）。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("terminal.alternate_scroll"),
@@ -7807,8 +7807,8 @@ fn terminal_page() -> SettingsPage {
                 files: USER,
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Open Links In Mouse Mode",
-                description: "Whether cmd-click (ctrl-click on Linux and Windows) opens hyperlinks even when the terminal application has enabled mouse reporting. When disabled, these clicks are forwarded to the application; links can still be opened with shift-cmd-click.",
+                title: "鼠标模式下打开链接",
+                description: "终端应用启用鼠标上报时，cmd-点击（Linux 与 Windows 上为 ctrl-点击）是否仍打开超链接。禁用后，这些点击会转发给应用；仍可用 shift-cmd-点击打开链接。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("terminal.open_links_in_mouse_mode"),
@@ -7918,7 +7918,7 @@ fn terminal_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "滚动倍率",
-                description: "The multiplier for scrolling in the terminal with the mouse wheel",
+                description: "终端中鼠标滚轮滚动的倍率",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("terminal.scroll_multiplier"),
@@ -9025,7 +9025,7 @@ fn ai_page(cx: &App) -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "使用修饰键发送",
-                description: "Whether to always use cmd-enter (or ctrl-enter on Linux or Windows) to send messages.",
+                description: "是否始终用 cmd-回车（Linux 或 Windows 上为 ctrl-回车）发送消息。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("agent.use_modifier_to_send"),
@@ -9221,7 +9221,7 @@ fn network_page() -> SettingsPage {
             SettingsPageItem::SectionHeader("网络"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "代理",
-                description: "The proxy to use for network requests.",
+                description: "网络请求使用的代理。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("proxy"),
@@ -9476,7 +9476,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "允许重新换行",
-                description: "Controls where the `editor::rewrap` action is allowed for this language.",
+                description: "控制该语言中 `editor::rewrap` 动作在何处可用。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("languages.$(language).allow_rewrap"),
@@ -9745,7 +9745,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "使用输入时格式化",
-                description: "Whether to use additional LSP queries to format (and amend) the code after every \"trigger\" symbol input, defined by LSP server capabilities",
+                description: "是否在每次输入由 LSP 服务器能力定义的“触发”符号后，使用额外的 LSP 查询来格式化（并修正）代码",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("languages.$(language).use_on_type_format"),
@@ -9818,7 +9818,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "使用自动包围",
-                description: "Whether to automatically surround text with characters for you. For example, when you select text and type '(', Zed will automatically surround text with ().",
+                description: "是否自动为文本补全成对字符。例如选中文本后输入 `(`，Zed 会自动用 `()` 将其包裹。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("languages.$(language).use_auto_surround"),
@@ -10715,7 +10715,7 @@ fn non_editor_language_settings_data() -> Box<[SettingsPageItem]> {
             SettingsPageItem::SectionHeader("LSP"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "启用语言服务器",
-                description: "Whether to use language servers to provide code intelligence.",
+                description: "是否使用语言服务器提供代码智能。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("languages.$(language).enable_language_server"),
@@ -10735,7 +10735,7 @@ fn non_editor_language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "语言服务器",
-                description: "The list of language servers to use (or disable) for this language.",
+                description: "该语言使用（或禁用）的语言服务器列表。",
                 field: Box::new(
                     SettingField {
                         organization_override: None,
@@ -10867,7 +10867,7 @@ fn non_editor_language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "LSP 折叠范围",
-                description: "When enabled, use folding ranges from the language server instead of indent-based folding.",
+                description: "启用后，使用语言服务器提供的折叠范围，而非基于缩进的折叠。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("languages.$(language).document_folding_ranges"),
@@ -10887,7 +10887,7 @@ fn non_editor_language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "LSP 文档符号",
-                description: "When enabled, use the language server's document symbols for outlines and breadcrumbs instead of tree-sitter.",
+                description: "启用后，大纲与面包屑使用语言服务器的文档符号，而非 tree-sitter。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("languages.$(language).document_symbols"),
@@ -11035,7 +11035,7 @@ fn non_editor_language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "解析器",
-                description: "Forces Prettier integration to use a specific parser name when formatting files with the language.",
+                description: "强制 Prettier 集成在用该语言格式化文件时使用指定的解析器名称。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("languages.$(language).prettier.parser"),
@@ -11055,7 +11055,7 @@ fn non_editor_language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "插件",
-                description: "Forces Prettier integration to use specific plugins when formatting files with the language.",
+                description: "强制 Prettier 集成在用该语言格式化文件时使用指定的插件。",
                 field: Box::new(
                     SettingField {
                         organization_override: None,

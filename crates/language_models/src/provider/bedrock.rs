@@ -2773,7 +2773,7 @@ impl Render for ConfigurationView {
             .child(Headline::new("Amazon Bedrock").size(HeadlineSize::Small))
             .child(
                 Label::new(
-                    "To use Zed's agent with Bedrock, you can set a custom authentication strategy through your settings file or use static credentials.",
+                    "要让 Zed 智能体使用 Bedrock，可以在设置文件中配置自定义身份验证策略，或使用静态凭证。",
                 )
                 .color(Color::Muted),
             )
@@ -2788,7 +2788,7 @@ impl Render for ConfigurationView {
                         ListBulletItem::new("")
                             .child(
                                 Label::new(
-                                    "Grant permissions to the strategy you'll use according to the:",
+                                    "按以下说明，为你将采用的策略授予权限：",
                                 )
                                 .color(Color::Muted),
                             )

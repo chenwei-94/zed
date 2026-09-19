@@ -569,7 +569,7 @@ impl Component for ListItem {
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Non-selectable",
+                            "不可选中",
                             ListItem::new("non_selectable")
                                 .selectable(false)
                                 .child(Label::new("不可选择的列表项"))

@@ -666,10 +666,10 @@ fn render_llm_provider_form_page(
                 .overflow_y_scroll()
                 .child(Label::new(match form.kind {
                     CompatibleProviderKind::OpenAi => {
-                        "This provider will use an OpenAI-compatible API."
+                        "此提供商将使用兼容 OpenAI 的 API。"
                     }
                     CompatibleProviderKind::Anthropic => {
-                        "This provider will use an Anthropic Messages-compatible API."
+                        "此提供商将使用兼容 Anthropic Messages 的 API。"
                     }
                 }))
                 .child(Divider::horizontal().flex_shrink_0())

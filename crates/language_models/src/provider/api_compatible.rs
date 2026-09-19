@@ -211,7 +211,7 @@ impl<S: ApiCompatibleProviderSettings> Render for ApiCompatibleProviderConfigura
             v_flex()
                 .on_action(cx.listener(Self::save_api_key))
                 .child(Label::new(format!(
-                    "To use Zed's agent with an {provider_name}-compatible provider, you need to add an API key."
+                    "要让 Zed 智能体使用兼容 {provider_name} 的提供商，需要添加 API 密钥。"
                 )))
                 .child(
                     div()
