@@ -285,7 +285,7 @@ impl PythonDebugAdapter {
                     let stderr = String::from_utf8_lossy(&output.stderr);
                     let stdout = String::from_utf8_lossy(&output.stdout);
                     let debug_adapter_path = debug_adapter_path.display();
-                    return Err(format!("Failed to create base virtual environment with {base_python} in:\n{debug_adapter_path}\nstderr:\n{stderr}\nstdout:\n{stdout}"));
+                    return Err(format!("Failed to create base virtual environment with {base_python} in:\n{debug_adapter_path}\nstderr:\n{stderr}\nstdout:\n{stdout}\n"));
                 }
 
                 const PYTHON_PATH: &str = if cfg!(target_os = "windows") {

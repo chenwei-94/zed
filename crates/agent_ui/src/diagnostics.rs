@@ -146,14 +146,14 @@ pub fn collect_diagnostics(
             label.push(':');
 
             if project_summary.error_count > 0 {
-                write!(label, "{} errors", project_summary.error_count).unwrap();
+                write!(label, " {} errors", project_summary.error_count).unwrap();
                 if project_summary.warning_count > 0 {
                     label.push(',');
                 }
             }
 
             if project_summary.warning_count > 0 {
-                write!(label, "{} warnings", project_summary.warning_count).unwrap();
+                write!(label, " {} warnings", project_summary.warning_count).unwrap();
             }
         }
 

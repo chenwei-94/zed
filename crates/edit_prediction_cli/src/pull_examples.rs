@@ -2054,8 +2054,8 @@ fn build_output_patch(
     );
 
     let mut patch = String::new();
-    writeln!(&mut patch, "--- a/{}", cursor_path.display()).ok();
-    writeln!(&mut patch, "+++ b/{}", cursor_path.display()).ok();
+    writeln!(&mut patch, "--- a/{}\n", cursor_path.display()).ok();
+    writeln!(&mut patch, "+++ b/{}\n", cursor_path.display()).ok();
     patch.push_str(&diff_body);
     patch
 }

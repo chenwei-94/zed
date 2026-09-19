@@ -260,9 +260,9 @@ fn resolve_extension_display_name(id: &ContextServerId, cx: &App) -> Option<Shar
         .map(|(_, entry)| {
             let name = entry.manifest.name.as_str();
             let stripped = name
-                .strip_suffix("MCP Server")
-                .or_else(|| name.strip_suffix("MCP"))
-                .or_else(|| name.strip_suffix("Context Server"))
+                .strip_suffix(" MCP Server")
+                .or_else(|| name.strip_suffix(" MCP"))
+                .or_else(|| name.strip_suffix(" Context Server"))
                 .unwrap_or(name);
             SharedString::from(stripped.to_string())
         })

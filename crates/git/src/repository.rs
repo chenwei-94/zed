@@ -192,11 +192,11 @@ fn parse_cat_file_commit(sha: Oid, content: &str) -> Option<CommitData> {
                 continue;
             }
 
-            if let Some(parent_sha) = line.strip_prefix("parent") {
+            if let Some(parent_sha) = line.strip_prefix("parent ") {
                 if let Ok(oid) = Oid::from_str(parent_sha.trim()) {
                     parents.push(oid);
                 }
-            } else if let Some(author_line) = line.strip_prefix("author") {
+            } else if let Some(author_line) = line.strip_prefix("author ") {
                 if let Some((name_email, _timestamp_tz)) = author_line.rsplit_once(' ') {
                     if let Some((name_email, timestamp_str)) = name_email.rsplit_once(' ') {
                         if let Ok(ts) = timestamp_str.parse::<i64>() {
@@ -614,7 +614,7 @@ async fn load_commit_object<R: smol::io::AsyncBufRead + Unpin>(
     match object {
         Some(object) if object.kind == CommitDiffObjectKind::Gitlink => {
             Ok(Some(LoadedCommitObject {
-                content: format!("Subproject commit {}", object.oid).into_bytes(),
+                content: format!("Subproject commit {}\n", object.oid).into_bytes(),
                 is_binary: false,
             }))
         }
@@ -1389,7 +1389,7 @@ pub async fn get_git_committer(cx: &AsyncApp) -> GitCommitter {
 fn parse_remote_urls(stdout: &str) -> HashMap<String, String> {
     let mut urls = HashMap::default();
     for line in stdout.lines() {
-        if let Some((line, suffix)) = line.rsplit_once("(fetch)")
+        if let Some((line, suffix)) = line.rsplit_once(" (fetch)")
             && (suffix.is_empty() || suffix.starts_with(" [") && suffix.ends_with(']'))
             && let Some((name, url)) = line.split_once(char::is_whitespace)
         {
@@ -4262,10 +4262,10 @@ fn parse_upstream_track(upstream_track: &str) -> Result<UpstreamTracking> {
         if component == "gone" {
             return Ok(UpstreamTracking::Gone);
         }
-        if let Some(ahead_num) = component.strip_prefix("ahead") {
+        if let Some(ahead_num) = component.strip_prefix("ahead ") {
             ahead = ahead_num.parse::<u32>()?;
         }
-        if let Some(behind_num) = component.strip_prefix("behind") {
+        if let Some(behind_num) = component.strip_prefix("behind ") {
             behind = behind_num.parse::<u32>()?;
         }
     }

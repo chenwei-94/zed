@@ -54,9 +54,9 @@ macro_rules! id_type {
             fn try_from_u64(n: u64) -> Result<Self, DbErr> {
                 Ok(Self(n.try_into().map_err(|_| {
                     DbErr::ConvertFromU64(concat!(
-                        "error converting",
+                        "error converting ",
                         stringify!($name),
-                        "to u64"
+                        " to u64"
                     ))
                 })?))
             }

@@ -41,7 +41,7 @@ fn email_zed_url(specs: &SystemSpecs) -> String {
 }
 
 fn email_body(specs: &SystemSpecs) -> String {
-    let body = format!("System Information:\n\n{}", specs);
+    let body = format!("\n\nSystem Information:\n\n{}", specs);
     urlencoding::encode(&body).to_string()
 }
 
@@ -126,7 +126,7 @@ fn format_installed_extensions_for_clipboard(cx: &mut App) -> String {
             entry.manifest.name,
             extension_id,
             entry.manifest.version,
-            if entry.dev { "(dev)" } else { "" }
+            if entry.dev { " (dev)" } else { "" }
         );
         lines.push(line);
     }

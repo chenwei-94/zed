@@ -234,7 +234,7 @@ impl WslRunningKernel {
                 let set_env_command = if env_assignments.is_empty() {
                     String::new()
                 } else {
-                    format!("export {};", env_assignments.join(" "))
+                    format!("export {}; ", env_assignments.join(" "))
                 };
 
                 let cd_command = if let Some(wd) = wsl_working_directory.as_ref() {

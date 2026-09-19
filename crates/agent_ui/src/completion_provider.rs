@@ -784,7 +784,7 @@ impl<T: PromptCompletionProviderDelegate> PromptCompletionProvider<T> {
         workspace: Entity<Workspace>,
         cx: &mut App,
     ) -> Option<Completion> {
-        let new_text = format!("@fetch {}", url_to_fetch);
+        let new_text = format!("@fetch {} ", url_to_fetch);
         let url_to_fetch = url::Url::parse(url_to_fetch.as_ref())
             .or_else(|_| url::Url::parse(&format!("https://{url_to_fetch}")))
             .ok()?;
@@ -2620,7 +2620,7 @@ fn build_code_label_for_path(
         label.push_str(&truncated_directory, variable_highlight_id);
     }
     if let Some(line_number) = line_number {
-        label.push_str(&format!("L{}", line_number), variable_highlight_id);
+        label.push_str(&format!(" L{}", line_number), variable_highlight_id);
     }
     label.build()
 }
@@ -2768,7 +2768,7 @@ fn completion_text_for_terminal_selections(
     mention_set: WeakEntity<MentionSet>,
     terminal_selections: Vec<String>,
 ) -> (String, ConfirmCallback) {
-    const TERMINAL_PLACEHOLDER: &str = "terminal";
+    const TERMINAL_PLACEHOLDER: &str = "terminal ";
 
     let mut new_text = String::new();
     let terminal_ranges: Vec<(String, std::ops::Range<usize>)> = terminal_selections

@@ -1087,7 +1087,7 @@ impl TruncatedPatch {
         }
         let skipped_hunks = self.hunks.len() - self.hunks_to_keep;
         if skipped_hunks > 0 {
-            out.push_str(&format!("[...skipped {} hunks...]", skipped_hunks));
+            out.push_str(&format!("[...skipped {} hunks...]\n", skipped_hunks));
         }
         out
     }
@@ -4033,7 +4033,7 @@ impl GitPanel {
         let subject_section = if subject.trim().is_empty() {
             String::new()
         } else {
-            format!("Here is the user's subject line:\n{subject}")
+            format!("\nHere is the user's subject line:\n{subject}")
         };
 
         format!(

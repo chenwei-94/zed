@@ -348,8 +348,8 @@ fn build_origin_form_request(
     let minor_version = version.unwrap_or(1);
 
     let mut out = Vec::with_capacity(256);
-    out.extend_from_slice(format!("{method} {target} HTTP/1.{minor_version}").as_bytes());
-    out.extend_from_slice(format!("Host: {host_value}").as_bytes());
+    out.extend_from_slice(format!("{method} {target} HTTP/1.{minor_version}\r\n").as_bytes());
+    out.extend_from_slice(format!("Host: {host_value}\r\n").as_bytes());
     for header in headers {
         let name = header.name;
         if name.eq_ignore_ascii_case("host")
@@ -717,13 +717,13 @@ fn connect_via_upstream(
     let auth_header = upstream.auth.as_ref().map(|auth| {
         let creds = format!("{}:{}", auth.user, auth.password);
         format!(
-            "Proxy-Authorization: Basic {}",
+            "Proxy-Authorization: Basic {}\r\n",
             base64::engine::general_purpose::STANDARD.encode(creds.as_bytes())
         )
     });
 
     let request = format!(
-        "CONNECT {host}:{port} HTTP/1.1\r\nHost: {host}:{port}\r\n{}",
+        "CONNECT {host}:{port} HTTP/1.1\r\nHost: {host}:{port}\r\n{}\r\n",
         auth_header.unwrap_or_default()
     );
     stream.write_all(request.as_bytes())?;
@@ -790,7 +790,7 @@ fn deny_request(
     );
 
     let body = format!(
-        "Request blocked by the Zed sandbox network policy.\n\n  Reason: {}\n\n  This is not a network or server failure — it's a policy decision.\n  To proceed, ask the user to approve the host on the next terminal call.",
+        "Request blocked by the Zed sandbox network policy.\n\n  Reason: {}\n\n  This is not a network or server failure — it's a policy decision.\n  To proceed, ask the user to approve the host on the next terminal call.\n",
         reason.human_explanation()
     );
     let response = format!(

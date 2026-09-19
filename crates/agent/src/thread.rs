@@ -268,10 +268,10 @@ impl Message {
             Message::Agent(message) => message.to_markdown(),
             Message::Resume => "[resume]".into(),
             Message::Compaction(CompactionInfo::Summary(summary)) => {
-                format!("## Context Compaction (Completed)\n\n{summary}")
+                format!("## Context Compaction (Completed)\n\n{summary}\n\n")
             }
             Message::Compaction(CompactionInfo::ProviderNative { .. }) => {
-                "## Context Compaction (Completed)".into()
+                "## Context Compaction (Completed)\n\n".into()
             }
         }
     }
@@ -440,7 +440,7 @@ impl UserMessage {
                             .ok();
                         }
                         MentionUri::Fetch { url } => {
-                            write!(&mut fetch_context, "Fetch: {}\n\n{}", url, content).ok();
+                            write!(&mut fetch_context, "\nFetch: {}\n\n{}", url, content).ok();
                         }
                         MentionUri::Diagnostics { .. } => {
                             write!(&mut diagnostics_context, "\n{}\n", content).ok();
@@ -459,7 +459,7 @@ impl UserMessage {
                         MentionUri::GitDiff { base_ref } => {
                             write!(
                                 &mut diffs_context,
-                                "Branch diff against {}:\n{}",
+                                "\nBranch diff against {}:\n{}",
                                 base_ref,
                                 MarkdownCodeBlock {
                                     tag: "diff",
@@ -471,7 +471,7 @@ impl UserMessage {
                         MentionUri::MergeConflict { file_path } => {
                             write!(
                                 &mut merge_conflict_context,
-                                "Merge conflict in {}:\n{}",
+                                "\nMerge conflict in {}:\n{}",
                                 file_path,
                                 MarkdownCodeBlock {
                                     tag: "diff",
@@ -482,7 +482,7 @@ impl UserMessage {
                         }
                         MentionUri::Skill { name, source, .. } => {
                             let label = format!("{} ({})", name, source);
-                            write!(&mut skills_context, "Skill: {}\n{}", label, content).ok();
+                            write!(&mut skills_context, "\nSkill: {}\n{}\n", label, content).ok();
                         }
                     }
 
@@ -626,7 +626,7 @@ impl AgentMessage {
                 }
                 AgentMessageContent::ToolUse(tool_use) => {
                     markdown.push_str(&format!(
-                        "**Tool Use**: {} (ID: {})",
+                        "**Tool Use**: {} (ID: {})\n",
                         tool_use.name, tool_use.id
                     ));
                     markdown.push_str(&format!(
@@ -642,7 +642,7 @@ impl AgentMessage {
 
         for tool_result in self.tool_results.values() {
             markdown.push_str(&format!(
-                "**Tool Result**: {} (ID: {})",
+                "**Tool Result**: {} (ID: {})\n\n",
                 tool_result.tool_name, tool_result.tool_use_id
             ));
             if tool_result.is_error {
@@ -663,7 +663,7 @@ impl AgentMessage {
             if let Some(output) = tool_result.output.as_ref() {
                 writeln!(
                     markdown,
-                    "**Debug Output**:\n\n```json\n{}\n```",
+                    "**Debug Output**:\n\n```json\n{}\n```\n",
                     serde_json::to_string_pretty(output).unwrap()
                 )
                 .unwrap();
@@ -4549,7 +4549,7 @@ impl Thread {
         let mut markdown = messages_to_markdown(&self.messages);
 
         if let Some(message) = self.pending_message.as_ref() {
-            markdown.push_str("## Assistant");
+            markdown.push_str("\n## Assistant\n\n");
             markdown.push_str(&message.to_markdown());
         }
 
@@ -4873,8 +4873,8 @@ pub(crate) fn messages_to_markdown(messages: &[Arc<Message>]) -> String {
             markdown.push('\n');
         }
         match &**message {
-            Message::User(_) => markdown.push_str("## User"),
-            Message::Agent(_) => markdown.push_str("## Assistant"),
+            Message::User(_) => markdown.push_str("## User\n\n"),
+            Message::Agent(_) => markdown.push_str("\n## Assistant\n\n"),
             Message::Resume | Message::Compaction(_) => {}
         }
         markdown.push_str(&message.to_markdown());

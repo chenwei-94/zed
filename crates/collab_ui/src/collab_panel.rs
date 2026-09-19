@@ -4300,7 +4300,7 @@ impl CollabPanel {
                 } => {
                     let indent = "  ".repeat(*depth + 1);
                     let icon = if *has_children {
-                        "v"
+                        "v "
                     } else if channel.visibility == proto::ChannelVisibility::Public {
                         "🛜 "
                     } else {
@@ -4309,14 +4309,14 @@ impl CollabPanel {
                     string_entries.push(format!("{indent}{icon}{}{selected_marker}", channel.name));
                 }
                 ListEntry::ChannelNotes { .. } => {
-                    string_entries.push(format!("(notes){selected_marker}"));
+                    string_entries.push(format!("  (notes){selected_marker}"));
                 }
                 ListEntry::ChannelEditor { depth } => {
                     let indent = "  ".repeat(*depth + 1);
                     string_entries.push(format!("{indent}[editor]{selected_marker}"));
                 }
                 ListEntry::ChannelInvite(channel) => {
-                    string_entries.push(format!("(invite) #{}{selected_marker}", channel.name));
+                    string_entries.push(format!("  (invite) #{}{selected_marker}", channel.name));
                 }
                 ListEntry::CallParticipant { user, .. } => {
                     string_entries.push(format!("  {}{selected_marker}", user.username));
@@ -4331,13 +4331,13 @@ impl CollabPanel {
                     ));
                 }
                 ListEntry::ParticipantScreen { .. } => {
-                    string_entries.push(format!("(screen){selected_marker}"));
+                    string_entries.push(format!("    (screen){selected_marker}"));
                 }
                 ListEntry::IncomingRequest(user) => {
-                    string_entries.push(format!("(incoming) {}{selected_marker}", user.username));
+                    string_entries.push(format!("  (incoming) {}{selected_marker}", user.username));
                 }
                 ListEntry::OutgoingRequest(user) => {
-                    string_entries.push(format!("(outgoing) {}{selected_marker}", user.username));
+                    string_entries.push(format!("  (outgoing) {}{selected_marker}", user.username));
                 }
                 ListEntry::Contact { contact, .. } => {
                     string_entries.push(format!("  {}{selected_marker}", contact.user.username));

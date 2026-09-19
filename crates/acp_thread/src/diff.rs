@@ -179,7 +179,7 @@ impl Diff {
             Diff::Finalized(FinalizedDiff { path, .. }) => Some(path.as_str().into()),
         };
         format!(
-            "Diff: {}\n```\n{}\n```",
+            "Diff: {}\n```\n{}\n```\n",
             path.unwrap_or(MultiBuffer::DEFAULT_TITLE.into()),
             buffer_text
         )

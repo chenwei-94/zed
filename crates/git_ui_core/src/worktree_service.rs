@@ -620,7 +620,7 @@ pub async fn await_and_rollback_on_failure(
     }
     let mut error_message = format!("创建工作树失败：{err}");
     if !rollback_failures.is_empty() {
-        error_message.push_str("Failed to clean up:");
+        error_message.push_str("\n\nFailed to clean up: ");
         error_message.push_str(&rollback_failures.join(", "));
     }
     Err(anyhow!(error_message))

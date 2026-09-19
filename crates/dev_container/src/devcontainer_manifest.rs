@@ -484,7 +484,7 @@ impl DevContainerManifest {
         let remote_user = get_remote_user_from_config(&root_image, self)?;
 
         let builtin_env_content = format!(
-            "_CONTAINER_USER={}\n_REMOTE_USER={}",
+            "_CONTAINER_USER={}\n_REMOTE_USER={}\n",
             container_user, remote_user
         );
 
@@ -782,7 +782,7 @@ RUN sed -i -E 's/((^|\s)PATH=)([^\$]*)$/\1\${{PATH:-\3}}/g' /etc/profile || true
 
             if let Some(env) = &self.dev_container().container_env {
                 for (key, value) in env {
-                    extended_dockerfile = format!("{extended_dockerfile}ENV {key}={value}");
+                    extended_dockerfile = format!("{extended_dockerfile}ENV {key}={value}\n");
                 }
             }
         }
@@ -1834,7 +1834,7 @@ RUN sed -i -E 's/((^|\s)PATH=)([^\$]*)$/\1\${PATH:-\3}/g' /etc/profile || true
 
         if let Some(env) = &self.dev_container().container_env {
             for (key, value) in env {
-                dockerfile = format!("{dockerfile}ENV {key}={value}");
+                dockerfile = format!("{dockerfile}ENV {key}={value}\n");
             }
         }
         dockerfile

@@ -200,7 +200,7 @@ fn format_ms(duration: Option<Duration>) -> String {
             let ms = duration.as_secs_f32() * 1000.0;
             format!("{ms:>5.1} MS")
         }
-        None => "-- MS".into(),
+        None => "   -- MS".into(),
     }
 }
 

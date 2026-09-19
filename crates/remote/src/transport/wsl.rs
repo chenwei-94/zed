@@ -542,7 +542,7 @@ impl RemoteConnection for WslRemoteConnection {
             .map(|working_dir| RemotePathBuf::new(working_dir, PathStyle::Unix).to_string())
             .unwrap_or("~".to_string());
 
-        let mut exec = String::from("exec env");
+        let mut exec = String::from("exec env ");
 
         for (key, value) in env.iter() {
             let assignment = format!("{key}={value}");

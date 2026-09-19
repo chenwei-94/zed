@@ -99,7 +99,7 @@ impl ListDirectoryTool {
             writeln!(output, "# Folders:\n{}", folders.join("\n")).unwrap();
         }
         if !files.is_empty() {
-            writeln!(output, "# Files:\n{}", files.join("\n")).unwrap();
+            writeln!(output, "\n# Files:\n{}", files.join("\n")).unwrap();
         }
         if output.is_empty() {
             writeln!(output, "{input_path} is empty.").unwrap();
@@ -167,7 +167,7 @@ impl ListDirectoryTool {
         }
 
         if !files.is_empty() {
-            writeln!(output, "# Files:\n{}", files.join("\n")).unwrap();
+            writeln!(output, "\n# Files:\n{}", files.join("\n")).unwrap();
         }
 
         if output.is_empty() {

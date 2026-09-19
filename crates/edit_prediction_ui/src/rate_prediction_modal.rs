@@ -405,7 +405,7 @@ impl RatePredictionsModal {
             .file()
             .map(|file| file.path().as_unix_str());
         let header = match path {
-            Some(path) => format!("--- a/{path}\n+++ b/{path}"),
+            Some(path) => format!("--- a/{path}\n+++ b/{path}\n"),
             None => String::new(),
         };
 
@@ -436,7 +436,7 @@ impl RatePredictionsModal {
     }
 
     fn write_events(formatted_inputs: &mut String, events: &[Arc<zeta_prompt::Event>]) {
-        write!(formatted_inputs, "## Events").unwrap();
+        write!(formatted_inputs, "## Events\n\n").unwrap();
 
         for event in events {
             formatted_inputs.push_str("```diff");
@@ -446,7 +446,7 @@ impl RatePredictionsModal {
     }
 
     fn write_related_files(formatted_inputs: &mut String, included_files: &[RelatedFile]) {
-        write!(formatted_inputs, "## Related files").unwrap();
+        write!(formatted_inputs, "## Related files\n\n").unwrap();
 
         for included_file in included_files {
             write!(formatted_inputs, "### {}\n\n", included_file.path.display()).unwrap();
@@ -488,7 +488,7 @@ impl RatePredictionsModal {
                 cursor_offset,
             );
         } else {
-            write!(formatted_inputs, "## Cursor Excerpt").unwrap();
+            write!(formatted_inputs, "## Cursor Excerpt\n\n").unwrap();
             writeln!(
                 formatted_inputs,
                 "No current-file excerpt found for `{}` at row {}, column {}.",
@@ -506,7 +506,7 @@ impl RatePredictionsModal {
         cursor_excerpt: &str,
         cursor_offset: usize,
     ) {
-        write!(formatted_inputs, "## Cursor Excerpt").unwrap();
+        write!(formatted_inputs, "## Cursor Excerpt\n\n").unwrap();
 
         let mut cursor_offset = cursor_offset.min(cursor_excerpt.len());
         while !cursor_excerpt.is_char_boundary(cursor_offset) {
@@ -514,7 +514,7 @@ impl RatePredictionsModal {
         }
         writeln!(
             formatted_inputs,
-            "```{}\n{}<CURSOR>{}\n```",
+            "```{}\n{}<CURSOR>{}\n```\n",
             cursor_path.display(),
             &cursor_excerpt[..cursor_offset],
             &cursor_excerpt[cursor_offset..],

@@ -42,7 +42,7 @@ use std::{
 use util::{ConnectionResult, redact};
 
 const JSON_RPC_VERSION: &str = "2.0";
-const CONTENT_LEN_HEADER: &str = "Content-Length:";
+const CONTENT_LEN_HEADER: &str = "Content-Length: ";
 
 /// The default amount of time to wait while initializing or fetching LSP servers, in seconds.
 ///

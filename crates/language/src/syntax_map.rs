@@ -1001,10 +1001,10 @@ impl SyntaxSnapshot {
     #[cfg(debug_assertions)]
     fn check_invariants(&self, text: &BufferSnapshot) {
         let out_of_order = |reason: &str| -> ! {
-            let mut dump = format!("layers out of order: {reason}\nlayers:");
+            let mut dump = format!("layers out of order: {reason}\nlayers:\n");
             for layer in self.layers.iter() {
                 dump.push_str(&format!(
-                    "depth={} range={:?} language={} id={:?}",
+                    "  depth={} range={:?} language={} id={:?}\n",
                     layer.depth,
                     layer.range.to_offset(text),
                     layer.content.language_name(),

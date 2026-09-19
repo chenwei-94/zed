@@ -83,7 +83,7 @@ impl VtslsLspAdapter {
 
         let first = SINGLE_WORD_REGEX.replace_all(message, "`$1`").to_string();
         let second = MULTI_WORD_REGEX
-            .replace_all(&first, "```typescript\n$1\n```")
+            .replace_all(&first, "\n```typescript\n$1\n```\n")
             .to_string();
         Some(second)
     }

@@ -949,21 +949,21 @@ fn line_comment_prefix(file_path: &str) -> &'static str {
 
 fn format_rejected_example(response: &ClaudeResponse, rejection_reason: &str) -> String {
     let mut content = String::new();
-    content.push_str("# Rejected Example");
-    content.push_str(&format!("## Name\n\n{}", response.name));
-    content.push_str(&format!("## Reasoning\n\n{}", response.reasoning));
-    content.push_str("## Edit History Hunks\n\n```diff");
+    content.push_str("# Rejected Example\n\n");
+    content.push_str(&format!("## Name\n\n{}\n\n", response.name));
+    content.push_str(&format!("## Reasoning\n\n{}\n\n", response.reasoning));
+    content.push_str("## Edit History Hunks\n\n```diff\n");
     for hunk in &response.edit_history_hunks {
         content.push_str(hunk);
         content.push_str("\n\n");
     }
     content.push_str("```\n\n");
-    content.push_str("## Expected Patch Hunks\n\n```diff");
+    content.push_str("## Expected Patch Hunks\n\n```diff\n");
     for hunk in &response.expected_patch_hunks {
         content.push_str(hunk);
         content.push_str("\n\n");
     }
     content.push_str("```\n\n");
-    content.push_str(&format!("## Rejection Reason\n\n{}", rejection_reason));
+    content.push_str(&format!("## Rejection Reason\n\n{}\n", rejection_reason));
     content
 }

@@ -248,7 +248,7 @@ pub fn write_event(prompt: &mut String, event: &Event) {
             }
             prompt.push_str("--- a");
             write_path_as_unix_str(prompt, old_path.as_ref());
-            prompt.push_str("+++ b");
+            prompt.push_str("\n+++ b");
             write_path_as_unix_str(prompt, path.as_ref());
             prompt.push('\n');
             prompt.push_str(diff);
@@ -2418,9 +2418,9 @@ pub mod v0120_git_merge_markers {
 
     use super::*;
 
-    pub const START_MARKER: &str = "<<<<<<< CURRENT";
+    pub const START_MARKER: &str = "<<<<<<< CURRENT\n";
     pub const SEPARATOR: &str = "=======\n";
-    pub const END_MARKER: &str = ">>>>>>> UPDATED";
+    pub const END_MARKER: &str = ">>>>>>> UPDATED\n";
 
     pub fn special_tokens() -> &'static [&'static str] {
         &[
@@ -2492,9 +2492,9 @@ pub mod v0131_git_merge_markers_prefix {
 
     use super::*;
 
-    pub const START_MARKER: &str = "<<<<<<< CURRENT";
+    pub const START_MARKER: &str = "<<<<<<< CURRENT\n";
     pub const SEPARATOR: &str = "=======\n";
-    pub const END_MARKER: &str = ">>>>>>> UPDATED";
+    pub const END_MARKER: &str = ">>>>>>> UPDATED\n";
 
     pub fn special_tokens() -> &'static [&'static str] {
         &[
@@ -4152,9 +4152,9 @@ pub mod seed_coder {
     pub const FIM_MIDDLE: &str = "<[fim-middle]>";
     pub const FILE_MARKER: &str = "<filename>";
 
-    pub const START_MARKER: &str = "<<<<<<< CURRENT";
+    pub const START_MARKER: &str = "<<<<<<< CURRENT\n";
     pub const SEPARATOR: &str = "=======\n";
-    pub const END_MARKER: &str = ">>>>>>> UPDATED";
+    pub const END_MARKER: &str = ">>>>>>> UPDATED\n";
 
     pub const NO_EDITS: &str = "NO_EDITS";
 
@@ -5332,8 +5332,8 @@ pub mod zeta1 {
         "into account the cursor location.\n\n",
         "### User Edits:\n\n"
     );
-    const EXCERPT_HEADER: &str = "### User Excerpt:";
-    const RESPONSE_HEADER: &str = "### Response:";
+    const EXCERPT_HEADER: &str = "\n\n### User Excerpt:\n\n";
+    const RESPONSE_HEADER: &str = "\n\n### Response:\n";
 
     /// Formats a complete zeta1 prompt from the input events and excerpt.
     pub fn format_zeta1_prompt(input_events: &str, input_excerpt: &str) -> String {
@@ -5398,7 +5398,7 @@ pub mod zeta1 {
                 if old_path != path {
                     writeln!(
                         prompt,
-                        "User renamed {} to {}",
+                        "User renamed {} to {}\n",
                         old_path.display(),
                         path.display()
                     )

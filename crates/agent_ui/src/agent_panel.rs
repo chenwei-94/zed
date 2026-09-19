@@ -550,7 +550,7 @@ pub fn init(cx: &mut App) {
 
                     let content_blocks = vec![
                         acp::ContentBlock::Text(acp::TextContent::new(
-                            "Please review this branch diff carefully. Point out any issues, potential bugs, or improvement opportunities you find."
+                            "Please review this branch diff carefully. Point out any issues, potential bugs, or improvement opportunities you find.\n\n"
                                 .to_string(),
                         )),
                         acp::ContentBlock::Resource(acp::EmbeddedResource::new(
@@ -840,7 +840,7 @@ fn build_conflict_resolution_prompt(conflicts: &[ConflictContent]) -> Vec<acp::C
         let conflict = &conflicts[0];
 
         blocks.push(acp::ContentBlock::Text(acp::TextContent::new(
-            "Please resolve the following merge conflict in",
+            "Please resolve the following merge conflict in ",
         )));
         let mention = MentionUri::File {
             abs_path: PathBuf::from(conflict.file_path.clone()),

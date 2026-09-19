@@ -472,14 +472,14 @@ impl CommitModal {
                                             Some(&git::Commit),
                                             format!(
                                                 "git commit{}{}{}",
-                                                if commit_options.amend { "--amend" } else { "" },
+                                                if commit_options.amend { " --amend" } else { "" },
                                                 if commit_options.signoff {
-                                                    "--signoff"
+                                                    " --signoff"
                                                 } else {
                                                     ""
                                                 },
                                                 if commit_options.no_verify {
-                                                    "--no-verify"
+                                                    " --no-verify"
                                                 } else {
                                                     ""
                                                 }

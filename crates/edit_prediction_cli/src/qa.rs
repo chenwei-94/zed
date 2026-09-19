@@ -89,8 +89,8 @@ pub fn build_prompt(example: &Example) -> Result<String> {
             diff,
             ..
         } = event.as_ref();
-        edit_history.push_str(&format!("--- a{}", old_path.display()));
-        edit_history.push_str(&format!("+++ b{}", path.display()));
+        edit_history.push_str(&format!("--- a{}\n", old_path.display()));
+        edit_history.push_str(&format!("+++ b{}\n", path.display()));
         let diff_word_diff = unified_to_word_diff(&diff);
         edit_history.push_str(&diff_word_diff);
         edit_history.push_str("\n\n");

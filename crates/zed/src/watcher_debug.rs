@@ -274,12 +274,12 @@ impl WatcherDebug {
             self.refresh_events(snapshot, cx);
             for watcher in &snapshot.watchers {
                 watch_roots.push_str(&format!(
-                    "{:?}: recursive={}, cooldown remaining={:?} ms",
+                    "{:?}: recursive={}, cooldown remaining={:?} ms\n",
                     watcher.backend, watcher.recursive, watcher.cooldown_remaining_millis
                 ));
                 for root in &watcher.roots {
                     watch_roots.push_str(&format!(
-                        "{} ({} registrations)",
+                        "  {} ({} registrations)\n",
                         root.path, root.registrations
                     ));
                 }

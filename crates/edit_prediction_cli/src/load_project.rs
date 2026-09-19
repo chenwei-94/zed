@@ -186,7 +186,7 @@ async fn cursor_position(
 
         let mut matches = text.match_indices(&cursor_excerpt);
         let (excerpt_offset, _) = matches.next().with_context(|| {
-            format!("Cursor excerpt did not exist in buffer:\n\n{cursor_excerpt}",)
+            format!("Cursor excerpt did not exist in buffer:\n\n{cursor_excerpt}\n",)
         })?;
         anyhow::ensure!(
             matches.next().is_none(),

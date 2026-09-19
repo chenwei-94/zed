@@ -1704,7 +1704,7 @@ impl GitGraph {
     /// git's `%D` format, returning `None` for a detached `HEAD`.
     fn ref_name_from_decoration(decoration: &str) -> Option<SharedString> {
         let name = decoration
-            .strip_prefix("tag:")
+            .strip_prefix("tag: ")
             .or_else(|| decoration.strip_prefix("HEAD -> "))
             .unwrap_or(decoration);
         if name.is_empty() || name == "HEAD" {

@@ -825,7 +825,7 @@ mod imp {
         if stderr.is_empty() {
             format!(" ({status})")
         } else {
-            format!("({status}; stderr: {stderr})")
+            format!(" ({status}; stderr: {stderr})")
         }
     }
 

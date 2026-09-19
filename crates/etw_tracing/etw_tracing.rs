@@ -321,7 +321,7 @@ fn wpr_error_context(hresult: windows_core::HRESULT, source: &windows_core::IUnk
     if let Ok(info) = source.cast::<IParsingErrorInfo>() {
         unsafe {
             if let Ok(line) = info.GetLineNumber() {
-                let _ = write!(out, "Parse error at line: {line}");
+                let _ = write!(out, "\n  Parse error at line: {line}");
                 if let Ok(col) = info.GetColumnNumber() {
                     let _ = write!(out, ", column: {col}");
                 }
@@ -352,21 +352,21 @@ fn wpr_error_context(hresult: windows_core::HRESULT, source: &windows_core::IUnk
                     wprcontrol::ObjectType_Provider => "Provider",
                     _ => "Unknown",
                 };
-                let _ = write!(out, "Object type: {name}");
+                let _ = write!(out, "\n  Object type: {name}");
             }
             if let Ok(hr) = info.GetHResult() {
-                let _ = write!(out, "Inner HRESULT: {hr}");
+                let _ = write!(out, "\n  Inner HRESULT: {hr}");
             }
             if let Ok(desc) = info.GetDescription()
                 && !desc.is_empty()
             {
-                let _ = write!(out, "Description: {desc}");
+                let _ = write!(out, "\n  Description: {desc}");
             }
             let mut inner = None;
             if info.GetInnerErrorInfo(&mut inner).is_ok()
                 && let Some(inner) = inner
             {
-                let _ = write!(out, "Caused by:");
+                let _ = write!(out, "\n  Caused by:");
                 append_control_chain(out, &inner);
             }
         }
@@ -378,7 +378,7 @@ fn wpr_error_context(hresult: windows_core::HRESULT, source: &windows_core::IUnk
             if let Ok(desc) = info.GetDescription()
                 && !desc.is_empty()
             {
-                let _ = write!(out, "IErrorInfo: {desc}");
+                let _ = write!(out, "\n  IErrorInfo: {desc}");
             }
         }
     }
@@ -542,7 +542,7 @@ fn launch_etw_recording(heap_pid: Option<u32>) -> Result<EtwSession> {
     let listener = net::UnixListener::bind(&sock_path).context("Bind Unix socket for ETW IPC")?;
 
     let exe_path = std::env::current_exe().context("Failed to get current exe path")?;
-    let heap_arg = heap_pid.map_or(String::new(), |pid| format!("--etw-zed-pid {pid}"));
+    let heap_arg = heap_pid.map_or(String::new(), |pid| format!(" --etw-zed-pid {pid}"));
     let args = format!(
         "--record-etw-trace{heap_arg} --etw-socket \"{}\"",
         sock_path.display(),

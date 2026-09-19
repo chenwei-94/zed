@@ -534,8 +534,8 @@ fn find_hunk_document(hunk: &Hunk, context: &[Excerpt]) -> Option<usize> {
 
 fn diff_for_document_hunks(document: &Excerpt, hunks: &[Hunk]) -> String {
     let mut diff = String::new();
-    diff.push_str(&format!("--- a/{}", document.path));
-    diff.push_str(&format!("+++ b/{}", document.path));
+    diff.push_str(&format!("--- a/{}\n", document.path));
+    diff.push_str(&format!("+++ b/{}\n", document.path));
 
     for hunk in hunks {
         let old_start = adjust_hunk_start(hunk.old_start, &document.row_range);

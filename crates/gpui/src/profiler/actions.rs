@@ -30,7 +30,7 @@ impl std::fmt::Debug for ActionStatistics {
 
 impl std::fmt::Display for ActionStatistics {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("Actions that blocked the longest")?;
+        f.write_str("Actions that blocked the longest\n")?;
         for action in self
             .longest_runtimes(true)
             .sorted_by_key(|action| action.runtime())

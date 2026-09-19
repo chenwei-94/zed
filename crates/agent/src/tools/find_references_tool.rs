@@ -84,7 +84,7 @@ impl AgentTool for FindReferencesTool {
             }
 
             let mut output = format!(
-                "Found {} references to `{}`:",
+                "Found {} references to `{}`:\n",
                 references.len(),
                 input.symbol.symbol_name
             );

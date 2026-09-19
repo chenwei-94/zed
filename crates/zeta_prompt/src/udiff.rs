@@ -39,13 +39,13 @@ pub fn strip_diff_path_prefix<'a>(diff: &'a str, prefix: &str) -> Cow<'a, str> {
                 let stripped = path
                     .strip_prefix(&prefix_with_slash)
                     .unwrap_or(path.as_ref());
-                result.push_str(&format!("--- a/{}", stripped));
+                result.push_str(&format!("--- a/{}\n", stripped));
             }
             DiffLine::NewPath { path } => {
                 let stripped = path
                     .strip_prefix(&prefix_with_slash)
                     .unwrap_or(path.as_ref());
-                result.push_str(&format!("+++ b/{}", stripped));
+                result.push_str(&format!("+++ b/{}\n", stripped));
             }
             _ => {
                 result.push_str(line);

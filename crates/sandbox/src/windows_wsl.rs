@@ -1226,7 +1226,7 @@ fn command_failure_details(exit_code: Option<i32>, stderr: &[u8]) -> String {
     if stderr.is_empty() {
         format!(" ({exit_status})")
     } else {
-        format!("({exit_status}; stderr: {stderr})")
+        format!(" ({exit_status}; stderr: {stderr})")
     }
 }
 

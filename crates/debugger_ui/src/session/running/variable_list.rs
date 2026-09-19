@@ -1010,7 +1010,7 @@ impl VariableList {
                 if state.is_expanded { "v" } else { ">" },
                 entry.entry.name(),
                 if self.selection.as_ref() == Some(&entry.path) {
-                    "<=== selected"
+                    " <=== selected"
                 } else {
                     ""
                 }

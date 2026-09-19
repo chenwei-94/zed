@@ -86,11 +86,11 @@ impl AgentTool for GoToDefinitionTool {
             let mut output = String::new();
 
             if definitions.len() == 1 {
-                write!(output, "Definition of `{}`:", input.symbol.symbol_name).ok();
+                write!(output, "Definition of `{}`:\n", input.symbol.symbol_name).ok();
             } else {
                 write!(
                     output,
-                    "Found {} definitions of `{}`:",
+                    "Found {} definitions of `{}`:\n",
                     definitions.len(),
                     input.symbol.symbol_name
                 )

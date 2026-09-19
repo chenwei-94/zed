@@ -7609,7 +7609,7 @@ impl Sidebar {
             .cross_channel_import_channels
             .iter()
             .map(SharedString::as_str)
-            .join("and");
+            .join(" and ");
 
         let description = format!(
             "从 {} 导入会话，从中断处继续。",
@@ -8140,7 +8140,7 @@ pub fn dump_workspace_info(
         writeln!(
             output,
             "--- Workspace {index}{} ---",
-            if is_active { "(active)" } else { "" }
+            if is_active { " (active)" } else { "" }
         )
         .ok();
 
@@ -8252,10 +8252,10 @@ fn dump_single_workspace(workspace: &Workspace, output: &mut String, cx: &gpui::
 
         write!(output, "  - {}", abs_path.display()).ok();
         if !visible {
-            write!(output, "(hidden)").ok();
+            write!(output, " (hidden)").ok();
         }
         if let Some(branch) = &branch {
-            write!(output, "[branch: {branch}]").ok();
+            write!(output, " [branch: {branch}]").ok();
         }
         if is_linked {
             if let Some(main_worktree_path) = main_worktree_path {
@@ -8266,7 +8266,7 @@ fn dump_single_workspace(workspace: &Workspace, output: &mut String, cx: &gpui::
                 )
                 .ok();
             } else {
-                write!(output, "[linked worktree]").ok();
+                write!(output, " [linked worktree]").ok();
             }
         }
         writeln!(output).ok();
@@ -8279,7 +8279,7 @@ fn dump_single_workspace(workspace: &Workspace, output: &mut String, cx: &gpui::
         if panel_workspace_id != workspace_db_id {
             writeln!(
                 output,
-                "⚠ workspace ID mismatch! panel has {panel_workspace_id:?}, workspace has {workspace_db_id:?}"
+                "  ⚠ workspace ID mismatch! panel has {panel_workspace_id:?}, workspace has {workspace_db_id:?}"
             )
             .ok();
         }
@@ -8294,7 +8294,7 @@ fn dump_single_workspace(workspace: &Workspace, output: &mut String, cx: &gpui::
             };
             let entry_count = thread.entries().len();
             write!(output, "Active thread: {title} (session: {session_id})").ok();
-            write!(output, "[{status}, {entry_count} entries").ok();
+            write!(output, " [{status}, {entry_count} entries").ok();
             if panel
                 .active_conversation_view()
                 .is_some_and(|conversation_view| {
@@ -8314,7 +8314,7 @@ fn dump_single_workspace(workspace: &Workspace, output: &mut String, cx: &gpui::
         if !background_threads.is_empty() {
             writeln!(
                 output,
-                "Background threads ({}):",
+                "Background threads ({}): ",
                 background_threads.len()
             )
             .ok();
@@ -8327,8 +8327,8 @@ fn dump_single_workspace(workspace: &Workspace, output: &mut String, cx: &gpui::
                         ThreadStatus::Generating => "generating",
                     };
                     let entry_count = thread.entries().len();
-                    write!(output, "- {title} (thread: {session_id:?})").ok();
-                    write!(output, "[{status}, {entry_count} entries").ok();
+                    write!(output, "  - {title} (thread: {session_id:?})").ok();
+                    write!(output, " [{status}, {entry_count} entries").ok();
                     if conversation_view
                         .read(cx)
                         .root_thread_has_pending_tool_call(cx)
@@ -8337,7 +8337,7 @@ fn dump_single_workspace(workspace: &Workspace, output: &mut String, cx: &gpui::
                     }
                     writeln!(output, "]").ok();
                 } else {
-                    writeln!(output, "- (not connected) (thread: {session_id:?})").ok();
+                    writeln!(output, "  - (not connected) (thread: {session_id:?})").ok();
                 }
             }
         }

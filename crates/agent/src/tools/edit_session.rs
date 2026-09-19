@@ -966,7 +966,7 @@ fn extract_match(
         SearchMatches::Fuzzy(matches) => (matches, false),
     };
     let file_changed_since_last_read_message = if file_changed_since_last_read {
-        "The file has changed on disk since you last read it."
+        " The file has changed on disk since you last read it."
     } else {
         ""
     };

@@ -115,7 +115,7 @@ pub fn format_output(action: &RemoteAction, output: RemoteCommandOutput) -> Succ
 
                 Ok(files_changed)
             };
-            if output.stdout.ends_with("Already up to date.") {
+            if output.stdout.ends_with("Already up to date.\n") {
                 SuccessMessage {
                     message: "拉取：已是最新".into(),
                     style: SuccessStyle::Toast,
@@ -165,7 +165,7 @@ pub fn format_output(action: &RemoteAction, output: RemoteCommandOutput) -> Succ
             }
         }
         RemoteAction::Push(branch_name, remote_ref) => {
-            if output.stderr.ends_with("Everything up-to-date") {
+            if output.stderr.ends_with("Everything up-to-date\n") {
                 SuccessMessage {
                     message: "推送：一切都是最新".to_string(),
                     style: SuccessStyle::Toast,

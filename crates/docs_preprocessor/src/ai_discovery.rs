@@ -120,12 +120,12 @@ fn front_matter_comment_regex() -> &'static Regex {
 
 fn write_llms_txt(destination: &Path, site_url: &str, pages: &[DocsPage]) -> Result<()> {
     let mut contents = String::new();
-    contents.push_str("# Zed Docs");
+    contents.push_str("# Zed Docs\n\n");
     contents.push_str(
-        "> Official Zed documentation index with links to Markdown versions of each docs page.",
+        "> Official Zed documentation index with links to Markdown versions of each docs page.\n\n",
     );
     contents.push_str(
-        "Use these links for concise Markdown copies of Zed documentation pages. Each linked page mirrors the corresponding `/docs/*.html` page without site navigation or styling.",
+        "Use these links for concise Markdown copies of Zed documentation pages. Each linked page mirrors the corresponding `/docs/*.html` page without site navigation or styling.\n\n",
     );
     let mut current_section = None;
     for page in pages {
@@ -164,7 +164,7 @@ fn write_sitemap_xml(destination: &Path, site_url: &str, pages: &[DocsPage]) -> 
     contents.push_str("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
     contents.push_str("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n");
     for page in pages {
-        contents.push_str("<url><loc>");
+        contents.push_str("  <url><loc>");
         contents.push_str(&xml_escape(&absolute_docs_url(
             site_url,
             &page.source_path.with_extension("html"),
@@ -245,7 +245,7 @@ pub(crate) fn write_markdown_redirect_aliases(
             })?;
         }
         let contents = format!(
-            "# Moved\n\n> For the complete documentation index and Markdown links, see [llms.txt]({}).\n\nThis page moved to [the current docs page]({}).",
+            "# Moved\n\n> For the complete documentation index and Markdown links, see [llms.txt]({}).\n\nThis page moved to [the current docs page]({}).\n",
             docs_url(site_url, Path::new("llms.txt")),
             html_path_to_markdown(redirect_destination_path)
                 .map(|path| redirect_destination(site_url, &path))
@@ -351,7 +351,7 @@ pub(crate) fn add_markdown_alternate_link(
 
 fn add_llms_markdown_directive(contents: &str, site_url: &str) -> String {
     let directive = format!(
-        "> For the complete documentation index and Markdown links, see [llms.txt]({}).",
+        "> For the complete documentation index and Markdown links, see [llms.txt]({}).\n\n",
         docs_url(site_url, Path::new("llms.txt")),
     );
     if let Some(rest) = contents.strip_prefix("---\n") {

@@ -221,7 +221,7 @@ fn label_for_python_symbol(
     let name = &symbol.name;
     let (text, filter_range, display_range) = match symbol.kind {
         language::SymbolKind::Method | language::SymbolKind::Function => {
-            let text = format!("def {}():", name);
+            let text = format!("def {}():\n", name);
             let filter_range = 4..4 + name.len();
             let display_range = 0..filter_range.end;
             (text, filter_range, display_range)

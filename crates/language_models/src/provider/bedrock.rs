@@ -1980,7 +1980,7 @@ fn deny_tool_use_events(
             Ok(LanguageModelCompletionEvent::ToolUse(tool_use)) => {
                 // Convert tool use to an error message if model decided to call it
                 Ok(LanguageModelCompletionEvent::Text(format!(
-                    "[Error: Tool calls are disabled in this context. Attempted to call '{}']",
+                    "\n\n[Error: Tool calls are disabled in this context. Attempted to call '{}']",
                     tool_use.name
                 )))
             }

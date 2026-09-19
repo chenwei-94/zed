@@ -475,7 +475,7 @@ mod server {
         stream.set_write_timeout(Some(CANCEL_REQUEST_TIMEOUT))?;
 
         stream.write_all(b"GET /cancel HTTP/1.1\r\n")?;
-        stream.write_all(format!("Host: {host}:{port}").as_bytes())?;
+        stream.write_all(format!("Host: {host}:{port}\r\n").as_bytes())?;
         stream.write_all(b"Connection: close\r\n\r\n")?;
 
         // Drain the response so the server can close cleanly. We don't care

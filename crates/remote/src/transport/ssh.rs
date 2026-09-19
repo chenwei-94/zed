@@ -130,7 +130,7 @@ fn escape_sftp_path(path: &str) -> String {
 fn sftp_put_command(source_path: &str, destination_path: &str) -> String {
     let source = escape_sftp_path(source_path);
     let destination = escape_sftp_path(destination_path);
-    format!("put {source} {destination}")
+    format!("put {source} {destination}\n")
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
@@ -429,7 +429,7 @@ impl RemoteConnection for SshRemoteConnection {
                 let mut child = sftp_command.spawn()?;
                 if let Some(mut stdin) = child.stdin.take() {
                     use futures::AsyncWriteExt;
-                    let sftp_batch = format!("put -r \"{src_path_display}\" \"{dest_path_str}\"");
+                    let sftp_batch = format!("put -r \"{src_path_display}\" \"{dest_path_str}\"\n");
                     stdin.write_all(sftp_batch.as_bytes()).await?;
                     stdin.flush().await?;
                 }
@@ -587,7 +587,7 @@ async fn find_existing_control_master(
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     let control_path = stdout.lines().find_map(|line| {
-        let path = line.strip_prefix("controlpath")?.trim();
+        let path = line.strip_prefix("controlpath ")?.trim();
         if path == "none" || path.is_empty() {
             None
         } else {
@@ -1876,7 +1876,7 @@ fn build_command_posix(
             if remainder.is_empty() {
                 write!(
                     exec,
-                    "cd \"$HOME\" {}",
+                    "cd \"$HOME\" {} ",
                     ssh_shell_kind.sequential_and_commands_separator()
                 )?;
             } else {
@@ -1885,7 +1885,7 @@ fn build_command_posix(
                     .context("shell quoting")?;
                 write!(
                     exec,
-                    "cd \"$HOME\"/{quoted_remainder} {}",
+                    "cd \"$HOME\"/{quoted_remainder} {} ",
                     ssh_shell_kind.sequential_and_commands_separator()
                 )?;
             }
@@ -1895,18 +1895,18 @@ fn build_command_posix(
                 .context("shell quoting")?;
             write!(
                 exec,
-                "cd {quoted_dir} {}",
+                "cd {quoted_dir} {} ",
                 ssh_shell_kind.sequential_and_commands_separator()
             )?;
         }
     } else {
         write!(
             exec,
-            "cd {}",
+            "cd {} ",
             ssh_shell_kind.sequential_and_commands_separator()
         )?;
     };
-    write!(exec, "exec env")?;
+    write!(exec, "exec env ")?;
 
     for (k, v) in input_env.iter() {
         let assignment = format!("{k}={v}");
@@ -1990,7 +1990,7 @@ fn build_command_windows(
 
         write!(
             exec,
-            "Set-Location -Path {} {}",
+            "Set-Location -Path {} {} ",
             shell_kind
                 .try_quote(&working_dir)
                 .context("shell quoting")?,

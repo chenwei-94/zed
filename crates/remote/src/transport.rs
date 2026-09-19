@@ -198,7 +198,7 @@ fn handle_rpc_messages_over_child_process_stdio(
                 } else {
                     std::io::stderr()
                         .write_fmt(format_args!(
-                            "(remote) {}",
+                            "(remote) {}\n",
                             String::from_utf8_lossy(content)
                         ))
                         .ok();
@@ -314,10 +314,10 @@ async fn build_remote_server_from_source(
         }
     };
     if platform.os == RemoteOs::Linux && use_musl {
-        rust_flags.push_str("-C target-feature=+crt-static");
+        rust_flags.push_str(" -C target-feature=+crt-static");
 
         if let Ok(path) = std::env::var("ZED_ZSTD_MUSL_LIB") {
-            rust_flags.push_str(&format!("-C link-arg=-L{path}"));
+            rust_flags.push_str(&format!(" -C link-arg=-L{path}"));
         }
     }
     if platform.arch.as_str() == std::env::consts::ARCH

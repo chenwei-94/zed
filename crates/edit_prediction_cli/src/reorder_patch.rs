@@ -151,14 +151,14 @@ impl ToString for Patch {
         for hunk in &self.hunks {
             let current_file = hunk.filename.clone();
             if hunk.is_file_creation() {
-                result.push_str("--- /dev/null");
+                result.push_str("--- /dev/null\n");
             } else {
-                result.push_str(&format!("--- a/{}", current_file));
+                result.push_str(&format!("--- a/{}\n", current_file));
             }
             if hunk.is_file_deletion() {
-                result.push_str("+++ /dev/null");
+                result.push_str("+++ /dev/null\n");
             } else {
-                result.push_str(&format!("+++ b/{}", current_file));
+                result.push_str(&format!("+++ b/{}\n", current_file));
             }
             result.push_str(&hunk.to_string());
         }

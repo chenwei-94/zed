@@ -448,7 +448,7 @@ pub fn extract_changed_lines_from_diff(diff: &str) -> Counts {
             continue;
         }
         // Skip diff header lines (diff --git, index, etc.)
-        if line.starts_with("diff") || line.starts_with("index") {
+        if line.starts_with("diff ") || line.starts_with("index ") {
             continue;
         }
         // Include added and removed lines (with their prefix)
@@ -636,8 +636,8 @@ pub fn count_patch_token_changes(patch: &str) -> TokenChangeCounts {
         if line.starts_with("---")
             || line.starts_with("+++")
             || line.starts_with("@@")
-            || line.starts_with("diff")
-            || line.starts_with("index")
+            || line.starts_with("diff ")
+            || line.starts_with("index ")
         {
             flush(&mut old_lines, &mut new_lines, &mut counts);
         } else if line.starts_with('-') {

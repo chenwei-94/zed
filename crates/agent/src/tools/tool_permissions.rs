@@ -540,7 +540,7 @@ pub fn authorize_symlink_escapes(
         .iter()
         .map(|(path, target)| format!("`{}` → `{}`", path, target.display()))
         .collect::<Vec<_>>()
-        .join("and");
+        .join(" and ");
     let title = format!("{}（指向项目外的符号链接）", targets);
 
     let context = ToolPermissionContext::symlink_target(

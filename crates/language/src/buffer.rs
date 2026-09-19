@@ -833,7 +833,7 @@ impl EditPreview {
 
         let path = file.map(|f| f.path().as_unix_str());
         let header = match path {
-            Some(p) => format!("--- a/{}\n+++ b/{}", p, p),
+            Some(p) => format!("--- a/{}\n+++ b/{}\n", p, p),
             None => String::new(),
         };
 

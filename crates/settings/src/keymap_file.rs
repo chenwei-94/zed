@@ -289,7 +289,7 @@ impl KeymapFile {
                         // the error occurred in.
                         errors.push((
                             context.clone(),
-                            format!("Parse error in section `context` field: {}", err),
+                            format!(" Parse error in section `context` field: {}", err),
                         ));
                         continue;
                     }
@@ -301,7 +301,7 @@ impl KeymapFile {
             if !unrecognized_fields.is_empty() {
                 write!(
                     section_errors,
-                    "- Unrecognized fields: {}",
+                    "\n\n - Unrecognized fields: {}",
                     MarkdownInlineCode(&format!("{:?}", unrecognized_fields.keys()))
                 )
                 .unwrap();
@@ -330,7 +330,7 @@ impl KeymapFile {
                             }
                             write!(
                                 section_errors,
-                                "- In unbind {}, {indented_err}",
+                                "\n\n- In unbind {}, {indented_err}",
                                 MarkdownInlineCode(&format!("\"{}\"", keystrokes))
                             )
                             .unwrap();
@@ -362,7 +362,7 @@ impl KeymapFile {
                             }
                             write!(
                                 section_errors,
-                                "- In binding {}, {indented_err}",
+                                "\n\n- In binding {}, {indented_err}",
                                 MarkdownInlineCode(&format!("\"{}\"", keystrokes))
                             )
                             .unwrap();
@@ -383,11 +383,11 @@ impl KeymapFile {
 
             for (context, section_errors) in errors {
                 if context.is_empty() {
-                    let _ = write!(error_message, "In section without context predicate:");
+                    let _ = write!(error_message, "\nIn section without context predicate:");
                 } else {
                     let _ = write!(
                         error_message,
-                        "In section with {}:",
+                        "\nIn section with {}:",
                         MarkdownInlineCode(&format!("context = \"{}\"", context))
                     );
                 }

@@ -549,12 +549,12 @@ impl minidumper::ServerHandler for CrashServer {
 fn strip_user_string_from_panic(message: &str) -> String {
     const STRING_PANIC_PREFIXES: &[&str] = &[
         // Older rustc (pre-1.95):
-        "byte index",
+        "byte index ",
         "begin <= end (",
         // Newer rustc (1.95+):
         // https://github.com/rust-lang/rust/pull/145024
-        "start byte index",
-        "end byte index",
+        "start byte index ",
+        "end byte index ",
         "begin > end (",
     ];
 

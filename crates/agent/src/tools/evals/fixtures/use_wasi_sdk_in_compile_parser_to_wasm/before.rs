@@ -908,7 +908,7 @@ impl Loader {
             if output.status.success() {
                 let mut found_non_static = false;
                 for line in String::from_utf8_lossy(&output.stdout).lines() {
-                    if line.contains("T") {
+                    if line.contains(" T ") {
                         if let Some(function_name) =
                             line.split_whitespace().collect::<Vec<_>>().get(2)
                         {

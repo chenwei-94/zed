@@ -479,7 +479,7 @@ impl RemoteClient {
                     Err(_) => {
                         let mut error = String::new();
                         if let Some(status) = io_task.now_or_never() {
-                            error.push_str("Client exited with");
+                            error.push_str("Client exited with ");
                             match status {
                                 Ok(exit_code) => {
                                     error.push_str(&format!("exit_code {exit_code:?}"))

@@ -318,7 +318,7 @@ impl UserMessage {
         {
             writeln!(markdown, "## User (checkpoint)").unwrap();
         } else {
-            writeln!(markdown, "## User").unwrap();
+            writeln!(markdown, "## User\n\n").unwrap();
         }
         writeln!(markdown).unwrap();
         writeln!(markdown, "{}", self.content.to_markdown(cx)).unwrap();
@@ -337,7 +337,7 @@ pub struct AssistantMessage {
 impl AssistantMessage {
     pub fn to_markdown(&self, cx: &App) -> String {
         format!(
-            "## Assistant\n\n{}",
+            "## Assistant\n\n{}\n\n",
             self.chunks
                 .iter()
                 .map(|chunk| chunk.to_markdown(cx))
@@ -869,12 +869,12 @@ impl AgentThreadEntry {
             Self::UserMessage(message) => message.to_markdown(cx),
             Self::AssistantMessage(message) => message.to_markdown(cx),
             Self::ToolCall(tool_call) => tool_call.to_markdown(cx),
-            Self::Elicitation(_) => "## Input Requested".to_string(),
+            Self::Elicitation(_) => "## Input Requested\n\n".to_string(),
             Self::CompletedPlan(entries) => {
-                let mut md = String::from("## Plan");
+                let mut md = String::from("## Plan\n\n");
                 for entry in entries {
                     let source = entry.content.read(cx).source().to_string();
-                    md.push_str(&format!("- [x] {}", source));
+                    md.push_str(&format!("- [x] {}\n", source));
                 }
                 md
             }
@@ -887,13 +887,13 @@ impl AgentThreadEntry {
                     ContextCompactionStatus::Other(status) => status,
                 };
                 let mut markdown =
-                    format!("## Context Compaction ({})", MarkdownEscaped(status));
+                    format!("## Context Compaction ({})\n\n", MarkdownEscaped(status));
                 for block in &compaction.summary {
                     markdown.push_str(block.to_markdown(cx));
                     markdown.push_str("\n\n");
                 }
                 if let Some(error) = &compaction.error {
-                    markdown.push_str("**Error:**");
+                    markdown.push_str("**Error:** ");
                     markdown.push_str(&MarkdownEscaped(error.read(cx).source()).to_string());
                     markdown.push_str("\n\n");
                 }
@@ -1270,7 +1270,7 @@ impl ToolCall {
         } else {
             label.to_string()
         };
-        let mut markdown = format!("**Tool Call: {}**\nStatus: {}", label, self.status);
+        let mut markdown = format!("**Tool Call: {}**\nStatus: {}\n\n", label, self.status);
         for content in &self.content {
             markdown.push_str(content.to_markdown(cx).as_str());
             markdown.push_str("\n\n");
@@ -4947,7 +4947,7 @@ impl AcpThread {
                     .elicitations
                     .elicitation(elicitation_id)
                     .map(|(_, elicitation)| {
-                        format!("## Input Requested\n\n{}", elicitation.request.message)
+                        format!("## Input Requested\n\n{}\n\n", elicitation.request.message)
                     })
                     .unwrap_or_else(|| entry.to_markdown(cx)),
                 _ => entry.to_markdown(cx),

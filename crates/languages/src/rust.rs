@@ -446,7 +446,7 @@ impl LspAdapter for RustLspAdapter {
                 } else if completion
                     .detail
                     .as_ref()
-                    .is_some_and(|detail| detail.starts_with("macro_rules!"))
+                    .is_some_and(|detail| detail.starts_with("macro_rules! "))
                 {
                     let text = completion.label.clone();
                     let len = text.len();
@@ -657,10 +657,10 @@ impl LspAdapter for RustLspAdapter {
             language::SymbolKind::Method | language::SymbolKind::Function => ("fn ", "();"),
             language::SymbolKind::Struct => ("struct ", ";"),
             language::SymbolKind::Enum => ("enum ", "{}"),
-            language::SymbolKind::Interface => ("trait", "{}"),
-            language::SymbolKind::Constant => ("const", ":()=();"),
+            language::SymbolKind::Interface => ("trait ", "{}"),
+            language::SymbolKind::Constant => ("const ", ":()=();"),
             language::SymbolKind::Module => ("mod ", ";"),
-            language::SymbolKind::Package => ("extern crate", ";"),
+            language::SymbolKind::Package => ("extern crate ", ";"),
             language::SymbolKind::TypeParameter => ("type", "=();"),
             language::SymbolKind::EnumMember => {
                 let prefix = "enum E {";

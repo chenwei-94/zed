@@ -394,7 +394,7 @@ fn extract_base_type_name(type_str: &str) -> String {
         .trim_end_matches('{')
         .trim_end_matches(')')
         .trim()
-        .trim_start_matches("dyn")
+        .trim_start_matches("dyn ")
         .trim_start_matches("impl ")
         .trim();
 

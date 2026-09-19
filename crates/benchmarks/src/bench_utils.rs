@@ -22,8 +22,8 @@ pub fn random_rust_file(rng: &mut impl Rng, line_count: usize) -> Vec<String> {
         "".to_string(),
         "#[derive(Clone, Debug)]".to_string(),
         "pub struct WorkspaceSnapshot {".to_string(),
-        "buffers: HashMap<String, usize>,".to_string(),
-        "version: usize,".to_string(),
+        "    buffers: HashMap<String, usize>,".to_string(),
+        "    version: usize,".to_string(),
         "}".to_string(),
         "".to_string(),
         "impl WorkspaceSnapshot {".to_string(),
@@ -63,13 +63,13 @@ pub fn random_rust_file(rng: &mut impl Rng, line_count: usize) -> Vec<String> {
 
     for filler_index in 0..filler_line_count {
         let filler_name = rust_identifier(rng, function_count + 4_000 + filler_index);
-        lines.push(format!("// benchmark filler {filler_name}"));
+        lines.push(format!("    // benchmark filler {filler_name}"));
     }
 
     lines.push("}".to_string());
     lines.push("".to_string());
     lines.push("pub fn normalize_path(path: &str) -> String {".to_string());
-    lines.push("path.replace('\\\\', \"/\")".to_string());
+    lines.push("    path.replace('\\\\', \"/\")".to_string());
     lines.push("}".to_string());
 
     debug_assert_eq!(lines.len(), line_count);

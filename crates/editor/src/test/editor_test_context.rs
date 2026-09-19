@@ -445,7 +445,7 @@ impl EditorTestContext {
                 fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
                     write!(
                         f,
-                        "----- EXPECTED: -----\n\n{}\n\n----- ACTUAL: -----\n\n{}",
+                        "\n\n----- EXPECTED: -----\n\n{}\n\n----- ACTUAL: -----\n\n{}\n\n",
                         self.0, self.1
                     )
                 }

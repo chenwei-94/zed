@@ -72,7 +72,7 @@ impl Render for ActiveBufferEncoding {
 
         let mut text = active_encoding.name().to_string();
         if self.has_bom {
-            text.push_str("(BOM)");
+            text.push_str(" (BOM)");
         }
 
         let (disabled, tooltip_text) = if self.is_dirty {

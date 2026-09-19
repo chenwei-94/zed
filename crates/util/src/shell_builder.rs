@@ -108,7 +108,7 @@ impl ShellBuilder {
                         combined_command.insert_str(0, "exec </dev/null\n");
                     }
                     ShellKind::Fish => {
-                        combined_command.insert_str(0, "begin;");
+                        combined_command.insert_str(0, "begin; ");
                         combined_command.push_str("; end </dev/null");
                     }
                     ShellKind::Nushell
@@ -156,7 +156,7 @@ impl ShellBuilder {
                         combined_command.insert_str(0, "exec </dev/null\n");
                     }
                     ShellKind::Fish => {
-                        combined_command.insert_str(0, "begin;");
+                        combined_command.insert_str(0, "begin; ");
                         combined_command.push_str("; end </dev/null");
                     }
                     ShellKind::Nushell

@@ -67,7 +67,7 @@ impl From<FindPathToolOutput> for LanguageModelToolResultContent {
                     if all_matches_len > RESULTS_PER_PAGE {
                         write!(
                             &mut llm_output,
-                            "Showing results {}-{} (provide 'offset' parameter for more results):",
+                            "\nShowing results {}-{} (provide 'offset' parameter for more results):",
                             offset + 1,
                             offset + current_matches_page.len()
                         )
@@ -115,7 +115,7 @@ impl AgentTool for FindPathTool {
     ) -> SharedString {
         let mut title = "查找路径".to_string();
         if let Ok(input) = input {
-            title.push_str(&format!("matching “`{}`”", input.glob));
+            title.push_str(&format!(" 匹配 “`{}`”", input.glob));
         }
         title.into()
     }

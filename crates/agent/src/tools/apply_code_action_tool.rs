@@ -125,7 +125,7 @@ impl AgentTool for ApplyCodeActionTool {
             }
 
             let mut output = format!(
-                "Applied code action '{title}'. Modified {} file(s):",
+                "Applied code action '{title}'. Modified {} file(s):\n",
                 transaction.0.len()
             );
 

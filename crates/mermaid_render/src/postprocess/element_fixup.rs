@@ -97,7 +97,7 @@ fn push_font_style(style: &mut String, font_family: &str) {
 }
 
 fn font_style(font_family: &str) -> String {
-    let mut style = String::with_capacity(font_family.len() + "font-family: ;".len());
+    let mut style = String::with_capacity(font_family.len() + " font-family: ;".len());
     push_font_style(&mut style, font_family);
     style
 }
@@ -161,7 +161,7 @@ fn rewrite_font_style<'a>(style: &'a str, font_family: &str) -> Cow<'a, str> {
     }
 
     let mut rewritten =
-        String::with_capacity(style.len() + font_family.len() + "font-family: ;".len());
+        String::with_capacity(style.len() + font_family.len() + " font-family: ;".len());
     for declaration in style.split(';') {
         let declaration = declaration.trim();
         if declaration.is_empty() || font_family_declaration_value(declaration).is_some() {

@@ -93,13 +93,13 @@ impl AgentTool for GetCodeActionsTool {
                 ));
             }
 
-            let mut output = format!("Found {} code action(s):", actions.len());
+            let mut output = format!("Found {} code action(s):\n", actions.len());
             for (i, action) in actions.iter().enumerate() {
                 writeln!(output, "{}. {}", i + 1, action.lsp_action.title()).ok();
             }
             write!(
                 output,
-                "Use apply_code_action with the number of the action you want to apply."
+                "\nUse apply_code_action with the number of the action you want to apply."
             )
             .ok();
 

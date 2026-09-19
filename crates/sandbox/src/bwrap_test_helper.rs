@@ -456,7 +456,7 @@ mod imp {
                 stream.set_read_timeout(Some(Duration::from_secs(10)))?;
                 write!(
                     stream,
-                    "CONNECT {target} HTTP/1.1\r\nHost: {target}"
+                    "CONNECT {target} HTTP/1.1\r\nHost: {target}\r\n\r\n"
                 )
                 .context("failed to send CONNECT to proxy")?;
                 let status = read_status_line(&mut stream)?;

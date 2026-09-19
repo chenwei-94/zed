@@ -1697,7 +1697,7 @@ impl DataBreakpointContext {
                 let mut label = format!("地址：{}", address);
                 if let Some(bytes) = bytes {
                     label.push_str(&format!(
-                        "({} byte{})",
+                        " （{} 字节{}）",
                         bytes,
                         if *bytes == 1 { "" } else { "s" }
                     ));

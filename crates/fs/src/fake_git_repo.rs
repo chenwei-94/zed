@@ -702,7 +702,7 @@ impl GitRepository for FakeGitRepository {
                     };
 
                     let ref_name = head_content
-                        .strip_prefix("ref:")
+                        .strip_prefix("ref: ")
                         .map(|s| s.trim().to_string());
                     let sha = ref_name
                         .as_ref()
@@ -1579,9 +1579,9 @@ impl GitRepository for FakeGitRepository {
                     (Some(base_content), Some(target_content))
                         if base_content != target_content =>
                     {
-                        diff.push_str(&format!("diff --git a/{path} b/{path}"));
-                        diff.push_str(&format!("--- a/{path}"));
-                        diff.push_str(&format!("+++ b/{path}"));
+                        diff.push_str(&format!("diff --git a/{path} b/{path}\n"));
+                        diff.push_str(&format!("--- a/{path}\n"));
+                        diff.push_str(&format!("+++ b/{path}\n"));
                         for line in base_content.lines() {
                             diff.push_str(&format!("-{line}\n"));
                         }
@@ -1590,12 +1590,12 @@ impl GitRepository for FakeGitRepository {
                         }
                     }
                     (Some(_), None) => {
-                        diff.push_str(&format!("diff --git a/{path} /dev/null"));
-                        diff.push_str("deleted file");
+                        diff.push_str(&format!("diff --git a/{path} /dev/null\n"));
+                        diff.push_str("deleted file\n");
                     }
                     (None, Some(_)) => {
-                        diff.push_str(&format!("diff --git /dev/null b/{path}"));
-                        diff.push_str("new file");
+                        diff.push_str(&format!("diff --git /dev/null b/{path}\n"));
+                        diff.push_str("new file\n");
                     }
                     _ => {}
                 }

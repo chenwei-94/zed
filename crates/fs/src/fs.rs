@@ -493,7 +493,7 @@ impl FileHandle for std::fs::File {
         let new_path = std::fs::read_link(fd_path)?;
         if new_path
             .file_name()
-            .is_some_and(|f| f.to_string_lossy().ends_with("(deleted)"))
+            .is_some_and(|f| f.to_string_lossy().ends_with(" (deleted)"))
         {
             anyhow::bail!("file was deleted")
         };
@@ -2550,7 +2550,7 @@ impl FakeFs {
                         state
                             .unmerged_paths
                             .insert(repo_path.clone(), *unmerged_status);
-                        content.push_str("(unmerged)");
+                        content.push_str(" (unmerged)");
                         index_content = Some(content.clone());
                         head_content = Some(content);
                     }
@@ -2561,7 +2561,7 @@ impl FakeFs {
                         match worktree_status {
                             StatusCode::Modified => {
                                 let mut content = content.clone();
-                                content.push_str("(modified in working copy)");
+                                content.push_str(" (modified in working copy)");
                                 index_content = Some(content);
                             }
                             StatusCode::TypeChanged | StatusCode::Unmodified => {
@@ -2577,7 +2577,7 @@ impl FakeFs {
                                 let mut content = index_content.clone().expect(
                                     "file cannot be both modified in index and created in working copy",
                                 );
-                                content.push_str("(modified in index)");
+                                content.push_str(" (modified in index)");
                                 head_content = Some(content);
                             }
                             StatusCode::TypeChanged | StatusCode::Unmodified => {

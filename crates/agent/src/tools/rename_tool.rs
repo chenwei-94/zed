@@ -104,7 +104,7 @@ impl AgentTool for RenameTool {
                 .map_err(|e| format!("Rename succeeded, but failed to save renamed files: {e}"))?;
 
             let mut output = format!(
-                "Renamed `{}` to `{}` in {} file(s):",
+                "Renamed `{}` to `{}` in {} file(s):\n",
                 input.symbol.symbol_name,
                 input.new_name,
                 transaction.0.len()

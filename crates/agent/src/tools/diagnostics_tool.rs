@@ -232,7 +232,7 @@ impl AgentTool for DiagnosticsTool {
 
                                 has_diagnostics = true;
                                 output.push_str(&format!(
-                                    "{}: {} error(s), {} warning(s)",
+                                    "{}: {} error(s), {} warning(s)\n",
                                     worktree.read(cx).absolutize(&project_path.path).display(),
                                     summary.error_count,
                                     summary.warning_count

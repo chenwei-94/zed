@@ -97,7 +97,7 @@ impl AgentTool for GrepTool {
                 let page = input.page();
                 let regex_str = MarkdownInlineCode(&input.regex);
                 let case_info = if input.case_sensitive {
-                    "(case-sensitive)"
+                    " (case-sensitive)"
                 } else {
                     ""
                 };
@@ -302,7 +302,7 @@ impl AgentTool for GrepTool {
                     }
 
                     if !file_header_written {
-                        writeln!(output, "## Matches in {}", path.display())
+                        writeln!(output, "\n## Matches in {}", path.display())
                             .ok();
                         file_header_written = true;
                     }
@@ -358,7 +358,7 @@ impl AgentTool for GrepTool {
                     if let Some(ancestor_range) = ancestor_range
                         && end_row < ancestor_range.end.row {
                             let remaining_lines = ancestor_range.end.row - end_row;
-                            writeln!(output, "{} lines remaining in ancestor node. Read the file to see all.", remaining_lines)
+                            writeln!(output, "\n{} lines remaining in ancestor node. Read the file to see all.", remaining_lines)
                                 .ok();
                         }
 
