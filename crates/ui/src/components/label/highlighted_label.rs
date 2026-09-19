@@ -255,15 +255,15 @@ impl Component for HighlightedLabel {
             .gap_6()
             .children(vec![
                 example_group_with_title(
-                    "Basic Usage",
+                    "基础用法",
                     vec![
                         single_example(
-                            "Default",
+                            "默认",
                             HighlightedLabel::new("Highlighted Text", vec![0, 1, 2, 3])
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Custom Color",
+                            "自定义颜色",
                             HighlightedLabel::new("Colored Highlight", vec![0, 1, 7, 8, 9])
                                 .color(Color::Accent)
                                 .into_any_element(),
@@ -271,22 +271,22 @@ impl Component for HighlightedLabel {
                     ],
                 ),
                 example_group_with_title(
-                    "Styles",
+                    "样式",
                     vec![
                         single_example(
-                            "Bold",
+                            "粗体",
                             HighlightedLabel::new("Bold Highlight", vec![0, 1, 2, 3])
                                 .weight(FontWeight::BOLD)
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Italic",
+                            "斜体",
                             HighlightedLabel::new("Italic Highlight", vec![0, 1, 6, 7, 8])
                                 .italic()
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Underline",
+                            "下划线",
                             HighlightedLabel::new("Underlined Highlight", vec![0, 1, 10, 11, 12])
                                 .underline()
                                 .into_any_element(),
@@ -294,16 +294,16 @@ impl Component for HighlightedLabel {
                     ],
                 ),
                 example_group_with_title(
-                    "Sizes",
+                    "尺寸",
                     vec![
                         single_example(
-                            "Small",
+                            "小",
                             HighlightedLabel::new("Small Highlight", vec![0, 1, 5, 6, 7])
                                 .size(LabelSize::Small)
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Large",
+                            "大",
                             HighlightedLabel::new("Large Highlight", vec![0, 1, 5, 6, 7])
                                 .size(LabelSize::Large)
                                 .into_any_element(),
@@ -311,10 +311,10 @@ impl Component for HighlightedLabel {
                     ],
                 ),
                 example_group_with_title(
-                    "Special Cases",
+                    "特殊情况",
                     vec![
                         single_example(
-                            "Single Line",
+                            "单行",
                             HighlightedLabel::new(
                                 "Single Line Highlight\nWith Newline",
                                 vec![0, 1, 7, 8, 9],
@@ -323,7 +323,7 @@ impl Component for HighlightedLabel {
                             .into_any_element(),
                         ),
                         single_example(
-                            "Truncate",
+                            "截断",
                             HighlightedLabel::new(
                                 "This is a very long text that should be truncated with highlights",
                                 vec![0, 1, 2, 3, 4, 5],

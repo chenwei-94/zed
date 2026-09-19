@@ -984,7 +984,7 @@ fn compile_regex_rules(
             errors.push(InvalidRegexPattern {
                 pattern: rule.pattern,
                 rule_type: rule_type.to_string(),
-                error: "empty regex patterns are not allowed".to_string(),
+                error: "不允许空的正则表达式模式".to_string(),
             });
             continue;
         }

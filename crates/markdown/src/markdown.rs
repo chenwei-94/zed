@@ -3382,7 +3382,7 @@ fn image_fallback_element(
         .filter(|alt| !alt.is_empty())
         .unwrap_or_else(|| dest_url.clone());
 
-    let label = format!("Failed to Load: {link_label}");
+    let label = format!("加载失败：{link_label}");
 
     div()
         .id("image-fallback")
@@ -3458,9 +3458,9 @@ fn render_wrap_code_block_button(
     markdown: Entity<Markdown>,
 ) -> impl IntoElement {
     let (icon, tooltip) = if is_wrapped {
-        (IconName::TextUnwrap, "Unwrap Content")
+        (IconName::TextUnwrap, "取消内容换行")
     } else {
-        (IconName::TextWrap, "Wrap Content")
+        (IconName::TextWrap, "内容换行")
     };
     let button_id = ElementId::NamedChild(
         Arc::new(ElementId::from(("wrap-code-block", markdown.entity_id()))),

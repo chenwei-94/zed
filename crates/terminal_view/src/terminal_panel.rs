@@ -157,14 +157,14 @@ impl TerminalPanel {
                                 let menu = ContextMenu::build(window, cx, |menu, _, _| {
                                     menu.context(focus_handle.clone())
                                         .action(
-                                            "New Terminal",
+                                            "新建终端",
                                             workspace::NewTerminal::default().boxed_clone(),
                                         )
                                         // We want the focus to go back to terminal panel once task modal is dismissed,
                                         // hence we focus that first. Otherwise, we'd end up without a focused element, as
                                         // context menu will be gone the moment we spawn the modal.
                                         .action(
-                                            "Spawn Task",
+                                            "运行任务",
                                             zed_actions::Spawn::modal().boxed_clone(),
                                         )
                                 });
@@ -193,10 +193,10 @@ impl TerminalPanel {
                                             split_context.clone(),
                                             |menu, split_context| menu.context(split_context),
                                         )
-                                        .action("Split Right", SplitRight::default().boxed_clone())
-                                        .action("Split Left", SplitLeft::default().boxed_clone())
-                                        .action("Split Up", SplitUp::default().boxed_clone())
-                                        .action("Split Down", SplitDown::default().boxed_clone())
+                                        .action("向右拆分", SplitRight::default().boxed_clone())
+                                        .action("向左拆分", SplitLeft::default().boxed_clone())
+                                        .action("向上拆分", SplitUp::default().boxed_clone())
+                                        .action("向下拆分", SplitDown::default().boxed_clone())
                                     })
                                     .into()
                                 }
@@ -1413,9 +1413,9 @@ impl Render for FailedToSpawnTerminal {
             .menu(move |window, cx| {
                 Some(ContextMenu::build(window, cx, |context_menu, _, _| {
                     context_menu
-                        .action("Open Settings", zed_actions::OpenSettings.boxed_clone())
+                        .action("打开设置", zed_actions::OpenSettings.boxed_clone())
                         .action(
-                            "Edit settings.json",
+                            "编辑 settings.json",
                             zed_actions::OpenSettingsFile.boxed_clone(),
                         )
                 }))
@@ -1464,7 +1464,7 @@ impl workspace::Item for FailedToSpawnTerminal {
     type Event = ();
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        SharedString::new_static("Failed to spawn terminal")
+        SharedString::new_static("启动终端失败")
     }
 }
 
@@ -1486,9 +1486,9 @@ impl Render for TerminalPanel {
         let waiting_for_terminals = self.restoring || self.pending_terminals_to_add > 0;
         let restoring_placeholder = (waiting_for_terminals && no_items_in_panes).then(|| {
             let label = if self.restoring {
-                "Restoring terminals…"
+                "正在恢复终端…"
             } else {
-                "Starting terminal…"
+                "正在启动终端…"
             };
             h_flex()
                 .absolute()
@@ -1797,7 +1797,7 @@ impl Panel for TerminalPanel {
     }
 
     fn icon_tooltip(&self, _window: &Window, _cx: &App) -> Option<&'static str> {
-        Some("Terminal Panel")
+        Some("终端面板")
     }
 
     fn toggle_action(&self) -> Box<dyn gpui::Action> {

@@ -64,7 +64,7 @@ impl SkillLoadWarning {
                 actual_len,
                 max_len,
             } => format!(
-                "Skill description is {actual_len} characters, exceeding the {max_len}-character limit. The skill was loaded, but long descriptions may consume more model-context tokens."
+                "技能描述长度为 {actual_len} 个字符，超出 {max_len} 字符上限。技能已加载，但过长的描述会占用更多模型上下文 token。"
             ),
         }
     }
@@ -504,11 +504,11 @@ pub fn slugify_skill_name(input: &str) -> Option<String> {
 /// can convert them to `anyhow::Error` via `anyhow::Error::msg`.
 pub fn validate_name(name: &str) -> Result<(), &'static str> {
     if name.is_empty() {
-        return Err("Skill name cannot be empty");
+        return Err("技能名称不能为空");
     }
     if name.len() > MAX_SKILL_NAME_LEN {
         return Err(formatcp!(
-            "Skill name must be at most {MAX_SKILL_NAME_LEN} characters"
+            "技能名称最多 {MAX_SKILL_NAME_LEN} 个字符"
         ));
     }
     if name.starts_with('-') || name.ends_with('-') {
@@ -531,7 +531,7 @@ pub fn validate_description(description: &str) -> Result<(), &'static str> {
     }
     if description.chars().count() > MAX_SKILL_DESCRIPTION_LEN {
         return Err(formatcp!(
-            "Skill description must be at most {MAX_SKILL_DESCRIPTION_LEN} characters"
+            "技能描述最多 {MAX_SKILL_DESCRIPTION_LEN} 个字符"
         ));
     }
     Ok(())

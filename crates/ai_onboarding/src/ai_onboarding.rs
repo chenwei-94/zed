@@ -442,35 +442,35 @@ impl Component for ZedAiOnboarding {
             .gap_4()
             .children(vec![
                 single_example(
-                    "Not Signed-in",
+                    "未登录",
                     onboarding(SignInStatus::SignedOut, None, false),
                 ),
                 single_example(
-                    "Young Account",
+                    "新账号",
                     onboarding(SignInStatus::SignedIn, None, true),
                 ),
                 single_example(
-                    "Free Plan",
+                    "免费方案",
                     onboarding(SignInStatus::SignedIn, Some(Plan::ZedFree), false),
                 ),
                 single_example(
-                    "Pro Trial",
+                    "Pro 试用",
                     onboarding(SignInStatus::SignedIn, Some(Plan::ZedProTrial), false),
                 ),
                 single_example(
-                    "Pro Plan",
+                    "专业方案",
                     onboarding(SignInStatus::SignedIn, Some(Plan::ZedPro), false),
                 ),
                 single_example(
-                    "Business Plan",
+                    "商业方案",
                     onboarding(SignInStatus::SignedIn, Some(Plan::ZedBusiness), false),
                 ),
                 single_example(
-                    "VIP Plan",
+                    "VIP 方案",
                     onboarding(SignInStatus::SignedIn, Some(Plan::ZedVip), false),
                 ),
                 single_example(
-                    "Student Plan",
+                    "学生方案",
                     onboarding(SignInStatus::SignedIn, Some(Plan::ZedStudent), false),
                 ),
             ])

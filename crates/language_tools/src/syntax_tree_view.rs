@@ -571,7 +571,7 @@ impl Item for SyntaxTreeView {
     fn to_item_events(_: &Self::Event, _: &mut dyn FnMut(workspace::item::ItemEvent)) {}
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Syntax Tree".into()
+        "语法树".into()
     }
 
     fn telemetry_event_text(&self) -> Option<&'static str> {
@@ -632,7 +632,7 @@ impl SyntaxTreeToolbarItemView {
 
         let view = cx.weak_entity();
         Some(
-            PopoverMenu::new("Syntax Tree")
+            PopoverMenu::new("语法树")
                 .trigger(Self::render_header(&active_layer))
                 .menu(move |window, cx| {
                     ContextMenu::build(window, cx, |mut menu, _, _| {

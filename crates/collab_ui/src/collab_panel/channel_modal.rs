@@ -262,7 +262,7 @@ impl PickerDelegate for ChannelModalDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Search collaborator by username...".into()
+        "按用户名搜索协作者…".into()
     }
 
     fn match_count(&self) -> usize {
@@ -531,7 +531,7 @@ impl ChannelModalDelegate {
                 cx.notify();
             })
         })
-        .detach_and_prompt_err("Failed to update role", window, cx, |_, _, _| None);
+        .detach_and_prompt_err("更新角色失败", window, cx, |_, _, _| None);
         Some(())
     }
 
@@ -572,7 +572,7 @@ impl ChannelModalDelegate {
                 cx.notify();
             })
         })
-        .detach_and_prompt_err("Failed to remove member", window, cx, |_, _, _| None);
+        .detach_and_prompt_err("移除成员失败", window, cx, |_, _, _| None);
         Some(())
     }
 
@@ -603,7 +603,7 @@ impl ChannelModalDelegate {
                 cx.notify();
             })
         })
-        .detach_and_prompt_err("Failed to invite member", window, cx, |_, _, _| None);
+        .detach_and_prompt_err("邀请成员失败", window, cx, |_, _, _| None);
     }
 
     fn show_context_menu(
@@ -622,7 +622,7 @@ impl ChannelModalDelegate {
 
             if role == ChannelRole::Admin || role == ChannelRole::Member {
                 let picker = picker.clone();
-                menu = menu.entry("Demote to Guest", None, move |window, cx| {
+                menu = menu.entry("降级为访客", None, move |window, cx| {
                     picker.update(cx, |picker, cx| {
                         picker
                             .delegate
@@ -634,9 +634,9 @@ impl ChannelModalDelegate {
             if role == ChannelRole::Admin || role == ChannelRole::Guest {
                 let picker = picker.clone();
                 let label = if role == ChannelRole::Guest {
-                    "Promote to Member"
+                    "提升为成员"
                 } else {
-                    "Demote to Member"
+                    "降为成员"
                 };
 
                 menu = menu.entry(label, None, move |window, cx| {
@@ -650,7 +650,7 @@ impl ChannelModalDelegate {
 
             if role == ChannelRole::Member || role == ChannelRole::Guest {
                 let picker = picker.clone();
-                menu = menu.entry("Promote to Admin", None, move |window, cx| {
+                menu = menu.entry("提升为管理员", None, move |window, cx| {
                     picker.update(cx, |picker, cx| {
                         picker
                             .delegate
@@ -660,7 +660,7 @@ impl ChannelModalDelegate {
             };
 
             menu = menu.separator();
-            menu = menu.entry("Remove from Channel", None, {
+            menu = menu.entry("从频道中移除", None, {
                 let picker = picker.clone();
                 move |window, cx| {
                     picker.update(cx, |picker, cx| {

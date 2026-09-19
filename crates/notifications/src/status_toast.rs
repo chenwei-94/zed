@@ -160,7 +160,7 @@ impl Component for StatusToast {
         let text_example = StatusToast::new("操作已完成", cx, |this, _| this);
 
         let action_example = StatusToast::new("更新已就绪，可以安装", cx, |this, _cx| {
-            this.action("Restart", |_, _| {})
+            this.action("重启", |_, _| {})
         });
 
         let dismiss_button_example =
@@ -195,7 +195,7 @@ impl Component for StatusToast {
                         .size(IconSize::Small)
                         .color(Color::Error),
                 )
-                .action("More Info", |_, _| {})
+                .action("更多信息", |_, _| {})
             },
         );
 
@@ -205,7 +205,7 @@ impl Component for StatusToast {
                     .size(IconSize::Small)
                     .color(Color::Warning),
             )
-            .action("More Info", |_, _| {})
+            .action("更多信息", |_, _| {})
         });
 
         let pr_example =
@@ -215,7 +215,7 @@ impl Component for StatusToast {
                         .size(IconSize::Small)
                         .color(Color::Muted),
                 )
-                .action("Open Pull Request", |_, cx| {
+                .action("打开拉取请求", |_, cx| {
                     cx.open_url("https://github.com/")
                 })
             });
@@ -225,24 +225,24 @@ impl Component for StatusToast {
             .p_4()
             .children(vec![
                 example_group_with_title(
-                    "Basic Toast",
+                    "基础浮动提示",
                     vec![
-                        single_example("Text", div().child(text_example).into_any_element()),
-                        single_example("Action", div().child(action_example).into_any_element()),
-                        single_example("Icon", div().child(icon_example).into_any_element()),
+                        single_example("文本", div().child(text_example).into_any_element()),
+                        single_example("操作", div().child(action_example).into_any_element()),
+                        single_example("图标", div().child(icon_example).into_any_element()),
                         single_example(
-                            "Dismiss Button",
+                            "关闭按钮",
                             div().child(dismiss_button_example).into_any_element(),
                         ),
                     ],
                 ),
                 example_group_with_title(
-                    "Examples",
+                    "示例",
                     vec![
-                        single_example("Success", div().child(success_example).into_any_element()),
-                        single_example("Error", div().child(error_example).into_any_element()),
-                        single_example("Warning", div().child(warning_example).into_any_element()),
-                        single_example("Create PR", div().child(pr_example).into_any_element()),
+                        single_example("成功", div().child(success_example).into_any_element()),
+                        single_example("错误", div().child(error_example).into_any_element()),
+                        single_example("警告", div().child(warning_example).into_any_element()),
+                        single_example("创建 PR", div().child(pr_example).into_any_element()),
                     ],
                 )
                 .vertical(),

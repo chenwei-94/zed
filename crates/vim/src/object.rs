@@ -3637,7 +3637,7 @@ mod test {
         cx.set_shared_state("    ˇconst f = (x: unknown) => {")
             .await;
         cx.simulate_shared_keystrokes("y a w").await;
-        cx.shared_clipboard().await.assert_eq("const ");
+        cx.shared_clipboard().await.assert_eq("const");
 
         cx.set_shared_state("    ˇconst f = (x: unknown) => {")
             .await;
@@ -3645,7 +3645,7 @@ mod test {
         cx.shared_state()
             .await
             .assert_eq("    ˇf = (x: unknown) => {");
-        cx.shared_clipboard().await.assert_eq("const ");
+        cx.shared_clipboard().await.assert_eq("const");
 
         cx.set_shared_state("    ˇconst f = (x: unknown) => {")
             .await;
@@ -3653,7 +3653,7 @@ mod test {
         cx.shared_state()
             .await
             .assert_eq("    ˇf = (x: unknown) => {");
-        cx.shared_clipboard().await.assert_eq("const ");
+        cx.shared_clipboard().await.assert_eq("const");
     }
 
     #[gpui::test]

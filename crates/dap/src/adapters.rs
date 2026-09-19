@@ -296,7 +296,7 @@ pub async fn download_adapter_from_github(
         adapter_name,
         github_version.url,
     );
-    delegate.output_to_console(format!("Downloading from {}...", github_version.url));
+    delegate.output_to_console(format!("正在从 {} 下载…", github_version.url));
 
     let mut response = delegate
         .http_client()
@@ -309,7 +309,7 @@ pub async fn download_adapter_from_github(
         response.status()
     );
 
-    delegate.output_to_console("Download complete".to_owned());
+    delegate.output_to_console("下载完成".to_owned());
     match file_type {
         DownloadedFileType::GzipTar => {
             let decompressed_bytes = GzipDecoder::new(BufReader::new(response.body_mut()));

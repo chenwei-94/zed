@@ -431,10 +431,10 @@ impl UndoMessage {
     fn error_title(&self) -> &'static str {
         match self {
             UndoMessage::Changed(_) => {
-                "this is a bug in the manage_undo_and_redo task please report"
+                "这是 manage_undo_and_redo 任务中的 bug，请反馈"
             }
-            UndoMessage::Undo => "Undo Failed",
-            UndoMessage::Redo => "Redo Failed",
+            UndoMessage::Undo => "撤销失败",
+            UndoMessage::Redo => "重做失败",
         }
     }
 }

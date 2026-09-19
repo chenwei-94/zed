@@ -496,7 +496,7 @@ fn generate_askpass_script(
     let print_args = "printf '%s\\0' \"$@\"";
     let shebang = "#!/bin/sh";
     Ok(format!(
-        "{shebang}\n{print_args} | {askpass_program} --askpass={askpass_socket} 2> /dev/null \n",
+        "{shebang}\n{print_args} | {askpass_program} --askpass={askpass_socket} 2> /dev/null",
     ))
 }
 

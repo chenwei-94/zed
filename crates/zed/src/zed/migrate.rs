@@ -115,8 +115,7 @@ impl MigrationBanner {
         };
 
         let migration_text = format!(
-            "Your {} file uses deprecated settings which can be \
-            automatically updated. A backup will be saved to `{}`",
+            "你的 {} 文件使用了已弃用的设置，这些设置可自动更新。备份将保存到 `{}`",
             file_type, backup_file_name
         );
 

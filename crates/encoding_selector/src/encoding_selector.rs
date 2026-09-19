@@ -149,7 +149,7 @@ impl EncodingSelectorDelegate {
         let current_encoding = self.buffer.read(cx).encoding();
 
         if candidate_encoding.name() == current_encoding.name() {
-            format!("{} (current)", candidate_encoding.name())
+            format!("{}（当前）", candidate_encoding.name())
         } else {
             candidate_encoding.name().to_string()
         }
@@ -225,7 +225,7 @@ impl PickerDelegate for EncodingSelectorDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Reopen with encoding...".into()
+        "以其他编码重新打开…".into()
     }
 
     fn match_count(&self) -> usize {

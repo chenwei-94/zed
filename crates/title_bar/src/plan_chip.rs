@@ -31,7 +31,7 @@ impl RenderOnce for PlanChip {
 
         let (plan_name, label_color, bg_color) = match self.plan {
             Plan::ZedFree => ("Free", Color::Default, free_chip_bg),
-            Plan::ZedProTrial => ("Pro Trial", Color::Accent, pro_chip_bg),
+            Plan::ZedProTrial => ("Pro 试用", Color::Accent, pro_chip_bg),
             Plan::ZedPro => ("Pro", Color::Accent, pro_chip_bg),
             Plan::ZedBusiness => ("Business", Color::Accent, pro_chip_bg),
             Plan::ZedVip => ("VIP", Color::Accent, pro_chip_bg),

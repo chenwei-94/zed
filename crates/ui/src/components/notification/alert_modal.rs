@@ -184,18 +184,18 @@ impl Component for AlertModal {
                 .p_4()
                 .children(vec![
                     example_group(vec![single_example(
-                        "Basic Alert",
+                        "基础提示框",
                         AlertModal::new("simple-modal")
                             .title("要离开当前通话吗？")
                             .child(
                                 "当前窗口将关闭，与所有共享项目的连接将终止。"
                             )
-                            .primary_action("Leave Call")
+                            .primary_action("离开通话")
                             .dismiss_label("Cancel")
                             .into_any_element(),
                     )]),
                     example_group(vec![single_example(
-                        "Custom Header",
+                        "自定义标题",
                         AlertModal::new("custom-header-modal")
                             .header(
                                 v_flex()
@@ -221,9 +221,9 @@ impl Component for AlertModal {
                                 v_flex()
                                     .mt_1()
                                     .child(Label::new("受限模式会阻止：").color(Color::Muted))
-                                    .child(ListBulletItem::new("Project settings from being applied"))
-                                    .child(ListBulletItem::new("Language servers from running"))
-                                    .child(ListBulletItem::new("MCP integrations from installing"))
+                                    .child(ListBulletItem::new("项目设置被应用"))
+                                    .child(ListBulletItem::new("语言服务器运行"))
+                                    .child(ListBulletItem::new("MCP 集成被安装"))
                             )
                             .footer(
                                 h_flex()

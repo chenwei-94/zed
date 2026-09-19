@@ -259,11 +259,11 @@ impl Component for InputField {
             .gap_6()
             .children(vec![example_group(vec![
                 single_example(
-                    "Small Label (Default)",
+                    "小标签（默认）",
                     div().child(input_small).into_any_element(),
                 ),
                 single_example(
-                    "Regular Label",
+                    "常规标签",
                     div().child(input_regular).into_any_element(),
                 ),
             ])])

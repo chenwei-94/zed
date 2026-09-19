@@ -489,7 +489,7 @@ impl RenameBranchModal {
                 Err(_) => Err(anyhow!("Operation was canceled")),
             }
         })
-        .detach_and_prompt_err("Failed to rename branch", window, cx, |_, _, _| None);
+        .detach_and_prompt_err("重命名分支失败", window, cx, |_, _, _| None);
         cx.emit(DismissEvent);
     }
 }
@@ -587,7 +587,7 @@ impl RefPickerModal {
     ) -> Self {
         let editor = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Enter git ref...", window, cx);
+            editor.set_placeholder_text("输入 Git 引用…", window, cx);
             editor
         });
 
@@ -882,7 +882,7 @@ mod remote_button {
             },
             move |_window, cx| {
                 git_action_tooltip(
-                    "Fetch updates from remote",
+                    "从远程抓取更新",
                     &git::Fetch,
                     "git fetch",
                     keybinding_target.clone(),
@@ -913,7 +913,7 @@ mod remote_button {
             },
             move |_window, cx| {
                 git_action_tooltip(
-                    "Push committed changes to remote",
+                    "将已提交的更改推送到远程",
                     &git::Push,
                     "git push",
                     keybinding_target.clone(),
@@ -975,7 +975,7 @@ mod remote_button {
             },
             move |_window, cx| {
                 git_action_tooltip(
-                    "Publish branch to remote",
+                    "将分支发布到远程",
                     &git::Push,
                     "git push --set-upstream",
                     keybinding_target.clone(),
@@ -1005,7 +1005,7 @@ mod remote_button {
             },
             move |_window, cx| {
                 git_action_tooltip(
-                    "Re-publish branch to remote",
+                    "重新将分支发布到远程",
                     &git::Push,
                     "git push --set-upstream",
                     keybinding_target.clone(),
@@ -1017,9 +1017,9 @@ mod remote_button {
 
     fn in_progress_tooltip(operation: RemoteOperationKind) -> &'static str {
         match operation {
-            RemoteOperationKind::Fetch => "Fetch in Progress…",
-            RemoteOperationKind::Pull => "Pull in Progress…",
-            RemoteOperationKind::Push => "Push in Progress…",
+            RemoteOperationKind::Fetch => "正在抓取…",
+            RemoteOperationKind::Pull => "正在拉取…",
+            RemoteOperationKind::Push => "正在推送…",
         }
     }
 
@@ -1059,14 +1059,14 @@ mod remote_button {
                         .when_some(keybinding_target.clone(), |el, keybinding_target| {
                             el.context(keybinding_target)
                         })
-                        .action("Fetch", git::Fetch.boxed_clone())
-                        .action("Fetch From", git::FetchFrom.boxed_clone())
-                        .action("Pull", git::Pull.boxed_clone())
-                        .action("Pull (Rebase)", git::PullRebase.boxed_clone())
+                        .action("抓取", git::Fetch.boxed_clone())
+                        .action("抓取自", git::FetchFrom.boxed_clone())
+                        .action("拉取", git::Pull.boxed_clone())
+                        .action("拉取（变基）", git::PullRebase.boxed_clone())
                         .separator()
-                        .action("Push", git::Push.boxed_clone())
-                        .action("Push To", git::PushTo.boxed_clone())
-                        .action("Force Push", git::ForcePush.boxed_clone())
+                        .action("推送", git::Push.boxed_clone())
+                        .action("推送到", git::PushTo.boxed_clone())
+                        .action("强制推送", git::ForcePush.boxed_clone())
                 }))
             })
             .anchor(Anchor::TopRight)
@@ -1255,11 +1255,11 @@ impl Component for GitStatusIcon {
         v_flex()
             .gap_6()
             .children(vec![example_group(vec![
-                single_example("Modified", GitStatusIcon::new(modified).into_any_element()),
-                single_example("Added", GitStatusIcon::new(added).into_any_element()),
-                single_example("Deleted", GitStatusIcon::new(deleted).into_any_element()),
+                single_example("已修改", GitStatusIcon::new(modified).into_any_element()),
+                single_example("已添加", GitStatusIcon::new(added).into_any_element()),
+                single_example("已删除", GitStatusIcon::new(deleted).into_any_element()),
                 single_example(
-                    "Conflicted",
+                    "有冲突",
                     GitStatusIcon::new(conflict).into_any_element(),
                 ),
             ])])
@@ -1277,7 +1277,7 @@ impl GitCloneModal {
     pub fn show(panel: Entity<GitPanel>, window: &mut Window, cx: &mut Context<Self>) -> Self {
         let repo_input = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Enter repository URL…", window, cx);
+            editor.set_placeholder_text("输入仓库 URL…", window, cx);
             editor
         });
         let focus_handle = repo_input.focus_handle(cx);

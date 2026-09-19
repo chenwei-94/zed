@@ -276,9 +276,9 @@ impl TelemetryLogView {
     fn show_parse_error_toast(&self, count: usize, cx: &mut Context<Self>) {
         struct TelemetryLogParseError;
         let message = if count == 1 {
-            "1 telemetry log entry failed to parse".to_string()
+            "1 条遥测日志条目解析失败".to_string()
         } else {
-            format!("{} telemetry log entries failed to parse", count)
+            format!("{} 条遥测日志条目解析失败", count)
         };
         cx.emit(TelemetryLogEvent::ShowToast(Toast::new(
             NotificationId::unique::<TelemetryLogParseError>(),
@@ -400,7 +400,7 @@ impl TelemetryLogView {
                     .when(signed_in, |this| {
                         this.child(
                             div()
-                                .child(ui::Chip::new("signed in"))
+                                .child(ui::Chip::new("已登录"))
                                 .visible_on_hover("telemetry-entry"),
                         )
                     }),
@@ -484,7 +484,7 @@ impl Item for TelemetryLogView {
     type Event = TelemetryLogEvent;
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Telemetry Log".into()
+        "遥测日志".into()
     }
 
     fn tab_icon(&self, _window: &Window, _cx: &App) -> Option<Icon> {
@@ -539,7 +539,7 @@ impl TelemetryLogToolbarItemView {
     pub fn new(window: &mut Window, cx: &mut Context<Self>) -> Self {
         let search_editor = cx.new(|cx| {
             let mut editor = editor::Editor::single_line(window, cx);
-            editor.set_placeholder_text("Filter events...", window, cx);
+            editor.set_placeholder_text("筛选事件…", window, cx);
             editor
         });
 

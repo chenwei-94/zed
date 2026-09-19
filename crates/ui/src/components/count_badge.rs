@@ -74,14 +74,14 @@ impl Component for CountBadge {
         v_flex()
             .gap_6()
             .child(example_group_with_title(
-                "Count Badge",
+                "计数徽标",
                 vec![
                     single_example(
-                        "Basic Count",
+                        "基础计数",
                         container().child(CountBadge::new(3)).into_any_element(),
                     ),
                     single_example(
-                        "Capped Count",
+                        "上限计数",
                         container().child(CountBadge::new(150)).into_any_element(),
                     ),
                 ],

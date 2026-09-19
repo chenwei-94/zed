@@ -130,7 +130,7 @@ fn escape_sftp_path(path: &str) -> String {
 fn sftp_put_command(source_path: &str, destination_path: &str) -> String {
     let source = escape_sftp_path(source_path);
     let destination = escape_sftp_path(destination_path);
-    format!("put {source} {destination}\n")
+    format!("put {source} {destination}")
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
@@ -429,7 +429,7 @@ impl RemoteConnection for SshRemoteConnection {
                 let mut child = sftp_command.spawn()?;
                 if let Some(mut stdin) = child.stdin.take() {
                     use futures::AsyncWriteExt;
-                    let sftp_batch = format!("put -r \"{src_path_display}\" \"{dest_path_str}\"\n");
+                    let sftp_batch = format!("put -r \"{src_path_display}\" \"{dest_path_str}\"");
                     stdin.write_all(sftp_batch.as_bytes()).await?;
                     stdin.flush().await?;
                 }
@@ -473,7 +473,7 @@ impl RemoteConnection for SshRemoteConnection {
         cx: &mut AsyncApp,
     ) -> Task<Result<i32>> {
         const VARS: [&str; 3] = ["RUST_LOG", "RUST_BACKTRACE", "ZED_GENERATE_MINIDUMPS"];
-        delegate.set_status(Some("Starting proxy"), cx);
+        delegate.set_status(Some("正在启动代理"), cx);
 
         let Some(remote_binary_path) = self.remote_binary_path.clone() else {
             return Task::ready(Err(anyhow!("Remote binary path not set")));
@@ -587,7 +587,7 @@ async fn find_existing_control_master(
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     let control_path = stdout.lines().find_map(|line| {
-        let path = line.strip_prefix("controlpath ")?.trim();
+        let path = line.strip_prefix("controlpath")?.trim();
         if path == "none" || path.is_empty() {
             None
         } else {
@@ -652,7 +652,7 @@ impl SshRemoteConnection {
 
         #[cfg(not(windows))]
         let (socket, master_process_option) = if let Some(reused_path) = reused_socket {
-            delegate.set_status(Some("Connecting (reusing session)"), cx);
+            delegate.set_status(Some("正在连接（复用会话）"), cx);
             log::info!("reusing existing ControlMaster, skipping authentication");
             let socket = SshSocket::new(connection_options, reused_path).await?;
             (socket, None)
@@ -986,7 +986,7 @@ impl SshRemoteConnection {
             }
         }
 
-        delegate.set_status(Some("Downloading remote development server on host"), cx);
+        delegate.set_status(Some("正在主机上下载远程开发服务器"), cx);
 
         let connection_timeout = self
             .socket
@@ -1092,7 +1092,7 @@ impl SshRemoteConnection {
         let size = src_stat.len();
 
         let t0 = Instant::now();
-        delegate.set_status(Some("Uploading remote development server"), cx);
+        delegate.set_status(Some("正在上传远程开发服务器"), cx);
         log::info!(
             "uploading remote development server to {:?} ({}kb)",
             tmp_path,
@@ -1112,7 +1112,7 @@ impl SshRemoteConnection {
         delegate: &Arc<dyn RemoteClientDelegate>,
         cx: &mut AsyncApp,
     ) -> Result<()> {
-        delegate.set_status(Some("Extracting remote development server"), cx);
+        delegate.set_status(Some("正在解压远程开发服务器"), cx);
 
         if self.ssh_platform.os.is_windows() {
             self.extract_server_binary_windows(dst_path, tmp_path).await
@@ -1653,7 +1653,7 @@ fn parse_port_forward_spec(spec: &str) -> Result<SshPortForwardOption> {
 
 impl SshConnectionOptions {
     pub fn parse_command_line(input: &str) -> Result<Self> {
-        let input = input.trim_start_matches("ssh ");
+        let input = input.trim_start_matches("ssh");
         let mut hostname: Option<String> = None;
         let mut username: Option<String> = None;
         let mut port: Option<u16> = None;
@@ -1876,7 +1876,7 @@ fn build_command_posix(
             if remainder.is_empty() {
                 write!(
                     exec,
-                    "cd \"$HOME\" {} ",
+                    "cd \"$HOME\" {}",
                     ssh_shell_kind.sequential_and_commands_separator()
                 )?;
             } else {
@@ -1885,7 +1885,7 @@ fn build_command_posix(
                     .context("shell quoting")?;
                 write!(
                     exec,
-                    "cd \"$HOME\"/{quoted_remainder} {} ",
+                    "cd \"$HOME\"/{quoted_remainder} {}",
                     ssh_shell_kind.sequential_and_commands_separator()
                 )?;
             }
@@ -1895,18 +1895,18 @@ fn build_command_posix(
                 .context("shell quoting")?;
             write!(
                 exec,
-                "cd {quoted_dir} {} ",
+                "cd {quoted_dir} {}",
                 ssh_shell_kind.sequential_and_commands_separator()
             )?;
         }
     } else {
         write!(
             exec,
-            "cd {} ",
+            "cd {}",
             ssh_shell_kind.sequential_and_commands_separator()
         )?;
     };
-    write!(exec, "exec env ")?;
+    write!(exec, "exec env")?;
 
     for (k, v) in input_env.iter() {
         let assignment = format!("{k}={v}");
@@ -1990,7 +1990,7 @@ fn build_command_windows(
 
         write!(
             exec,
-            "Set-Location -Path {} {} ",
+            "Set-Location -Path {} {}",
             shell_kind
                 .try_quote(&working_dir)
                 .context("shell quoting")?,

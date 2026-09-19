@@ -85,7 +85,7 @@ impl LocationDisplay {
 
 impl fmt::Display for LocationDisplay {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let truncated_label = if self.truncated { " (truncated)" } else { "" };
+        let truncated_label = if self.truncated { "（已截断）" } else { "" };
         if self.start_line == self.end_line {
             writeln!(f, "{}#L{}{truncated_label}", self.path, self.start_line)?;
         } else {

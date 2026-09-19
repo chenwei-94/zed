@@ -15602,7 +15602,7 @@ fn test_split_leading_icon_char() {
     // A run of the same symbol collapses to a single glyph.
     let (icon, title, _) = split_leading_icon_char(&">>> Thinking".into(), &[]).unwrap();
     assert_eq!(icon.as_ref(), ">");
-    assert_eq!(title.as_ref(), "Thinking");
+    assert_eq!(title.as_ref(), "思考中");
 
     // Surrounding ASCII brackets are stripped so the inner glyph is used.
     let (icon, title, _) = split_leading_icon_char(&"[!] codex waiting".into(), &[]).unwrap();

@@ -390,7 +390,7 @@ mod tests {
         let parsed = TableLikeContent::from_str(csv_data.to_string());
 
         assert_eq!(parsed.headers.cols(), 3);
-        assert_eq!(parsed.headers[0].display_value().unwrap().as_ref(), "Name");
+        assert_eq!(parsed.headers[0].display_value().unwrap().as_ref(), "名称");
         assert_eq!(parsed.headers[1].display_value().unwrap().as_ref(), "Age");
         assert_eq!(parsed.headers[2].display_value().unwrap().as_ref(), "City");
 
@@ -424,7 +424,7 @@ Jane,"Simple name""#;
         let parsed = TableLikeContent::from_str(csv_data.to_string());
 
         assert_eq!(parsed.headers.cols(), 3);
-        assert_eq!(parsed.headers[0].display_value().unwrap().as_ref(), "Name");
+        assert_eq!(parsed.headers[0].display_value().unwrap().as_ref(), "名称");
         assert_eq!(
             parsed.headers[1].display_value().unwrap().as_ref(),
             "Description"
@@ -493,7 +493,7 @@ Jane,"Simple name""#;
 
         assert_eq!(parsed_cells.len(), 3);
         assert_eq!(parsed_cells[0].len(), 3);
-        assert_eq!(parsed_cells[0][0].0.as_ref(), "Name");
+        assert_eq!(parsed_cells[0][0].0.as_ref(), "名称");
         assert_eq!(parsed_cells[0][1].0.as_ref(), "Age");
         assert_eq!(parsed_cells[0][2].0.as_ref(), "City");
         assert_eq!(parsed_cells[1][0].0.as_ref(), "John");
@@ -507,7 +507,7 @@ Jane,"Simple name""#;
 
         assert_eq!(parsed_cells.len(), 3);
         assert_eq!(parsed_cells[0].len(), 3);
-        assert_eq!(parsed_cells[0][0].0.as_ref(), "Name");
+        assert_eq!(parsed_cells[0][0].0.as_ref(), "名称");
         assert_eq!(parsed_cells[0][1].0.as_ref(), "Age");
         assert_eq!(parsed_cells[0][2].0.as_ref(), "City");
         assert_eq!(parsed_cells[1][0].0.as_ref(), "John");
@@ -521,7 +521,7 @@ Jane,"Simple name""#;
 
         assert_eq!(parsed_cells.len(), 3);
         assert_eq!(parsed_cells[0].len(), 3);
-        assert_eq!(parsed_cells[0][0].0.as_ref(), "Name");
+        assert_eq!(parsed_cells[0][0].0.as_ref(), "名称");
         assert_eq!(parsed_cells[0][1].0.as_ref(), "Age");
         assert_eq!(parsed_cells[0][2].0.as_ref(), "City");
         assert_eq!(parsed_cells[1][0].0.as_ref(), "John");

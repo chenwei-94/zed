@@ -122,7 +122,7 @@ fn parse_stash_index(input: &str) -> Result<usize> {
 /// - "<message>" -> (None, message)
 fn parse_stash_message(input: &str) -> (Option<&str>, &str) {
     // Handle "WIP on <branch>: <message>" pattern
-    if let Some(stripped) = input.strip_prefix("WIP on ")
+    if let Some(stripped) = input.strip_prefix("WIP on")
         && let Some(colon_pos) = stripped.find(": ")
     {
         let branch = &stripped[..colon_pos];
@@ -133,7 +133,7 @@ fn parse_stash_message(input: &str) -> (Option<&str>, &str) {
     }
 
     // Handle "On <branch>: <message>" pattern
-    if let Some(stripped) = input.strip_prefix("On ")
+    if let Some(stripped) = input.strip_prefix("On")
         && let Some(colon_pos) = stripped.find(": ")
     {
         let branch = &stripped[..colon_pos];

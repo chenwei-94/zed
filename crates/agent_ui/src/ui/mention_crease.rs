@@ -230,7 +230,7 @@ pub(crate) fn open_migrated_rule(
             workspace::notifications::NotificationId::unique::<RulesMigratedToSkillsToast>(),
             "规则已迁移到技能。",
         )
-        .on_click("View docs", |_, cx| {
+        .on_click("查看文档", |_, cx| {
             cx.open_url("https://zed.dev/docs/ai/skills");
         })
         .autohide(),

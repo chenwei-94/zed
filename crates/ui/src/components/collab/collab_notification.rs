@@ -74,7 +74,7 @@ impl Component for CollabNotification {
 
         let call_examples = vec![
             single_example(
-                "Incoming Call",
+                "来电",
                 container()
                     .child(
                         CollabNotification::new(
@@ -87,7 +87,7 @@ impl Component for CollabNotification {
                     .into_any_element(),
             ),
             single_example(
-                "Screen Share Request",
+                "屏幕共享请求",
                 container()
                     .child(
                         CollabNotification::new(
@@ -100,7 +100,7 @@ impl Component for CollabNotification {
                     .into_any_element(),
             ),
             single_example(
-                "Project Shared",
+                "项目已共享",
                 container()
                     .child(
                         CollabNotification::new(
@@ -114,7 +114,7 @@ impl Component for CollabNotification {
                     .into_any_element(),
             ),
             single_example(
-                "Overflowing Content",
+                "溢出内容",
                 container()
                     .child(
                         CollabNotification::new(
@@ -136,7 +136,7 @@ impl Component for CollabNotification {
 
         let toast_examples = vec![
             single_example(
-                "Contact Request",
+                "联系人请求",
                 container()
                     .child(
                         CollabNotification::new(
@@ -149,7 +149,7 @@ impl Component for CollabNotification {
                     .into_any_element(),
             ),
             single_example(
-                "Contact Request Accepted",
+                "已接受联系人请求",
                 container()
                     .child(
                         CollabNotification::new(
@@ -162,7 +162,7 @@ impl Component for CollabNotification {
                     .into_any_element(),
             ),
             single_example(
-                "Channel Invitation",
+                "频道邀请",
                 container()
                     .child(
                         CollabNotification::new(
@@ -180,8 +180,8 @@ impl Component for CollabNotification {
 
         v_flex()
             .gap_6()
-            .child(example_group_with_title("Calls & Projects", call_examples).vertical())
-            .child(example_group_with_title("Contact & Channel Toasts", toast_examples).vertical())
+            .child(example_group_with_title("通话和项目", call_examples).vertical())
+            .child(example_group_with_title("联系人与频道浮动提示", toast_examples).vertical())
             .into_any_element()
     }
 }

@@ -187,8 +187,7 @@ impl RenderOnce for TerminalToolHeader {
                                 Tooltip::with_meta(
                                     "停止此命令",
                                     None,
-                                    "Also possible by placing your cursor inside the terminal \
-                                     and using regular terminal bindings.",
+                                    "也可以将光标置于终端内，使用常规终端快捷键。",
                                     cx,
                                 )
                             })
@@ -230,7 +229,7 @@ impl RenderOnce for TerminalToolHeader {
                             Tooltip::with_meta(
                                 title.clone(),
                                 None,
-                                format!("{detail} Click to learn more about sandboxing."),
+                                format!("{detail} 点击了解沙箱详情。"),
                                 cx,
                             )
                         })
@@ -292,7 +291,7 @@ impl Component for TerminalToolHeader {
             .gap_4()
             .child(example_group(vec![
                 single_example(
-                    "Running",
+                    "运行中",
                     card(
                         "running",
                         TerminalToolHeader::new(
@@ -305,7 +304,7 @@ impl Component for TerminalToolHeader {
                     ),
                 ),
                 single_example(
-                    "Finished (long-running)",
+                    "已完成（长时间运行）",
                     card(
                         "elapsed",
                         TerminalToolHeader::new(
@@ -318,7 +317,7 @@ impl Component for TerminalToolHeader {
                     ),
                 ),
                 single_example(
-                    "Truncated output",
+                    "截断的输出",
                     card(
                         "truncated",
                         TerminalToolHeader::new(
@@ -328,13 +327,12 @@ impl Component for TerminalToolHeader {
                             true,
                         )
                         .truncated(
-                            "Output is 2.5 MB long, and to avoid unexpected token \
-                                     usage, only 16 KB was sent back to the agent.",
+                            "输出长达 2.5 MB，为避免意外的 token 消耗，仅向智能体返回了 16 KB。",
                         ),
                     ),
                 ),
                 single_example(
-                    "Failed with exit code",
+                    "失败并显示退出码",
                     card(
                         "failed",
                         TerminalToolHeader::new(
@@ -347,7 +345,7 @@ impl Component for TerminalToolHeader {
                     ),
                 ),
                 single_example(
-                    "Ran without sandbox",
+                    "未在沙箱中运行",
                     card(
                         "sandbox",
                         TerminalToolHeader::new(
@@ -360,7 +358,7 @@ impl Component for TerminalToolHeader {
                     ),
                 ),
                 single_example(
-                    "Long path (truncated from the start)",
+                    "长路径（从开头截断）",
                     div()
                         .w_80()
                         .child(card(
@@ -375,7 +373,7 @@ impl Component for TerminalToolHeader {
                         .into_any_element(),
                 ),
                 single_example(
-                    "Everything at once",
+                    "全部一起显示",
                     card(
                         "kitchen-sink",
                         TerminalToolHeader::new(
@@ -385,7 +383,7 @@ impl Component for TerminalToolHeader {
                             true,
                         )
                         .elapsed(Duration::from_secs(3671))
-                        .truncated("Output was truncated")
+                        .truncated("输出已截断")
                         .failed(Some(1))
                         .sandbox_warning(sandbox_warning()),
                     ),

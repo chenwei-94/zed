@@ -356,7 +356,7 @@ pub fn init(cx: &mut App) {
                         Please note that Zed currently does not support opening network share folders inside wsl.
                     "#};
 
-                    let _ = cx.prompt(gpui::PromptLevel::Critical, "Invalid path", Some(&message), &["OK"]).await;
+                    let _ = cx.prompt(gpui::PromptLevel::Critical, "无效路径", Some(&message), &["OK"]).await;
                     return;
                 }
 
@@ -509,7 +509,7 @@ pub fn init(cx: &mut App) {
                 cx.spawn_in(window, async move |_, cx| {
                     cx.prompt(
                         gpui::PromptLevel::Critical,
-                        "Cannot open Dev Container from remote project",
+                        "无法从远程项目打开 Dev Container",
                         None,
                         &["OK"],
                     )
@@ -930,7 +930,7 @@ impl PickerDelegate for RecentProjectsDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Search projects…".into()
+        "搜索项目…".into()
     }
 
     fn match_count(&self) -> usize {
@@ -1053,7 +1053,7 @@ impl PickerDelegate for RecentProjectsDelegate {
             };
 
             if !matched_folders.is_empty() {
-                entries.push(ProjectPickerEntry::Header("Current Folders".into()));
+                entries.push(ProjectPickerEntry::Header("当前文件夹".into()));
                 for (index, positions) in matched_folders {
                     entries.push(ProjectPickerEntry::OpenFolder { index, positions });
                 }
@@ -1067,7 +1067,7 @@ impl PickerDelegate for RecentProjectsDelegate {
         };
 
         if has_projects_to_show {
-            entries.push(ProjectPickerEntry::Header("This Window".into()));
+            entries.push(ProjectPickerEntry::Header("此窗口".into()));
 
             if is_empty_query {
                 for id in 0..self.window_project_groups.len() {
@@ -1092,7 +1092,7 @@ impl PickerDelegate for RecentProjectsDelegate {
         };
 
         if has_recent_to_show {
-            entries.push(ProjectPickerEntry::Header("Recent Projects".into()));
+            entries.push(ProjectPickerEntry::Header("最近的项目".into()));
 
             if is_empty_query {
                 for (id, workspace) in self.workspaces.iter().enumerate() {
@@ -1217,9 +1217,9 @@ impl PickerDelegate for RecentProjectsDelegate {
 
     fn no_matches_text(&self, _window: &mut Window, _cx: &mut App) -> Option<SharedString> {
         let text = if self.workspaces.is_empty() && self.open_folders.is_empty() {
-            "Recently opened projects will show up here".into()
+            "最近打开的项目会显示在这里".into()
         } else {
-            "No matches".into()
+            "无匹配项".into()
         };
         Some(text)
     }
@@ -1510,9 +1510,9 @@ impl PickerDelegate for RecentProjectsDelegate {
                     .unzip();
 
                 let tooltip_title = if paths.len() > 1 {
-                    "Add Folders to this Project"
+                    "向此项目添加多个文件夹"
                 } else {
-                    "Add Folder to this Project"
+                    "向此项目添加文件夹"
                 };
 
                 let prefix = match &location {
@@ -1531,14 +1531,14 @@ impl PickerDelegate for RecentProjectsDelegate {
 
                 let focus_handle = self.focus_handle.clone();
                 let secondary_confirm_tooltip = if self.create_new_window {
-                    "Open Project in This Window"
+                    "在此窗口中打开项目"
                 } else {
-                    "Open Project in New Window"
+                    "在新窗口中打开项目"
                 };
                 let primary_confirm_tooltip = if self.create_new_window {
-                    "Open Project in New Window"
+                    "在新窗口中打开项目"
                 } else {
-                    "Open Project in This Window"
+                    "在此窗口中打开项目"
                 };
                 let secondary_confirm_icon = if self.create_new_window {
                     IconName::ThisWindow
@@ -1558,7 +1558,7 @@ impl PickerDelegate for RecentProjectsDelegate {
                                         Tooltip::with_meta_in(
                                             tooltip_title,
                                             Some(&AddToWorkspace),
-                                            "As a multi-root folder",
+                                            "作为多根文件夹",
                                             &focus_handle,
                                             cx,
                                         )
@@ -1951,13 +1951,13 @@ impl PickerDelegate for RecentProjectsDelegate {
                                         menu.context(focus_handle)
                                             .when(show_add_to_workspace, |menu| {
                                                 menu.action(
-                                                    "Add Folder to this Project",
+                                                    "向此项目添加文件夹",
                                                     AddToWorkspace.boxed_clone(),
                                                 )
                                                 .separator()
                                             })
                                             .entry(
-                                                "Open Local Folders",
+                                                "打开本地文件夹",
                                                 Some(open_action.boxed_clone()),
                                                 {
                                                     let workspace_handle = workspace_handle.clone();
@@ -1972,7 +1972,7 @@ impl PickerDelegate for RecentProjectsDelegate {
                                                 },
                                             )
                                             .action(
-                                                "Open Remote Folder",
+                                                "打开远程文件夹",
                                                 OpenRemote {
                                                     from_existing_connection: false,
                                                     create_new_window: Some(create_new_window),
@@ -2181,7 +2181,7 @@ impl RecentProjectsDelegate {
                         workspace
                             .open_workspace_for_paths(OpenMode::NewWindow, paths, window, cx)
                             .detach_and_prompt_err(
-                                "Failed to open project",
+                                "打开项目失败",
                                 window,
                                 cx,
                                 |_, _, _| None,
@@ -2209,7 +2209,7 @@ impl RecentProjectsDelegate {
                             .await
                     })
                     .detach_and_prompt_err(
-                        "Failed to open project",
+                        "打开项目失败",
                         window,
                         cx,
                         |_, _, _| None,

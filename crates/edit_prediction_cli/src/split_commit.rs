@@ -287,13 +287,13 @@ fn line_indicates_submodule_gitlink(line: &str) -> bool {
         line,
         "new file mode 160000" | "deleted file mode 160000" | "old mode 160000" | "new mode 160000"
     ) || line
-        .strip_prefix("index ")
+        .strip_prefix("index")
         .and_then(|line| line.split_whitespace().last())
         .is_some_and(|mode| mode == "160000")
         || line
             .strip_prefix('+')
             .or_else(|| line.strip_prefix('-'))
-            .is_some_and(|line| line.starts_with("Subproject commit "))
+            .is_some_and(|line| line.starts_with("Subproject commit"))
 }
 
 fn sample_split_point(patch: &Patch, rng: &mut dyn rand::RngCore) -> usize {

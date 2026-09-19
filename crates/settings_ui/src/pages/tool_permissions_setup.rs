@@ -15,8 +15,8 @@ use util::shell::ShellKind;
 use crate::{SettingsWindow, components::SettingsInputField};
 
 const HARDCODED_RULES_DESCRIPTION: &str =
-    "`rm -rf` commands are always blocked when run on `$HOME`, `~`, `.`, `..`, or `/`";
-const SETTINGS_DISCLAIMER: &str = "Note: custom tool permissions only apply to the Zed native agent and don’t extend to external agents connected through the Agent Client Protocol (ACP).";
+    "在 `$HOME`、`~`、`.`、`..` 或 `/` 上运行 `rm -rf` 命令始终会被阻止";
+const SETTINGS_DISCLAIMER: &str = "注意：自定义工具权限仅对 Zed 原生智能体生效，不适用于通过 Agent Client Protocol (ACP) 连接的外部智能体。";
 
 /// Tools that support permission rules
 const TOOLS: &[ToolInfo] = &[
@@ -28,57 +28,57 @@ const TOOLS: &[ToolInfo] = &[
     },
     ToolInfo {
         id: "edit_file",
-        name: "Edit File",
+        name: "编辑文件",
         description: "文件编辑操作",
-        regex_explanation: "Patterns are matched against the file path being edited.",
+        regex_explanation: "模式将与要编辑的文件路径匹配。",
     },
     ToolInfo {
         id: "write_file",
-        name: "Write File",
+        name: "写入文件",
         description: "文件创建和覆盖操作",
-        regex_explanation: "Patterns are matched against the file path being written.",
+        regex_explanation: "模式将与要写入的文件路径匹配。",
     },
     ToolInfo {
         id: "delete_path",
-        name: "Delete Path",
+        name: "删除路径",
         description: "文件和目录删除",
-        regex_explanation: "Patterns are matched against the path being deleted.",
+        regex_explanation: "模式将与要删除的路径匹配。",
     },
     ToolInfo {
         id: "copy_path",
-        name: "Copy Path",
+        name: "复制路径",
         description: "文件和目录复制",
-        regex_explanation: "Patterns are matched independently against the source path and the destination path. Enter either path below to test.",
+        regex_explanation: "模式将分别与源路径和目标路径匹配。在下方输入任一路径进行测试。",
     },
     ToolInfo {
         id: "move_path",
-        name: "Move Path",
+        name: "移动路径",
         description: "文件和目录移动/重命名",
-        regex_explanation: "Patterns are matched independently against the source path and the destination path. Enter either path below to test.",
+        regex_explanation: "模式将分别与源路径和目标路径匹配。在下方输入任一路径进行测试。",
     },
     ToolInfo {
         id: "create_directory",
-        name: "Create Directory",
+        name: "创建目录",
         description: "目录创建",
-        regex_explanation: "Patterns are matched against the directory path being created.",
+        regex_explanation: "模式将与要创建的目录路径匹配。",
     },
     ToolInfo {
         id: "fetch",
         name: "Fetch",
         description: "对 URL 的 HTTP 请求",
-        regex_explanation: "Patterns are matched against the URL being fetched.",
+        regex_explanation: "模式将与要抓取的 URL 匹配。",
     },
     ToolInfo {
         id: "search_web",
-        name: "Web Search",
+        name: "网络搜索",
         description: "网络搜索查询",
-        regex_explanation: "Patterns are matched against the search query.",
+        regex_explanation: "模式将与搜索查询匹配。",
     },
     ToolInfo {
         id: "skill",
         name: "Skill",
         description: "加载智能体技能说明",
-        regex_explanation: "Patterns are matched against the absolute path to the skill's SKILL.md file.",
+        regex_explanation: "模式将与技能 SKILL.md 文件的绝对路径匹配。",
     },
 ];
 
@@ -232,13 +232,13 @@ fn render_tool_list_item(
         let mut parts = Vec::new();
         if rule_count > 0 {
             if rule_count == 1 {
-                parts.push("1 rule".to_string());
+                parts.push("1 条规则".to_string());
             } else {
-                parts.push(format!("{} rules", rule_count));
+                parts.push(format!("{} 条规则", rule_count));
             }
         }
         if invalid_count > 0 {
-            parts.push(format!("{} invalid", invalid_count));
+            parts.push(format!("{} 条无效", invalid_count));
         }
         Some(parts.join(", "))
     } else {
@@ -286,7 +286,7 @@ fn render_tool_list_item(
                 .on_click(cx.listener(move |this, _, window, cx| {
                     this.push_dynamic_sub_page(
                         tool_name,
-                        "Tool Permissions",
+                        "工具权限",
                         None,
                         true,
                         render_fn,
@@ -395,8 +395,8 @@ pub(crate) fn render_tool_config_page(
                 .child(Divider::horizontal().color(ui::DividerColor::BorderFaded))
                 .child(render_rule_section(
                     tool.id,
-                    "Always Deny",
-                    "If any of these regexes match, the tool action will be denied.",
+                    "始终拒绝",
+                    "若有任一正则表达式匹配，该工具操作将被拒绝。",
                     ToolPermissionMode::Deny,
                     &rules.always_deny,
                     cx,
@@ -404,8 +404,8 @@ pub(crate) fn render_tool_config_page(
                 .child(Divider::horizontal().color(ui::DividerColor::BorderFaded))
                 .child(render_rule_section(
                     tool.id,
-                    "Always Allow",
-                    "If any of these regexes match, the action will be approved—unless an Always Confirm or Always Deny matches.",
+                    "始终允许",
+                    "若有任一正则表达式匹配，该操作将被批准——除非有“始终确认”或“始终拒绝”匹配。",
                     ToolPermissionMode::Allow,
                     &rules.always_allow,
                     cx,
@@ -413,8 +413,8 @@ pub(crate) fn render_tool_config_page(
                 .child(Divider::horizontal().color(ui::DividerColor::BorderFaded))
                 .child(render_rule_section(
                     tool.id,
-                    "Always Confirm",
-                    "If any of these regexes match, a confirmation will be shown unless an Always Deny regex matches.",
+                    "始终确认",
+                    "若有任一正则表达式匹配，将显示确认提示，除非有“始终拒绝”的正则表达式匹配。",
                     ToolPermissionMode::Confirm,
                     &rules.always_confirm,
                     cx,
@@ -461,7 +461,7 @@ fn render_verification_section(
 
     let editor = window.use_keyed_state(input_id, cx, |window, cx| {
         let mut editor = editor::Editor::single_line(window, cx);
-        editor.set_placeholder_text("Enter a tool input to test your rules…", window, cx);
+        editor.set_placeholder_text("输入工具输入以测试规则…", window, cx);
 
         let global_settings = ThemeSettings::get_global(cx);
         editor.set_text_style_refinement(TextStyleRefinement {
@@ -685,9 +685,9 @@ fn render_matched_patterns(patterns: &[MatchedPattern], cx: &App) -> AnyElement 
         .gap_1()
         .children(patterns.iter().map(|pattern| {
             let (type_label, color) = match pattern.rule_type {
-                ToolPermissionMode::Deny => ("Always Deny", Color::Error),
-                ToolPermissionMode::Confirm => ("Always Confirm", Color::Warning),
-                ToolPermissionMode::Allow => ("Always Allow", Color::Success),
+                ToolPermissionMode::Deny => ("始终拒绝", Color::Error),
+                ToolPermissionMode::Confirm => ("始终确认", Color::Warning),
+                ToolPermissionMode::Allow => ("始终允许", Color::Success),
             };
 
             let type_color = if pattern.is_overridden {
@@ -834,9 +834,9 @@ fn render_invalid_patterns_section(
                 .gap_1p5()
                 .children(invalid_patterns.iter().map(|invalid| {
                     let rule_type_label = match invalid.rule_type.as_str() {
-                        "always_allow" => "Always Allow",
-                        "always_deny" => "Always Deny",
-                        "always_confirm" => "Always Confirm",
+                        "always_allow" => "始终允许",
+                        "always_deny" => "始终拒绝",
+                        "always_confirm" => "始终确认",
                         other => other,
                     };
 
@@ -1005,13 +1005,13 @@ fn render_user_pattern_row(
 
                     let validation_error = if !updated {
                         Some(
-                            "A pattern with that name already exists in this rule list."
+                            "此规则列表中已存在同名的模式。"
                                 .to_string(),
                         )
                     } else {
                         match regex::Regex::new(&new_pattern) {
                             Err(err) => Some(format!(
-                                "Invalid regex: {err}. Pattern saved but will block this tool until fixed or removed."
+                                "无效的正则表达式：{err}。模式已保存，但在修复或移除前会阻止此工具。"
                             )),
                             Ok(_) => None,
                         }
@@ -1038,7 +1038,7 @@ fn render_add_pattern_input(
     let settings_window = cx.entity().downgrade();
 
     SettingsInputField::new(input_id)
-        .with_placeholder("Add regex pattern…")
+        .with_placeholder("添加正则表达式模式…")
         .tab_index(0)
         .with_buffer_font()
         .display_clear_button()
@@ -1052,7 +1052,7 @@ fn render_add_pattern_input(
 
                     let validation_error = match regex::Regex::new(&trimmed) {
                         Err(err) => Some(format!(
-                            "Invalid regex: {err}. Pattern saved but will block this tool until fixed or removed."
+                            "无效的正则表达式：{err}。模式已保存，但在修复或移除前会阻止此工具。"
                         )),
                         Ok(_) => None,
                     };

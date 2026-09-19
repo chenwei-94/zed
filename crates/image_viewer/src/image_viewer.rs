@@ -1001,7 +1001,7 @@ impl Render for ImageViewToolbarControls {
                     .child(Label::new(zoom_percentage).size(LabelSize::Small))
                     .id("zoom-label")
                     .tooltip(|_window, cx| {
-                        Tooltip::with_meta("编辑缩放", None, "Right-click to reset to 100%.", cx)
+                        Tooltip::with_meta("编辑缩放", None, "右键单击可重置为 100%。", cx)
                     })
                     .on_click(cx.listener(|this, _, window, cx| {
                         this.start_editing_zoom(window, cx);

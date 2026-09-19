@@ -133,7 +133,7 @@ pub async fn run_prediction(
         provider,
         PredictionProvider::Zeta1 | PredictionProvider::Zeta2(_)
     ) {
-        step_progress.set_substatus("authenticating");
+        step_progress.set_substatus("认证中");
         static AUTHENTICATED: OnceLock<Shared<Task<()>>> = OnceLock::new();
         AUTHENTICATED
             .get_or_init(|| {
@@ -183,7 +183,7 @@ pub async fn run_prediction(
             }
         }
     });
-    step_progress.set_substatus("configuring model");
+    step_progress.set_substatus("配置模型");
     let state = example.state.as_ref().context("state must be set")?;
     let run_dir = RUN_DIR.join(&example.spec.name);
 
@@ -255,12 +255,12 @@ pub async fn run_prediction(
 
         if repetition_count > 1 {
             step_progress.set_substatus(format!(
-                "running prediction {}/{}",
+                "运行预测 {}/{}",
                 ix + 1,
                 repetition_count
             ));
         } else {
-            step_progress.set_substatus("running prediction");
+            step_progress.set_substatus("运行预测");
         }
 
         fs::create_dir_all(&run_dir)?;
@@ -286,7 +286,7 @@ pub async fn run_prediction(
                 avg_logprob: None,
             });
 
-        step_progress.set_substatus("requesting prediction");
+        step_progress.set_substatus("请求预测");
         let prediction = ep_store
             .update(&mut cx, |store, cx| {
                 store.request_prediction(
@@ -396,12 +396,12 @@ async fn predict_anthropic(
     for ix in 0..repetition_count {
         if repetition_count > 1 {
             step_progress.set_substatus(format!(
-                "running prediction {}/{}",
+                "运行预测 {}/{}",
                 ix + 1,
                 repetition_count
             ));
         } else {
-            step_progress.set_substatus("running prediction");
+            step_progress.set_substatus("运行预测");
         }
 
         let messages = vec![anthropic::Message {
@@ -518,12 +518,12 @@ async fn predict_openai(
     for ix in 0..repetition_count {
         if repetition_count > 1 {
             step_progress.set_substatus(format!(
-                "running prediction {}/{}",
+                "运行预测 {}/{}",
                 ix + 1,
                 repetition_count
             ));
         } else {
-            step_progress.set_substatus("running prediction");
+            step_progress.set_substatus("运行预测");
         }
 
         let messages = vec![open_ai::RequestMessage::User {
@@ -634,7 +634,7 @@ pub async fn predict_baseten(
     let prompt_text = prompt.input.clone();
     let prefill = prompt.prefill.clone().unwrap_or_default();
 
-    step_progress.set_substatus("running prediction via baseten");
+    step_progress.set_substatus("通过 baseten 运行预测");
 
     let environment: String = <&'static str>::from(&format).to_lowercase();
     let url = format!(

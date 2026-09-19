@@ -330,7 +330,7 @@ impl WelcomePage {
         let focus = self.focus_handle.clone();
         let color = cx.theme().colors();
 
-        let description = "Run multiple threads at once, mix and match any ACP-compatible agent, and keep work conflict-free with worktrees.";
+        let description = "可同时运行多个会话，任意组合兼容 ACP 的智能体，并借助工作树避免工作冲突。";
 
         v_flex()
             .w_full()
@@ -450,7 +450,7 @@ impl Render for WelcomePage {
         let welcome_label = if self.fallback_to_recent_projects {
             "Welcome back to Zed"
         } else {
-            "Welcome to Zed"
+            "欢迎使用 Zed"
         };
 
         h_flex()

@@ -138,31 +138,31 @@ impl Component for Color {
             .gap_6()
             .children(vec![
                 example_group_with_title(
-                    "Text Colors",
+                    "文本颜色",
                     vec![
                         single_example(
-                            "Default",
+                            "默认",
                             Label::new("默认文本颜色")
                                 .color(Color::Default)
                                 .into_any_element(),
                         )
                         .description(Color::Default.get_variant_docs()),
                         single_example(
-                            "Muted",
+                            "已静音",
                             Label::new("弱化文本颜色")
                                 .color(Color::Muted)
                                 .into_any_element(),
                         )
                         .description(Color::Muted.get_variant_docs()),
                         single_example(
-                            "Accent",
+                            "强调色",
                             Label::new("强调文本颜色")
                                 .color(Color::Accent)
                                 .into_any_element(),
                         )
                         .description(Color::Accent.get_variant_docs()),
                         single_example(
-                            "Disabled",
+                            "已禁用",
                             Label::new("禁用文本颜色")
                                 .color(Color::Disabled)
                                 .into_any_element(),
@@ -171,31 +171,31 @@ impl Component for Color {
                     ],
                 ),
                 example_group_with_title(
-                    "Status Colors",
+                    "状态颜色",
                     vec![
                         single_example(
-                            "Success",
+                            "成功",
                             Label::new("成功状态")
                                 .color(Color::Success)
                                 .into_any_element(),
                         )
                         .description(Color::Success.get_variant_docs()),
                         single_example(
-                            "Warning",
+                            "警告",
                             Label::new("警告状态")
                                 .color(Color::Warning)
                                 .into_any_element(),
                         )
                         .description(Color::Warning.get_variant_docs()),
                         single_example(
-                            "Error",
+                            "错误",
                             Label::new("错误状态")
                                 .color(Color::Error)
                                 .into_any_element(),
                         )
                         .description(Color::Error.get_variant_docs()),
                         single_example(
-                            "Info",
+                            "信息",
                             Label::new("信息状态")
                                 .color(Color::Info)
                                 .into_any_element(),
@@ -204,31 +204,31 @@ impl Component for Color {
                     ],
                 ),
                 example_group_with_title(
-                    "Version Control Colors",
+                    "版本控制颜色",
                     vec![
                         single_example(
-                            "Created",
+                            "已创建",
                             Label::new("新增条目")
                                 .color(Color::Created)
                                 .into_any_element(),
                         )
                         .description(Color::Created.get_variant_docs()),
                         single_example(
-                            "Modified",
+                            "已修改",
                             Label::new("修改条目")
                                 .color(Color::Modified)
                                 .into_any_element(),
                         )
                         .description(Color::Modified.get_variant_docs()),
                         single_example(
-                            "Deleted",
+                            "已删除",
                             Label::new("删除条目")
                                 .color(Color::Deleted)
                                 .into_any_element(),
                         )
                         .description(Color::Deleted.get_variant_docs()),
                         single_example(
-                            "Conflict",
+                            "冲突",
                             Label::new("冲突条目")
                                 .color(Color::Conflict)
                                 .into_any_element(),

@@ -8753,8 +8753,8 @@ impl Repository {
 
         let args = options
             .map(|option| match option {
-                PushOptions::SetUpstream => " --set-upstream",
-                PushOptions::Force => " --force-with-lease",
+                PushOptions::SetUpstream => "--set-upstream",
+                PushOptions::Force => "--force-with-lease",
             })
             .unwrap_or("");
 
@@ -8840,7 +8840,7 @@ impl Repository {
 
         let mut status = "git pull".to_string();
         if rebase {
-            status.push_str(" --rebase");
+            status.push_str("--rebase");
         }
         status.push_str(&format!(" {}", remote));
         if let Some(b) = &branch {

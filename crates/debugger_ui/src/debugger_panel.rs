@@ -289,7 +289,7 @@ impl DebugPanel {
                         .update(cx, |session, cx| {
                             session
                                 .console_output(cx)
-                                .unbounded_send(format!("error: {:#}", redacted_error))
+                                .unbounded_send(format!("错误：{:#}", redacted_error))
                                 .ok();
                             session.shutdown(cx)
                         })
@@ -419,7 +419,7 @@ impl DebugPanel {
                         session
                             .console_output(cx)
                             .unbounded_send(format!(
-                                "Session failed to restart with error: {}",
+                                "会话重启失败：{}",
                                 error
                             ))
                             .ok();
@@ -514,7 +514,7 @@ impl DebugPanel {
             if should_prompt {
                 let response = cx.prompt(
                     gpui::PromptLevel::Warning,
-                    "This Debug Session is still running. Are you sure you want to terminate it?",
+                    "此调试会话仍在运行。确定要终止吗？",
                     None,
                     &["Yes", "No"],
                 );
@@ -910,9 +910,9 @@ impl DebugPanel {
                                                     .supports_terminate_threads_request
                                                     .unwrap_or_default()
                                                 {
-                                                    "Terminate Thread"
+                                                    "终止会话"
                                                 } else {
-                                                    "Terminate All Threads"
+                                                    "终止所有会话"
                                                 };
                                                 move |_window, cx| {
                                                     Tooltip::for_action_in(
@@ -1383,7 +1383,7 @@ impl DebugPanel {
                                 .read(cx)
                                 .historic_snapshots();
 
-                            context_menu = context_menu.entry("Current State", None, {
+                            context_menu = context_menu.entry("当前状态", None, {
                                 let running_state = running_state.clone();
                                 move |_window, cx| {
                                     handler(None, running_state.clone(), cx);
@@ -1563,7 +1563,7 @@ impl Panel for DebugPanel {
 
     fn icon_tooltip(&self, _window: &Window, cx: &App) -> Option<&'static str> {
         if DebuggerSettings::get_global(cx).button {
-            Some("Debug Panel")
+            Some("调试面板")
         } else {
             None
         }

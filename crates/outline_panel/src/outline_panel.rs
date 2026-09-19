@@ -1072,7 +1072,7 @@ impl OutlinePanel {
         cx.new(|cx| {
             let filter_editor = cx.new(|cx| {
                 let mut editor = Editor::single_line(window, cx);
-                editor.set_placeholder_text("Search buffer symbols…", window, cx);
+                editor.set_placeholder_text("搜索缓冲区符号…", window, cx);
                 editor
             });
             let filter_update_subscription = cx.subscribe_in(
@@ -1800,17 +1800,17 @@ impl OutlinePanel {
                     ui::utils::reveal_in_file_manager_label(false),
                     Box::new(RevealInFileManager),
                 )
-                .action("Open in Terminal", Box::new(OpenInTerminal))
+                .action("在终端中打开", Box::new(OpenInTerminal))
                 .when(is_unfoldable, |menu| {
-                    menu.action("Unfold Directory", Box::new(UnfoldDirectory))
+                    menu.action("展开目录", Box::new(UnfoldDirectory))
                 })
                 .when(is_foldable, |menu| {
-                    menu.action("Fold Directory", Box::new(FoldDirectory))
+                    menu.action("折叠目录", Box::new(FoldDirectory))
                 })
                 .separator()
-                .action("Copy Path", Box::new(zed_actions::workspace::CopyPath))
+                .action("复制路径", Box::new(zed_actions::workspace::CopyPath))
                 .action(
-                    "Copy Relative Path",
+                    "复制相对路径",
                     Box::new(zed_actions::workspace::CopyRelativePath),
                 )
         });
@@ -2508,7 +2508,7 @@ impl OutlinePanel {
         let buffer_snapshot = self.buffer_snapshot_for_id(range.context.start.buffer_id, cx)?;
         let excerpt_range = range.context.to_point(&buffer_snapshot);
         Some(format!(
-            "Lines {}- {}",
+            "第 {}- {} 行",
             excerpt_range.start.row + 1,
             excerpt_range.end.row + 1,
         ))
@@ -2676,7 +2676,7 @@ impl OutlinePanel {
                         }
                         None => (None, "Untitled".to_string()),
                     },
-                    None => (None, "Unknown buffer".to_string()),
+                    None => (None, "未知缓冲区".to_string()),
                 };
                 (
                     ElementId::from(("buffer", external_file.buffer_id.to_proto())),
@@ -5123,9 +5123,9 @@ impl OutlinePanel {
     ) -> impl IntoElement {
         let contents = if self.cached_entries.is_empty() {
             let header = if query.is_some() {
-                "No matches for query"
+                "没有匹配的查询结果"
             } else {
-                "No outlines available"
+                "没有可用的大纲"
             };
 
             v_flex()
@@ -5321,18 +5321,18 @@ impl OutlinePanel {
 
     fn render_filter_footer(&mut self, pinned: bool, cx: &mut Context<Self>) -> Div {
         let (pin_button_id, icon, icon_tooltip) = if pinned {
-            ("unpin_button", IconName::Unpin, "Unpin Outline")
+            ("unpin_button", IconName::Unpin, "取消固定大纲")
         } else {
-            ("pin_button", IconName::Pin, "Pin Active Outline")
+            ("pin_button", IconName::Pin, "固定当前大纲")
         };
 
         let has_query = self.query(cx).is_some();
         let show_symbols_toggle = self.multi_buffer_active(cx);
         let hide_symbols = self.hide_symbols_active(cx);
         let (hide_symbols_icon, hide_symbols_tooltip) = if hide_symbols {
-            (IconName::FileCodeOff, "Show Symbols")
+            (IconName::FileCodeOff, "显示符号")
         } else {
-            (IconName::FileCode, "Hide Symbols")
+            (IconName::FileCode, "隐藏符号")
         };
 
         h_flex()
@@ -5451,7 +5451,7 @@ impl Panel for OutlinePanel {
     }
 
     fn persistent_name() -> &'static str {
-        "Outline Panel"
+        "大纲面板"
     }
 
     fn panel_key() -> &'static str {
@@ -5490,7 +5490,7 @@ impl Panel for OutlinePanel {
     }
 
     fn icon_tooltip(&self, _window: &Window, _: &App) -> Option<&'static str> {
-        Some("Outline Panel")
+        Some("大纲面板")
     }
 
     fn toggle_action(&self) -> Box<dyn Action> {

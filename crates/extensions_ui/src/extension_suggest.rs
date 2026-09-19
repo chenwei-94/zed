@@ -122,7 +122,7 @@ const SUGGESTIONS_BY_LANGUAGE: &[LanguageSuggestion] = &[LanguageSuggestion {
     title: "此文件可用 Emmet",
     description: "Emmet 可将 `ul>li*3` 等缩写展开为 HTML，将 `m10` 展开为 CSS。",
     docs_url: "https://zed.dev/docs/languages/emmet",
-    install_message: "Install Emmet",
+    install_message: "安装 Emmet",
 }];
 
 struct ExtensionSuggestionNotification;
@@ -298,10 +298,10 @@ fn suggest_for_buffer(
                         .into_any_element()
                 })
                 .with_title(suggestion.title)
-                .more_info_message("Learn more")
+                .more_info_message("了解更多")
                 .more_info_url(suggestion.docs_url)
                 .primary_message(suggestion.install_message)
-                .secondary_message("Don't show again")
+                .secondary_message("不再显示")
             });
         }
         None => {
@@ -328,8 +328,8 @@ fn suggest_for_buffer(
                     ),
                     cx,
                 )
-                .primary_message("Yes, install extension")
-                .secondary_message("No, don't install it")
+                .primary_message("是，安装扩展")
+                .secondary_message("不，不要安装")
             });
         }
     }

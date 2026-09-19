@@ -1228,7 +1228,7 @@ impl SettingsStore {
             replace_subschema::<LanguageToSettingsMap>(generator, || {
                 json_schema!({
                     "type": "object",
-                    "errorMessage": "No language with this name is installed.",
+                    "errorMessage": "未安装使用此名称的语言。",
                     "properties": params.language_names.iter().map(|name| (name.clone(), language_settings_content_ref.clone())).collect::<serde_json::Map<_, _>>()
                 })
             });
@@ -1238,7 +1238,7 @@ impl SettingsStore {
             replace_subschema::<FileTypeMap>(generator, || {
                 json_schema!({
                     "type": "object",
-                    "errorMessage": "No language with this name is installed.",
+                    "errorMessage": "未安装使用此名称的语言。",
                     "properties": params.language_names.iter().map(|name| (name.clone(), file_type_patterns_ref.clone())).collect::<serde_json::Map<_, _>>(),
                     "additionalProperties": file_type_patterns_ref.clone()
                 })

@@ -44,9 +44,9 @@ impl ProfileSource {
     fn label(&self) -> &'static str {
         match self {
             ProfileSource::Foreground => "Foreground",
-            ProfileSource::AllThreads => "All threads",
-            ProfileSource::RemoteForeground => "Remote: Foreground",
-            ProfileSource::RemoteAllThreads => "Remote: All threads",
+            ProfileSource::AllThreads => "所有线程",
+            ProfileSource::RemoteForeground => "远程：前台",
+            ProfileSource::RemoteAllThreads => "远程：所有线程",
         }
     }
 

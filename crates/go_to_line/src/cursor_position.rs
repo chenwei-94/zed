@@ -227,7 +227,7 @@ impl Render for CursorPosition {
                     .label_size(LabelSize::Small)
                     .tab_index(0isize)
                     .aria_label(format!(
-                        "Line {}, column {}",
+                        "第 {} 行，第 {} 列",
                         position.line, position.character
                     ))
                     .on_click(cx.listener(|this, _, window, cx| {

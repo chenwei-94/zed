@@ -45,7 +45,7 @@ pub fn load_context(mention_set: &Entity<MentionSet>, cx: &mut App) -> Task<Opti
         let mut loaded_context = LoadedContext::default();
         loaded_context
             .text
-            .push_str("The following items were attached by the user.\n");
+            .push_str("The following items were attached by the user.");
         for (_, (_, mention)) in mentions {
             match mention {
                 Mention::Text { content, .. } => {

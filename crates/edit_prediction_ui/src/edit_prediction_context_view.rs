@@ -295,7 +295,7 @@ impl EditPredictionContextView {
                     ])
                 }
                 table = table.row(vec![
-                    "Total Time".into_any_element(),
+                    "总耗时".into_any_element(),
                     format!("{} ms", (run.finished_at.unwrap_or(t0) - t0).as_millis())
                         .into_any_element(),
                 ]);
@@ -369,7 +369,7 @@ impl Item for EditPredictionContextView {
     type Event = ();
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Edit Prediction Context".into()
+        "编辑预测上下文".into()
     }
 
     fn buffer_kind(&self, _cx: &App) -> workspace::item::ItemBufferKind {

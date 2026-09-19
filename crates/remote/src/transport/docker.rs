@@ -359,7 +359,7 @@ impl DockerExecConnection {
         delegate: &Arc<dyn RemoteClientDelegate>,
         cx: &mut AsyncApp,
     ) -> Result<()> {
-        delegate.set_status(Some("Extracting remote development server"), cx);
+        delegate.set_status(Some("正在解压远程开发服务器"), cx);
         let server_mode = 0o755;
 
         let shell_kind = ShellKind::Posix;
@@ -418,7 +418,7 @@ impl DockerExecConnection {
         let size = src_stat.len();
 
         let t0 = Instant::now();
-        delegate.set_status(Some("Uploading remote development server"), cx);
+        delegate.set_status(Some("正在上传远程开发服务器"), cx);
         log::info!(
             "uploading remote development server to {:?} ({}kb)",
             tmp_path_gz,
@@ -586,7 +586,7 @@ impl DockerExecConnection {
             .await?;
         }
 
-        delegate.set_status(Some("Downloading remote development server on host"), cx);
+        delegate.set_status(Some("正在主机上下载远程开发服务器"), cx);
 
         match self
             .run_docker_exec(
@@ -679,7 +679,7 @@ impl RemoteConnection for DockerExecConnection {
             };
         }
 
-        delegate.set_status(Some("Starting proxy"), cx);
+        delegate.set_status(Some("正在启动代理"), cx);
 
         let Some(remote_binary_relpath) = self.remote_binary_relpath.clone() else {
             return Task::ready(Err(anyhow!("Remote binary path not set")));

@@ -606,7 +606,7 @@ impl Terminal {
 
     pub fn to_markdown(&self, cx: &App) -> String {
         format!(
-            "Terminal:\n```\n{}\n```\n",
+            "Terminal:\n```\n{}\n```",
             self.terminal.read(cx).get_content()
         )
     }

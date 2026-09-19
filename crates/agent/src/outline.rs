@@ -118,7 +118,7 @@ async fn render_outline(
     let page_start = offset + 1;
     let page_end = offset + entries_rendered;
     let total_symbols = if has_more {
-        format!("more than {}", page_end)
+        format!("超过 {}", page_end)
     } else {
         page_end.to_string()
     };
@@ -130,7 +130,7 @@ async fn render_outline(
     } else {
         writeln!(
             &mut output,
-            "\nShowing symbols {page_start}-{page_end} (total symbols: {total_symbols})",
+            "Showing symbols {page_start}-{page_end} (total symbols: {total_symbols})",
         )
     }
     .ok();
@@ -156,9 +156,9 @@ fn render_entries(
         let end_line = item.range.end.row + 1;
 
         if start_line == end_line {
-            writeln!(output, " [L{}]", start_line).ok();
+            writeln!(output, "[L{}]", start_line).ok();
         } else {
-            writeln!(output, " [L{}-{}]", start_line, end_line).ok();
+            writeln!(output, "[L{}-{}]", start_line, end_line).ok();
         }
         entries_rendered += 1;
     }

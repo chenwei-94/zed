@@ -430,7 +430,7 @@ pub struct TaskStatistics {
 
 impl std::fmt::Display for TaskStatistics {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("Tasks that blocked the longest before yielding\n")?;
+        f.write_str("Tasks that blocked the longest before yielding")?;
         for timing in self.longest_poll_times {
             f.write_fmt(format_args!(
                 "{:<20} - {}:{}\n",
@@ -439,7 +439,7 @@ impl std::fmt::Display for TaskStatistics {
                 timing.location.column()
             ))?;
         }
-        f.write_str("Tasks that ran the longest\n")?;
+        f.write_str("Tasks that ran the longest")?;
         for timing in self.longest_runtimes {
             f.write_fmt(format_args!(
                 "{:<20} - {}:{}\n",

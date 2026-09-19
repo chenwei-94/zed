@@ -536,7 +536,7 @@ async fn analyze_commit(
 
     let response = client
         .generate_streaming("claude-sonnet-4-5", 8192, messages, |chars, _text| {
-            step_progress.set_substatus(format!("analyzing: {:.1}K", chars as f64 / 1000.0));
+            step_progress.set_substatus(format!("分析中：{:.1}K", chars as f64 / 1000.0));
         })
         .await?;
 
@@ -949,21 +949,21 @@ fn line_comment_prefix(file_path: &str) -> &'static str {
 
 fn format_rejected_example(response: &ClaudeResponse, rejection_reason: &str) -> String {
     let mut content = String::new();
-    content.push_str("# Rejected Example\n\n");
-    content.push_str(&format!("## Name\n\n{}\n\n", response.name));
-    content.push_str(&format!("## Reasoning\n\n{}\n\n", response.reasoning));
-    content.push_str("## Edit History Hunks\n\n```diff\n");
+    content.push_str("# Rejected Example");
+    content.push_str(&format!("## Name\n\n{}", response.name));
+    content.push_str(&format!("## Reasoning\n\n{}", response.reasoning));
+    content.push_str("## Edit History Hunks\n\n```diff");
     for hunk in &response.edit_history_hunks {
         content.push_str(hunk);
         content.push_str("\n\n");
     }
     content.push_str("```\n\n");
-    content.push_str("## Expected Patch Hunks\n\n```diff\n");
+    content.push_str("## Expected Patch Hunks\n\n```diff");
     for hunk in &response.expected_patch_hunks {
         content.push_str(hunk);
         content.push_str("\n\n");
     }
     content.push_str("```\n\n");
-    content.push_str(&format!("## Rejection Reason\n\n{}\n", rejection_reason));
+    content.push_str(&format!("## Rejection Reason\n\n{}", rejection_reason));
     content
 }

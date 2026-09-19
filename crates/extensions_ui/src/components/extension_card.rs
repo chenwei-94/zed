@@ -424,16 +424,16 @@ fn provided_feature_labels(
 pub(crate) fn extension_provides_label(provides: ExtensionProvides) -> &'static str {
     match provides {
         ExtensionProvides::Themes => "Themes",
-        ExtensionProvides::IconThemes => "Icon Themes",
+        ExtensionProvides::IconThemes => "图标主题",
         ExtensionProvides::Languages => "Languages",
         ExtensionProvides::Grammars => "Grammars",
-        ExtensionProvides::LanguageServers => "Language Servers",
-        ExtensionProvides::ContextServers => "MCP Servers",
-        ExtensionProvides::AgentServers => "Agent Servers",
-        ExtensionProvides::SlashCommands => "Slash Commands",
-        ExtensionProvides::IndexedDocsProviders => "Indexed Docs Providers",
+        ExtensionProvides::LanguageServers => "语言服务器",
+        ExtensionProvides::ContextServers => "MCP 服务器",
+        ExtensionProvides::AgentServers => "智能体服务器",
+        ExtensionProvides::SlashCommands => "斜杠命令",
+        ExtensionProvides::IndexedDocsProviders => "索引文档提供商",
         ExtensionProvides::Snippets => "Snippets",
-        ExtensionProvides::DebugAdapters => "Debug Adapters",
+        ExtensionProvides::DebugAdapters => "调试适配器",
     }
 }
 
@@ -511,13 +511,13 @@ impl Component for ExtensionCard {
 
         let examples = vec![
             single_example(
-                "Available to Install",
+                "可安装",
                 preview_remote_card(
                     &remote_extension(
                         "preview-toml",
                         "TOML",
                         "0.6.2",
-                        "TOML language support.",
+                        "TOML 语言支持。",
                         482_391,
                         [ExtensionProvides::Languages],
                     ),
@@ -527,13 +527,13 @@ impl Component for ExtensionCard {
                 .into_any_element(),
             ),
             single_example(
-                "Installed",
+                "已安装",
                 preview_remote_card(
                     &remote_extension(
                         "preview-python",
                         "Python",
                         "0.5.1",
-                        "Python language support powered by basedpyright.",
+                        "由 basedpyright 提供支持的 Python 语言支持。",
                         1_284_613,
                         [
                             ExtensionProvides::Languages,
@@ -547,13 +547,13 @@ impl Component for ExtensionCard {
                 .into_any_element(),
             ),
             single_example(
-                "Update Available",
+                "有可用更新",
                 preview_remote_card(
                     &remote_extension(
                         "preview-rust",
                         "Rust",
                         "0.4.0",
-                        "Rust language support powered by rust-analyzer.",
+                        "由 rust-analyzer 提供支持的 Rust 语言支持。",
                         2_947_028,
                         [
                             ExtensionProvides::Languages,
@@ -566,18 +566,18 @@ impl Component for ExtensionCard {
                 .into_any_element(),
             ),
             single_example(
-                "Development Extension",
+                "开发扩展",
                 preview_dev_card(dev_extension(), ExtensionStatus::Installed("0.1.0".into()))
                     .into_any_element(),
             ),
             single_example(
-                "Overridden by Development Extension",
+                "被开发扩展覆盖",
                 preview_remote_card(
                     &remote_extension(
                         "preview-overridden-theme",
                         "Local Theme",
                         "1.3.0",
-                        "The published version of a locally developed extension.",
+                        "本地开发的扩展的已发布版本。",
                         36_512,
                         [ExtensionProvides::Themes],
                     ),

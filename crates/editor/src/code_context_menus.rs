@@ -1710,12 +1710,12 @@ fn completion_kind_name(kind: CompletionItemKind) -> &'static str {
         CompletionItemKind::FILE => "File",
         CompletionItemKind::REFERENCE => "Reference",
         CompletionItemKind::FOLDER => "Folder",
-        CompletionItemKind::ENUM_MEMBER => "Enum Member",
+        CompletionItemKind::ENUM_MEMBER => "枚举成员",
         CompletionItemKind::CONSTANT => "Constant",
         CompletionItemKind::STRUCT => "Struct",
         CompletionItemKind::EVENT => "Event",
         CompletionItemKind::OPERATOR => "Operator",
-        CompletionItemKind::TYPE_PARAMETER => "Type Parameter",
+        CompletionItemKind::TYPE_PARAMETER => "类型参数",
         _ => "Unknown",
     }
 }
@@ -1949,7 +1949,7 @@ impl CodeActionsItem {
         match self {
             Self::CodeAction { action, .. } => action.lsp_action.title().replace("\n", ""),
             Self::Task(_, task) => task.resolved_label.replace("\n", ""),
-            Self::DebugScenario(scenario) => format!("debug: {}", scenario.label),
+            Self::DebugScenario(scenario) => format!("调试：{}", scenario.label),
         }
     }
 }
@@ -2105,7 +2105,7 @@ impl CodeActionsMenu {
                         action.lsp_action.title().chars().count()
                     }
                     CodeActionsItem::DebugScenario(scenario) => {
-                        format!("debug: {}", scenario.label).chars().count()
+                        format!("调试：{}", scenario.label).chars().count()
                     }
                 })
                 .map(|(ix, _)| ix),

@@ -727,7 +727,7 @@ mod tests {
         ] {
             let error = serde_json::from_str::<ResponseStreamResult>(chunk).unwrap_err();
             assert!(
-                error.to_string().contains("unrecognized"),
+                error.to_string().contains("无法识别"),
                 "expected {chunk} to be rejected, got: {error}"
             );
         }

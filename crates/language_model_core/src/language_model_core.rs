@@ -815,7 +815,7 @@ impl ReasoningEffort {
             Self::Low => "Low",
             Self::Medium => "Medium",
             Self::High => "High",
-            Self::XHigh => "Extra High",
+            Self::XHigh => "极高",
             Self::Max => "Max",
         }
     }

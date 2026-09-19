@@ -289,7 +289,7 @@ impl KeymapFile {
                         // the error occurred in.
                         errors.push((
                             context.clone(),
-                            format!(" Parse error in section `context` field: {}", err),
+                            format!("Parse error in section `context` field: {}", err),
                         ));
                         continue;
                     }
@@ -301,7 +301,7 @@ impl KeymapFile {
             if !unrecognized_fields.is_empty() {
                 write!(
                     section_errors,
-                    "\n\n - Unrecognized fields: {}",
+                    "- Unrecognized fields: {}",
                     MarkdownInlineCode(&format!("{:?}", unrecognized_fields.keys()))
                 )
                 .unwrap();
@@ -330,7 +330,7 @@ impl KeymapFile {
                             }
                             write!(
                                 section_errors,
-                                "\n\n- In unbind {}, {indented_err}",
+                                "- In unbind {}, {indented_err}",
                                 MarkdownInlineCode(&format!("\"{}\"", keystrokes))
                             )
                             .unwrap();
@@ -362,7 +362,7 @@ impl KeymapFile {
                             }
                             write!(
                                 section_errors,
-                                "\n\n- In binding {}, {indented_err}",
+                                "- In binding {}, {indented_err}",
                                 MarkdownInlineCode(&format!("\"{}\"", keystrokes))
                             )
                             .unwrap();
@@ -379,15 +379,15 @@ impl KeymapFile {
         if errors.is_empty() {
             KeymapFileLoadResult::Success { key_bindings }
         } else {
-            let mut error_message = "Errors in user keymap file.".to_owned();
+            let mut error_message = "用户键位映射文件中有错误。".to_owned();
 
             for (context, section_errors) in errors {
                 if context.is_empty() {
-                    let _ = write!(error_message, "\nIn section without context predicate:");
+                    let _ = write!(error_message, "In section without context predicate:");
                 } else {
                     let _ = write!(
                         error_message,
-                        "\nIn section with {}:",
+                        "In section with {}:",
                         MarkdownInlineCode(&format!("context = \"{}\"", context))
                     );
                 }
@@ -431,7 +431,7 @@ impl KeymapFile {
             Ok(key_binding) => key_binding,
             Err(InvalidKeystrokeError { keystroke }) => {
                 return Err(format!(
-                    "invalid keystroke {}. {}",
+                    "无效的按键 {}。{}",
                     MarkdownInlineCode(&format!("\"{keystroke}\"")),
                     KEYSTROKE_PARSE_EXPECTED_MESSAGE
                 ));
@@ -484,7 +484,7 @@ impl KeymapFile {
         )
         .map_err(|InvalidKeystrokeError { keystroke }| {
             format!(
-                "invalid keystroke {}. {}",
+                "无效的按键 {}。{}",
                 MarkdownInlineCode(&format!("\"{keystroke}\"")),
                 KEYSTROKE_PARSE_EXPECTED_MESSAGE
             )
@@ -817,7 +817,7 @@ impl KeymapFile {
             });
             add_deprecation(
                 &mut actions_with_empty_input,
-                "This action does not take input - just the action name string should be used."
+                "此操作不接受输入——只应使用操作名字符串。"
                     .to_string(),
             );
             action_with_arguments_alternatives.push(actions_with_empty_input);
@@ -837,7 +837,7 @@ impl KeymapFile {
             });
             add_deprecation(
                 &mut actions_with_empty_input,
-                "This action does not take input - just the action name string should be used."
+                "此操作不接受输入——只应使用操作名字符串。"
                     .to_string(),
             );
             unbind_target_action_alternatives.push(actions_with_empty_input);
@@ -1568,8 +1568,7 @@ impl Action for ActionSequence {
 
     fn documentation() -> Option<&'static str> {
         Some(
-            "Runs a sequence of actions.\n\n\
-            NOTE: This does **not** wait for asynchronous actions to complete before running the next action.",
+            "运行一系列操作。\n\n注意：这**不会**等待异步操作完成后再运行下一个操作。",
         )
     }
 }

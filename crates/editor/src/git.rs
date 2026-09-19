@@ -626,7 +626,7 @@ impl Editor {
         // Create the prompt editor for the review input
         let prompt_editor = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Add a review comment...", window, cx);
+            editor.set_placeholder_text("添加审查评论…", window, cx);
             editor
         });
 
@@ -1526,7 +1526,7 @@ impl Editor {
                 .ok();
             }
             Err(err) => {
-                let message = format!("Failed to copy permalink to line: {err}");
+                let message = format!("复制行永久链接失败：{err}");
 
                 anyhow::Result::<()>::Err(err).log_err();
 
@@ -1567,7 +1567,7 @@ impl Editor {
                 .ok();
             }
             Err(err) => {
-                let message = format!("Failed to open permalink to line: {err}");
+                let message = format!("打开行永久链接失败：{err}");
 
                 anyhow::Result::<()>::Err(err).log_err();
 
@@ -2512,9 +2512,9 @@ impl Editor {
                     let start_line = start + 1;
                     let end_line = end + 1;
                     if start_line == end_line {
-                        format!("Line {start_line}")
+                        format!("第 {start_line} 行")
                     } else {
-                        format!("Lines {start_line}-{end_line}")
+                        format!("第 {start_line}-{end_line} 行")
                     }
                 })
                 .collect();

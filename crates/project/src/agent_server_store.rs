@@ -1221,7 +1221,7 @@ impl ExternalAgentServer for LocalRegistryArchiveAgent {
             if !fs.is_dir(&version_dir).await {
                 let mut loading_status_tx = loading_status_tx;
                 if let Some(tx) = loading_status_tx.as_mut() {
-                    tx.send(Some(format!("Installing {}…", version.as_ref())))
+                    tx.send(Some(format!("正在安装 {}…", version.as_ref())))
                         .ok();
                 }
 

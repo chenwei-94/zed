@@ -134,7 +134,7 @@ RUN chmod -R 0755 {full_dest} \
         env.sort();
 
         for (key, value) in env {
-            layer = format!("{layer}ENV {key}={value}\n")
+            layer = format!("{layer}ENV {key}={value}")
         }
         layer
     }

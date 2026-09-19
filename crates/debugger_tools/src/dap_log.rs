@@ -535,7 +535,7 @@ impl Render for DapLogToolbarItemView {
                             }
                         ))
                     })
-                    .unwrap_or_else(|| "No adapter selected".into()),
+                    .unwrap_or_else(|| "未选择适配器".into()),
             ))
             .menu(move |window, cx| {
                 let log_view = log_view.clone();
@@ -936,9 +936,9 @@ struct DapMenuItem {
     selected_entry: View,
 }
 
-const ADAPTER_LOGS: &str = "Adapter Logs";
-const RPC_MESSAGES: &str = "RPC Messages";
-const INITIALIZATION_SEQUENCE: &str = "Initialization Sequence";
+const ADAPTER_LOGS: &str = "适配器日志";
+const RPC_MESSAGES: &str = "RPC 消息";
+const INITIALIZATION_SEQUENCE: &str = "初始化序列";
 
 impl Render for DapLogView {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
@@ -993,7 +993,7 @@ impl Item for DapLogView {
     }
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "DAP Logs".into()
+        "DAP 日志".into()
     }
 
     fn telemetry_event_text(&self) -> Option<&'static str> {

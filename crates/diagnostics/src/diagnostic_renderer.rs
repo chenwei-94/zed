@@ -44,10 +44,10 @@ impl DiagnosticRenderer {
 
                 for (ix, entry) in diagnostic_group.iter().enumerate() {
                     if entry.range.start.row.abs_diff(primary.range.start.row) >= 5 {
-                        markdown.push_str("\n- hint: [");
+                        markdown.push_str("- hint: [");
                         markdown.push_str(&Markdown::escape(entry.diagnostic.message.as_str()));
                         markdown.push_str(&format!(
-                            "](file://#diagnostic-{buffer_id}-{group_id}-{ix})\n",
+                            "](file://#diagnostic-{buffer_id}-{group_id}-{ix})",
                         ))
                     }
                 }
@@ -66,7 +66,7 @@ impl DiagnosticRenderer {
 
                 if entry.range.start.row.abs_diff(primary.range.start.row) >= 5 {
                     markdown.push_str(&format!(
-                        " ([back](file://#diagnostic-{buffer_id}-{group_id}-{primary_ix}))"
+                        "([back](file://#diagnostic-{buffer_id}-{group_id}-{primary_ix}))"
                     ));
                 }
                 results.push(DiagnosticBlock {
@@ -269,7 +269,7 @@ impl DiagnosticBlock {
             )
             .child(
                 CopyButton::new(copy_button_id, self.copy_message.clone())
-                    .tooltip_label("Copy Diagnostic"),
+                    .tooltip_label("复制诊断"),
             )
             .into_any_element()
     }

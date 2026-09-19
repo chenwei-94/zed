@@ -173,7 +173,7 @@ impl ColumnFilterDelegate {
         for (row_index, positions) in matches {
             if rows[row_index].hidden_by.is_some() && !header_inserted {
                 entries.push(ColumnFilterListEntry::Header(
-                    "Hidden by other filters".into(),
+                    "被其他筛选条件隐藏".into(),
                 ));
                 header_inserted = true;
             }
@@ -307,7 +307,7 @@ impl PickerDelegate for ColumnFilterDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        format!("Search {} unique values…", self.available_count).into()
+        format!("搜索 {} 个唯一值…", self.available_count).into()
     }
 
     fn update_matches(
@@ -571,7 +571,7 @@ impl TabularDataPreviewPane {
                 with_copy_on_right_click(
                     header_text_cell,
                     header_text,
-                    "Right click to copy column name",
+                    "右键单击复制列名",
                 )
                 .child(displayed_header)
             })

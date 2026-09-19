@@ -86,7 +86,7 @@ impl PickerDelegate for ContactFinderDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Search collaborator by username...".into()
+        "按用户名搜索协作者…".into()
     }
 
     fn update_matches(

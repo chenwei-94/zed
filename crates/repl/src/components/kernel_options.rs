@@ -99,26 +99,26 @@ fn build_grouped_entries(store: &ReplStore, worktree_id: WorktreeId) -> Vec<Kern
     // Python Environments section
     if !python_envs.is_empty() {
         entries.push(KernelPickerEntry::SectionHeader(
-            "Python Environments".into(),
+            "Python 环境".into(),
         ));
         entries.extend(python_envs);
     }
 
     // Jupyter Kernels section
     if !jupyter_kernels.is_empty() {
-        entries.push(KernelPickerEntry::SectionHeader("Jupyter Kernels".into()));
+        entries.push(KernelPickerEntry::SectionHeader("Jupyter 内核".into()));
         entries.extend(jupyter_kernels);
     }
 
     // WSL Kernels section
     if !wsl_kernels.is_empty() {
-        entries.push(KernelPickerEntry::SectionHeader("WSL Kernels".into()));
+        entries.push(KernelPickerEntry::SectionHeader("WSL 内核".into()));
         entries.extend(wsl_kernels);
     }
 
     // Remote section
     if !remote_kernels.is_empty() {
-        entries.push(KernelPickerEntry::SectionHeader("Remote Servers".into()));
+        entries.push(KernelPickerEntry::SectionHeader("远程服务器".into()));
         entries.extend(remote_kernels);
     }
 
@@ -242,7 +242,7 @@ impl PickerDelegate for KernelPickerDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Select a kernel...".into()
+        "选择内核…".into()
     }
 
     fn update_matches(

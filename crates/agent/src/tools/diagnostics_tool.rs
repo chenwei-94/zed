@@ -151,7 +151,7 @@ impl AgentTool for DiagnosticsTool {
             Some(path) if !path.is_empty() => Some(path),
             _ => None,
         }) {
-            format!("Check diagnostics for {}", MarkdownInlineCode(&path)).into()
+            format!("检查 {} 的诊断", MarkdownInlineCode(&path)).into()
         } else {
             "Check project diagnostics".into()
         }
@@ -232,7 +232,7 @@ impl AgentTool for DiagnosticsTool {
 
                                 has_diagnostics = true;
                                 output.push_str(&format!(
-                                    "{}: {} error(s), {} warning(s)\n",
+                                    "{}: {} error(s), {} warning(s)",
                                     worktree.read(cx).absolutize(&project_path.path).display(),
                                     summary.error_count,
                                     summary.warning_count

@@ -153,7 +153,7 @@ impl State {
                             |error| {
                                 ollama::Model::new_disabled(
                                     name,
-                                    format!("Failed to fetch model from API: {error}",),
+                                    format!("从 API 获取模型失败：{error}",),
                                 )
                             },
                             |model| {
@@ -344,7 +344,7 @@ impl LanguageModelProvider for OllamaLanguageModelProvider {
                     .into()
             })
             .description(InlineDescription::Text(
-                "Run local models on your machine with Ollama.".into(),
+                "使用 Ollama 在你的机器上运行本地模型。".into(),
             )),
         ))
     }
@@ -886,7 +886,7 @@ impl ConfigurationView {
                             .child(Label::new("ollama run gpt-oss:20b").inline_code(cx)),
                     )
                     .child(
-                        ListBulletItem::new("Click 'Connect' below to start using Ollama in Zed")
+                        ListBulletItem::new("点击下方的“连接”，即可在 Zed 中开始使用 Ollama")
                             .label_color(Color::Muted),
                     ),
             )
@@ -902,9 +902,9 @@ impl ConfigurationView {
         let state = self.state.read(cx);
         let env_var_set = state.api_key_state.is_from_env_var();
         let configured_card_label = if env_var_set {
-            format!("API key set in {API_KEY_ENV_VAR_NAME} environment variable.")
+            format!("API 密钥已在环境变量 {API_KEY_ENV_VAR_NAME} 中设置。")
         } else {
-            "API key configured".to_string()
+            "API 密钥已配置".to_string()
         };
 
         let api_key_control = if !state.api_key_state.has_key() {
@@ -914,7 +914,7 @@ impl ConfigurationView {
                 .disabled(env_var_set)
                 .on_click(cx.listener(|this, _, window, cx| this.reset_api_key(window, cx)))
                 .when(env_var_set, |this| {
-                    this.tooltip_label(format!("To reset your API key, unset the {API_KEY_ENV_VAR_NAME} environment variable."))
+                    this.tooltip_label(format!("要重置 API 密钥，请取消设置 {API_KEY_ENV_VAR_NAME} 环境变量。"))
                 })
                 .into_any_element()
         };

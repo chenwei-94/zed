@@ -127,7 +127,7 @@ impl JsonView {
                 let preview = if is_expanded {
                     String::new()
                 } else {
-                    format!("[ {} items ]", arr.len())
+                    format!("[ {} 项 ]", arr.len())
                 };
 
                 v_flex()

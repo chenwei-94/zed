@@ -482,7 +482,7 @@ impl RenderOnce for DiffStyleControls {
                     .toggle_state(is_split_set)
                     .tooltip(Tooltip::element(move |_, cx| {
                         let message = if is_split_pending {
-                            format!("Split when wider than {} columns", min_columns).into()
+                            format!("宽度超过 {} 列时拆分", min_columns).into()
                         } else {
                             SharedString::from("Split")
                         };

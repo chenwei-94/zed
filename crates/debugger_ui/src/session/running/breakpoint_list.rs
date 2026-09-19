@@ -192,9 +192,9 @@ impl BreakpointList {
     ) {
         self.strip_mode = Some(prop);
         let placeholder = match prop {
-            ActiveBreakpointStripMode::Log => "Set Log Message",
-            ActiveBreakpointStripMode::Condition => "Set Condition",
-            ActiveBreakpointStripMode::HitCondition => "Set Hit Condition",
+            ActiveBreakpointStripMode::Log => "设置日志消息",
+            ActiveBreakpointStripMode::Condition => "设置条件",
+            ActiveBreakpointStripMode::HitCondition => "设置命中条件",
         };
         let mut is_exception_breakpoint = true;
         let active_value = self.selected_ix.and_then(|ix| {
@@ -580,21 +580,21 @@ impl BreakpointList {
         let focus_handle = self.focus_handle.clone();
 
         let remove_breakpoint_tooltip = selection_kind.map(|(kind, _)| match kind {
-            SelectedBreakpointKind::Source => "Remove breakpoint from a breakpoint list",
+            SelectedBreakpointKind::Source => "从断点列表中移除断点",
             SelectedBreakpointKind::Exception => {
-                "Exception Breakpoints cannot be removed from the breakpoint list"
+                "异常断点无法从断点列表中移除"
             }
-            SelectedBreakpointKind::Data => "Remove data breakpoint from a breakpoint list",
+            SelectedBreakpointKind::Data => "从断点列表中移除数据断点",
         });
 
         let toggle_label = selection_kind.map(|(_, is_enabled)| {
             if is_enabled {
                 (
-                    "Disable Breakpoint",
-                    "Disable a breakpoint without removing it from the list",
+                    "禁用断点",
+                    "禁用断点但保留在列表中",
                 )
             } else {
-                ("Enable Breakpoint", "Re-enable a breakpoint")
+                ("启用断点", "重新启用断点")
             }
         });
 
@@ -1426,7 +1426,7 @@ impl RenderOnce for BreakpointOptionsStrip {
                             Tooltip::with_meta(
                                 "设置日志消息",
                                 None,
-                                "Set log message to display (instead of stopping) when a breakpoint is hit.",
+                                "设置断点命中时显示的日志消息（而不是停止执行）。",
                                 cx,
                             )
                         }),
@@ -1462,7 +1462,7 @@ impl RenderOnce for BreakpointOptionsStrip {
                                 Tooltip::with_meta(
                                     "设置条件",
                                     None,
-                                    "Set condition to evaluate when a breakpoint is hit. Program execution will stop only when the condition is met.",
+                                    "设置断点命中时要计算的条件。仅在条件满足时程序才会停止执行。",
                                     cx,
                                 )
                             }),
@@ -1497,7 +1497,7 @@ impl RenderOnce for BreakpointOptionsStrip {
                             Tooltip::with_meta(
                                 "设置命中条件",
                                 None,
-                                "Set expression that controls how many hits of the breakpoint are ignored.",
+                                "设置用于控制忽略断点命中次数的表达式。",
                                 cx,
                             )
                         }),

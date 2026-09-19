@@ -307,8 +307,8 @@ mod server {
                     Ok(_) => (
                         200,
                         oauth_callback_page(
-                            "Authorization Successful",
-                            "You can close this tab and return to Zed.",
+                            "授权成功",
+                            "可以关闭此标签页并返回 Zed。",
                             false,
                         ),
                     ),
@@ -317,8 +317,8 @@ mod server {
                         (
                             400,
                             oauth_callback_page(
-                                "Authorization Failed",
-                                "Something went wrong. Please try again from Zed.",
+                                "授权失败",
+                                "出错了。请回到 Zed 重试。",
                                 true,
                             ),
                         )
@@ -475,7 +475,7 @@ mod server {
         stream.set_write_timeout(Some(CANCEL_REQUEST_TIMEOUT))?;
 
         stream.write_all(b"GET /cancel HTTP/1.1\r\n")?;
-        stream.write_all(format!("Host: {host}:{port}\r\n").as_bytes())?;
+        stream.write_all(format!("Host: {host}:{port}").as_bytes())?;
         stream.write_all(b"Connection: close\r\n\r\n")?;
 
         // Drain the response so the server can close cleanly. We don't care

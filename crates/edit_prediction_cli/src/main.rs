@@ -271,7 +271,7 @@ impl Display for Command {
                     write!(f, "{}", context_type)?;
                 }
                 if args.force {
-                    write!(f, " --force")?;
+                    write!(f, "--force")?;
                 }
                 Ok(())
             }
@@ -291,10 +291,10 @@ impl Display for Command {
             Command::Eval(args) => {
                 write!(f, "eval")?;
                 if args.context_only {
-                    write!(f, " --context-only")?;
+                    write!(f, "--context-only")?;
                 }
                 if !args.context_types.is_empty() {
-                    write!(f, " --type=")?;
+                    write!(f, "--type=")?;
                     for (index, context_type) in args.context_types.iter().enumerate() {
                         if index > 0 {
                             write!(f, ",")?;
@@ -303,10 +303,10 @@ impl Display for Command {
                     }
                 }
                 if args.related_context_limit != score::EVAL_RELATED_CONTEXT_TOKENS_LIMIT {
-                    write!(f, " --related-context-limit={}", args.related_context_limit)?;
+                    write!(f, "--related-context-limit={}", args.related_context_limit)?;
                 }
                 if let Some(provider) = &args.predict.provider {
-                    write!(f, " --provider={}", provider)?;
+                    write!(f, "--provider={}", provider)?;
                 }
                 Ok(())
             }

@@ -58,9 +58,9 @@ pub(crate) fn render_skills_setup_page(
         .map(|this| {
             if skills.is_empty() {
                 let message = match &settings_window.current_file {
-                    SettingsUiFile::User => "No global skills installed.",
-                    SettingsUiFile::Project(_) => "No project skills found.",
-                    _ => "No skills available for this context.",
+                    SettingsUiFile::User => "未安装全局技能。",
+                    SettingsUiFile::Project(_) => "未找到项目技能。",
+                    _ => "此上下文没有可用技能。",
                 };
 
                 this.px_8().items_center().justify_center().child(
@@ -119,8 +119,8 @@ fn render_skill_row(
     let skill_name = skill.name.clone();
 
     let (skill_scope, shared_scope) = match &skill.source {
-        SkillSource::ProjectLocal { .. } => ("project", "used in this project"),
-        _ => ("global", "on this machine"),
+        SkillSource::ProjectLocal { .. } => ("project", "在此项目中使用"),
+        _ => ("global", "本机"),
     };
 
     let share_copied = settings_window.last_copied_skill_directory_path.as_deref()
@@ -231,11 +231,9 @@ fn render_skill_row(
                             }
 
                             let prompt_message =
-                                format!("Delete the {skill_scope} skill \"{skill_name}\"?");
+                                format!("删除 {skill_scope} 技能“{skill_name}”？");
                             let prompt_detail = format!(
-                                "This will move {} to the trash. This skill is shared with other \
-                                 agent tools {shared_scope}, so it will no longer be available to \
-                                 them either.",
+                                "这会将 {} 移到回收站。该技能与其他智能体工具共享 {shared_scope}，因此它们也将无法使用。",
                                 directory_path.compact().display(),
                             );
                             let answer = window.prompt(

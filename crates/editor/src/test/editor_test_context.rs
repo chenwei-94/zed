@@ -445,7 +445,7 @@ impl EditorTestContext {
                 fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
                     write!(
                         f,
-                        "\n\n----- EXPECTED: -----\n\n{}\n\n----- ACTUAL: -----\n\n{}\n\n",
+                        "----- EXPECTED: -----\n\n{}\n\n----- ACTUAL: -----\n\n{}",
                         self.0, self.1
                     )
                 }
@@ -455,9 +455,9 @@ impl EditorTestContext {
         };
 
         let expected_excerpts = marked_text
-            .strip_prefix("[EXCERPT]\n")
+            .strip_prefix("[EXCERPT]")
             .unwrap()
-            .split("[EXCERPT]\n")
+            .split("[EXCERPT]")
             .collect::<Vec<_>>();
 
         let (multibuffer_snapshot, selections, excerpts) = self.update_editor(|editor, _, cx| {
@@ -499,7 +499,7 @@ impl EditorTestContext {
                 .update_editor(|editor, _, cx| editor.is_buffer_folded(snapshot.remote_id(), cx));
             let (expected_text, expected_selections) =
                 marked_text_ranges(expected_excerpts[ix], true);
-            if expected_text == "[FOLDED]\n" {
+            if expected_text == "[FOLDED]" {
                 assert!(is_folded, "excerpt {} should be folded", ix);
                 let is_selected = selections.iter().any(|s| {
                     multibuffer_range
@@ -724,9 +724,9 @@ impl std::fmt::Display for FormatMultiBufferAsMarkedText {
         } = self;
 
         for (_snapshot, range, is_folded) in excerpts.into_iter() {
-            write!(f, "[EXCERPT]\n")?;
+            write!(f, "[EXCERPT]")?;
             if *is_folded {
-                write!(f, "[FOLDED]\n")?;
+                write!(f, "[FOLDED]")?;
             }
 
             let multibuffer_range = multibuffer_snapshot

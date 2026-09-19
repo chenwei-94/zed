@@ -139,7 +139,7 @@ impl UnstagedDiff {
         telemetry::event!(
             "Git Unstaged Diff Opened",
             source = if entry.is_some() {
-                "Git Panel"
+                "Git 面板"
             } else {
                 "Action"
             }
@@ -209,7 +209,7 @@ impl UnstagedDiff {
             DiffMultibuffer::new(
                 branch_diff,
                 Capability::ReadWrite,
-                "No unstaged changes",
+                "没有未暂存的更改",
                 move |editor, cx| {
                     editor.set_diff_hunk_renderer(Some(Arc::new(UnstagedDiffHunkRenderer)), cx);
                     editor.rhs_editor().update(cx, |rhs_editor, _cx| {
@@ -347,11 +347,11 @@ impl Item for UnstagedDiff {
     }
 
     fn tab_tooltip_text(&self, _: &App) -> Option<SharedString> {
-        Some("Unstaged Changes".into())
+        Some("未暂存的更改".into())
     }
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Unstaged Changes".into()
+        "未暂存的更改".into()
     }
 
     fn telemetry_event_text(&self) -> Option<&'static str> {

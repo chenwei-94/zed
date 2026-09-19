@@ -484,7 +484,7 @@ impl DevContainerManifest {
         let remote_user = get_remote_user_from_config(&root_image, self)?;
 
         let builtin_env_content = format!(
-            "_CONTAINER_USER={}\n_REMOTE_USER={}\n",
+            "_CONTAINER_USER={}\n_REMOTE_USER={}",
             container_user, remote_user
         );
 
@@ -782,7 +782,7 @@ RUN sed -i -E 's/((^|\s)PATH=)([^\$]*)$/\1\${{PATH:-\3}}/g' /etc/profile || true
 
             if let Some(env) = &self.dev_container().container_env {
                 for (key, value) in env {
-                    extended_dockerfile = format!("{extended_dockerfile}ENV {key}={value}\n");
+                    extended_dockerfile = format!("{extended_dockerfile}ENV {key}={value}");
                 }
             }
         }
@@ -1834,7 +1834,7 @@ RUN sed -i -E 's/((^|\s)PATH=)([^\$]*)$/\1\${PATH:-\3}/g' /etc/profile || true
 
         if let Some(env) = &self.dev_container().container_env {
             for (key, value) in env {
-                dockerfile = format!("{dockerfile}ENV {key}={value}\n");
+                dockerfile = format!("{dockerfile}ENV {key}={value}");
             }
         }
         dockerfile
@@ -3394,7 +3394,7 @@ fi
     );
     for command in script_commands.into_values() {
         script.push_str(&command_to_shell_string(&command));
-        script.push_str("\ncommand_status=$?\n");
+        script.push_str("command_status=$?");
         script.push_str("[ \"$command_status\" -eq 0 ] || exit \"$command_status\"\n");
     }
     script.push_str(

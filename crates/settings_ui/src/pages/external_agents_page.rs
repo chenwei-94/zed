@@ -194,8 +194,8 @@ fn render_agent(
     });
 
     let remove_tooltip = match source {
-        ExternalAgentSource::Registry => "Remove Registry Agent",
-        ExternalAgentSource::Custom => "Remove Custom Agent",
+        ExternalAgentSource::Registry => "移除注册表智能体",
+        ExternalAgentSource::Custom => "移除自定义智能体",
     };
 
     let remove_button = IconButton::new(format!("uninstall-{}", id_string), IconName::Trash)
@@ -281,7 +281,7 @@ pub(crate) fn render_add_agent_popover(
         .menu(move |window, cx| {
             let settings_window = settings_window.clone();
             Some(ContextMenu::build(window, cx, move |menu, _window, _cx| {
-                menu.entry("Install from Registry", None, move |_window, cx| {
+                menu.entry("从注册表安装", None, move |_window, cx| {
                     if let Some(original_window) = original_window {
                         cx.activate(true);
                         original_window
@@ -292,7 +292,7 @@ pub(crate) fn render_add_agent_popover(
                             .log_err();
                     }
                 })
-                .entry("Add Custom Agent", None, move |window, cx| {
+                .entry("添加自定义智能体", None, move |window, cx| {
                     settings_window
                         .update(cx, |this, cx| {
                             open_custom_agent_form(this, None, window, cx);
@@ -300,7 +300,7 @@ pub(crate) fn render_add_agent_popover(
                         .log_err();
                 })
                 .separator()
-                .header("Learn More")
+                .header("了解更多")
                 .item(
                     ContextMenuEntry::new("ACP 文档")
                         .icon(IconName::ArrowUpRight)
@@ -467,14 +467,14 @@ pub(crate) fn open_custom_agent_form(
     settings_window.custom_agent_form = Some(CustomAgentForm::new(existing, window, cx));
 
     let title = if is_edit {
-        "Configure External Agent"
+        "配置外部智能体"
     } else {
-        "Add Custom Agent"
+        "添加自定义智能体"
     };
 
     settings_window.push_dynamic_sub_page(
         title,
-        "Agent Configuration",
+        "智能体配置",
         Some("agent_servers"),
         false,
         render_custom_agent_form_page,
@@ -500,8 +500,8 @@ fn render_custom_agent_form_page(
         .child(
             crate::render_settings_item_layout(
                 settings_window,
-                "Agent Name",
-                "Required. A unique name used to identify this agent.",
+                "智能体名称",
+                "必填。用于标识此智能体的唯一名称。",
                 input_box(&form.name, cx).into_any_element(),
                 None,
                 None,
@@ -515,7 +515,7 @@ fn render_custom_agent_form_page(
             crate::render_settings_item_layout(
                 settings_window,
                 "Command",
-                "Required. Path to the executable that launches the agent.",
+                "必填。启动智能体的可执行文件路径。",
                 input_box(&form.command, cx).into_any_element(),
                 None,
                 None,
@@ -529,7 +529,7 @@ fn render_custom_agent_form_page(
             crate::render_settings_item_layout(
                 settings_window,
                 "Arguments",
-                "Space-separated arguments passed to the command.",
+                "传给命令的、以空格分隔的参数。",
                 input_box(&form.args, cx).into_any_element(),
                 None,
                 None,
@@ -635,8 +635,8 @@ fn render_env_section(
 
     crate::render_settings_item_layout(
         settings_window,
-        "Environment Variables",
-        "Environment variables provided to the agent process.",
+        "环境变量",
+        "提供给智能体进程的环境变量。",
         control,
         None,
         None,
@@ -752,7 +752,7 @@ fn save_custom_agent_form(
         });
     if collides_with_other_agent {
         if let Some(form) = settings_window.custom_agent_form.as_mut() {
-            form.error = Some(format!("An agent named \"{}\" already exists.", id.0).into());
+            form.error = Some(format!("已存在名为“{}”的智能体。", id.0).into());
         }
         cx.notify();
         return;
@@ -814,12 +814,12 @@ fn build_settings_from_values(
 ) -> Result<(AgentId, Option<AgentId>, CustomAgentServerSettings), SharedString> {
     let name = values.name.trim().to_string();
     if name.is_empty() {
-        return Err("Agent name is required.".into());
+        return Err("智能体名称为必填项。".into());
     }
 
     let command = values.command.trim().to_string();
     if command.is_empty() {
-        return Err("Command is required.".into());
+        return Err("命令为必填项。".into());
     }
 
     let args = values
@@ -827,7 +827,7 @@ fn build_settings_from_values(
         .split_whitespace()
         .map(|arg| arg.to_string())
         .collect::<Vec<_>>();
-    let env = collect_kv(&values.env, "environment variable")?;
+    let env = collect_kv(&values.env, "环境变量")?;
 
     let content = CustomAgentServerSettings::Custom {
         path: command.into(),
@@ -863,7 +863,7 @@ fn collect_kv(
             continue;
         }
         if map.contains_key(&key) {
-            return Err(format!("Duplicate {label} \"{key}\".").into());
+            return Err(format!("重复的 {label} \"{key}\"。").into());
         }
         map.insert(key, value.clone());
     }

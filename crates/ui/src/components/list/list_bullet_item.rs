@@ -78,11 +78,11 @@ impl Component for ListBulletItem {
     fn preview(_window: &mut Window, _cx: &mut App) -> AnyElement {
         let basic_examples = vec![
             single_example(
-                "Simple",
+                "简单",
                 ListBulletItem::new("First bullet item").into_any_element(),
             ),
             single_example(
-                "Multiple Lines",
+                "多行",
                 v_flex()
                     .child(ListBulletItem::new("First item"))
                     .child(ListBulletItem::new("Second item"))
@@ -90,14 +90,14 @@ impl Component for ListBulletItem {
                     .into_any_element(),
             ),
             single_example(
-                "Long Text",
+                "长文本",
                 ListBulletItem::new(
                     "A longer bullet item that demonstrates text wrapping behavior",
                 )
                 .into_any_element(),
             ),
             single_example(
-                "With Link",
+                "带链接",
                 ListBulletItem::new("")
                     .child(Label::new("通过以下方式创建 Zed 账户："))
                     .child(ButtonLink::new("访问网站", "https://zed.dev"))

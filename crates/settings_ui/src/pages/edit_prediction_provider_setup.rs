@@ -86,7 +86,7 @@ pub(crate) fn render_edit_prediction_setup_page(
         Some(
             render_api_key_provider(
                 IconName::AiOpenAiCompat,
-                "OpenAI Compatible API",
+                "OpenAI 兼容 API",
                 ApiKeyDocs::Custom {
                     message: "作为 Authorization: Bearer {key} 发送的 API 密钥。".into(),
                 },
@@ -129,7 +129,7 @@ fn render_provider_dropdown(window: &mut Window, cx: &mut App) -> AnyElement {
     let current_provider = AllLanguageSettings::get_global(cx)
         .edit_predictions
         .provider;
-    let current_provider_name = current_provider.display_name().unwrap_or("No provider set");
+    let current_provider_name = current_provider.display_name().unwrap_or("未设置提供商");
 
     let menu = ContextMenu::build(window, cx, move |mut menu, _, cx| {
         let available_providers = get_available_providers(cx);
@@ -279,21 +279,21 @@ fn render_api_key_provider(
     };
 
     let configured_card_label = if is_from_env_var {
-        "API Key Set in Environment Variable"
+        "API 密钥已在环境变量中设置"
     } else {
-        "API Key Configured"
+        "API 密钥已配置"
     };
 
     let container = if has_key {
         base_container.child(header).child(
             ConfiguredApiCard::new(format!("{title}-reset-key"), configured_card_label)
-                .button_label("Reset Key")
+                .button_label("重置密钥")
                 .button_tab_index(0)
                 .disabled(is_from_env_var)
                 .when_some(env_var_name, |this, env_var_name| {
                     this.when(is_from_env_var, |this| {
                         this.tooltip_label(format!(
-                            "To reset your API key, unset the {} environment variable.",
+                            "要重置 API 密钥，请取消设置 {} 环境变量。",
                             env_var_name
                         ))
                     })
@@ -320,7 +320,7 @@ fn render_api_key_provider(
                         .when_some(env_var_name, |this, env_var_name| {
                             this.child({
                                 let label = format!(
-                                    "Or set the {} env var and restart Zed.",
+                                    "或设置环境变量 {}，然后重启 Zed。",
                                     env_var_name.as_ref()
                                 );
                                 Label::new(label).size(LabelSize::Small).color(Color::Muted)
@@ -331,7 +331,7 @@ fn render_api_key_provider(
                     SettingsInputField::new(format!("{}-api-key-input", title))
                         .tab_index(0)
                         .with_placeholder("xxxxxxxxxxxxxxxxxxxx")
-                        .aria_label(format!("{} API Key", title))
+                        .aria_label(format!("{} API 密钥", title))
                         .on_confirm(move |api_key, _window, cx| {
                             write_key(api_key.filter(|key| !key.is_empty()), cx);
                         }),

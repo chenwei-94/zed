@@ -193,7 +193,7 @@ impl PickerDelegate for LspCommandSelectorDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Select a language server command…".into()
+        "选择语言服务器命令…".into()
     }
 
     fn match_count(&self) -> usize {
@@ -241,7 +241,7 @@ impl PickerDelegate for LspCommandSelectorDelegate {
                 }
                 Err(error) => {
                     let error = format!(
-                        "Failed to execute LSP command {}: {error:#}",
+                        "执行 LSP 命令 {} 失败：{error:#}",
                         command.command
                     );
                     log::error!("{error}");

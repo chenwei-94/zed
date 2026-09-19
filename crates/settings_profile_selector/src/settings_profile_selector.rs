@@ -155,7 +155,7 @@ impl PickerDelegate for SettingsProfileSelectorDelegate {
     }
 
     fn placeholder_text(&self, _: &mut Window, _: &mut App) -> std::sync::Arc<str> {
-        "Select a settings profile...".into()
+        "选择设置配置档…".into()
     }
 
     fn match_count(&self) -> usize {

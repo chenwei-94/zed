@@ -133,7 +133,7 @@ impl DisconnectedOverlay {
             .await?;
             Ok(())
         })
-        .detach_and_prompt_err("Failed to reconnect", window, cx, |_, _, _| None);
+        .detach_and_prompt_err("重新连接失败", window, cx, |_, _, _| None);
     }
 
     fn cancel(&mut self, _: &menu::Cancel, _: &mut Window, cx: &mut Context<Self>) {
@@ -148,14 +148,14 @@ impl Render for DisconnectedOverlay {
 
         let message = match &self.host {
             Host::CollabGuestProject => {
-                "Your connection to the remote project has been lost.".to_string()
+                "与远程项目的连接已断开。".to_string()
             }
             Host::RemoteServerProject(options, server_not_running) => {
                 let autosave = if ProjectSettings::get_global(cx)
                     .session
                     .restore_unsaved_buffers
                 {
-                    "\nUnsaved changes are stored locally."
+                    "未保存的更改已存储在本地。"
                 } else {
                     ""
                 };
@@ -165,7 +165,7 @@ impl Render for DisconnectedOverlay {
                     "not responding"
                 };
                 format!(
-                    "Your connection to {} has been lost due to the server {reason}.{autosave}",
+                    "与 {} 的连接已断开，原因是服务器{reason}。{autosave}",
                     options.display_name(),
                 )
             }

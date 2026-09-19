@@ -1453,7 +1453,7 @@ fn file_save_dialog(
 
     unsafe {
         dialog.SetFileTypes(&[Common::COMDLG_FILTERSPEC {
-            pszName: windows::core::w!("All files"),
+            pszName: windows::core::w!("所有文件"),
             pszSpec: windows::core::w!("*.*"),
         }])?;
         if let Err(error) = dialog.Show(window) {

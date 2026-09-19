@@ -223,7 +223,7 @@ impl PickerDelegate for DevContainerPickerDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Select Dev Container Configuration".into()
+        "选择 Dev Container 配置".into()
     }
 
     fn update_matches(
@@ -363,7 +363,7 @@ impl EditNicknameState {
             .and_then(|state| state.nickname)
             .filter(|text| !text.is_empty());
         this.editor.update(cx, |this, cx| {
-            this.set_placeholder_text("Add a nickname for this server", window, cx);
+            this.set_placeholder_text("为此服务器添加昵称", window, cx);
             if let Some(starting_text) = starting_text {
                 this.set_text(starting_text, window, cx);
             }
@@ -1093,11 +1093,11 @@ impl PickerDelegate for RemoteServerPickerDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Search remote projects…".into()
+        "搜索远程项目…".into()
     }
 
     fn no_matches_text(&self, _window: &mut Window, _cx: &mut App) -> Option<SharedString> {
-        Some("No matching remote projects.".into())
+        Some("没有匹配的远程项目。".into())
     }
 
     fn update_matches(
@@ -1263,21 +1263,21 @@ impl PickerDelegate for RemoteServerPickerDelegate {
                 host_positions,
             } => self.render_server_header(*server, host_positions),
             RemoteMatch::AddServer => {
-                Some(self.render_action_item(ix, IconName::Plus, "Connect SSH Server", selected))
+                Some(self.render_action_item(ix, IconName::Plus, "连接 SSH 服务器", selected))
             }
             RemoteMatch::AddDevContainer => {
-                Some(self.render_action_item(ix, IconName::Plus, "Connect Dev Container", selected))
+                Some(self.render_action_item(ix, IconName::Plus, "连接 Dev Container", selected))
             }
             RemoteMatch::AddWsl => {
-                Some(self.render_action_item(ix, IconName::Plus, "Add WSL Distro", selected))
+                Some(self.render_action_item(ix, IconName::Plus, "添加 WSL 发行版", selected))
             }
             RemoteMatch::OpenFolder { .. } => {
-                Some(self.render_action_item(ix, IconName::Plus, "Open Folder", selected))
+                Some(self.render_action_item(ix, IconName::Plus, "打开文件夹", selected))
             }
             RemoteMatch::ViewServerOptions { .. } => Some(self.render_action_item(
                 ix,
                 IconName::Settings,
-                "View Server Options",
+                "查看服务器选项",
                 selected,
             )),
             RemoteMatch::Project {
@@ -1590,7 +1590,7 @@ impl RemoteServerProjects {
             Err(e) => {
                 self.mode = Mode::CreateRemoteServer(CreateRemoteServer {
                     address_editor: editor,
-                    address_error: Some(format!("could not parse: {:?}", e).into()),
+                    address_error: Some(format!("无法解析：{:?}", e).into()),
                     ssh_prompt: None,
                     _creating: None,
                 });
@@ -1615,7 +1615,7 @@ impl RemoteServerProjects {
             window,
             cx,
         )
-        .prompt_err("Failed to connect", window, cx, |_, _, _| None);
+        .prompt_err("连接失败", window, cx, |_, _, _| None);
 
         let address_editor = editor.clone();
         let creating = cx.spawn_in(window, async move |this, cx| {
@@ -1690,7 +1690,7 @@ impl RemoteServerProjects {
             window,
             cx,
         )
-        .prompt_err("Failed to connect", window, cx, |_, _, _| None);
+        .prompt_err("连接失败", window, cx, |_, _, _| None);
 
         let wsl_picker = picker.clone();
         let creating = cx.spawn_in(window, async move |this, cx| {
@@ -1804,7 +1804,7 @@ impl RemoteServerProjects {
                     window,
                     cx,
                 )
-                .prompt_err("Failed to connect", window, cx, |_, _, _| None);
+                .prompt_err("连接失败", window, cx, |_, _, _| None);
 
                 cx.spawn_in(window, async move |workspace, cx| {
                     let session = connect.await;
@@ -2020,7 +2020,7 @@ impl RemoteServerProjects {
                 log::error!("Failed to connect: {e:#}");
                 cx.prompt(
                     gpui::PromptLevel::Critical,
-                    "Failed to connect",
+                    "连接失败",
                     Some(&e.to_string()),
                     &["OK"],
                 )
@@ -2253,7 +2253,7 @@ impl RemoteServerProjects {
                         log::error!("Failed to start dev container: {:?}", e);
                         cx.prompt(
                             gpui::PromptLevel::Critical,
-                            "Failed to start Dev Container. See logs for details",
+                            "启动 Dev Container 失败。详见日志",
                             Some(&format!("{e}")),
                             &["OK"],
                         )
@@ -2308,7 +2308,7 @@ impl RemoteServerProjects {
                 log::error!("Failed to connect: {e:#}");
                 cx.prompt(
                     gpui::PromptLevel::Critical,
-                    "Failed to connect",
+                    "连接失败",
                     Some(&e.to_string()),
                     &["OK"],
                 )
@@ -2692,13 +2692,13 @@ impl RemoteServerProjects {
                 window: &mut Window,
                 cx: &mut App,
             ) {
-                let prompt_message = format!("Remove WSL distro `{}`?", distro_name);
+                let prompt_message = format!("移除 WSL 发行版 `{}`？", distro_name);
 
                 let confirmation = window.prompt(
                     PromptLevel::Warning,
                     &prompt_message,
                     None,
-                    &["Yes, remove it", "No, keep it"],
+                    &["Yes, remove it", "不，保留"],
                     cx,
                 );
 
@@ -2752,9 +2752,9 @@ impl RemoteServerProjects {
         v_flex()
             .child({
                 let label = if connection.nickname.is_some() {
-                    "Edit Nickname"
+                    "编辑昵称"
                 } else {
-                    "Add Nickname to Server"
+                    "为服务器添加昵称"
                 };
                 div()
                     .id("ssh-options-add-nickname")
@@ -2789,7 +2789,7 @@ impl RemoteServerProjects {
                         .update(cx, |this, cx| {
                             struct SshServerAddressCopiedToClipboard;
                             let notification = format!(
-                                "Copied server address ({}) to clipboard",
+                                "已将服务器地址（{}）复制到剪贴板",
                                 connection_string
                             );
 
@@ -2841,13 +2841,13 @@ impl RemoteServerProjects {
                     window: &mut Window,
                     cx: &mut App,
                 ) {
-                    let prompt_message = format!("Remove server `{}`?", connection_string);
+                    let prompt_message = format!("移除服务器 `{}`？", connection_string);
 
                     let confirmation = window.prompt(
                         PromptLevel::Warning,
                         &prompt_message,
                         None,
-                        &["Yes, remove it", "No, keep it"],
+                        &["Yes, remove it", "不，保留"],
                         cx,
                     );
 

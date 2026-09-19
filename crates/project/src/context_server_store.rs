@@ -1969,7 +1969,7 @@ async fn resolve_auth_required(
         return ContextServerState::Error {
             configuration,
             server,
-            error: "Server returned 401 Unauthorized. Check your configured Authorization header."
+            error: "服务器返回 401 未授权。检查已配置的 Authorization 请求头。"
                 .into(),
         };
     }
@@ -1981,7 +1981,7 @@ async fn resolve_auth_required(
             return ContextServerState::Error {
                 configuration,
                 server,
-                error: "Server returned 401 Unauthorized on a non-HTTP transport".into(),
+                error: "服务器在非 HTTP 传输上返回 401 未授权".into(),
             };
         }
     };
@@ -2011,9 +2011,7 @@ async fn resolve_auth_required(
                 return ContextServerState::Error {
                     configuration,
                     server,
-                    error: "Authorization server supports neither CIMD nor DCR. \
-                            Configure a pre-registered client_id in your settings \
-                            under the \"oauth\" key."
+                    error: "授权服务器既不支持 CIMD 也不支持 DCR。请在设置的 \"oauth\" 键下配置预注册的 client_id。"
                         .into(),
                 };
             }
@@ -2033,7 +2031,7 @@ async fn resolve_auth_required(
             ContextServerState::Error {
                 configuration,
                 server,
-                error: format!("OAuth discovery failed: {discovery_err}").into(),
+                error: format!("OAuth 发现失败：{discovery_err}").into(),
             }
         }
     }

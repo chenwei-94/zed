@@ -47,9 +47,9 @@ const PRETTIER_PACKAGE_NAME: &str = "prettier";
 const TAILWIND_PRETTIER_PLUGIN_PACKAGE_NAME: &str = "prettier-plugin-tailwindcss";
 
 #[cfg(any(test, feature = "test-support"))]
-pub const FORMAT_SUFFIX: &str = "\nformatted by test prettier";
+pub const FORMAT_SUFFIX: &str = "formatted by test prettier";
 #[cfg(any(test, feature = "test-support"))]
-pub const RANGE_FORMAT_SUFFIX: &str = "\nrange formatted by test prettier";
+pub const RANGE_FORMAT_SUFFIX: &str = "range formatted by test prettier";
 
 impl Prettier {
     pub const CONFIG_FILE_NAMES: &'static [&'static str] = &[

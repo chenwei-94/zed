@@ -427,11 +427,11 @@ impl fmt::Display for SandboxError {
                 write!(formatter, "sandboxing is not supported on this platform")
             }
             SandboxError::BwrapNotFound => {
-                write!(formatter, "no usable `bwrap` binary was found on PATH")
+                write!(formatter, "在 PATH 中找不到可用的 `bwrap` 可执行文件")
             }
             SandboxError::BwrapSetuidRejected => write!(
                 formatter,
-                "the only available `bwrap` is setuid-root, which Zed refuses to run"
+                "唯一可用的 `bwrap` 是 setuid-root 的，Zed 拒绝运行它"
             ),
             SandboxError::SandboxProbeFailed => {
                 write!(

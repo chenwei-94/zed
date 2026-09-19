@@ -85,7 +85,7 @@ impl AgentTool for AskUserTool {
     ) -> SharedString {
         match input {
             Ok(input) if !input.question.is_empty() => SharedString::from(input.question),
-            _ => "Asking a question".into(),
+            _ => "正在提问".into(),
         }
     }
 
@@ -182,9 +182,9 @@ fn build_schema(options: &[String], allow_free_text: bool) -> acp::ElicitationSc
 
     if allow_free_text {
         let title = if options.is_empty() {
-            "Your answer"
+            "你的回答"
         } else {
-            "Or type your own answer"
+            "或输入你自己的回答"
         };
         schema = schema.property(
             OTHER_FIELD,

@@ -138,7 +138,7 @@ impl Item for KeyContextView {
     fn to_item_events(_: &Self::Event, _: &mut dyn FnMut(workspace::item::ItemEvent)) {}
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Keyboard Context".into()
+        "键盘上下文".into()
     }
 
     fn telemetry_event_text(&self) -> Option<&'static str> {
@@ -262,8 +262,8 @@ impl Render for KeyContextView {
                             .map(|(name, predicate, state)| {
                                 let (text, color) = match state {
                                     Some(true) => ("(match)", ui::Color::Success),
-                                    Some(false) => ("(low precedence)", ui::Color::Hint),
-                                    None => ("(no match)", ui::Color::Error),
+                                    Some(false) => ("（低优先级）", ui::Color::Hint),
+                                    None => ("（无匹配）", ui::Color::Error),
                                 };
                                 h_flex()
                                     .gap_2()

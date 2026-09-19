@@ -627,13 +627,13 @@ impl Render for MergeConflictIndicator {
         let file_count = self.conflicted_paths.len();
 
         let message: SharedString = format!(
-            "Resolve Merge Conflict{} with Agent",
+            "用智能体解决合并冲突{}",
             if file_count == 1 { "" } else { "s" }
         )
         .into();
 
         let tooltip_label: SharedString = format!(
-            "Found {} {} across the codebase",
+            "在代码库中发现 {} 处 {}",
             file_count,
             if file_count == 1 {
                 "conflict"
@@ -669,7 +669,7 @@ impl Render for MergeConflictIndicator {
                         Tooltip::with_meta(
                             tooltip_label.clone(),
                             None,
-                            "Click to Resolve with Agent",
+                            "点击用智能体解决",
                             cx,
                         )
                     })

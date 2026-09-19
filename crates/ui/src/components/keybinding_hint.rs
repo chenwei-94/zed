@@ -267,20 +267,20 @@ impl Component for KeybindingHint {
             .gap_6()
             .children(vec![
                 example_group_with_title(
-                    "Basic",
+                    "基础",
                     vec![
                         single_example(
-                            "With Prefix",
-                            KeybindingHint::with_prefix("Go to Start:", enter.clone(), bg_color)
+                            "带前缀",
+                            KeybindingHint::with_prefix("转到开头：", enter.clone(), bg_color)
                                 .into_any_element(),
                         ),
                         single_example(
-                            "With Suffix",
-                            KeybindingHint::with_suffix(enter.clone(), "Go to End", bg_color)
+                            "带后缀",
+                            KeybindingHint::with_suffix(enter.clone(), "转到末尾", bg_color)
                                 .into_any_element(),
                         ),
                         single_example(
-                            "With Prefix and Suffix",
+                            "带前缀和后缀",
                             KeybindingHint::new(enter.clone(), bg_color)
                                 .prefix("Confirm:")
                                 .suffix("Execute selected action")
@@ -289,24 +289,24 @@ impl Component for KeybindingHint {
                     ],
                 ),
                 example_group_with_title(
-                    "Sizes",
+                    "尺寸",
                     vec![
                         single_example(
-                            "Small",
+                            "小",
                             KeybindingHint::new(enter.clone(), bg_color)
                                 .size(Pixels::from(12.0))
                                 .prefix("Small:")
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Medium",
+                            "中",
                             KeybindingHint::new(enter.clone(), bg_color)
                                 .size(Pixels::from(16.0))
                                 .suffix("Medium")
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Large",
+                            "大",
                             KeybindingHint::new(enter, bg_color)
                                 .size(Pixels::from(20.0))
                                 .prefix("Large:")

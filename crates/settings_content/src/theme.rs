@@ -1425,7 +1425,7 @@ impl schemars::JsonSchema for FontWeightContent {
             "minimum": Self::THIN.0,
             "maximum": Self::BLACK.0,
             "default": Self::NORMAL.0,
-            "description": "Font weight value between 100 (thin) and 900 (black)"
+            "description": "字重值，介于 100（细）与 900（黑）之间"
         })
     }
 }

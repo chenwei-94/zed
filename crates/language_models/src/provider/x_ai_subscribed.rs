@@ -111,7 +111,7 @@ impl LanguageModelProvider for XAiSubscribedProvider {
         let title = if is_authenticated {
             None
         } else {
-            Some("Configure SuperGrok".into())
+            Some("配置 SuperGrok".into())
         };
         let description = if is_authenticated {
             None
@@ -138,14 +138,12 @@ impl LanguageModelProvider for XAiSubscribedProvider {
     }
 
     fn authentication_error_message(&self) -> SharedString {
-        "Your SuperGrok session is invalid or has expired. \
-        Sign in again via Settings > AI > LLM Providers to continue."
+        "SuperGrok 会话无效或已过期。请通过 设置 > AI > LLM Providers 重新登录以继续。"
             .into()
     }
 
     fn missing_credentials_error_message(&self) -> SharedString {
-        "You are not signed in to SuperGrok. \
-        Sign in via Settings > AI > LLM Providers to continue."
+        "尚未登录 SuperGrok。请通过 设置 > AI > LLM Providers 登录以继续。"
             .into()
     }
 }
@@ -165,14 +163,14 @@ impl Render for ConfigurationView {
             let label = state
                 .email()
                 .map(|email| format!("Signed in as {email}"))
-                .unwrap_or_else(|| "Signed in".to_string());
+                .unwrap_or_else(|| "已登录".to_string());
             let state_entity = self.state.clone();
 
             return v_flex()
                 .gap_2()
                 .child(
                     ConfiguredApiCard::new("x-ai-subscribed-sign-out", SharedString::from(label))
-                        .button_label("Sign Out")
+                        .button_label("退出登录")
                         .on_click(cx.listener(move |_this, _, _window, cx| {
                             state_entity
                                 .update(cx, |state, cx| state.sign_out(cx))
@@ -186,9 +184,9 @@ impl Render for ConfigurationView {
         let provider_state = self.state.clone();
         let is_signing_in = state.is_signing_in();
         let button_label = if is_signing_in {
-            "Signing in…"
+            "正在登录…"
         } else {
-            "Sign In"
+            "登录"
         };
 
         v_flex()

@@ -363,7 +363,7 @@ impl Progress {
         let failed_count = inner.failed_examples;
 
         let failed_label = if failed_count > 0 {
-            format!(" {} failed ", failed_count)
+            format!("{} failed", failed_count)
         } else {
             String::new()
         };

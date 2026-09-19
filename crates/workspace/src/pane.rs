@@ -238,12 +238,12 @@ macro_rules! split_structs {
 }
 
 split_structs!(
-    SplitLeft => "Splits the pane to the left.",
-    SplitRight => "Splits the pane to the right.",
-    SplitUp => "Splits the pane upward.",
-    SplitDown => "Splits the pane downward.",
-    SplitHorizontal => "Splits the pane horizontally.",
-    SplitVertical => "Splits the pane vertically."
+    SplitLeft => "向左拆分窗格。",
+    SplitRight => "向右拆分窗格。",
+    SplitUp => "向上拆分窗格。",
+    SplitDown => "向下拆分窗格。",
+    SplitHorizontal => "水平拆分窗格。",
+    SplitVertical => "垂直拆分窗格。"
 );
 
 /// Activates the previous item in the pane.
@@ -1942,7 +1942,7 @@ impl Pane {
         }
         if file_names.len() > 6 {
             format!(
-                "{}\n.. and {} more",
+                "{}\n…… 以及另外 {} 个",
                 file_names.iter().take(5).join("\n"),
                 file_names.len() - 5
             )
@@ -1998,9 +1998,9 @@ impl Pane {
                     let detail = Self::file_names_for_prompt(&mut dirty_items.iter(), cx);
                     window.prompt(
                         PromptLevel::Warning,
-                        "Do you want to save changes to the following files?",
+                        "是否保存以下文件的更改？",
                         Some(&detail),
-                        &["Save all", "Discard all", "Cancel"],
+                        &["全部保存", "全部放弃", "Cancel"],
                         cx,
                     )
                 })?;
@@ -2049,9 +2049,9 @@ impl Pane {
                                 );
                                 window.prompt(
                                     PromptLevel::Warning,
-                                    &format!("Unable to save file: {err}"),
+                                    &format!("无法保存文件：{err}"),
                                     Some(&detail),
-                                    &["Close Without Saving", "Cancel"],
+                                    &["不保存并关闭", "Cancel"],
                                     cx,
                                 )
                             })?;
@@ -2250,9 +2250,9 @@ impl Pane {
         save_intent: SaveIntent,
         cx: &mut AsyncWindowContext,
     ) -> Result<bool> {
-        const CONFLICT_MESSAGE: &str = "This file has changed on disk since you started editing it. Do you want to overwrite it?";
+        const CONFLICT_MESSAGE: &str = "此文件在你开始编辑后已在磁盘上被修改。是否要覆盖它？";
 
-        const DELETED_MESSAGE: &str = "This file has been deleted on disk since you started editing it. Do you want to recreate it?";
+        const DELETED_MESSAGE: &str = "此文件在你开始编辑后已从磁盘上删除。是否要重新创建它？";
 
         let path_style = project.read_with(cx, |project, cx| project.path_style(cx));
         if save_intent == SaveIntent::Skip {
@@ -2360,7 +2360,7 @@ impl Pane {
                         PromptLevel::Warning,
                         CONFLICT_MESSAGE,
                         None,
-                        &["Overwrite", "Discard Edits", "Cancel"],
+                        &["Overwrite", "放弃编辑", "Cancel"],
                         cx,
                     )
                 })?;
@@ -2403,7 +2403,7 @@ impl Pane {
                                 PromptLevel::Warning,
                                 &prompt,
                                 None,
-                                &["Save", "Don't Save", "Cancel"],
+                                &["Save", "不保存", "Cancel"],
                                 cx,
                             ))
                         } else {
@@ -2888,11 +2888,11 @@ impl Pane {
                         Tooltip::with_meta(
                             "解锁标签页",
                             None,
-                            "This will make this tab editable",
+                            "这将使此标签页可编辑",
                             cx,
                         )
                     } else {
-                        Tooltip::with_meta("标签页已锁定", None, "This tab is read-only", cx)
+                        Tooltip::with_meta("标签页已锁定", None, "此标签页为只读", cx)
                     }
                 })
                 .on_click(cx.listener(move |pane, _, window, cx| {
@@ -3002,7 +3002,7 @@ impl Pane {
                 let end_slot_tooltip_text: &'static str;
                 let end_slot = if is_pinned {
                     end_slot_action = &TogglePinTab;
-                    end_slot_tooltip_text = "Unpin Tab";
+                    end_slot_tooltip_text = "取消固定标签页";
                     IconButton::new("unpin tab", IconName::Pin)
                         .shape(IconButtonShape::Square)
                         .icon_color(Color::Muted)
@@ -3016,7 +3016,7 @@ impl Pane {
                         save_intent: None,
                         close_pinned: false,
                     };
-                    end_slot_tooltip_text = "Close Tab";
+                    end_slot_tooltip_text = "关闭标签页";
                     match show_close_button {
                         ShowCloseButton::Always => IconButton::new("close tab", IconName::Close),
                         ShowCloseButton::Hover => {
@@ -3069,7 +3069,7 @@ impl Pane {
                             } else {
                                 this.tooltip(move |_, cx| {
                                     let text = text.clone();
-                                    Tooltip::with_meta(text, None, "Read-Only Tab", cx)
+                                    Tooltip::with_meta(text, None, "只读标签页", cx)
                                 })
                             }
                         }
@@ -3219,7 +3219,7 @@ impl Pane {
                                     })),
                             ))
                             .entry(
-                                "Close All",
+                                "全部关闭",
                                 Some(Box::new(close_all_items_action.clone())),
                                 window.handler_for(&pane, move |pane, window, cx| {
                                     pane.close_all_items(&close_all_items_action, window, cx)
@@ -3231,7 +3231,7 @@ impl Pane {
                             menu.separator().map(|this| {
                                 if is_pinned {
                                     this.entry(
-                                        "Unpin Tab",
+                                        "取消固定标签页",
                                         Some(TogglePinTab.boxed_clone()),
                                         window.handler_for(&pane, move |pane, window, cx| {
                                             pane.unpin_tab_at(ix, window, cx);
@@ -3239,7 +3239,7 @@ impl Pane {
                                     )
                                 } else {
                                     this.entry(
-                                        "Pin Tab",
+                                        "固定标签页",
                                         Some(TogglePinTab.boxed_clone()),
                                         window.handler_for(&pane, move |pane, window, cx| {
                                             pane.pin_tab_at(ix, window, cx);
@@ -3251,9 +3251,9 @@ impl Pane {
 
                         if capability != Capability::ReadOnly {
                             let read_only_label = if capability.editable() {
-                                "Make Tab Read-Only"
+                                "使标签页只读"
                             } else {
-                                "Make Tab Editable"
+                                "使标签页可编辑"
                             };
                             menu = menu.separator().entry(
                                 read_only_label,
@@ -3323,7 +3323,7 @@ impl Pane {
                                 .separator()
                                 .when_some(entry_abs_path, |menu, abs_path| {
                                     menu.entry(
-                                        "Copy Path",
+                                        "复制路径",
                                         Some(Box::new(zed_actions::workspace::CopyPath)),
                                         window.handler_for(&pane, move |_, _, cx| {
                                             cx.write_to_clipboard(ClipboardItem::new_string(
@@ -3334,7 +3334,7 @@ impl Pane {
                                 })
                                 .when_some(relative_path, |menu, relative_path| {
                                     menu.entry(
-                                        "Copy Relative Path",
+                                        "复制相对路径",
                                         Some(Box::new(zed_actions::workspace::CopyRelativePath)),
                                         window.handler_for(&pane, move |this, _, cx| {
                                             let Some(project) = this.project.upgrade() else {
@@ -3353,7 +3353,7 @@ impl Pane {
                                         project_path.clone(),
                                         |menu, project_path| {
                                             menu.entry(
-                                                "Open File Permalink",
+                                                "打开文件永久链接",
                                                 Some(OpenFilePermalink.boxed_clone()),
                                                 window.handler_for(&pane, {
                                                     let project_path = project_path.clone();
@@ -3373,7 +3373,7 @@ impl Pane {
                                                 }),
                                             )
                                             .entry(
-                                                "Copy File Permalink",
+                                                "复制文件永久链接",
                                                 Some(CopyFilePermalink.boxed_clone()),
                                                 window.handler_for(
                                                     &pane,
@@ -3417,7 +3417,7 @@ impl Pane {
                                 .map(pin_tab_entries)
                                 .when(visible_in_project_panel, |menu| {
                                     menu.entry(
-                                        "Reveal In Project Panel",
+                                        "在项目面板中显示",
                                         Some(Box::new(RevealInProjectPanel::default())),
                                         window.handler_for(&pane, move |pane, _, cx| {
                                             pane.project
@@ -3432,7 +3432,7 @@ impl Pane {
                                 })
                                 .when_some(parent_abs_path, |menu, parent_abs_path| {
                                     menu.entry(
-                                        "Open in Terminal",
+                                        "在终端中打开",
                                         Some(Box::new(OpenInTerminal)),
                                         window.handler_for(&pane, move |_, window, cx| {
                                             window.dispatch_action(
@@ -4131,13 +4131,13 @@ impl Pane {
                 let project = workspace.project().read(cx);
 
                 if project.is_via_collab() {
-                    workspace.show_error("Cannot drop files on a remote project", cx);
+                    workspace.show_error("无法将文件拖放到远程项目", cx);
                     return (true, false);
                 }
                 if project.is_via_remote_server() {
                     if !project.is_via_wsl(cx) {
                         workspace.show_error(
-                            "Cannot drop local files on a remote SSH/Docker project",
+                            "无法将本地文件拖放到远程 SSH/Docker 项目",
                             cx,
                         );
                         return (true, false);
@@ -4195,7 +4195,7 @@ impl Pane {
                             workspace
                                 .update_in(cx, |workspace, _, cx| {
                                     workspace.show_error(
-                                        "Could not translate the dropped paths into WSL paths",
+                                        "无法将拖放的路径转换为 WSL 路径",
                                         cx,
                                     );
                                 })
@@ -4232,7 +4232,7 @@ impl Pane {
                         _ = workspace.update_in(cx, |workspace, window, cx| {
                             for item in opened_items.into_iter().flatten() {
                                 if let Err(e) = item {
-                                    workspace.show_error(format!("Error: {e}"), cx);
+                                    workspace.show_error(format!("错误：{e}"), cx);
                                 }
                             }
                             if to_pane.read(cx).items_len() == 0 {
@@ -4336,15 +4336,15 @@ fn default_render_tab_bar_buttons(
                 .with_handle(pane.new_item_context_menu_handle.clone())
                 .menu(move |window, cx| {
                     Some(ContextMenu::build(window, cx, |menu, _, _| {
-                        menu.action("New File", NewFile.boxed_clone())
-                            .action("Open File", ToggleFileFinder::default().boxed_clone())
+                        menu.action("新建文件", NewFile.boxed_clone())
+                            .action("打开文件", ToggleFileFinder::default().boxed_clone())
                             .separator()
-                            .action("Search Project", DeploySearch::default().boxed_clone())
-                            .action("Search Symbols", ToggleProjectSymbols.boxed_clone())
+                            .action("搜索项目", DeploySearch::default().boxed_clone())
+                            .action("搜索符号", ToggleProjectSymbols.boxed_clone())
                             .separator()
-                            .action("New Terminal", NewTerminal::default().boxed_clone())
+                            .action("新建终端", NewTerminal::default().boxed_clone())
                             .action(
-                                "New Center Terminal",
+                                "新建居中终端",
                                 NewCenterTerminal::default().boxed_clone(),
                             )
                     }))
@@ -4364,15 +4364,15 @@ fn default_render_tab_bar_buttons(
                     ContextMenu::build(window, cx, |menu, _, _| {
                         let mode = SplitMode::MovePane;
                         if can_split_move {
-                            menu.action("Split Right", SplitRight { mode }.boxed_clone())
-                                .action("Split Left", SplitLeft { mode }.boxed_clone())
-                                .action("Split Up", SplitUp { mode }.boxed_clone())
-                                .action("Split Down", SplitDown { mode }.boxed_clone())
+                            menu.action("向右拆分", SplitRight { mode }.boxed_clone())
+                                .action("向左拆分", SplitLeft { mode }.boxed_clone())
+                                .action("向上拆分", SplitUp { mode }.boxed_clone())
+                                .action("向下拆分", SplitDown { mode }.boxed_clone())
                         } else {
-                            menu.action("Split Right", SplitRight::default().boxed_clone())
-                                .action("Split Left", SplitLeft::default().boxed_clone())
-                                .action("Split Up", SplitUp::default().boxed_clone())
-                                .action("Split Down", SplitDown::default().boxed_clone())
+                            menu.action("向右拆分", SplitRight::default().boxed_clone())
+                                .action("向左拆分", SplitLeft::default().boxed_clone())
+                                .action("向上拆分", SplitUp::default().boxed_clone())
+                                .action("向下拆分", SplitDown::default().boxed_clone())
                         }
                     })
                     .into()
@@ -5026,11 +5026,11 @@ fn dirty_message_for(buffer_path: Option<ProjectPath>, path_style: PathStyle) ->
         Some(path) => {
             let path = truncate_and_remove_front(&path, 80);
             format!(
-                "{} contains unsaved edits. Do you want to save it?",
+                "{} 包含未保存的更改。是否要保存？",
                 MarkdownInlineCode(path.as_str())
             )
         }
-        None => "This buffer contains unsaved edits. Do you want to save it?".to_string(),
+        None => "此缓冲区包含未保存的更改。是否要保存？".to_string(),
     }
 }
 

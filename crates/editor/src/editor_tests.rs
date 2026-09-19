@@ -35867,7 +35867,7 @@ fn test_gutter_button_tooltip_updates_intent_with_secondary_modifier(cx: &mut Te
     let meta = tooltip.meta_text();
     assert!(meta.contains("-click to add a bookmark"), "got: {meta}");
     assert!(!meta.contains("-click to add a breakpoint"), "got: {meta}");
-    assert!(meta.contains("right-click for more options"));
+    assert!(meta.contains("右键查看更多选项"));
 
     // When only one feature is enabled (primary == secondary), a
     // modifier-click repeats the primary action, so the tooltip must not
@@ -35879,7 +35879,7 @@ fn test_gutter_button_tooltip_updates_intent_with_secondary_modifier(cx: &mut Te
         on_render: None,
     };
     let meta = single_feature_tooltip.meta_text();
-    assert_eq!(meta, "right-click for more options");
+    assert_eq!(meta, "右键查看更多选项");
 }
 
 #[gpui::test]
@@ -35905,17 +35905,17 @@ fn test_gutter_button_tooltip_renders_modifier_transitions(cx: &mut TestAppConte
         assert!(!meta.contains("-click to add a breakpoint"), "got: {meta}");
     };
 
-    assert_render("Set Breakpoint");
+    assert_render("设置断点");
 
     cx.simulate_modifiers_change(Modifiers::secondary_key());
     tooltip.update_in(cx, |_, _window, cx| cx.notify());
     cx.run_until_parked();
-    assert_render("Set Bookmark");
+    assert_render("设置书签");
 
     cx.simulate_modifiers_change(Modifiers::none());
     tooltip.update_in(cx, |_, _window, cx| cx.notify());
     cx.run_until_parked();
-    assert_render("Set Breakpoint");
+    assert_render("设置断点");
 }
 
 #[gpui::test]

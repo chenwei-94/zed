@@ -88,7 +88,7 @@ impl WorktreeCreateTarget {
             WorktreeCreateTarget::DefaultBranch(default_branch) => default_branch.display_name(),
             WorktreeCreateTarget::CurrentBranch => {
                 if has_multiple_repositories {
-                    "current branches".to_string()
+                    "当前分支".to_string()
                 } else {
                     current_branch_name.unwrap_or("HEAD").to_string()
                 }
@@ -618,9 +618,9 @@ pub async fn await_and_rollback_on_failure(
             }
         }
     }
-    let mut error_message = format!("Failed to create worktree: {err}");
+    let mut error_message = format!("创建工作树失败：{err}");
     if !rollback_failures.is_empty() {
-        error_message.push_str("\n\nFailed to clean up: ");
+        error_message.push_str("Failed to clean up:");
         error_message.push_str(&rollback_failures.join(", "));
     }
     Err(anyhow!(error_message))

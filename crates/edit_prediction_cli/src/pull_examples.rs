@@ -143,7 +143,7 @@ async fn run_sql_with_polling(
             .clone();
 
         for attempt in 0.. {
-            step_progress.set_substatus(format!("polling ({attempt})"));
+            step_progress.set_substatus(format!("轮询中（{attempt}）"));
 
             background_executor.timer(POLL_INTERVAL).await;
 
@@ -239,7 +239,7 @@ where
                 if is_snowflake_timeout_error(&error) && !parsed_examples.is_empty() {
                     retry_count += 1;
                     step_progress.set_substatus(format!(
-                        "retrying from {} ({retry_count})",
+                        "从 {} 重试（{retry_count}）",
                         retry_state.resume_after
                     ));
                     continue;
@@ -262,7 +262,7 @@ where
             .max(1);
 
         step_progress.set_info(format!("{} rows", total_rows), InfoStyle::Normal);
-        step_progress.set_substatus("parsing");
+        step_progress.set_substatus("解析中");
 
         let column_indices = get_column_indices(&response.result_set_meta_data, &requested_columns);
         let mut rows_fetched_this_attempt = 0usize;
@@ -281,7 +281,7 @@ where
 
             for partition in 1..partition_count {
                 step_progress.set_substatus(format!(
-                    "fetching partition {}/{}",
+                    "正在抓取分区 {}/{}",
                     partition + 1,
                     partition_count
                 ));
@@ -319,7 +319,7 @@ where
         }
 
         if rows_fetched_this_attempt == 0 {
-            step_progress.set_substatus("done");
+            step_progress.set_substatus("完成");
             return Ok(parsed_examples);
         }
 
@@ -327,18 +327,18 @@ where
             *remaining_limit_value =
                 remaining_limit_value.saturating_sub(rows_fetched_this_attempt);
             if *remaining_limit_value == 0 {
-                step_progress.set_substatus("done");
+                step_progress.set_substatus("完成");
                 return Ok(parsed_examples);
             }
         }
 
         if !timed_out_fetching_partition {
-            step_progress.set_substatus("done");
+            step_progress.set_substatus("完成");
             return Ok(parsed_examples);
         }
 
         let Some(last_continuation_time_this_attempt) = last_continuation_time_this_attempt else {
-            step_progress.set_substatus("done");
+            step_progress.set_substatus("完成");
             return Ok(parsed_examples);
         };
 
@@ -346,7 +346,7 @@ where
         retry_state.offset = 0;
         retry_count += 1;
         step_progress.set_substatus(format!(
-            "retrying from {} ({retry_count})",
+            "从 {} 重试（{retry_count}）",
             retry_state.resume_after
         ));
     }
@@ -574,7 +574,7 @@ pub async fn fetch_rejected_examples_after(
     for (explicit, after_date) in after_timestamps.iter() {
         let step_progress_name = format!("rejected>{after_date}");
         let step_progress = progress.start(Step::PullExamples, &step_progress_name);
-        step_progress.set_substatus("querying");
+        step_progress.set_substatus("查询中");
 
         let min_version_str = min_capture_version.map(|version| {
             (version.major as u64 * 1_000_000 + version.minor as u64 * 1_000 + version.patch as u64)
@@ -670,7 +670,7 @@ pub async fn fetch_accepted_examples_after(
     for after_date in after_timestamps.iter() {
         let step_progress_name = format!("accepted>{after_date}");
         let step_progress = progress.start(Step::PullExamples, &step_progress_name);
-        step_progress.set_substatus("querying");
+        step_progress.set_substatus("查询中");
 
         let min_version_str = min_capture_version.map(|version| {
             (version.major as u64 * 1_000_000 + version.minor as u64 * 1_000 + version.patch as u64)
@@ -764,7 +764,7 @@ pub async fn fetch_requested_examples_after(
     for after_date in after_timestamps.iter() {
         let step_progress_name = format!("requested>{after_date}");
         let step_progress = progress.start(Step::PullExamples, &step_progress_name);
-        step_progress.set_substatus("querying");
+        step_progress.set_substatus("查询中");
 
         let min_version_str = min_capture_version.map(|version| {
             (version.major as u64 * 1_000_000 + version.minor as u64 * 1_000 + version.patch as u64)
@@ -841,7 +841,7 @@ pub async fn fetch_captured_examples_after(
     for after_date in after_timestamps.iter() {
         let step_progress_name = format!("captured>{after_date}");
         let step_progress = progress.start(Step::PullExamples, &step_progress_name);
-        step_progress.set_substatus("querying");
+        step_progress.set_substatus("查询中");
 
         let min_version_str = min_capture_version.map(|version| {
             (version.major as u64 * 1_000_000 + version.minor as u64 * 1_000 + version.patch as u64)
@@ -930,7 +930,7 @@ pub async fn fetch_settled_examples_after(
     for after_date in after_timestamps.iter() {
         let step_progress_name = format!("settled>{after_date}");
         let step_progress = progress.start(Step::PullExamples, &step_progress_name);
-        step_progress.set_substatus("querying");
+        step_progress.set_substatus("查询中");
 
         let _ = min_capture_version;
 
@@ -1014,7 +1014,7 @@ pub async fn fetch_rated_examples_after(
         };
         let step_progress_name = format!("rated{filter_label}>{after_date}");
         let step_progress = progress.start(Step::PullExamples, &step_progress_name);
-        step_progress.set_substatus("querying");
+        step_progress.set_substatus("查询中");
 
         let rating_value = rating_filter.as_ref().map(|rating| match rating {
             EditPredictionRating::Positive => "Positive",

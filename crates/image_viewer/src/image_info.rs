@@ -56,7 +56,7 @@ impl Render for ImageInfo {
 
         if let Some(colors) = metadata.colors {
             components.push(format!(
-                "{} channels, {} bits per pixel",
+                "{} 个通道，每像素 {} 位",
                 colors.channels,
                 colors.bits_per_pixel()
             ));

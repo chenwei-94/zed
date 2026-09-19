@@ -118,10 +118,10 @@ impl AgentImportStatus {
 
     fn tooltip_text(&self) -> Option<SharedString> {
         match self {
-            Self::Loading => Some("Fetching Sessions…".into()),
+            Self::Loading => Some("正在获取会话…".into()),
             Self::Ready { .. } => None,
-            Self::Unsupported => Some("Importing threads from this agent is not possible as it doesn't support ACP's session/list capability.".into()),
-            Self::Error(error) => Some(format!("Failed to fetch sessions: {error}").into()),
+            Self::Unsupported => Some("无法从此智能体导入会话，因为它不支持 ACP 的 session/list 能力。".into()),
+            Self::Error(error) => Some(format!("获取会话失败：{error}").into()),
         }
     }
 }
@@ -215,14 +215,14 @@ impl ThreadImportModal {
         }
 
         let Some(multi_workspace) = self.multi_workspace.upgrade() else {
-            self.mark_all_agents_failed("Could not find workspace to import from.");
+            self.mark_all_agents_failed("找不到可导入的工作区。");
             return;
         };
 
         let stores = resolve_agent_connection_stores(&multi_workspace, cx);
         if stores.is_empty() {
             log::error!("Did not find any workspaces to import from");
-            self.mark_all_agents_failed("Did not find any workspaces to import from.");
+            self.mark_all_agents_failed("没有找到任何可导入的工作区。");
             return;
         }
 
@@ -399,9 +399,9 @@ impl ThreadImportModal {
             })
         } else {
             let message = if imported_count == 1 {
-                "Imported 1 thread.".to_string()
+                "已导入 1 个会话。".to_string()
             } else {
-                format!("Imported {imported_count} threads.")
+                format!("已导入 {imported_count} 个会话。")
             };
             StatusToast::new(message, cx, |this, _cx| {
                 this.icon(
@@ -501,9 +501,9 @@ impl Render for ThreadImportModal {
                             importable_count: count,
                         } => {
                             let label: SharedString = if count == 0 {
-                                "No threads".into()
+                                "无会话".into()
                             } else {
-                                format!("{} threads", count).into()
+                                format!("{} 个会话", count).into()
                             };
                             this.child(Label::new(label).size(LabelSize::Small).color(Color::Muted))
                         }
@@ -570,7 +570,7 @@ impl Render for ThreadImportModal {
                 Modal::new("import-threads", None)
                     .header(
                         ModalHeader::new()
-                            .headline("Import External Agent Threads")
+                            .headline("导入外部智能体会话")
                             .description(
                                 "从 Claude Agent、Codex 等智能体导入会话，无论是在 Zed 还是其他客户端中启动的。选择要包含的智能体，其会话将出现在会话历史中。"
                             )
@@ -772,7 +772,7 @@ fn fetch_sessions_for_agent(
                     .errors
                     .first()
                     .cloned()
-                    .unwrap_or_else(|| "Failed to list sessions.".into()),
+                    .unwrap_or_else(|| "列出会话失败。".into()),
             )
         } else if stats.unsupported_attempt_count > 0 {
             AgentImportStatus::Unsupported
@@ -966,9 +966,9 @@ fn show_cross_channel_import_toast(
         })
     } else {
         let message = if imported_count == 1 {
-            "Imported 1 thread from other channels.".to_string()
+            "已从其他频道导入 1 个会话。".to_string()
         } else {
-            format!("Imported {imported_count} threads from other channels.")
+            format!("已从其他频道导入 {imported_count} 个会话。")
         };
         StatusToast::new(message, cx, |this, _cx| {
             this.icon(Icon::new(IconName::Check).color(Color::Success))

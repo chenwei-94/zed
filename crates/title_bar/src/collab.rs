@@ -87,7 +87,7 @@ pub fn toggle_screen_sharing(
         }
         Err(e) => Task::ready(Err(e)),
     };
-    toggle_screen_sharing.detach_and_prompt_err("Sharing Screen Failed", window, cx, |e, _, _| Some(format!("{:?}\n\nPlease check that you have given Zed permissions to record your screen in Settings.", e)));
+    toggle_screen_sharing.detach_and_prompt_err("共享屏幕失败", window, cx, |e, _, _| Some(format!("{:?}\n\n请检查是否已在设置中授予 Zed 录制屏幕的权限。", e)));
 }
 
 pub fn toggle_mute(cx: &mut App) {
@@ -445,8 +445,8 @@ impl TitleBar {
                                     .gap_0p5()
                                     .child(stat_row("Latency", latency))
                                     .child(stat_row("Jitter", jitter))
-                                    .child(stat_row("Packet loss", packet_loss))
-                                    .child(stat_row("Input lag", input_lag)),
+                                    .child(stat_row("丢包", packet_loss))
+                                    .child(stat_row("输入延迟", input_lag)),
                             )
                             .into_any_element()
                     }))
@@ -470,7 +470,7 @@ impl TitleBar {
                                 Tooltip::with_meta(
                                     "取消静音麦克风",
                                     None,
-                                    "Audio will be unmuted",
+                                    "音频将取消静音",
                                     cx,
                                 )
                             } else {
@@ -500,18 +500,18 @@ impl TitleBar {
                 .toggle_state(is_deafened)
                 .tooltip(move |_window, cx| {
                     if is_deafened {
-                        let label = "Unmute Audio";
+                        let label = "取消静音";
 
                         if !muted_by_user {
-                            Tooltip::with_meta(label, None, "Microphone will be unmuted", cx)
+                            Tooltip::with_meta(label, None, "麦克风将取消静音", cx)
                         } else {
                             Tooltip::simple(label, cx)
                         }
                     } else {
-                        let label = "Mute Audio";
+                        let label = "静音";
 
                         if !muted_by_user {
-                            Tooltip::with_meta(label, None, "Microphone will be muted", cx)
+                            Tooltip::with_meta(label, None, "麦克风将被静音", cx)
                         } else {
                             Tooltip::simple(label, cx)
                         }
@@ -559,14 +559,14 @@ impl TitleBar {
                     let folder_list = folder_names.join(", ");
 
                     let unshare_meta: SharedString = if folder_list.is_empty() {
-                        "Stop sharing project with call participants".into()
+                        "停止与通话参与者共享项目".into()
                     } else {
-                        format!("Stop sharing {folder_list} with call participants").into()
+                        format!("停止与通话参与者共享 {folder_list}").into()
                     };
                     let share_meta: SharedString = if folder_list.is_empty() {
-                        "Share active project with call participants".into()
+                        "与通话参与者共享当前项目".into()
                     } else {
-                        format!("Share {folder_list} with call participants").into()
+                        format!("与通话参与者共享 {folder_list}").into()
                     };
 
                     this.child(
@@ -649,7 +649,7 @@ impl TitleBar {
                                     }
                                 });
                                 task.detach_and_prompt_err(
-                                    "Sharing Screen Failed",
+                                    "共享屏幕失败",
                                     window,
                                     cx,
                                     |e, _, _| Some(format!("{e:?}")),
@@ -721,7 +721,7 @@ impl TitleBar {
                                 let label = meta
                                     .label
                                     .clone()
-                                    .unwrap_or_else(|| SharedString::from("Unknown screen"));
+                                    .unwrap_or_else(|| SharedString::from("未知屏幕"));
                                 let resolution = SharedString::from(format!(
                                     "{} × {}",
                                     meta.resolution.width.0, meta.resolution.height.0

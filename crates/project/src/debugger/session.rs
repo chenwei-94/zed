@@ -482,12 +482,12 @@ impl RunningMode {
                             .unwrap_or(failed_path)
                             .display();
                         let message = format!(
-                            "Failed to set breakpoints for {failed_path}{}",
+                            "为 {failed_path} 设置断点失败{}",
                             match errors_by_path.len() {
                                 0 => unreachable!(),
                                 1 => "".into(),
-                                2 => " and 1 other path".into(),
-                                n => format!(" and {} other paths", n - 1),
+                                2 => "以及另外 1 个路径".into(),
+                                n => format!("以及另外 {} 个路径", n - 1),
                             }
                         );
                         cx.emit(super::dap_store::DapStoreEvent::Notification(message));

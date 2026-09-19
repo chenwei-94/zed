@@ -155,7 +155,7 @@ struct DisplayTasks<'a>(&'a [gpui::TaskTiming]);
 
 impl Display for DisplayActions {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("Actions(s) that ran too long\n")?;
+        f.write_str("Actions(s) that ran too long")?;
         for action in self.0.iter().sorted_by_key(|action| action.runtime()).rev() {
             f.write_fmt(format_args!(
                 "{:<20} - {}",
@@ -170,7 +170,7 @@ impl Display for DisplayActions {
 
 impl<'a> Display for DisplayTasks<'a> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("Tasks(s) that ran too long\n")?;
+        f.write_str("Tasks(s) that ran too long")?;
         for task in self
             .0
             .iter()

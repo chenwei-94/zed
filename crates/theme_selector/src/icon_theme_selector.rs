@@ -167,7 +167,7 @@ impl PickerDelegate for IconThemeSelectorDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Select Icon Theme...".into()
+        "选择图标主题…".into()
     }
 
     fn match_count(&self) -> usize {
@@ -188,7 +188,7 @@ impl PickerDelegate for IconThemeSelectorDelegate {
             .name(SystemAppearance::global(cx).0);
 
         telemetry::event!(
-            "Settings Changed",
+            "设置已更改",
             setting = "icon_theme",
             value = theme_name
         );

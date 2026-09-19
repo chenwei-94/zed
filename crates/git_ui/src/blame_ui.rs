@@ -502,7 +502,7 @@ impl BlameRenderer for GitBlameRenderer {
                                             .child(Divider::vertical())
                                             .child(
                                                 CopyButton::new("copy-blame-sha", sha.to_string())
-                                                    .tooltip_label("Copy SHA"),
+                                                    .tooltip_label("复制 SHA"),
                                             ),
                                     ),
                             ),
@@ -564,13 +564,13 @@ fn deploy_blame_entry_context_menu(
         let blame_previous_revision = blame_entry.previous_revision_target();
         let has_blame_targets = blame_revision.is_some() || blame_previous_revision.is_some();
         menu.on_blur_subscription(Subscription::new(|| {}))
-            .entry("Copy Commit SHA", None, move |_, cx| {
+            .entry("复制提交 SHA", None, move |_, cx| {
                 cx.write_to_clipboard(ClipboardItem::new_string(sha.clone()));
             })
             .when_some(
                 details.and_then(|details| details.permalink.clone()),
                 |this, url| {
-                    this.entry("Open Commit Permalink", None, move |_, cx| {
+                    this.entry("打开提交永久链接", None, move |_, cx| {
                         cx.open_url(url.as_str())
                     })
                 },
@@ -579,7 +579,7 @@ fn deploy_blame_entry_context_menu(
             .when_some(blame_revision, |this, (revision, path)| {
                 let repository = repository.clone();
                 let workspace = workspace.clone();
-                this.entry("Blame Revision", None, move |window, cx| {
+                this.entry("追溯修订", None, move |window, cx| {
                     open_buffer_blame_at_revision(
                         repository.clone(),
                         workspace.clone(),
@@ -593,7 +593,7 @@ fn deploy_blame_entry_context_menu(
             .when_some(blame_previous_revision, |this, (revision, path)| {
                 let repository = repository.clone();
                 let workspace = workspace.clone();
-                this.entry("Blame Previous Revision", None, move |window, cx| {
+                this.entry("追溯上一修订", None, move |window, cx| {
                     open_buffer_blame_at_revision(
                         repository.clone(),
                         workspace.clone(),
@@ -771,6 +771,6 @@ fn blame_entry_relative_timestamp(blame_entry: &BlameEntry) -> String {
                 time_format::TimestampFormat::Relative,
             )
         }
-        Err(_) => "Error parsing date".to_string(),
+        Err(_) => "日期解析出错".to_string(),
     }
 }

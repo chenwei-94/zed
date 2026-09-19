@@ -52,7 +52,7 @@ const REMOTE_SERVER_CACHE_LIMIT: usize = 5;
 fn linux_rsync_install_hint() -> &'static str {
     let os_release = match std::fs::read_to_string("/etc/os-release") {
         Ok(os_release) => os_release,
-        Err(_) => return "Please install rsync using your package manager",
+        Err(_) => return "请使用包管理器安装 rsync",
     };
 
     let mut distribution_ids = Vec::new();
@@ -71,12 +71,12 @@ fn linux_rsync_install_hint() -> &'static str {
         .iter()
         .any(|distribution_id| distribution_id == "arch")
     {
-        Some("Install it with: sudo pacman -S rsync")
+        Some("使用以下命令安装：sudo pacman -S rsync")
     } else if distribution_ids
         .iter()
         .any(|distribution_id| distribution_id == "debian" || distribution_id == "ubuntu")
     {
-        Some("Install it with: sudo apt install rsync")
+        Some("使用以下命令安装：sudo apt install rsync")
     } else if distribution_ids.iter().any(|distribution_id| {
         distribution_id == "fedora"
             || distribution_id == "rhel"
@@ -84,17 +84,17 @@ fn linux_rsync_install_hint() -> &'static str {
             || distribution_id == "rocky"
             || distribution_id == "almalinux"
     }) {
-        Some("Install it with: sudo dnf install rsync")
+        Some("使用以下命令安装：sudo dnf install rsync")
     } else if distribution_ids
         .iter()
         .any(|distribution_id| distribution_id == "nixos")
     {
-        Some("Install pkgs.rsync from nixpkgs")
+        Some("从 nixpkgs 安装 pkgs.rsync")
     } else {
         None
     };
 
-    package_manager_hint.unwrap_or("Please install rsync using your package manager")
+    package_manager_hint.unwrap_or("请使用包管理器安装 rsync")
 }
 
 actions!(
@@ -314,7 +314,7 @@ pub fn check(_: &Check, window: &mut Window, cx: &mut App) {
     {
         drop(window.prompt(
             gpui::PromptLevel::Info,
-            "Zed was installed via a package manager.",
+            "Zed 是通过包管理器安装的。",
             Some(&message),
             &["OK"],
             cx,
@@ -334,8 +334,8 @@ pub fn check(_: &Check, window: &mut Window, cx: &mut App) {
     } else {
         drop(window.prompt(
             gpui::PromptLevel::Info,
-            "Could not check for updates",
-            Some("Auto-updates disabled for non-bundled app."),
+            "无法检查更新",
+            Some("非捆绑应用已禁用自动更新。"),
             &["OK"],
             cx,
         ));
@@ -611,7 +611,7 @@ impl AutoUpdater {
                 .context("auto-update not initialized")
         })?;
 
-        set_status("Fetching remote server release", cx);
+        set_status("正在获取远程服务器版本", cx);
         let release = Self::get_release_asset(
             &this,
             release_channel,
@@ -636,7 +636,7 @@ impl AutoUpdater {
                 "downloading zed-remote-server {os} {arch} version {}",
                 release.version
             );
-            set_status("Downloading remote server", cx);
+            set_status("正在下载远程服务器", cx);
             download_remote_server_binary(&version_path, release, client).await?;
         }
 
@@ -906,7 +906,7 @@ impl AutoUpdater {
         if which::which("rsync").is_err() {
             let install_hint = linux_rsync_install_hint();
             return Err(MissingDependencyError(format!(
-                "rsync is required for auto-updates but is not installed. {install_hint}"
+                "自动更新需要 rsync，但它尚未安装。{install_hint}"
             ))
             .into());
         }

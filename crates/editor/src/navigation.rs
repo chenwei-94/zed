@@ -1520,7 +1520,7 @@ impl Editor {
                 let title = if target.is_empty() {
                     "References".to_owned()
                 } else {
-                    format!("References to {target}")
+                    format!("{target} 的引用")
                 };
                 let allow_preview = PreviewTabsSettings::get_global(cx)
                     .enable_preview_multibuffer_from_code_navigation;
@@ -1801,7 +1801,7 @@ impl Editor {
                         if target.is_empty() {
                             tab_kind.to_owned()
                         } else {
-                            format!("{tab_kind} for {target}")
+                            format!("{tab_kind}：{target}")
                         }
                     })
                     .context("buffer title")?;

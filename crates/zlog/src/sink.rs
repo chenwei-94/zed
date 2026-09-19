@@ -96,8 +96,8 @@ fn open_or_create_log_file(
 const LEVEL_OUTPUT_STRINGS: [&str; 6] = [
     "     ", // nop: ERROR = 1
     "ERROR", //
-    "WARN ", //
-    "INFO ", //
+    "WARN", //
+    "INFO", //
     "DEBUG", //
     "TRACE", //
 ];
@@ -328,8 +328,8 @@ mod tests {
     #[test]
     fn test_log_level_names() {
         assert_eq!(LEVEL_OUTPUT_STRINGS[log::Level::Error as usize], "ERROR");
-        assert_eq!(LEVEL_OUTPUT_STRINGS[log::Level::Warn as usize], "WARN ");
-        assert_eq!(LEVEL_OUTPUT_STRINGS[log::Level::Info as usize], "INFO ");
+        assert_eq!(LEVEL_OUTPUT_STRINGS[log::Level::Warn as usize], "WARN");
+        assert_eq!(LEVEL_OUTPUT_STRINGS[log::Level::Info as usize], "INFO");
         assert_eq!(LEVEL_OUTPUT_STRINGS[log::Level::Debug as usize], "DEBUG");
         assert_eq!(LEVEL_OUTPUT_STRINGS[log::Level::Trace as usize], "TRACE");
     }

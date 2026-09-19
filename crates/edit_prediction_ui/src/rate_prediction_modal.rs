@@ -87,8 +87,8 @@ enum RatePredictionView {
 impl RatePredictionView {
     pub fn name(&self) -> &'static str {
         match self {
-            Self::SuggestedEdits => "Suggested Edits",
-            Self::RawInput => "Recorded Events & Input",
+            Self::SuggestedEdits => "建议的编辑",
+            Self::RawInput => "记录的事件与输入",
         }
     }
 }
@@ -101,7 +101,7 @@ impl RatePredictionsModal {
                 RatePredictionsModal::new(ep_store, language_registry, window, cx)
             });
 
-            telemetry::event!("Rate Prediction Modal Open", source = "Edit Prediction");
+            telemetry::event!("Rate Prediction Modal Open", source = "编辑预测");
         }
     }
 
@@ -362,7 +362,7 @@ impl RatePredictionsModal {
                         start_anchor,
                         &InlayHint {
                             position: start_hint_position,
-                            label: InlayHintLabel::String("╭─ editable region start\n".into()),
+                            label: InlayHintLabel::String("╭─ 可编辑区域开始".into()),
                             kind: Some(InlayHintKind::Parameter),
                             padding_left: false,
                             padding_right: false,
@@ -375,7 +375,7 @@ impl RatePredictionsModal {
                         end_anchor,
                         &InlayHint {
                             position: end_hint_position,
-                            label: InlayHintLabel::String("\n╰─ editable region end".into()),
+                            label: InlayHintLabel::String("╰─ 可编辑区域结束".into()),
                             kind: Some(InlayHintKind::Parameter),
                             padding_left: false,
                             padding_right: false,
@@ -405,7 +405,7 @@ impl RatePredictionsModal {
             .file()
             .map(|file| file.path().as_unix_str());
         let header = match path {
-            Some(path) => format!("--- a/{path}\n+++ b/{path}\n"),
+            Some(path) => format!("--- a/{path}\n+++ b/{path}"),
             None => String::new(),
         };
 
@@ -436,17 +436,17 @@ impl RatePredictionsModal {
     }
 
     fn write_events(formatted_inputs: &mut String, events: &[Arc<zeta_prompt::Event>]) {
-        write!(formatted_inputs, "## Events\n\n").unwrap();
+        write!(formatted_inputs, "## Events").unwrap();
 
         for event in events {
-            formatted_inputs.push_str("```diff\n");
+            formatted_inputs.push_str("```diff");
             zeta_prompt::write_event(formatted_inputs, event.as_ref());
             formatted_inputs.push_str("```\n\n");
         }
     }
 
     fn write_related_files(formatted_inputs: &mut String, included_files: &[RelatedFile]) {
-        write!(formatted_inputs, "## Related files\n\n").unwrap();
+        write!(formatted_inputs, "## Related files").unwrap();
 
         for included_file in included_files {
             write!(formatted_inputs, "### {}\n\n", included_file.path.display()).unwrap();
@@ -488,7 +488,7 @@ impl RatePredictionsModal {
                 cursor_offset,
             );
         } else {
-            write!(formatted_inputs, "## Cursor Excerpt\n\n").unwrap();
+            write!(formatted_inputs, "## Cursor Excerpt").unwrap();
             writeln!(
                 formatted_inputs,
                 "No current-file excerpt found for `{}` at row {}, column {}.",
@@ -506,7 +506,7 @@ impl RatePredictionsModal {
         cursor_excerpt: &str,
         cursor_offset: usize,
     ) {
-        write!(formatted_inputs, "## Cursor Excerpt\n\n").unwrap();
+        write!(formatted_inputs, "## Cursor Excerpt").unwrap();
 
         let mut cursor_offset = cursor_offset.min(cursor_excerpt.len());
         while !cursor_excerpt.is_char_boundary(cursor_offset) {
@@ -514,7 +514,7 @@ impl RatePredictionsModal {
         }
         writeln!(
             formatted_inputs,
-            "```{}\n{}<CURSOR>{}\n```\n",
+            "```{}\n{}<CURSOR>{}\n```",
             cursor_path.display(),
             &cursor_excerpt[..cursor_offset],
             &cursor_excerpt[cursor_offset..],
@@ -797,7 +797,7 @@ impl RatePredictionsModal {
                     editor.set_show_wrap_guides(false, cx);
                     editor.set_show_indent_guides(false, cx);
                     editor.set_show_edit_predictions(Some(false), window, cx);
-                    editor.set_placeholder_text("Add your feedback…", window, cx);
+                    editor.set_placeholder_text("添加反馈…", window, cx);
                     editor.set_completion_provider(Some(Rc::new(FeedbackCompletionProvider)));
                     if focus {
                         cx.focus_self(window);
@@ -1225,9 +1225,9 @@ impl RatePredictionsModal {
 
                 let (icon_name, icon_color, tooltip_text) =
                     match (rated, completion.edits.is_empty()) {
-                        (true, _) => (IconName::Check, Color::Success, "Rated Prediction"),
-                        (false, true) => (IconName::File, Color::Muted, "No Edits Produced"),
-                        (false, false) => (IconName::FileDiff, Color::Accent, "Edits Available"),
+                        (true, _) => (IconName::Check, Color::Success, "已评价预测"),
+                        (false, true) => (IconName::File, Color::Muted, "未产生编辑"),
+                        (false, false) => (IconName::FileDiff, Color::Accent, "可用编辑数"),
                     };
                 let (trigger_icon, trigger_tooltip) = match completion.trigger {
                     PredictEditsRequestTrigger::Testing => (IconName::Debug, "Testing"),
@@ -1235,32 +1235,32 @@ impl RatePredictionsModal {
                         (IconName::ToolDiagnostics, "Diagnostics")
                     }
                     PredictEditsRequestTrigger::DiagnosticNavigation => {
-                        (IconName::ArrowRight, "Diagnostic Navigation")
+                        (IconName::ArrowRight, "诊断导航")
                     }
                     PredictEditsRequestTrigger::Cli => (IconName::Terminal, "CLI"),
                     PredictEditsRequestTrigger::Explicit => (IconName::Person, "Explicit"),
-                    PredictEditsRequestTrigger::BufferEdit => (IconName::Pencil, "Buffer Edit"),
+                    PredictEditsRequestTrigger::BufferEdit => (IconName::Pencil, "缓冲区编辑"),
                     PredictEditsRequestTrigger::LSPCompletionAccepted => {
-                        (IconName::Code, "LSP Completion Accepted")
+                        (IconName::Code, "LSP 补全已接受")
                     }
                     PredictEditsRequestTrigger::PredictionAccepted => {
-                        (IconName::ZedPredict, "Prediction Accepted")
+                        (IconName::ZedPredict, "预测已接受")
                     }
                     PredictEditsRequestTrigger::PredictionPartiallyAccepted => {
-                        (IconName::CheckDouble, "Prediction Partially Accepted")
+                        (IconName::CheckDouble, "预测部分采纳")
                     }
-                    PredictEditsRequestTrigger::EditorCreated => (IconName::File, "Editor Created"),
+                    PredictEditsRequestTrigger::EditorCreated => (IconName::File, "编辑器已创建"),
                     PredictEditsRequestTrigger::ProviderChanged => {
-                        (IconName::Settings, "Provider Changed")
+                        (IconName::Settings, "提供商已更改")
                     }
                     PredictEditsRequestTrigger::UserInfoChanged => {
-                        (IconName::Person, "User Info Changed")
+                        (IconName::Person, "用户信息已更改")
                     }
                     PredictEditsRequestTrigger::VimModeChanged => {
-                        (IconName::Keyboard, "Vim Mode Changed")
+                        (IconName::Keyboard, "Vim 模式已更改")
                     }
                     PredictEditsRequestTrigger::SettingsChanged => {
-                        (IconName::Settings, "Settings Changed")
+                        (IconName::Settings, "设置已更改")
                     }
                     PredictEditsRequestTrigger::Other => (IconName::CircleHelp, "Other"),
                 };
@@ -1409,22 +1409,22 @@ struct FeedbackCompletionProvider;
 
 impl FeedbackCompletionProvider {
     const FAILURE_MODES: &'static [(&'static str, &'static str)] = &[
-        ("@location", "Unexpected location"),
-        ("@malformed", "Incomplete, cut off, or syntax error"),
+        ("@location", "位置异常"),
+        ("@malformed", "不完整、被截断或存在语法错误"),
         (
             "@deleted",
             "Deleted code that should be kept (use `@reverted` if it undid a recent edit)",
         ),
-        ("@style", "Wrong coding style or conventions"),
-        ("@repetitive", "Repeated existing code"),
-        ("@hallucinated", "Referenced non-existent symbols"),
-        ("@formatting", "Wrong indentation or structure"),
-        ("@aggressive", "Changed more than expected"),
-        ("@conservative", "Too cautious, changed too little"),
-        ("@context", "Ignored or misunderstood context"),
-        ("@reverted", "Undid recent edits"),
-        ("@cursor_position", "Cursor placed in unhelpful position"),
-        ("@whitespace", "Unwanted whitespace or newline changes"),
+        ("@style", "编码风格或约定错误"),
+        ("@repetitive", "重复了现有代码"),
+        ("@hallucinated", "引用了不存在的符号"),
+        ("@formatting", "缩进或结构错误"),
+        ("@aggressive", "改动超出了预期"),
+        ("@conservative", "过于保守，改动太少"),
+        ("@context", "忽略或误解了上下文"),
+        ("@reverted", "撤销了最近的编辑"),
+        ("@cursor_position", "光标位置无帮助"),
+        ("@whitespace", "多余的空白或换行更改"),
     ];
 }
 

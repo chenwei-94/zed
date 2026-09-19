@@ -354,15 +354,15 @@ async fn extract_tool_use(
     let streamed_text_suffix = if streamed_text.is_empty() {
         String::new()
     } else {
-        format!("\nStreamed text:\n{streamed_text}")
+        format!("Streamed text:\n{streamed_text}")
     };
     let stop_reason_suffix = stop_reason
-        .map(|reason| format!("\nStop reason: {reason:?}"))
+        .map(|reason| format!("Stop reason: {reason:?}"))
         .unwrap_or_default();
     let parse_errors_suffix = if parse_errors.is_empty() {
         String::new()
     } else {
-        format!("\nTool parse errors:\n{}", parse_errors.join("\n"))
+        format!("Tool parse errors:\n{}", parse_errors.join("\n"))
     };
 
     anyhow::bail!(

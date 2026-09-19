@@ -188,7 +188,7 @@ impl ThreadFeedbackState {
                 cx,
             );
             editor.set_placeholder_text(
-                "What went wrong? Share your feedback so we can improve.",
+                "出了什么问题？分享反馈以帮助我们改进。",
                 window,
                 cx,
             );
@@ -430,7 +430,7 @@ fn render_cat_numbered_code_block(
                 .right_0()
                 .justify_end()
                 .visible_on_hover("read-file-code-block")
-                .child(CopyButton::new(copy_button_id, code).tooltip_label("Copy Code")),
+                .child(CopyButton::new(copy_button_id, code).tooltip_label("复制代码")),
         )
         .into_any_element()
 }
@@ -1158,7 +1158,7 @@ impl ThreadView {
         match command {
             PromptLocalCommand::ThumbsUp => {
                 self.handle_feedback_click(ThreadFeedback::Positive, window, cx);
-                self.show_local_command_toast("Thanks for your feedback!", cx);
+                self.show_local_command_toast("感谢你的反馈！", cx);
             }
             PromptLocalCommand::ThumbsDown => {
                 self.handle_feedback_click(ThreadFeedback::Negative, window, cx);
@@ -1867,20 +1867,20 @@ impl ThreadView {
                 ThreadError::ZedPaymentRequired => (
                     "payment_required",
                     None,
-                    "You reached your free usage limit. Upgrade to Zed Pro for more prompts."
+                    "已达免费使用上限。升级到 Zed Pro 以获得更多提示。"
                         .into(),
                 ),
                 ThreadError::Refusal => {
                     let model_or_agent_name = self.current_model_name(cx);
                     let message = format!(
-                        "{} refused to respond to this prompt. This can happen when a model believes the prompt violates its content policy or safety guidelines, so rephrasing it can sometimes address the issue.",
+                        "{} 拒绝响应此提示。当模型认为提示违反了其内容政策或安全准则时会出现这种情况，换个说法有时可以解决。",
                         model_or_agent_name
                     );
                     ("refusal", None, message.into())
                 }
                 ThreadError::DataRetentionConsentRequired => {
                     let message = format!(
-                        "{} is not available with Zero Data Retention.",
+                        "{} 在零数据保留模式下不可用。",
                         self.current_model_name(cx)
                     );
                     ("data_retention_consent_required", None, message.into())
@@ -1891,39 +1891,39 @@ impl ThreadView {
                 ThreadError::RateLimitExceeded { provider } => (
                     "rate_limit_exceeded",
                     None,
-                    format!("{provider}'s rate limit was reached.").into(),
+                    format!("已达到 {provider} 的速率限制。").into(),
                 ),
                 ThreadError::ServerOverloaded { provider } => (
                     "server_overloaded",
                     None,
-                    format!("{provider}'s servers are temporarily unavailable.").into(),
+                    format!("{provider} 的服务器暂时不可用。").into(),
                 ),
                 ThreadError::PromptTooLarge => (
                     "prompt_too_large",
                     None,
-                    "Context too large for the model's context window.".into(),
+                    "上下文超出模型的上下文窗口。".into(),
                 ),
                 ThreadError::NoCredentials { provider } => (
                     "no_api_key",
                     None,
-                    format!("No credentials configured for {provider}.").into(),
+                    format!("未为 {provider} 配置凭据。").into(),
                 ),
                 ThreadError::StreamError { provider } => (
                     "stream_error",
                     None,
-                    format!("Connection to {provider}'s API was interrupted.").into(),
+                    format!("与 {provider} 的 API 连接已中断。").into(),
                 ),
                 ThreadError::AuthenticationFailed { provider } => (
                     "invalid_api_key",
                     None,
-                    format!("Authentication with {provider} failed.").into(),
+                    format!("与 {provider} 的身份验证失败。").into(),
                 ),
                 ThreadError::PermissionDenied { provider, message } => (
                     "permission_denied",
                     None,
                     message.clone().unwrap_or_else(|| {
                         format!(
-                            "{provider}'s API rejected the request due to insufficient permissions."
+                            "{provider} 的 API 因权限不足拒绝了该请求。"
                         )
                         .into()
                     }),
@@ -1934,15 +1934,15 @@ impl ThreadView {
                 ThreadError::MaxOutputTokens => (
                     "max_output_tokens",
                     None,
-                    "Model reached its maximum output length.".into(),
+                    "模型已达最大输出长度。".into(),
                 ),
                 ThreadError::NoModelSelected => {
-                    ("no_model_selected", None, "No model selected.".into())
+                    ("no_model_selected", None, "未选择模型。".into())
                 }
                 ThreadError::ApiError { provider } => (
                     "api_error",
                     None,
-                    format!("{provider}'s API returned an unexpected error.").into(),
+                    format!("{provider} 的 API 返回了意外错误。").into(),
                 ),
                 ThreadError::Other {
                     acp_error_code,
@@ -3049,18 +3049,18 @@ impl ThreadView {
 
         let retry_message = if state.max_attempts == 1 {
             if next_attempt_in_secs == 1 {
-                "Retrying. Next attempt in 1 second.".to_string()
+                "正在重试。1 秒后进行下一次尝试。".to_string()
             } else {
-                format!("Retrying. Next attempt in {next_attempt_in_secs} seconds.")
+                format!("正在重试。{next_attempt_in_secs} 秒后进行下一次尝试。")
             }
         } else if next_attempt_in_secs == 1 {
             format!(
-                "Retrying. Next attempt in 1 second (Attempt {} of {}).",
+                "正在重试。1 秒后进行下一次尝试（第 {} 次，共 {} 次）。",
                 state.attempt, state.max_attempts,
             )
         } else {
             format!(
-                "Retrying. Next attempt in {next_attempt_in_secs} seconds (Attempt {} of {}).",
+                "正在重试。{next_attempt_in_secs} 秒后进行下一次尝试（第 {} 次，共 {} 次）。",
                 state.attempt, state.max_attempts,
             )
         };
@@ -3589,9 +3589,9 @@ impl ThreadView {
         );
 
         let label: SharedString = if pending_count > 1 {
-            format!("Awaiting Confirmation ({pending_count})").into()
+            format!("等待确认 ({pending_count})").into()
         } else {
-            "Awaiting Confirmation".into()
+            "等待确认".into()
         };
 
         let header = h_flex()
@@ -3640,9 +3640,9 @@ impl ThreadView {
     ) -> impl IntoElement {
         let queue_count = self.message_queue.len();
         let title: SharedString = if queue_count == 1 {
-            "1 Queued Message".into()
+            "1 条排队消息".into()
         } else {
-            format!("{} Queued Messages", queue_count).into()
+            format!("{} 条排队消息", queue_count).into()
         };
 
         h_flex()
@@ -3740,9 +3740,9 @@ impl ThreadView {
                 })
         } else {
             let status_label = if stats.pending == 0 {
-                "All Done".to_string()
+                "全部完成".to_string()
             } else if stats.completed == 0 {
-                format!("{} Tasks", plan.entries.len())
+                format!("{} 项任务", plan.entries.len())
             } else {
                 format!("{}/{}", stats.completed, plan.entries.len())
             };
@@ -3956,11 +3956,11 @@ impl ThreadView {
 
         let id = format!("context-compaction-{entry_ix}");
         let header_label = match &compaction.status {
-            acp_thread::ContextCompactionStatus::InProgress => "Compacting Context…",
-            acp_thread::ContextCompactionStatus::Completed => "Context Compacted",
-            acp_thread::ContextCompactionStatus::Failed => "Compaction Failed",
-            acp_thread::ContextCompactionStatus::Canceled => "Compaction Canceled",
-            acp_thread::ContextCompactionStatus::Other(_) => "Context Compaction",
+            acp_thread::ContextCompactionStatus::InProgress => "正在压缩上下文…",
+            acp_thread::ContextCompactionStatus::Completed => "上下文已压缩",
+            acp_thread::ContextCompactionStatus::Failed => "压缩失败",
+            acp_thread::ContextCompactionStatus::Canceled => "压缩已取消",
+            acp_thread::ContextCompactionStatus::Other(_) => "上下文压缩",
         };
         let chevron_end = if is_expanded {
             IconName::ChevronUp
@@ -4105,7 +4105,7 @@ impl ThreadView {
         pending_edits: bool,
         cx: &Context<Self>,
     ) -> Div {
-        const EDIT_NOT_READY_TOOLTIP_LABEL: &str = "Wait until file edits are complete.";
+        const EDIT_NOT_READY_TOOLTIP_LABEL: &str = "请等待文件编辑完成。";
 
         let focus_handle = self.focus_handle(cx);
 
@@ -4364,9 +4364,9 @@ impl ThreadView {
 
         let editor_expanded = self.editor_expanded;
         let (expand_icon, expand_tooltip) = if editor_expanded {
-            (IconName::Minimize, "Minimize Message Editor")
+            (IconName::Minimize, "最小化消息编辑器")
         } else {
-            (IconName::Maximize, "Expand Message Editor")
+            (IconName::Maximize, "展开消息编辑器")
         };
 
         let max_content_width = AgentSettings::get_global(cx).max_content_width;
@@ -4502,8 +4502,7 @@ impl ThreadView {
                 Tooltip::with_meta(
                     "引导",
                     None,
-                    "Interrupt the agent at its next step to send this message. \
-                     When off, queued messages wait for the agent to finish.",
+                    "在智能体的下一步中断它并发送此消息。关闭时，排队的消息会等待智能体完成。",
                     cx,
                 )
             })
@@ -4533,9 +4532,9 @@ impl ThreadView {
                 let editor = &entry.editor;
                 let is_next = index == 0;
                 let (icon_color, tooltip_text) = if is_next {
-                    (Color::Accent, "Next in Queue")
+                    (Color::Accent, "队列中下一个")
                 } else {
-                    (Color::Muted, "In Queue")
+                    (Color::Muted, "排队中")
                 };
 
                 let editor_focused = editor.focus_handle(cx).is_focused(_window);
@@ -4577,7 +4576,7 @@ impl ThreadView {
                                         Tooltip::with_meta(
                                             "编辑排队消息",
                                             None,
-                                            "Type anything to edit",
+                                            "输入任意内容即可编辑",
                                             cx,
                                         )
                                     })
@@ -4968,7 +4967,7 @@ impl ThreadView {
             (ThreadSandbox::Sandboxed(settings_policy), ThreadSandbox::Unsandboxed) => {
                 let settings = augment_settings_sandbox_policy(&settings_policy, baseline);
                 SandboxStatusTooltip::disabled_for_thread(sandbox_section(
-                    "Defined in your settings:",
+                    "设置中定义：",
                     &settings,
                     true,
                 ))
@@ -4981,9 +4980,9 @@ impl ThreadView {
                 let thread = SandboxPolicyDisplay::from_policy(&thread_policy);
                 // Omit the per-thread section when it grants nothing extra.
                 let thread = (!sandbox_policy_grants_nothing(&thread))
-                    .then(|| sandbox_section("Allowed for this thread:", &thread, false));
+                    .then(|| sandbox_section("此会话允许：", &thread, false));
                 SandboxStatusTooltip::enabled(
-                    sandbox_section("Defined in your settings:", &settings, true),
+                    sandbox_section("设置中定义：", &settings, true),
                     thread,
                 )
             }
@@ -5028,14 +5027,14 @@ impl ThreadView {
 
         let (tooltip_label, color, icon, new_speed) = if is_fast {
             (
-                "Disable Fast Mode",
+                "禁用快速模式",
                 Color::Accent,
                 IconName::FastForward,
                 Speed::Standard,
             )
         } else {
             (
-                "Enable Fast Mode",
+                "启用快速模式",
                 Color::Custom(cx.theme().colors().icon_disabled.opacity(0.8)),
                 IconName::FastForwardOff,
                 Speed::Fast,
@@ -5184,13 +5183,13 @@ impl ThreadView {
 
         let (tooltip_label, icon, color) = if thinking {
             (
-                "Disable Thinking Mode",
+                "禁用思考模式",
                 IconName::ThinkingMode,
                 Color::Accent,
             )
         } else {
             (
-                "Enable Thinking Mode",
+                "启用思考模式",
                 IconName::ThinkingModeOff,
                 Color::Custom(cx.theme().colors().icon_disabled.opacity(0.8)),
             )
@@ -5279,7 +5278,7 @@ impl ThreadView {
         let label = selected
             .clone()
             .or(default_effort_level)
-            .map_or("Select Effort".into(), |effort| effort.name);
+            .map_or("选择推理强度".into(), |effort| effort.name);
 
         let (label_color, icon) = if self.thinking_effort_menu_handle.is_deployed() {
             (Color::Accent, IconName::ChevronUp)
@@ -5350,7 +5349,7 @@ impl ThreadView {
             )
             .menu(move |window, cx| {
                 Some(ContextMenu::build(window, cx, |mut menu, _window, _cx| {
-                    menu = menu.header("Change Thinking Effort");
+                    menu = menu.header("更改思考强度");
 
                     for effort_level in supported_effort_levels.clone() {
                         let is_selected = selected
@@ -5700,15 +5699,15 @@ impl ThreadView {
 
         let tooltip_label = if following {
             if self.agent_id.as_ref() == agent::ZED_AGENT_ID.as_ref() {
-                format!("Stop Following the {}", self.agent_id)
+                format!("停止跟随{}", self.agent_id)
             } else {
-                format!("Stop Following {}", self.agent_id)
+                format!("停止跟随 {}", self.agent_id)
             }
         } else {
             if self.agent_id.as_ref() == agent::ZED_AGENT_ID.as_ref() {
-                format!("Follow the {}", self.agent_id)
+                format!("跟随{}", self.agent_id)
             } else {
-                format!("Follow {}", self.agent_id)
+                format!("跟随 {}", self.agent_id)
             }
         };
 
@@ -5724,7 +5723,7 @@ impl ThreadView {
                     Tooltip::with_meta(
                         tooltip_label.clone(),
                         Some(&Follow),
-                        "Track the agent's location as it reads and edits files.",
+                        "智能体读取和编辑文件时跟随其位置。",
                         cx,
                     )
                 }
@@ -5889,7 +5888,7 @@ impl Render for TokenUsageTooltip {
                                                         "{} {}",
                                                         project_rules_count,
                                                         pluralize(
-                                                            "project rule",
+                                                            "项目规则",
                                                             project_rules_count
                                                         )
                                                     ),
@@ -6041,12 +6040,12 @@ fn sandbox_section(title: &str, policy: &SandboxPolicyDisplay, show_empty: bool)
 
     if show_empty || !write_empty {
         section =
-            section.group(SandboxGroup::new("Write Access").rows(sandbox_fs_rows(&policy.fs)));
+            section.group(SandboxGroup::new("写入权限").rows(sandbox_fs_rows(&policy.fs)));
     }
 
     if show_empty || !network_empty {
         section = section
-            .group(SandboxGroup::new("Network Access").rows(sandbox_network_rows(&policy.network)));
+            .group(SandboxGroup::new("网络访问").rows(sandbox_network_rows(&policy.network)));
     }
 
     section
@@ -6075,7 +6074,7 @@ fn network_grants_nothing(network: &SandboxNetPolicy) -> bool {
 fn sandbox_fs_rows(fs: &SandboxFsDisplay) -> Vec<SandboxRow> {
     match fs {
         SandboxFsDisplay::Unrestricted => vec![SandboxRow::message(
-            "All paths except protected Git metadata",
+            "除受保护的 Git 元数据外的所有路径",
         )],
         SandboxFsDisplay::Restricted(entries) if entries.is_empty() => {
             vec![SandboxRow::message("None")]
@@ -6098,7 +6097,7 @@ fn sandbox_fs_rows(fs: &SandboxFsDisplay) -> Vec<SandboxRow> {
 /// one row per allowed domain.
 fn sandbox_network_rows(network: &SandboxNetPolicy) -> Vec<SandboxRow> {
     match network {
-        SandboxNetPolicy::Unrestricted => vec![SandboxRow::message("All domains (unrestricted)")],
+        SandboxNetPolicy::Unrestricted => vec![SandboxRow::message("所有域名（不受限制）")],
         SandboxNetPolicy::Blocked => vec![SandboxRow::message("None")],
         SandboxNetPolicy::Restricted { allowed_domains } if allowed_domains.is_empty() => {
             vec![SandboxRow::message("None")]
@@ -6880,7 +6879,7 @@ impl ThreadView {
                 (self.is_subagent() && self.is_thread_feedback_enabled(cx)).then(|| {
                     let feedback = self.thread_feedback.feedback;
                     let tooltip_meta =
-                        "Rating the thread sends all of your current conversation to the Zed team.";
+                        "评价会话会将当前全部对话内容发送给 Zed 团队。";
 
                     h_flex()
                         .child(
@@ -7680,7 +7679,7 @@ impl ThreadView {
 
                     menu.when_some(focus, |menu, focus| menu.context(focus))
                         .when_some(context_menu_link, |menu, url| {
-                            menu.entry("Copy Link", None, move |_, cx| {
+                            menu.entry("复制链接", None, move |_, cx| {
                                 cx.write_to_clipboard(ClipboardItem::new_string(url.to_string()));
                             })
                             .separator()
@@ -7694,7 +7693,7 @@ impl ThreadView {
                         })
                         .when_some(selected_markdown, |menu, selected_markdown| {
                             menu.entry(
-                                "Copy as Markdown",
+                                "复制为 Markdown",
                                 Some(Box::new(markdown::CopyAsMarkdown)),
                                 move |_, cx| {
                                     cx.write_to_clipboard(ClipboardItem::new_string(
@@ -7853,7 +7852,7 @@ impl ThreadView {
             });
         let copy_button_id = SharedString::from(format!("{group}-copy-command"));
         let copy_button = CopyButton::new(copy_button_id, command_text)
-            .tooltip_label("Copy Command")
+            .tooltip_label("复制命令")
             .visible_on_hover(group.clone());
 
         v_flex()
@@ -7920,7 +7919,7 @@ impl ThreadView {
         let working_dir = working_dir
             .as_ref()
             .map(|path| path.display().to_string())
-            .unwrap_or_else(|| "current directory".to_string());
+            .unwrap_or_else(|| "当前目录".to_string());
 
         let command_element = self.render_collapsible_command(
             header_group.clone(),
@@ -7939,20 +7938,18 @@ impl ThreadView {
             if let Some(output) = output {
                 if output_line_count + 10 > terminal::MAX_SCROLL_HISTORY_LINES {
                     format!(
-                        "Output exceeded terminal max lines and was \
-                         truncated, the model received the first {}.",
+                        "输出超出终端最大行数并被截断，模型仅收到前 {}。",
                         format_file_size(output.content.len() as u64, true)
                     )
                 } else {
                     format!(
-                        "Output is {} long, and to avoid unexpected token usage, \
-                         only {} was sent back to the agent.",
+                        "输出长度为 {}，为避免意外的 token 使用量，仅将 {} 发送回智能体。",
                         format_file_size(output.original_content_len as u64, true),
                         format_file_size(output.content.len() as u64, true)
                     )
                 }
             } else {
-                "Output was truncated".to_string()
+                "输出已截断".to_string()
             }
         });
 
@@ -8075,7 +8072,7 @@ impl ThreadView {
         let (title, detail, docs_section): (SharedString, SharedString, Option<&'static str>) =
             match reason {
                 SandboxNotAppliedReason::ErrorLinuxWsl(error) => (
-                    "Couldn't create a sandbox".into(),
+                    "无法创建沙箱".into(),
                     error.user_facing_message().into(),
                     Some(error.docs_section()),
                 ),
@@ -8087,15 +8084,15 @@ impl ThreadView {
                         .as_ref()
                         .map(|error| {
                             SharedString::from(format!(
-                                "Allowed for this thread after the sandbox failed: {}",
+                                "沙箱失败后已在此会话中允许：{}",
                                 error.user_facing_message()
                             ))
                         })
                         .unwrap_or_else(|| {
-                            "Unsandboxed execution is allowed for the rest of this thread.".into()
+                            "在本会话剩余时间内允许无沙箱执行。".into()
                         });
                     let docs_section = thread_error.as_ref().map(|error| error.docs_section());
-                    ("Ran without sandbox".into(), detail, docs_section)
+                    ("未在沙箱中运行".into(), detail, docs_section)
                 }
             };
 
@@ -8319,9 +8316,9 @@ impl ThreadView {
                                 self.expanded_tool_call_raw_inputs.contains(&tool_call.id);
 
                             let input_header = if is_raw_input_expanded {
-                                "Raw Input:"
+                                "原始输入："
                             } else {
-                                "View Raw Input"
+                                "查看原始输入"
                             };
 
                             this.child(
@@ -8406,7 +8403,7 @@ impl ThreadView {
                                 .gap_1()
                                 .border_l_1()
                                 .border_color(self.tool_card_border_color(cx))
-                                .child(input_output_header("Raw Input:".into()))
+                                .child(input_output_header("原始输入：".into()))
                                 .children(tool_call.raw_input_markdown.clone().map(|input| {
                                     div().id(("tool-call-raw-input-markdown", entry_ix)).child(
                                         self.render_markdown(
@@ -8619,7 +8616,7 @@ impl ThreadView {
                                                                 Tooltip::with_meta(
                                                                     "放弃已中断的编辑",
                                                                     None,
-                                                                    "You can discard this interrupted partial edit and restore the original file content.",
+                                                                    "可以放弃此已中断的部分编辑，并恢复文件原始内容。",
                                                                     cx,
                                                                 )
                                                             })
@@ -8780,7 +8777,7 @@ impl ThreadView {
 
         let network_section = has_network.then(|| {
             let summary = if details.network_all_hosts {
-                "any host".to_string()
+                "任意主机".to_string()
             } else {
                 format!(
                     "{} {}",
@@ -8878,7 +8875,7 @@ impl ThreadView {
 
         let write_section = has_write.then(|| {
             let summary = if details.allow_fs_write_all {
-                "unrestricted except Git metadata".to_string()
+                "不受限制（Git 元数据除外）".to_string()
             } else {
                 format!(
                     "{} {}",
@@ -9398,7 +9395,7 @@ impl ThreadView {
                 } else {
                     // Not a genuine redirect: show what the user asked for (e.g.
                     // the `C:\...` path), not the internal Linux canonical.
-                    this.child(captioned_path("Write Path".into(), requested_display, cx))
+                    this.child(captioned_path("写入路径".into(), requested_display, cx))
                 }
             })
             .child(Divider::horizontal())
@@ -9477,13 +9474,13 @@ impl ThreadView {
 
         let dropdown_label: SharedString =
             if matches!(selection, Some(PermissionSelection::SelectedPatterns(_))) {
-                "Always for selected commands".into()
+                "对所选命令始终如此".into()
             } else {
                 choices
                     .get(selected_index)
                     .or(choices.last())
                     .map(|choice| choice.label())
-                    .unwrap_or_else(|| "Only this time".into())
+                    .unwrap_or_else(|| "仅此一次".into())
             };
 
         let dropdown = if let Some((pattern_list, tool_name)) = patterns {
@@ -9683,7 +9680,7 @@ impl ThreadView {
             .map(|(i, cp)| {
                 (
                     i,
-                    SharedString::from(format!("Always for `{}` commands", cp.display_name)),
+                    SharedString::from(format!("对 `{}` 命令始终如此", cp.display_name)),
                 )
             })
             .collect();
@@ -9767,7 +9764,7 @@ impl ThreadView {
                             );
                         }
 
-                        menu = menu.separator().header("Select Options…");
+                        menu = menu.separator().header("选择选项…");
 
                         for (pattern_index, label) in patterns.iter() {
                             let label = label.clone();
@@ -10010,9 +10007,9 @@ impl ThreadView {
     ) -> Option<SharedString> {
         let tool_name = tool_name.filter(|name| !name.trim().is_empty());
         match (tool_name, interrupted_edit) {
-            (Some(name), true) => Some(format!("Interrupted Edit\nTool: {name}").into()),
-            (Some(name), false) => Some(format!("Tool: {name}").into()),
-            (None, true) => Some("Interrupted Edit".into()),
+            (Some(name), true) => Some(format!("中断的编辑\n工具：{name}").into()),
+            (Some(name), false) => Some(format!("工具：{name}").into()),
+            (None, true) => Some("已中断的编辑".into()),
             (None, false) => None,
         }
     }
@@ -10702,11 +10699,11 @@ impl ThreadView {
         } else if !tool_call_label.is_empty() {
             tool_call_label.into()
         } else if is_cancelled {
-            "Subagent Canceled".into()
+            "子智能体已取消".into()
         } else if is_failed {
-            "Subagent Failed".into()
+            "子智能体失败".into()
         } else {
-            "Spawning Agent…".into()
+            "正在启动智能体…".into()
         };
 
         let card_header_id = format!("subagent-header-{}", entry_ix);
@@ -10751,9 +10748,9 @@ impl ThreadView {
             .map_or(false, |thread| !thread.read(cx).entries().is_empty());
 
         let tooltip_meta_description = if is_expanded {
-            "Click to Collapse"
+            "点击折叠"
         } else {
-            "Click to Preview"
+            "点击预览"
         };
 
         let error_message = self.subagent_error_message(&tool_call.status, tool_call, cx);
@@ -11115,10 +11112,9 @@ impl ThreadView {
             }
             ThreadError::ZedPaymentRequired => self.render_zed_payment_required_error(cx),
             ThreadError::RateLimitExceeded { provider } => self.render_error_callout(
-                "Rate Limit Reached",
+                "已达速率限制",
                 format!(
-                    "{provider}'s rate limit was reached. Zed will retry automatically. \
-                    You can also wait a moment and try again."
+                    "{provider} 的速率限制已达上限。Zed 会自动重试。你也可以稍等片刻后重试。"
                 )
                 .into(),
                 true,
@@ -11126,10 +11122,9 @@ impl ThreadView {
                 cx,
             ),
             ThreadError::ServerOverloaded { provider } => self.render_error_callout(
-                "Provider Unavailable",
+                "提供商不可用",
                 format!(
-                    "{provider}'s servers are temporarily unavailable. Zed will retry \
-                    automatically. If the problem persists, check the provider's status page."
+                    "{provider} 的服务器暂时不可用。Zed 会自动重试。如果问题持续存在，请查看该提供商的状态页面。"
                 )
                 .into(),
                 true,
@@ -11141,15 +11136,14 @@ impl ThreadView {
                 let message = Self::provider_by_name(provider, cx)
                     .map(|provider| provider.missing_credentials_error_message())
                     .unwrap_or_else(|| {
-                        format!("No credentials are configured for {provider}.").into()
+                        format!("未为 {provider} 配置凭据。").into()
                     });
-                self.render_error_callout("Credentials Missing", message, false, true, cx)
+                self.render_error_callout("缺少凭据", message, false, true, cx)
             }
             ThreadError::StreamError { provider } => self.render_error_callout(
-                "Connection Interrupted",
+                "连接中断",
                 format!(
-                    "The connection to {provider}'s API was interrupted. Zed will retry \
-                    automatically. If the problem persists, check your network connection."
+                    "与 {provider} API 的连接已中断。Zed 会自动重试。如果问题持续存在，请检查网络连接。"
                 )
                 .into(),
                 true,
@@ -11159,22 +11153,22 @@ impl ThreadView {
             ThreadError::AuthenticationFailed { provider } => {
                 let message = Self::provider_by_name(provider, cx)
                     .map(|provider| provider.authentication_error_message())
-                    .unwrap_or_else(|| format!("Could not authenticate with {provider}.").into());
-                self.render_error_callout("Authentication Failed", message, false, false, cx)
+                    .unwrap_or_else(|| format!("无法通过 {provider} 进行身份验证。").into());
+                self.render_error_callout("身份验证失败", message, false, false, cx)
             }
             ThreadError::PermissionDenied { provider, message } => {
                 let message: SharedString = message.clone().unwrap_or_else(|| {
-                    format!("{provider} rejected the request due to insufficient permissions.")
+                    format!("{provider} 因权限不足拒绝了该请求。")
                         .into()
                 });
 
-                self.render_error_callout("Permission Denied", message, false, false, cx)
+                self.render_error_callout("权限被拒绝", message, false, false, cx)
             }
             ThreadError::ProviderRejection { message } => {
-                self.render_error_callout("Request Failed", message.clone(), true, false, cx)
+                self.render_error_callout("请求失败", message.clone(), true, false, cx)
             }
             ThreadError::MaxOutputTokens => self.render_error_callout(
-                "Output Limit Reached",
+                "已达输出上限",
                 "The model stopped because it reached its maximum output length. \
                 You can ask it to continue where it left off."
                     .into(),
@@ -11186,18 +11180,17 @@ impl ThreadView {
                 .render_model_not_available_error(cx)
                 .unwrap_or_else(|| {
                     self.render_error_callout(
-                        "No Model Selected",
-                        "Select a model from the model picker below to get started.".into(),
+                        "未选择模型",
+                        "从下方的模型选择器中选择一个模型即可开始。".into(),
                         false,
                         false,
                         cx,
                     )
                 }),
             ThreadError::ApiError { provider } => self.render_error_callout(
-                "API Error",
+                "API 错误",
                 format!(
-                    "{provider}'s API returned an unexpected error. \
-                    If the problem persists, try switching models or restarting Zed."
+                    "{provider} 的 API 返回了意外错误。如果问题持续存在，请尝试切换模型或重启 Zed。"
                 )
                 .into(),
                 true,
@@ -11212,9 +11205,7 @@ impl ThreadView {
     fn render_refusal_error(&self, cx: &mut Context<'_, Self>) -> Callout {
         let model_or_agent_name = self.current_model_name(cx);
         let refusal_message = format!(
-            "{} refused to respond to this prompt. \
-            This can happen when a model believes the prompt violates its content policy \
-            or safety guidelines, so rephrasing it can sometimes address the issue.",
+            "{} 拒绝响应此提示。当模型认为提示违反了其内容政策或安全准则时会出现这种情况，换个说法有时可以解决。",
             model_or_agent_name
         );
 
@@ -11248,7 +11239,7 @@ impl ThreadView {
 
     fn render_zed_payment_required_error(&self, cx: &mut Context<Self>) -> Callout {
         const ERROR_MESSAGE: &str =
-            "You reached your free usage limit. Upgrade to Zed Pro for more prompts.";
+            "已达免费使用上限。升级到 Zed Pro 以获得更多提示。";
 
         Callout::new()
             .severity(Severity::Error)
@@ -11309,35 +11300,35 @@ impl ThreadView {
                     {
                         if !provider.is_authenticated(cx) {
                             (
-                                format!("Failed to authenticate with {} provider", provider.name())
+                                format!("{} 提供商身份验证失败", provider.name())
                                     .into(),
-                                "Open the settings to configure the selected provider".into(),
+                                "打开设置以配置所选提供商".into(),
                             )
                         } else {
                             (
                                 format!("Model {} was not found", selected_model.model.0).into(),
-                                "You may need to reconfigure authentication for this provider"
+                                "可能需要重新配置此提供商的认证"
                                     .into(),
                             )
                         }
                     } else {
                         (
                             format!("Provider {} was not found", selected_model.provider).into(),
-                            "Open the settings to configure providers".into(),
+                            "打开设置以配置提供商".into(),
                         )
                     }
                 }
                 agent::ThreadModel::Unset => {
                     if has_authenticated_provider {
                         (
-                            "No model selected".into(),
-                            "Choose a different model or configure other providers to get started"
+                            "未选择模型".into(),
+                            "选择其他模型或配置其他提供商以开始使用"
                                 .into(),
                         )
                     } else {
                         (
-                            "No model selected".into(),
-                            "Configure a provider to get started".into(),
+                            "未选择模型".into(),
+                            "配置提供商以开始使用".into(),
                         )
                     }
                 }
@@ -11389,8 +11380,7 @@ impl ThreadView {
     }
 
     fn render_prompt_too_large_error(&self, cx: &mut Context<Self>) -> Callout {
-        const MESSAGE: &str = "This conversation is too long for the model's context window. \
-            Start a new thread or remove some attached files to continue.";
+        const MESSAGE: &str = "此对话对于模型的上下文窗口来说过长。请新建会话或移除部分附加文件以继续。";
 
         Callout::new()
             .severity(Severity::Error)
@@ -11474,7 +11464,7 @@ impl ThreadView {
                 .clone()
                 .and_then(|selector| selector.read(cx).active_model(cx))
                 .map(|model| model.name.clone())
-                .unwrap_or_else(|| SharedString::from("The model"))
+                .unwrap_or_else(|| SharedString::from("该模型"))
         } else {
             // ACP agent - use the agent name (e.g., "Claude Agent", "Gemini CLI")
             self.agent_id.0.clone()
@@ -11551,7 +11541,7 @@ impl ThreadView {
     fn create_copy_button(&self, message: impl Into<String>) -> impl IntoElement {
         let message = message.into();
 
-        CopyButton::new("copy-error-message", message).tooltip_label("Copy Error Message")
+        CopyButton::new("copy-error-message", message).tooltip_label("复制错误消息")
     }
 
     fn dismiss_error_button(&self, cx: &mut Context<Self>) -> impl IntoElement {
@@ -11567,7 +11557,7 @@ impl ThreadView {
     }
 
     fn render_resume_notice(_cx: &Context<Self>) -> AnyElement {
-        let description = "This agent does not support viewing previous messages. However, your session will still continue from where you last left off.";
+        let description = "此智能体不支持查看之前的消息。不过，你的会话仍会从上次中断处继续。";
 
         Callout::new()
             .border_position(CalloutBorderPosition::Bottom)
@@ -11636,10 +11626,10 @@ impl ThreadView {
                 let target = issue.clone();
 
                 let title = match issue.kind {
-                    SkillLoadingIssueKind::LoadFailed => "Skill Failed to Load",
+                    SkillLoadingIssueKind::LoadFailed => "技能加载失败",
                     SkillLoadingIssueKind::DescriptionTooLong => unreachable!(),
                     SkillLoadingIssueKind::CatalogBudgetExceeded => {
-                        "Skill Omitted from Model Catalog"
+                        "技能已从模型目录中省略"
                     }
                 };
 
@@ -11699,9 +11689,9 @@ impl ThreadView {
 
         let warning_count = description_warnings.len();
         let title = if warning_count == 1 {
-            "1 Skill Loaded with a Long Description".to_string()
+            "已加载 1 个技能，其描述过长".to_string()
         } else {
-            format!("{warning_count} Skills Loaded with Long Descriptions")
+            format!("已加载 {warning_count} 个技能，其描述过长")
         };
 
         let rows = description_warnings
@@ -11834,7 +11824,7 @@ impl ThreadView {
             .next()
             .and_then(|p| p.file_name())
             .map(|name| name.to_string_lossy().to_string())
-            .unwrap_or_else(|| "one folder".to_string());
+            .unwrap_or_else(|| "一个文件夹".to_string());
 
         Some(
             Callout::new()
@@ -11862,12 +11852,12 @@ impl ThreadView {
         let server_view = self.server_view.clone();
         let has_version = !version.is_empty();
         let title = if has_version {
-            "New Version Available"
+            "有新版本可用"
         } else {
-            "Agent Update Available"
+            "智能体更新可用"
         };
         let button_label = if has_version {
-            format!("Update to v{}", version)
+            format!("更新到 v{}", version)
         } else {
             "Reconnect".to_string()
         };
@@ -11928,16 +11918,16 @@ impl ThreadView {
             acp_thread::TokenUsageRatio::Warning => (
                 Severity::Warning,
                 IconName::Warning,
-                "Thread reaching the token limit soon",
+                "会话即将达到 token 上限",
             ),
             acp_thread::TokenUsageRatio::Exceeded => (
                 Severity::Error,
                 IconName::XCircle,
-                "Thread reached the token limit",
+                "会话已达 token 上限",
             ),
         };
 
-        let description = "To continue, run /compact or start a new thread and @-mention this one";
+        let description = "要继续，请运行 /compact，或新建一个会话并 @ 提及此会话";
 
         Some(
             Callout::new()

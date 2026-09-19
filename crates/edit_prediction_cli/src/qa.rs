@@ -89,8 +89,8 @@ pub fn build_prompt(example: &Example) -> Result<String> {
             diff,
             ..
         } = event.as_ref();
-        edit_history.push_str(&format!("--- a{}\n", old_path.display()));
-        edit_history.push_str(&format!("+++ b{}\n", path.display()));
+        edit_history.push_str(&format!("--- a{}", old_path.display()));
+        edit_history.push_str(&format!("+++ b{}", path.display()));
         let diff_word_diff = unified_to_word_diff(&diff);
         edit_history.push_str(&diff_word_diff);
         edit_history.push_str("\n\n");
@@ -185,7 +185,7 @@ pub async fn run_qa(
     let model = model_for_backend(args.backend);
     let prompt = build_prompt(example).context("Failed to build QA prompt")?;
 
-    step_progress.set_substatus("generating");
+    step_progress.set_substatus("生成中");
 
     let response = match args.backend {
         BatchProvider::Anthropic => {

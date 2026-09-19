@@ -221,7 +221,7 @@ fn label_for_python_symbol(
     let name = &symbol.name;
     let (text, filter_range, display_range) = match symbol.kind {
         language::SymbolKind::Method | language::SymbolKind::Function => {
-            let text = format!("def {}():\n", name);
+            let text = format!("def {}():", name);
             let filter_range = 4..4 + name.len();
             let display_range = 0..filter_range.end;
             (text, filter_range, display_range)
@@ -1424,9 +1424,9 @@ impl ToolchainLister for PythonToolchainProvider {
     }
     fn meta(&self) -> ToolchainMetadata {
         ToolchainMetadata {
-            term: SharedString::new_static("Virtual Environment"),
+            term: SharedString::new_static("虚拟环境"),
             new_toolchain_placeholder: SharedString::new_static(
-                "A path to the python3 executable within a virtual environment, or path to virtual environment itself",
+                "虚拟环境中 python3 可执行文件的路径，或虚拟环境本身的路径",
             ),
             manifest_name: ManifestName::from(SharedString::new_static("pyproject.toml")),
         }

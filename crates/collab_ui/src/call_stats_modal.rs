@@ -339,28 +339,28 @@ impl Render for CallStatsModal {
                                 .child(Label::new("网络").weight(FontWeight::SEMIBOLD))
                                 .child(self.render_metric_row(
                                     "Latency",
-                                    "Time for data to travel to the server",
+                                    "数据传到服务器所需时间",
                                     stats.latency_ms,
                                     |v| format!("{:.0}ms", v),
                                     |v| metric_rating("Latency", v),
                                 ))
                                 .child(self.render_metric_row(
                                     "Jitter",
-                                    "Variance or fluctuation in latency",
+                                    "延迟的波动或抖动",
                                     stats.jitter_ms,
                                     |v| format!("{:.0}ms", v),
                                     |v| metric_rating("Jitter", v),
                                 ))
                                 .child(self.render_metric_row(
-                                    "Packet loss",
-                                    "Amount of data lost during transfer",
+                                    "丢包",
+                                    "传输过程中丢失的数据量",
                                     stats.packet_loss_pct,
                                     |v| format!("{:.1}%", v),
                                     packet_loss_rating,
                                 ))
                                 .child(self.render_metric_row(
-                                    "Input lag",
-                                    "Delay from audio capture to WebRTC",
+                                    "输入延迟",
+                                    "从音频采集到 WebRTC 的延迟",
                                     stats.input_lag.map(|d| d.0.as_millis()),
                                     |v| format!("{}ms", v),
                                     input_lag_rating,

@@ -23,9 +23,9 @@ impl AnnouncementToast {
             heading: None,
             description: None,
             bullet_items: SmallVec::new(),
-            primary_action_label: "Try Now".into(),
+            primary_action_label: "立即试用".into(),
             primary_on_click: Box::new(|_, _, _| {}),
-            secondary_action_label: "Learn More".into(),
+            secondary_action_label: "了解更多".into(),
             secondary_on_click: Box::new(|_, _, _| {}),
             dismiss_on_click: Box::new(|_, _, _| {}),
         }
@@ -166,24 +166,24 @@ impl Component for AnnouncementToast {
 
     fn preview(_window: &mut Window, _cx: &mut App) -> AnyElement {
         let examples = vec![single_example(
-            "Basic",
+            "基础",
             div()
                 .w_80()
                 .child(
                     AnnouncementToast::new()
-                        .heading("Introducing Parallel Agents")
+                        .heading("隆重推出并行智能体")
                         .description("跨项目同时运行多个智能体会话。")
                         .bullet_item(ListBulletItem::new(
-                            "Mix and match Zed's agent with any ACP-compatible agent",
+                            "将 Zed 智能体与任何兼容 ACP 的智能体混搭使用",
                         ))
                         .bullet_item(ListBulletItem::new(
-                            "Optional worktree isolation keeps agents from conflicting",
+                            "可选的隔离工作树，避免智能体互相干扰",
                         ))
                         .bullet_item(ListBulletItem::new(
-                            "Updated workspace layout designed for agentic workflows",
+                            "为智能体工作流全新设计的工作区布局",
                         ))
-                        .primary_action_label("Try Now")
-                        .secondary_action_label("Learn More"),
+                        .primary_action_label("立即试用")
+                        .secondary_action_label("了解更多"),
                 )
                 .into_any_element(),
         )];

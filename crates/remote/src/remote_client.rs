@@ -479,7 +479,7 @@ impl RemoteClient {
                     Err(_) => {
                         let mut error = String::new();
                         if let Some(status) = io_task.now_or_never() {
-                            error.push_str("Client exited with ");
+                            error.push_str("Client exited with");
                             match status {
                                 Ok(exit_code) => {
                                     error.push_str(&format!("exit_code {exit_code:?}"))
@@ -1240,7 +1240,7 @@ impl ConnectionPool {
                 if let Some(task) = task.upgrade() {
                     log::debug!("Connecting task is still alive");
                     cx.spawn(async move |cx| {
-                        delegate.set_status(Some("Waiting for existing connection attempt"), cx)
+                        delegate.set_status(Some("正在等待现有连接尝试"), cx)
                     })
                     .detach();
                     return task;

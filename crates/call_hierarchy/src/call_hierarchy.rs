@@ -542,13 +542,13 @@ impl PickerDelegate for CallHierarchyDelegate {
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
         match (&self.root_item, self.mode) {
             (Some(root), CallHierarchyMode::Incoming) => {
-                Arc::from(format!("Search calls to `{}`...", root.name))
+                Arc::from(format!("搜索对 `{}` 的调用…", root.name))
             }
             (Some(root), CallHierarchyMode::Outgoing) => {
-                Arc::from(format!("Search calls from `{}`...", root.name))
+                Arc::from(format!("搜索来自 `{}` 的调用…", root.name))
             }
-            (None, CallHierarchyMode::Incoming) => Arc::from("Search incoming calls..."),
-            (None, CallHierarchyMode::Outgoing) => Arc::from("Search outgoing calls..."),
+            (None, CallHierarchyMode::Incoming) => Arc::from("搜索传入调用…"),
+            (None, CallHierarchyMode::Outgoing) => Arc::from("搜索传出调用…"),
         }
     }
 
@@ -562,16 +562,16 @@ impl PickerDelegate for CallHierarchyDelegate {
 
     fn no_matches_text(&self, _window: &mut Window, _cx: &mut App) -> Option<SharedString> {
         Some(SharedString::new_static(match self.state {
-            FetchState::Loading => "Fetching call hierarchy…",
-            FetchState::NoSymbol => "No callable symbol under the cursor",
+            FetchState::Loading => "正在抓取调用层级…",
+            FetchState::NoSymbol => "光标处没有可调用的符号",
             FetchState::Loaded => {
                 if self.calls.is_empty() {
                     match self.mode {
-                        CallHierarchyMode::Incoming => "No incoming calls found",
-                        CallHierarchyMode::Outgoing => "No outgoing calls found",
+                        CallHierarchyMode::Incoming => "未找到传入调用",
+                        CallHierarchyMode::Outgoing => "未找到传出调用",
                     }
                 } else {
-                    "No matches"
+                    "无匹配项"
                 }
             }
         }))
@@ -697,8 +697,8 @@ impl PickerDelegate for CallHierarchyDelegate {
         }
         let focus_handle = self.focus_handle.clone();
         let expand_label = match self.mode {
-            CallHierarchyMode::Incoming => "Show Callers",
-            CallHierarchyMode::Outgoing => "Show Callees",
+            CallHierarchyMode::Incoming => "显示调用方",
+            CallHierarchyMode::Outgoing => "显示被调用方",
         };
         Some(
             h_flex()
@@ -1101,7 +1101,7 @@ fn compute_call_display(call: &Call, cx: &App) -> CallDisplay {
     let path = call_display_path(buffer, cx).map(|path| {
         let path = path.to_string_lossy();
         SharedString::from(if call.site_count > 1 {
-            format!("{path}:{line_number} ({} calls)", call.site_count)
+            format!("{path}:{line_number}（{} 次调用）", call.site_count)
         } else {
             format!("{path}:{line_number}")
         })

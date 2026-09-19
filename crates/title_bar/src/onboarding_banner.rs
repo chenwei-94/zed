@@ -166,7 +166,7 @@ impl Render for OnboardingBanner {
                             Tooltip::with_meta(
                                 "关闭公告横幅",
                                 None,
-                                "It won't show again for this feature",
+                                "此功能不会再显示此提示",
                                 cx,
                             )
                         }),

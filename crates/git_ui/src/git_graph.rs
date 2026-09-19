@@ -144,7 +144,7 @@ impl PickerDelegate for CommitTagPickerDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Copy Tag".into()
+        "复制标签".into()
     }
 
     fn match_count(&self) -> usize {
@@ -1470,7 +1470,7 @@ impl GitGraph {
 
         let search_editor = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Search commits…", window, cx);
+            editor.set_placeholder_text("搜索提交…", window, cx);
             editor
         });
 
@@ -1704,7 +1704,7 @@ impl GitGraph {
     /// git's `%D` format, returning `None` for a detached `HEAD`.
     fn ref_name_from_decoration(decoration: &str) -> Option<SharedString> {
         let name = decoration
-            .strip_prefix("tag: ")
+            .strip_prefix("tag:")
             .or_else(|| decoration.strip_prefix("HEAD -> "))
             .unwrap_or(decoration);
         if name.is_empty() || name == "HEAD" {
@@ -2805,9 +2805,9 @@ impl GitGraph {
             .toggle_state(self.changed_files_view_mode.is_tree())
             .tooltip({
                 let tooltip = if is_tree_view {
-                    "Show Flat View"
+                    "显示平铺视图"
                 } else {
-                    "Show Tree View"
+                    "显示树形视图"
                 };
                 move |_, cx| Tooltip::for_action(tooltip, &ToggleChangedFilesView, cx)
             })
@@ -2881,9 +2881,9 @@ impl GitGraph {
                                 let is_copied = copied_state.read(cx).is_copied();
 
                                 let (icon, icon_color, tooltip_label) = if is_copied {
-                                    (IconName::Check, Color::Success, "Email Copied!")
+                                    (IconName::Check, Color::Success, "邮箱已复制！")
                                 } else {
-                                    (IconName::Envelope, Color::Muted, "Copy Email")
+                                    (IconName::Envelope, Color::Muted, "复制邮箱")
                                 };
 
                                 let copy_email = author_email.clone();
@@ -2932,9 +2932,9 @@ impl GitGraph {
                                 let is_copied = copied_state.read(cx).is_copied();
 
                                 let (icon, icon_color, tooltip_label) = if is_copied {
-                                    (IconName::Check, Color::Success, "Commit SHA Copied!")
+                                    (IconName::Check, Color::Success, "提交 SHA 已复制！")
                                 } else {
-                                    (IconName::Hash, Color::Muted, "Copy Commit SHA")
+                                    (IconName::Hash, Color::Muted, "复制提交 SHA")
                                 };
 
                                 Button::new("sha-button", &full_sha)
@@ -3720,11 +3720,11 @@ impl Render for GitGraph {
 
         let content = if commit_count == 0 {
             let message = if let Some(error) = &error {
-                format!("Error loading: {}", error)
+                format!("加载出错：{}", error)
             } else if is_loading {
                 "Loading".to_string()
             } else {
-                "No commits found".to_string()
+                "未找到提交".to_string()
             };
             let label = Label::new(message)
                 .color(Color::Muted)
@@ -4159,7 +4159,7 @@ impl Item for GitGraph {
                     .file_name()
                     .map(|name| name.to_string_lossy().to_string())
             })
-            .map_or_else(|| "Git Graph".into(), |name| SharedString::from(name))
+            .map_or_else(|| "Git 图谱".into(), |name| SharedString::from(name))
     }
 
     fn show_toolbar(&self) -> bool {

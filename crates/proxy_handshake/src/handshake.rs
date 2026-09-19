@@ -252,10 +252,10 @@ fn http_connect_request(target: &Target, credentials: Option<&Credentials>) -> V
         Target::Address(address) => address.to_string(),
     };
     let mut request =
-        format!("CONNECT {host} HTTP/1.1\r\nHost: {host}\r\nProxy-Connection: Keep-Alive\r\n");
+        format!("CONNECT {host} HTTP/1.1\r\nHost: {host}\r\nProxy-Connection: Keep-Alive");
     if let Some(Credentials { username, password }) = credentials {
         let encoded = base64::prelude::BASE64_STANDARD.encode(format!("{username}:{password}"));
-        request.push_str(&format!("Proxy-Authorization: Basic {encoded}\r\n"));
+        request.push_str(&format!("Proxy-Authorization: Basic {encoded}"));
     }
     request.push_str("\r\n");
     request.into_bytes()

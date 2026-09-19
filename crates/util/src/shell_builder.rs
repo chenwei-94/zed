@@ -58,7 +58,7 @@ impl ShellBuilder {
                 | ShellKind::Rc
                 | ShellKind::Xonsh
                 | ShellKind::Elvish => {
-                    let interactivity = self.interactive.then_some("-i ").unwrap_or_default();
+                    let interactivity = self.interactive.then_some("-i").unwrap_or_default();
                     format!(
                         "{PROGRAM} {interactivity}-c '{command_to_use_in_label}'",
                         PROGRAM = self.program
@@ -108,7 +108,7 @@ impl ShellBuilder {
                         combined_command.insert_str(0, "exec </dev/null\n");
                     }
                     ShellKind::Fish => {
-                        combined_command.insert_str(0, "begin; ");
+                        combined_command.insert_str(0, "begin;");
                         combined_command.push_str("; end </dev/null");
                     }
                     ShellKind::Nushell
@@ -156,7 +156,7 @@ impl ShellBuilder {
                         combined_command.insert_str(0, "exec </dev/null\n");
                     }
                     ShellKind::Fish => {
-                        combined_command.insert_str(0, "begin; ");
+                        combined_command.insert_str(0, "begin;");
                         combined_command.push_str("; end </dev/null");
                     }
                     ShellKind::Nushell

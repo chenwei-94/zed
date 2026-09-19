@@ -52,7 +52,7 @@ impl AgentTool for RenameTool {
     ) -> SharedString {
         if let Ok(input) = input {
             format!(
-                "Rename `{}` to `{}`",
+                "将 `{}` 重命名为 `{}`",
                 input.symbol.symbol_name, input.new_name
             )
             .into()
@@ -104,7 +104,7 @@ impl AgentTool for RenameTool {
                 .map_err(|e| format!("Rename succeeded, but failed to save renamed files: {e}"))?;
 
             let mut output = format!(
-                "Renamed `{}` to `{}` in {} file(s):\n",
+                "Renamed `{}` to `{}` in {} file(s):",
                 input.symbol.symbol_name,
                 input.new_name,
                 transaction.0.len()

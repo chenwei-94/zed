@@ -90,7 +90,7 @@ impl Component for ButtonLink {
             .gap_6()
             .child(
                 example_group(vec![single_example(
-                    "Simple",
+                    "简单",
                     ButtonLink::new("zed.dev", "https://zed.dev").into_any_element(),
                 )])
                 .vertical(),

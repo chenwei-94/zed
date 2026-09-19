@@ -141,7 +141,7 @@ pub fn os_version() -> String {
            let process_info = NSProcessInfo::processInfo();
            let version_nsstring = process_info.operatingSystemVersionString();
            // "Version 15.6.1 (Build 24G90)" -> "15.6.1 (Build 24G90)"
-           let version_string = version_nsstring.to_string().replace("Version ", "");
+           let version_string = version_nsstring.to_string().replace("Version", "");
            // "15.6.1 (Build 24G90)" -> "15.6.1"
            // "26.0.0 (Build 25A5349a)" -> unchanged (Beta or Rapid Security Response; ends with letter)
            MACOS_VERSION_REGEX

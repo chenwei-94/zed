@@ -69,7 +69,7 @@ impl OpenUrlModal {
                 cx.emit(DismissEvent);
             }
             Err(e) => {
-                self.last_error = Some(format!("Invalid URL: {}", e).into());
+                self.last_error = Some(format!("无效的 URL：{}", e).into());
                 cx.notify();
             }
         }

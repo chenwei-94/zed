@@ -89,7 +89,7 @@ fn developer_page(cx: &App) -> SettingsPage {
 
     // Feature flag overrides are a staff-only affordance, so only surface the section when the overrides are enabled.
     if cx.feature_flag_overrides_enabled() {
-        items.push(SettingsPageItem::SectionHeader("Feature Flags"));
+        items.push(SettingsPageItem::SectionHeader("功能开关"));
         items.push(SettingsPageItem::SubPageLink(SubPageLink {
             title: "功能开关".into(),
             r#type: Default::default(),
@@ -102,7 +102,7 @@ fn developer_page(cx: &App) -> SettingsPage {
         }));
     }
 
-    items.push(SettingsPageItem::SectionHeader("Instrumentation"));
+    items.push(SettingsPageItem::SectionHeader("插桩"));
     items.push(SettingsPageItem::SettingItem(SettingItem {
         title: "性能分析器",
         description: "收集前台和后台执行器任务的耗时数据，以便通过 `zed: open performance profiler` 查看。可能导致内存占用增加。",
@@ -138,7 +138,7 @@ fn developer_page(cx: &App) -> SettingsPage {
 fn general_page(cx: &App) -> SettingsPage {
     fn general_settings_section(_cx: &App) -> Vec<SettingsPageItem> {
         vec![
-            SettingsPageItem::SectionHeader("General Settings"),
+            SettingsPageItem::SectionHeader("常规设置"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "无障碍模式",
                 description: "为屏幕阅读器等辅助技术优化 Zed 界面。启用后，原本折叠的控件会保持展开并可通过键盘访问。",
@@ -324,7 +324,7 @@ fn general_page(cx: &App) -> SettingsPage {
     }
     fn security_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Security"),
+            SettingsPageItem::SectionHeader("安全"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "默认信任所有项目",
                 description: "When opening Zed, avoid Restricted Mode by auto-trusting all projects, enabling use of all features without having to give permission to each new project.",
@@ -352,7 +352,7 @@ fn general_page(cx: &App) -> SettingsPage {
 
     fn workspace_restoration_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Workspace Restoration"),
+            SettingsPageItem::SectionHeader("工作区恢复"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "恢复未保存的缓冲区",
                 description: "重启时是否恢复未保存的缓冲区。",
@@ -394,7 +394,7 @@ fn general_page(cx: &App) -> SettingsPage {
 
     fn scoped_settings_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Scoped Settings"),
+            SettingsPageItem::SectionHeader("作用域设置"),
             SettingsPageItem::SettingItem(SettingItem {
                 files: USER,
                 title: "预览通道",
@@ -430,7 +430,7 @@ fn general_page(cx: &App) -> SettingsPage {
 
     fn privacy_section() -> [SettingsPageItem; 4] {
         [
-            SettingsPageItem::SectionHeader("Privacy"),
+            SettingsPageItem::SectionHeader("隐私"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "遥测诊断",
                 description: "发送崩溃报告等调试信息。",
@@ -499,7 +499,7 @@ fn general_page(cx: &App) -> SettingsPage {
 
     fn auto_update_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Auto Update"),
+            SettingsPageItem::SectionHeader("自动更新"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "自动更新",
                 description: "是否自动检查更新。",
@@ -535,7 +535,7 @@ fn general_page(cx: &App) -> SettingsPage {
 fn appearance_page() -> SettingsPage {
     fn theme_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Theme"),
+            SettingsPageItem::SectionHeader("主题"),
             SettingsPageItem::DynamicItem(DynamicItem {
                 discriminant: SettingItem {
                     files: USER,
@@ -901,7 +901,7 @@ fn appearance_page() -> SettingsPage {
 
     fn buffer_font_section() -> [SettingsPageItem; 7] {
         [
-            SettingsPageItem::SectionHeader("Buffer Font"),
+            SettingsPageItem::SectionHeader("缓冲区字体"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "字体族",
                 description: "编辑器文本的字体。",
@@ -1080,7 +1080,7 @@ fn appearance_page() -> SettingsPage {
 
     fn ui_font_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("UI Font"),
+            SettingsPageItem::SectionHeader("界面字体"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "字体族",
                 description: "UI 元素的字体。",
@@ -1162,7 +1162,7 @@ fn appearance_page() -> SettingsPage {
 
     fn agent_panel_font_section() -> [SettingsPageItem; 5] {
         [
-            SettingsPageItem::SectionHeader("Agent Panel Font"),
+            SettingsPageItem::SectionHeader("智能体面板字体"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "界面字体族",
                 description: "智能体面板中智能体响应文本的字体族。回退到常规 UI 字体族。",
@@ -1248,7 +1248,7 @@ fn appearance_page() -> SettingsPage {
 
     fn markdown_preview_font_section() -> [SettingsPageItem; 4] {
         [
-            SettingsPageItem::SectionHeader("Markdown Preview Font"),
+            SettingsPageItem::SectionHeader("Markdown 预览字体"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "字体族",
                 description: "Markdown 预览的字体族。回退到 UI 字体族。",
@@ -1323,7 +1323,7 @@ fn appearance_page() -> SettingsPage {
 
     fn text_rendering_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Text Rendering"),
+            SettingsPageItem::SectionHeader("文本渲染"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "文本渲染模式",
                 description: "要使用的文本渲染模式。",
@@ -1345,7 +1345,7 @@ fn appearance_page() -> SettingsPage {
 
     fn cursor_section() -> [SettingsPageItem; 7] {
         [
-            SettingsPageItem::SectionHeader("Cursor"),
+            SettingsPageItem::SectionHeader("光标"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "多光标修饰键",
                 description: "添加多重光标所用的修饰键。",
@@ -1446,7 +1446,7 @@ fn appearance_page() -> SettingsPage {
 
     fn highlighting_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("Highlighting"),
+            SettingsPageItem::SectionHeader("高亮"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "无用代码淡化",
                 description: "未使用代码的淡出程度（0.0 - 0.9）。",
@@ -1529,7 +1529,7 @@ fn appearance_page() -> SettingsPage {
 
     fn guides_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Guides"),
+            SettingsPageItem::SectionHeader("参考线"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示自动换行参考线",
                 description: "显示换行参考线（垂直标尺）。",
@@ -1604,11 +1604,11 @@ fn appearance_page() -> SettingsPage {
 fn keymap_page() -> SettingsPage {
     fn keybindings_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Keybindings"),
+            SettingsPageItem::SectionHeader("快捷键"),
             SettingsPageItem::ActionLink(ActionLink {
                 title: "编辑快捷键".into(),
                 description: Some("在键位映射编辑器中自定义快捷键。".into()),
-                button_text: "Open Keymap".into(),
+                button_text: "打开键位映射".into(),
                 on_click: Arc::new(|settings_window, window, cx| {
                     let Some(original_window) = settings_window.original_window else {
                         return;
@@ -1629,7 +1629,7 @@ fn keymap_page() -> SettingsPage {
 
     fn base_keymap_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Base Keymap"),
+            SettingsPageItem::SectionHeader("基础键位映射"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "基础键位映射",
                 description: "要使用的基础键位映射名称。",
@@ -1652,7 +1652,7 @@ fn keymap_page() -> SettingsPage {
 
     fn modal_editing_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Modal Editing"),
+            SettingsPageItem::SectionHeader("模态编辑"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Vim 模式",
                 description: "启用 Vim 模式与键位绑定。",
@@ -1695,7 +1695,7 @@ fn keymap_page() -> SettingsPage {
 fn editor_page() -> SettingsPage {
     fn auto_save_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Auto Save"),
+            SettingsPageItem::SectionHeader("自动保存"),
             SettingsPageItem::DynamicItem(DynamicItem {
                 discriminant: SettingItem {
                     files: USER,
@@ -1796,7 +1796,7 @@ fn editor_page() -> SettingsPage {
 
     fn which_key_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Which-key Menu"),
+            SettingsPageItem::SectionHeader("Which-key 菜单"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示 Which-key 菜单",
                 description: "在多键位绑定待输入期间显示带匹配键位的 which-key 菜单。待输入按键指示器仍然可见，但其绑定预览弹窗被禁用。",
@@ -1840,7 +1840,7 @@ fn editor_page() -> SettingsPage {
 
     fn multibuffer_section() -> [SettingsPageItem; 7] {
         [
-            SettingsPageItem::SectionHeader("Multibuffer"),
+            SettingsPageItem::SectionHeader("多缓冲区"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "多缓冲区中双击",
                 description: "在多缓冲区的某些摘录中双击时的行为。",
@@ -1944,7 +1944,7 @@ fn editor_page() -> SettingsPage {
 
     fn scrolling_section() -> [SettingsPageItem; 9] {
         [
-            SettingsPageItem::SectionHeader("Scrolling"),
+            SettingsPageItem::SectionHeader("滚动"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "滚动到最后一行之后",
                 description: "编辑器是否可滚动到最后一行之后。",
@@ -2080,7 +2080,7 @@ fn editor_page() -> SettingsPage {
 
     fn signature_help_section() -> [SettingsPageItem; 4] {
         [
-            SettingsPageItem::SectionHeader("Signature Help"),
+            SettingsPageItem::SectionHeader("签名帮助"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "自动签名帮助",
                 description: "自动显示签名帮助弹窗。",
@@ -2133,7 +2133,7 @@ fn editor_page() -> SettingsPage {
 
     fn hover_popover_section() -> [SettingsPageItem; 5] {
         [
-            SettingsPageItem::SectionHeader("Hover Popover"),
+            SettingsPageItem::SectionHeader("悬停浮层"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "已启用",
                 description: "Show the informational hover box when moving the mouse over symbols in the editor.",
@@ -2199,7 +2199,7 @@ fn editor_page() -> SettingsPage {
 
     fn drag_and_drop_selection_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Drag And Drop Selection"),
+            SettingsPageItem::SectionHeader("拖放选择"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "已启用",
                 description: "启用拖放选择。",
@@ -2253,7 +2253,7 @@ fn editor_page() -> SettingsPage {
 
     fn gutter_section() -> [SettingsPageItem; 10] {
         [
-            SettingsPageItem::SectionHeader("Gutter"),
+            SettingsPageItem::SectionHeader("装订线"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示行号",
                 description: "在装订线中显示行号。",
@@ -2518,7 +2518,7 @@ fn editor_page() -> SettingsPage {
 
     fn scrollbar_section() -> [SettingsPageItem; 10] {
         [
-            SettingsPageItem::SectionHeader("Scrollbar"),
+            SettingsPageItem::SectionHeader("滚动条"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示",
                 description: "何时在编辑器中显示滚动条。",
@@ -2747,7 +2747,7 @@ fn editor_page() -> SettingsPage {
 
     fn minimap_section() -> [SettingsPageItem; 7] {
         [
-            SettingsPageItem::SectionHeader("Minimap"),
+            SettingsPageItem::SectionHeader("缩略图"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示",
                 description: "何时在编辑器中显示缩略图。",
@@ -2889,7 +2889,7 @@ fn editor_page() -> SettingsPage {
 
     fn toolbar_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("Toolbar"),
+            SettingsPageItem::SectionHeader("工具栏"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "面包屑导航",
                 description: "显示面包屑导航。",
@@ -3330,7 +3330,7 @@ fn editor_page() -> SettingsPage {
 fn languages_and_tools_page(cx: &App) -> SettingsPage {
     fn file_types_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("File Types"),
+            SettingsPageItem::SectionHeader("文件类型"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "文件类型关联",
                 description: "语言到应被视为该语言的文件和文件扩展名的映射。",
@@ -3355,7 +3355,7 @@ fn languages_and_tools_page(cx: &App) -> SettingsPage {
 
     fn diagnostics_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Diagnostics"),
+            SettingsPageItem::SectionHeader("诊断"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "最高严重级别",
                 description: "Which level to use to filter out diagnostics displayed in the editor.",
@@ -3400,7 +3400,7 @@ fn languages_and_tools_page(cx: &App) -> SettingsPage {
 
     fn inline_diagnostics_section() -> [SettingsPageItem; 5] {
         [
-            SettingsPageItem::SectionHeader("Inline Diagnostics"),
+            SettingsPageItem::SectionHeader("行内诊断"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "已启用",
                 description: "是否以内联方式显示诊断。",
@@ -3514,7 +3514,7 @@ fn languages_and_tools_page(cx: &App) -> SettingsPage {
 
     fn lsp_pull_diagnostics_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("LSP Pull Diagnostics"),
+            SettingsPageItem::SectionHeader("LSP 拉取式诊断"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "已启用",
                 description: "是否拉取由语言服务器提供的诊断。",
@@ -3575,7 +3575,7 @@ fn languages_and_tools_page(cx: &App) -> SettingsPage {
 
     fn lsp_highlights_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("LSP Highlights"),
+            SettingsPageItem::SectionHeader("LSP 高亮"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "防抖",
                 description: "查询语言高亮前的防抖延迟。",
@@ -3598,7 +3598,7 @@ fn languages_and_tools_page(cx: &App) -> SettingsPage {
     fn languages_list_section(cx: &App) -> Box<[SettingsPageItem]> {
         // todo(settings_ui): Refresh on extension (un)/installed
         // Note that `crates/json_schema_store` solves the same problem, there is probably a way to unify the two
-        std::iter::once(SettingsPageItem::SectionHeader("Languages"))
+        std::iter::once(SettingsPageItem::SectionHeader("语言"))
             .chain(all_language_names(cx).into_iter().map(|language_name| {
                 let link = format!("languages.{language_name}");
                 SettingsPageItem::SubPageLink(SubPageLink {
@@ -3647,7 +3647,7 @@ fn languages_and_tools_page(cx: &App) -> SettingsPage {
 fn search_and_files_page() -> SettingsPage {
     fn search_section() -> [SettingsPageItem; 10] {
         [
-            SettingsPageItem::SectionHeader("Search"),
+            SettingsPageItem::SectionHeader("搜索"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "全字匹配",
                 description: "默认搜索全词匹配。",
@@ -3834,7 +3834,7 @@ fn search_and_files_page() -> SettingsPage {
 
     fn command_palette_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Command Palette"),
+            SettingsPageItem::SectionHeader("命令面板"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "使用命令历史",
                 description: "Whether to use command history ranking for sorting in the command palette.",
@@ -3863,7 +3863,7 @@ fn search_and_files_page() -> SettingsPage {
 
     fn file_finder_section() -> [SettingsPageItem; 4] {
         [
-            SettingsPageItem::SectionHeader("File Finder"),
+            SettingsPageItem::SectionHeader("文件查找器"),
             // todo: null by default
             SettingsPageItem::SettingItem(SettingItem {
                 title: "搜索包含已忽略文件",
@@ -3935,7 +3935,7 @@ fn search_and_files_page() -> SettingsPage {
 
     fn file_scan_section() -> [SettingsPageItem; 7] {
         [
-            SettingsPageItem::SectionHeader("File Scan"),
+            SettingsPageItem::SectionHeader("文件扫描"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "文件扫描排除项",
                 description: "将被 Zed 完全排除的文件或文件 glob 模式。它们会在文件扫描和文件搜索中被跳过，也不会显示在项目文件树中。优先于“文件扫描包含项”",
@@ -4063,7 +4063,7 @@ fn search_and_files_page() -> SettingsPage {
 fn window_and_layout_page() -> SettingsPage {
     fn status_bar_section() -> [SettingsPageItem; 12] {
         [
-            SettingsPageItem::SectionHeader("Status Bar"),
+            SettingsPageItem::SectionHeader("状态栏"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "项目面板按钮",
                 description: "在状态栏中显示项目面板按钮。",
@@ -4288,7 +4288,7 @@ fn window_and_layout_page() -> SettingsPage {
 
     fn title_bar_section() -> [SettingsPageItem; 11] {
         [
-            SettingsPageItem::SectionHeader("Title Bar"),
+            SettingsPageItem::SectionHeader("标题栏"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示分支状态图标",
                 description: "在标题栏的分支图标上显示 Git 状态指示器。",
@@ -4607,7 +4607,7 @@ fn window_and_layout_page() -> SettingsPage {
 
     fn tab_bar_section() -> [SettingsPageItem; 9] {
         [
-            SettingsPageItem::SectionHeader("Tab Bar"),
+            SettingsPageItem::SectionHeader("标签栏"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示标签栏",
                 description: "在编辑器中显示标签栏。",
@@ -4759,7 +4759,7 @@ fn window_and_layout_page() -> SettingsPage {
 
     fn tab_settings_section() -> [SettingsPageItem; 4] {
         [
-            SettingsPageItem::SectionHeader("Tab Settings"),
+            SettingsPageItem::SectionHeader("标签页设置"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "关闭时激活",
                 description: "关闭当前标签页后的行为。",
@@ -4822,7 +4822,7 @@ fn window_and_layout_page() -> SettingsPage {
 
     fn preview_tabs_section() -> [SettingsPageItem; 8] {
         [
-            SettingsPageItem::SectionHeader("Preview Tabs"),
+            SettingsPageItem::SectionHeader("预览标签页"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "启用预览标签页",
                 description: "以预览标签页的形式显示打开的编辑器。",
@@ -4985,7 +4985,7 @@ fn window_and_layout_page() -> SettingsPage {
 
     fn layout_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("Layout"),
+            SettingsPageItem::SectionHeader("布局"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "底部停靠布局",
                 description: "底部停靠区的布局模式。",
@@ -5103,7 +5103,7 @@ fn window_and_layout_page() -> SettingsPage {
 
     fn window_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("Window"),
+            SettingsPageItem::SectionHeader("窗口"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "标题格式",
                 description: "Window title template. Available variables are `${projectName}`, `${fileName}`, `${filePath}`, `${relativePath}`, `${fileStem}`, `${remoteName}`, `${remoteHost}`, `${appName}`, `${branch}`, and `${separator}`. `${separator}` is omitted when adjacent variables are empty, but literal text is preserved. The collaboration indicator, when present, is appended after the rendered template. If the template renders to nothing, the default template is used instead.",
@@ -5193,7 +5193,7 @@ fn window_and_layout_page() -> SettingsPage {
 
     fn pane_modifiers_section() -> [SettingsPageItem; 5] {
         [
-            SettingsPageItem::SectionHeader("Pane Modifiers"),
+            SettingsPageItem::SectionHeader("窗格修饰键"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "非活动透明度",
                 description: "非活动面板的不透明度（0.0 - 1.0）。",
@@ -5279,7 +5279,7 @@ fn window_and_layout_page() -> SettingsPage {
 
     fn pane_split_direction_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Pane Split Direction"),
+            SettingsPageItem::SectionHeader("窗格拆分方向"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "垂直拆分方向",
                 description: "垂直拆分的方向。",
@@ -5340,7 +5340,7 @@ fn window_and_layout_page() -> SettingsPage {
 fn panels_page() -> SettingsPage {
     fn project_panel_section() -> [SettingsPageItem; 30] {
         [
-            SettingsPageItem::SectionHeader("Project Panel"),
+            SettingsPageItem::SectionHeader("项目面板"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "项目面板停靠位置",
                 description: "项目面板的停靠位置。",
@@ -6082,7 +6082,7 @@ fn panels_page() -> SettingsPage {
 
     fn terminal_panel_section() -> [SettingsPageItem; 5] {
         [
-            SettingsPageItem::SectionHeader("Terminal Panel"),
+            SettingsPageItem::SectionHeader("终端面板"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "终端停靠位置",
                 description: "终端面板的停靠位置。",
@@ -6158,7 +6158,7 @@ fn panels_page() -> SettingsPage {
 
     fn outline_panel_section() -> [SettingsPageItem; 12] {
         [
-            SettingsPageItem::SectionHeader("Outline Panel"),
+            SettingsPageItem::SectionHeader("大纲面板"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "大纲面板按钮",
                 description: "在状态栏中显示大纲面板按钮。",
@@ -6400,7 +6400,7 @@ fn panels_page() -> SettingsPage {
 
     fn git_panel_section() -> [SettingsPageItem; 18] {
         [
-            SettingsPageItem::SectionHeader("Git Panel"),
+            SettingsPageItem::SectionHeader("Git 面板"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Git 面板按钮",
                 description: "在状态栏中显示 Git 面板按钮。",
@@ -6740,7 +6740,7 @@ fn panels_page() -> SettingsPage {
 
     fn debugger_panel_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Debugger Panel"),
+            SettingsPageItem::SectionHeader("调试器面板"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "调试器面板停靠位置",
                 description: "调试面板的停靠位置。",
@@ -6760,7 +6760,7 @@ fn panels_page() -> SettingsPage {
 
     fn collaboration_panel_section() -> [SettingsPageItem; 4] {
         [
-            SettingsPageItem::SectionHeader("Collaboration Panel"),
+            SettingsPageItem::SectionHeader("协作面板"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "协作面板按钮",
                 description: "在状态栏中显示协作面板按钮。",
@@ -6831,7 +6831,7 @@ fn panels_page() -> SettingsPage {
 
     fn agent_panel_section() -> [SettingsPageItem; 9] {
         [
-            SettingsPageItem::SectionHeader("Agent Panel"),
+            SettingsPageItem::SectionHeader("智能体面板"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "智能体面板按钮",
                 description: "是否在状态栏中显示智能体面板按钮。",
@@ -7030,7 +7030,7 @@ fn panels_page() -> SettingsPage {
 fn debugger_page() -> SettingsPage {
     fn general_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("General"),
+            SettingsPageItem::SectionHeader("通用"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "单步粒度",
                 description: "决定调试操作的单步粒度。",
@@ -7149,7 +7149,7 @@ fn debugger_page() -> SettingsPage {
 fn terminal_page() -> SettingsPage {
     fn environment_section() -> [SettingsPageItem; 5] {
         [
-                SettingsPageItem::SectionHeader("Environment"),
+                SettingsPageItem::SectionHeader("环境"),
                 SettingsPageItem::DynamicItem(DynamicItem {
                     discriminant: SettingItem {
                         files: USER | PROJECT,
@@ -7517,7 +7517,7 @@ fn terminal_page() -> SettingsPage {
 
     fn font_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("Font"),
+            SettingsPageItem::SectionHeader("字体"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "字体大小",
                 description: "终端文本的字号。未设置时默认使用缓冲区字号。",
@@ -7637,7 +7637,7 @@ fn terminal_page() -> SettingsPage {
 
     fn display_settings_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("Display Settings"),
+            SettingsPageItem::SectionHeader("显示设置"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "行高",
                 description: "终端文本的行高。",
@@ -7744,7 +7744,7 @@ fn terminal_page() -> SettingsPage {
 
     fn behavior_settings_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("Behavior Settings"),
+            SettingsPageItem::SectionHeader("行为设置"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Option 作为 Meta 键",
                 description: "Option 键是否作为 Meta 键使用。",
@@ -7848,7 +7848,7 @@ fn terminal_page() -> SettingsPage {
 
     fn layout_settings_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Layout Settings"),
+            SettingsPageItem::SectionHeader("布局设置"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "默认宽度",
                 description: "终端停靠在左侧或右侧时的默认宽度（像素）。",
@@ -7892,7 +7892,7 @@ fn terminal_page() -> SettingsPage {
 
     fn advanced_settings_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Advanced Settings"),
+            SettingsPageItem::SectionHeader("高级设置"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "最大滚动历史行数",
                 description: "回滚历史中保留的最大行数（上限：100,000；0 表示禁用滚动）。",
@@ -7944,7 +7944,7 @@ fn terminal_page() -> SettingsPage {
 
     fn toolbar_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Toolbar"),
+            SettingsPageItem::SectionHeader("工具栏"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "面包屑导航",
                 description: "在终端窗格内的面包屑中显示终端标题。",
@@ -7977,7 +7977,7 @@ fn terminal_page() -> SettingsPage {
 
     fn scrollbar_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Scrollbar"),
+            SettingsPageItem::SectionHeader("滚动条"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示滚动条",
                 description: "终端中滚动条的显示时机。",
@@ -8028,7 +8028,7 @@ fn terminal_page() -> SettingsPage {
 fn version_control_page() -> SettingsPage {
     fn git_integration_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Git Integration"),
+            SettingsPageItem::SectionHeader("Git 集成"),
             SettingsPageItem::DynamicItem(DynamicItem {
                 discriminant: SettingItem {
                     files: USER,
@@ -8132,7 +8132,7 @@ fn version_control_page() -> SettingsPage {
 
     fn git_gutter_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Git Gutter"),
+            SettingsPageItem::SectionHeader("Git 装订线"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "可见性",
                 description: "控制是否在编辑器装订线中显示 Git 状态。",
@@ -8169,7 +8169,7 @@ fn version_control_page() -> SettingsPage {
 
     fn inline_git_blame_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("Inline Git Blame"),
+            SettingsPageItem::SectionHeader("行内 Git 追溯"),
             SettingsPageItem::DynamicItem(DynamicItem {
                 discriminant: SettingItem {
                     title: "已启用",
@@ -8353,7 +8353,7 @@ fn version_control_page() -> SettingsPage {
 
     fn git_blame_view_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Git Blame View"),
+            SettingsPageItem::SectionHeader("Git 追溯视图"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示头像",
                 description: "显示提交作者的头像。",
@@ -8386,7 +8386,7 @@ fn version_control_page() -> SettingsPage {
 
     fn branch_picker_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Branch Picker"),
+            SettingsPageItem::SectionHeader("分支选择器"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示作者姓名",
                 description: "在分支选择器中将作者名显示为提交信息的一部分。",
@@ -8419,7 +8419,7 @@ fn version_control_page() -> SettingsPage {
 
     fn git_hunks_section() -> [SettingsPageItem; 5] {
         [
-            SettingsPageItem::SectionHeader("Git Hunks"),
+            SettingsPageItem::SectionHeader("Git 差异块"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "差异块样式",
                 description: "编辑器中标示 Git 差异块的方式。",
@@ -8490,7 +8490,7 @@ fn version_control_page() -> SettingsPage {
 
     fn file_diff_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("File Diff"),
+            SettingsPageItem::SectionHeader("文件差异"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "默认显示完整文件",
                 description: "新打开的文件差异是否显示完整文件而非仅显示更改。",
@@ -8538,7 +8538,7 @@ fn version_control_page() -> SettingsPage {
 fn collaboration_page() -> SettingsPage {
     fn calls_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Calls"),
+            SettingsPageItem::SectionHeader("通话"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "加入时静音",
                 description: "加入频道或通话时是否将麦克风静音。",
@@ -8577,7 +8577,7 @@ fn collaboration_page() -> SettingsPage {
             SettingsPageItem::ActionLink(ActionLink {
                 title: "测试音频".into(),
                 description: Some("测试麦克风和扬声器设置".into()),
-                button_text: "Test Audio".into(),
+                button_text: "测试音频".into(),
                 on_click: Arc::new(|_settings_window, window, cx| {
                     open_audio_test_window(window, cx);
                 }),
@@ -8643,7 +8643,7 @@ fn collaboration_page() -> SettingsPage {
 fn ai_page(cx: &App) -> SettingsPage {
     fn general_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("General"),
+            SettingsPageItem::SectionHeader("通用"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "禁用 AI",
                 description: "是否禁用 Zed 中的全部 AI 功能。",
@@ -8751,7 +8751,7 @@ fn ai_page(cx: &App) -> SettingsPage {
     }
 
     fn agent_configuration_section(_cx: &App) -> Box<[SettingsPageItem]> {
-        let mut items = vec![SettingsPageItem::SectionHeader("Agent Configuration")];
+        let mut items = vec![SettingsPageItem::SectionHeader("智能体配置")];
 
         items.extend([
             SettingsPageItem::SubPageLink(SubPageLink {
@@ -9218,7 +9218,7 @@ fn ai_page(cx: &App) -> SettingsPage {
 fn network_page() -> SettingsPage {
     fn network_section() -> [SettingsPageItem; 3] {
         [
-            SettingsPageItem::SectionHeader("Network"),
+            SettingsPageItem::SectionHeader("网络"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "代理",
                 description: "The proxy to use for network requests.",
@@ -9300,7 +9300,7 @@ fn language_settings_field_mut<T>(
 fn language_settings_data() -> Box<[SettingsPageItem]> {
     fn indentation_section() -> [SettingsPageItem; 5] {
         [
-            SettingsPageItem::SectionHeader("Indentation"),
+            SettingsPageItem::SectionHeader("缩进"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "制表符宽度",
                 description: "一个制表符占用的列数。",
@@ -9386,7 +9386,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn wrapping_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("Wrapping"),
+            SettingsPageItem::SectionHeader("自动换行"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "自动换行",
                 description: "长文本行的自动换行方式。",
@@ -9499,7 +9499,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn indent_guides_section() -> [SettingsPageItem; 6] {
         [
-            SettingsPageItem::SectionHeader("Indent Guides"),
+            SettingsPageItem::SectionHeader("缩进参考线"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "已启用",
                 description: "在编辑器中显示缩进参考线。",
@@ -9625,7 +9625,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn formatting_section() -> [SettingsPageItem; 8] {
         [
-            SettingsPageItem::SectionHeader("Formatting"),
+            SettingsPageItem::SectionHeader("格式化"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "保存时格式化",
                 description: "On：格式化整个缓冲区。\nOff：不格式化。\nModifications：仅格式化未暂存更改的行；当 Git 差异或 LSP 范围格式化不可用时跳过格式化。\nModifications If Available：同上，但会回退为格式化整个缓冲区。",
@@ -9795,7 +9795,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn autoclose_section() -> [SettingsPageItem; 5] {
         [
-            SettingsPageItem::SectionHeader("Autoclose"),
+            SettingsPageItem::SectionHeader("自动关闭"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "使用自动闭合",
                 description: "是否自动补全闭合字符。例如，输入“(”时，Zed 会自动在正确位置添加“)”。",
@@ -9882,7 +9882,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn whitespace_section() -> [SettingsPageItem; 4] {
         [
-            SettingsPageItem::SectionHeader("Whitespace"),
+            SettingsPageItem::SectionHeader("空白字符"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示空白字符",
                 description: "是否在编辑器中显示制表符和空格。",
@@ -9962,7 +9962,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn completions_section() -> [SettingsPageItem; 8] {
         [
-            SettingsPageItem::SectionHeader("Completions"),
+            SettingsPageItem::SectionHeader("补全"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "输入时显示补全",
                 description: "在编辑器中输入时是否自动弹出补全菜单而无需显式请求。",
@@ -10099,7 +10099,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn inlay_hints_section() -> [SettingsPageItem; 10] {
         [
-            SettingsPageItem::SectionHeader("Inlay Hints"),
+            SettingsPageItem::SectionHeader("内联提示"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "已启用",
                 description: "全局开关，用于开启或关闭提示。",
@@ -10316,7 +10316,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn tasks_section() -> [SettingsPageItem; 4] {
         [
-            SettingsPageItem::SectionHeader("Tasks"),
+            SettingsPageItem::SectionHeader("任务"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "已启用",
                 description: "是否为此语言启用任务。",
@@ -10389,7 +10389,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn miscellaneous_section() -> [SettingsPageItem; 8] {
         [
-            SettingsPageItem::SectionHeader("Miscellaneous"),
+            SettingsPageItem::SectionHeader("杂项"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "语言检测",
                 description: "是否在未保存的缓冲区中启用自动语言检测。",
@@ -10910,7 +10910,7 @@ fn non_editor_language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn lsp_completions_section() -> [SettingsPageItem; 4] {
         [
-            SettingsPageItem::SectionHeader("LSP Completions"),
+            SettingsPageItem::SectionHeader("LSP 补全"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "已启用",
                 description: "是否获取 LSP 补全。",
@@ -10979,7 +10979,7 @@ fn non_editor_language_settings_data() -> Box<[SettingsPageItem]> {
 
     fn debugger_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Debuggers"),
+            SettingsPageItem::SectionHeader("调试器"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "调试器",
                 description: "此语言的首选调试器。",
@@ -11120,7 +11120,7 @@ fn non_editor_language_settings_data() -> Box<[SettingsPageItem]> {
 
 fn edit_prediction_language_settings_section() -> [SettingsPageItem; 5] {
     [
-        SettingsPageItem::SectionHeader("Edit Predictions"),
+        SettingsPageItem::SectionHeader("编辑预测"),
         SettingsPageItem::SubPageLink(SubPageLink {
             title: "配置提供商".into(),
             r#type: Default::default(),

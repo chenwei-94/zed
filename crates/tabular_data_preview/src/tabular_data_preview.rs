@@ -297,9 +297,9 @@ impl Item for TabularDataPreviewPane {
                 local_file
                     .abs_path(cx)
                     .file_name()
-                    .map(|name| format!("Preview {}", name.to_string_lossy()).into())
+                    .map(|name| format!("{} 预览", name.to_string_lossy()).into())
             })
-            .unwrap_or_else(|| SharedString::from("Tabular Data Preview"))
+            .unwrap_or_else(|| SharedString::from("表格数据预览"))
     }
 }
 

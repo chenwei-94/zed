@@ -595,11 +595,11 @@ impl NotebookEditor {
             Kernel::RunningKernel(kernel) => kernel
                 .request_tx()
                 .try_send(message)
-                .map_err(|err| format!("failed to send execute request to kernel (the kernel process may have died): {err}")),
-            Kernel::StartingKernel(_) => Err("the kernel is still starting".to_string()),
-            Kernel::ErroredLaunch(error) => Err(format!("the kernel failed to launch: {error}")),
-            Kernel::ShuttingDown | Kernel::Shutdown => Err("the kernel is shut down".to_string()),
-            Kernel::Restarting => Err("the kernel is restarting".to_string()),
+                .map_err(|err| format!("向内核发送执行请求失败（内核进程可能已终止）：{err}")),
+            Kernel::StartingKernel(_) => Err("内核仍在启动中".to_string()),
+            Kernel::ErroredLaunch(error) => Err(format!("内核启动失败：{error}")),
+            Kernel::ShuttingDown | Kernel::Shutdown => Err("内核已关闭".to_string()),
+            Kernel::Restarting => Err("内核正在重启".to_string()),
         };
 
         if let Some(Cell::Code(cell)) = self.cell_map.get(&cell_id) {
@@ -1235,7 +1235,7 @@ impl NotebookEditor {
                             .kernel_specification
                             .as_ref()
                             .map(|spec| spec.name().to_string())
-                            .unwrap_or_else(|| "Select Kernel".to_string());
+                            .unwrap_or_else(|| "选择内核".to_string());
                         IconButton::new("repl", icon)
                             .icon_color(icon_color)
                             .tooltip(move |window, cx| {
@@ -1262,7 +1262,7 @@ impl NotebookEditor {
             .kernel_specification
             .as_ref()
             .map(|spec| spec.name().to_string())
-            .unwrap_or_else(|| "Select Kernel".to_string());
+            .unwrap_or_else(|| "选择内核".to_string());
 
         let (status_icon, status_color) = match &kernel_status {
             KernelStatus::Idle => (IconName::Circle, Color::Success),
@@ -2207,7 +2207,7 @@ mod tests {
             };
             match outputs.as_slice() {
                 [nbformat::v4::Output::Error(error)] => {
-                    assert_eq!(error.ename, "Kernel Error");
+                    assert_eq!(error.ename, "内核错误");
                     let traceback = error.traceback.join("\n");
                     assert!(
                         traceback.contains("the kernel failed to launch"),

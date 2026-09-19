@@ -319,31 +319,31 @@ fn format_report(data: &InputLatencyReportData) -> String {
     }
 
     let percentiles: &[(&str, f64)] = &[
-        ("min  ", 0.0),
-        ("p50  ", 0.50),
-        ("p75  ", 0.75),
-        ("p90  ", 0.90),
-        ("p95  ", 0.95),
-        ("p99  ", 0.99),
+        ("min", 0.0),
+        ("p50", 0.50),
+        ("p75", 0.75),
+        ("p90", 0.90),
+        ("p95", 0.95),
+        ("p99", 0.99),
         ("p99.9", 0.999),
-        ("max  ", 1.0),
+        ("max", 1.0),
     ];
 
     let now = data.timestamp;
 
     let mut report = String::new();
-    report.push_str("Input Latency Histogram\n");
+    report.push_str("Input Latency Histogram");
     report.push_str("=======================\n");
 
     let timestamp = now.format("%Y-%m-%d %H:%M:%S %Z");
-    report.push_str(&format!("Timestamp: {timestamp}\n"));
+    report.push_str(&format!("Timestamp: {timestamp}"));
     if let Some(reported_by) = &data.reported_by {
-        report.push_str(&format!("Reported from {reported_by}'s machine\n"));
+        report.push_str(&format!("Reported from {reported_by}'s machine"));
     }
-    report.push_str(&format!("Samples: {total}\n"));
+    report.push_str(&format!("Samples: {total}"));
     if snapshot.mid_draw_events_dropped > 0 {
         report.push_str(&format!(
-            "Mid-draw events excluded: {}\n",
+            "Mid-draw events excluded: {}",
             snapshot.mid_draw_events_dropped
         ));
     }
@@ -355,7 +355,7 @@ fn format_report(data: &InputLatencyReportData) -> String {
     let coalesce_total = coalesce.len();
     if coalesce_total > 0 {
         report.push('\n');
-        report.push_str("Events coalesced per frame:\n");
+        report.push_str("Events coalesced per frame:");
         for (label, quantile) in percentiles {
             let value = if *quantile == 0.0 {
                 coalesce.min()
@@ -364,11 +364,11 @@ fn format_report(data: &InputLatencyReportData) -> String {
             } else {
                 coalesce.value_at_quantile(*quantile)
             };
-            report.push_str(&format!("  {label}: {value:>6} events\n"));
+            report.push_str(&format!("{label}: {value:>6} events"));
         }
 
         report.push('\n');
-        report.push_str("Distribution:\n");
+        report.push_str("Distribution:");
         let bar_width = 30usize;
         let max_count = coalesce.max();
         for n in 1..=max_count {
@@ -384,7 +384,7 @@ fn format_report(data: &InputLatencyReportData) -> String {
             let bar_len = (fraction * bar_width as f64) as usize;
             let bar = "\u{2588}".repeat(bar_len);
             report.push_str(&format!(
-                "  {n:>6} events: {count:>6} ({:>5.1}%) {bar}\n",
+                "{n:>6} events: {count:>6} ({:>5.1}%) {bar}",
                 fraction * 100.0,
             ));
         }
@@ -399,14 +399,14 @@ fn format_report(data: &InputLatencyReportData) -> String {
         let delta_total = total - prev_total;
 
         report.push('\n');
-        report.push_str("Delta Since Last Report\n");
+        report.push_str("Delta Since Last Report");
         report.push_str("-----------------------\n");
         let prev_ts = prev_timestamp.format("%Y-%m-%d %H:%M:%S %Z");
         let elapsed_secs = (now - *prev_timestamp).num_seconds().max(0);
         report.push_str(&format!(
-            "Previous report: {prev_ts} ({elapsed_secs}s ago)\n"
+            "Previous report: {prev_ts} ({elapsed_secs}s ago)"
         ));
-        report.push_str(&format!("New samples: {delta_total}\n"));
+        report.push_str(&format!("New samples: {delta_total}"));
 
         if delta_total > 0 {
             let mut delta_histogram = histogram.clone();
@@ -454,7 +454,7 @@ fn write_latency_percentiles(
             f64::INFINITY
         };
         report.push_str(&format!(
-            "  {label}: {:>8.2}ms  ({:>7.1} Hz)\n",
+            "{label}: {:>8.2}ms  ({:>7.1} Hz)",
             ns_to_ms(value_ns),
             hz
         ));

@@ -683,7 +683,7 @@ impl Item for AgentDiffPane {
 
     fn tab_content_text(&self, _detail: usize, cx: &App) -> SharedString {
         match self.thread.read(cx).title() {
-            Some(title) => format!("Review: {}", truncate_and_trailoff(&title, 20)).into(),
+            Some(title) => format!("审阅：{}", truncate_and_trailoff(&title, 20)).into(),
             None => "Review".into(),
         }
     }

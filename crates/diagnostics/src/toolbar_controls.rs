@@ -51,9 +51,9 @@ impl Render for ToolbarControls {
         let is_agent_enabled = AgentSettings::get_global(cx).enabled(cx);
 
         let (warning_tooltip, warning_color) = if include_warnings {
-            ("Exclude Warnings", Color::Warning)
+            ("排除警告", Color::Warning)
         } else {
-            ("Include Warnings", Color::Disabled)
+            ("包含警告", Color::Disabled)
         };
 
         h_flex()

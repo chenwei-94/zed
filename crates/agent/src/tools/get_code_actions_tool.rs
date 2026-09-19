@@ -53,7 +53,7 @@ impl AgentTool for GetCodeActionsTool {
         _cx: &mut App,
     ) -> SharedString {
         if let Ok(input) = input {
-            format!("Get code actions for `{}`", input.symbol.symbol_name).into()
+            format!("获取 `{}` 的代码操作", input.symbol.symbol_name).into()
         } else {
             "Get code actions".into()
         }
@@ -93,13 +93,13 @@ impl AgentTool for GetCodeActionsTool {
                 ));
             }
 
-            let mut output = format!("Found {} code action(s):\n", actions.len());
+            let mut output = format!("Found {} code action(s):", actions.len());
             for (i, action) in actions.iter().enumerate() {
                 writeln!(output, "{}. {}", i + 1, action.lsp_action.title()).ok();
             }
             write!(
                 output,
-                "\nUse apply_code_action with the number of the action you want to apply."
+                "Use apply_code_action with the number of the action you want to apply."
             )
             .ok();
 

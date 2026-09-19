@@ -652,7 +652,7 @@ impl Render for KeystrokeInput {
                                     Tooltip::with_meta(
                                         "清除按键",
                                         Some(&ClearKeystrokes),
-                                        "Hit it three times to execute",
+                                        "连按三次即可执行",
                                         cx,
                                     )
                                 })

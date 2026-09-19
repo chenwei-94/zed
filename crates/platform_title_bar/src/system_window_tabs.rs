@@ -286,7 +286,7 @@ impl SystemWindowTabs {
                 let merge_tabs = tabs.clone();
 
                 ContextMenu::build(window, cx, move |mut menu, _window_, _cx| {
-                    menu = menu.entry("Close Tab", None, move |window, cx| {
+                    menu = menu.entry("关闭标签页", None, move |window, cx| {
                         Self::handle_right_click_action(
                             cx,
                             window,
@@ -298,7 +298,7 @@ impl SystemWindowTabs {
                         );
                     });
 
-                    menu = menu.entry("Close Other Tabs", None, move |window, cx| {
+                    menu = menu.entry("关闭其他标签页", None, move |window, cx| {
                         Self::handle_right_click_action(
                             cx,
                             window,
@@ -310,7 +310,7 @@ impl SystemWindowTabs {
                         );
                     });
 
-                    menu = menu.entry("Move Tab to New Window", None, move |window, cx| {
+                    menu = menu.entry("将标签页移到新窗口", None, move |window, cx| {
                         Self::handle_right_click_action(
                             cx,
                             window,
@@ -326,7 +326,7 @@ impl SystemWindowTabs {
                         );
                     });
 
-                    menu = menu.entry("Show All Tabs", None, move |window, cx| {
+                    menu = menu.entry("显示所有标签页", None, move |window, cx| {
                         Self::handle_right_click_action(
                             cx,
                             window,

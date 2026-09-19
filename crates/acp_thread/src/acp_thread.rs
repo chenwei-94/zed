@@ -337,7 +337,7 @@ pub struct AssistantMessage {
 impl AssistantMessage {
     pub fn to_markdown(&self, cx: &App) -> String {
         format!(
-            "## Assistant\n\n{}\n\n",
+            "## Assistant\n\n{}",
             self.chunks
                 .iter()
                 .map(|chunk| chunk.to_markdown(cx))
@@ -869,12 +869,12 @@ impl AgentThreadEntry {
             Self::UserMessage(message) => message.to_markdown(cx),
             Self::AssistantMessage(message) => message.to_markdown(cx),
             Self::ToolCall(tool_call) => tool_call.to_markdown(cx),
-            Self::Elicitation(_) => "## Input Requested\n\n".to_string(),
+            Self::Elicitation(_) => "## Input Requested".to_string(),
             Self::CompletedPlan(entries) => {
-                let mut md = String::from("## Plan\n\n");
+                let mut md = String::from("## Plan");
                 for entry in entries {
                     let source = entry.content.read(cx).source().to_string();
-                    md.push_str(&format!("- [x] {}\n", source));
+                    md.push_str(&format!("- [x] {}", source));
                 }
                 md
             }
@@ -887,13 +887,13 @@ impl AgentThreadEntry {
                     ContextCompactionStatus::Other(status) => status,
                 };
                 let mut markdown =
-                    format!("## Context Compaction ({})\n\n", MarkdownEscaped(status));
+                    format!("## Context Compaction ({})", MarkdownEscaped(status));
                 for block in &compaction.summary {
                     markdown.push_str(block.to_markdown(cx));
                     markdown.push_str("\n\n");
                 }
                 if let Some(error) = &compaction.error {
-                    markdown.push_str("**Error:** ");
+                    markdown.push_str("**Error:**");
                     markdown.push_str(&MarkdownEscaped(error.read(cx).source()).to_string());
                     markdown.push_str("\n\n");
                 }
@@ -1045,7 +1045,7 @@ impl ToolCall {
             return tool_name
                 .filter(|name| !name.trim().is_empty())
                 .cloned()
-                .unwrap_or_else(|| "Tool call".into());
+                .unwrap_or_else(|| "工具调用".into());
         };
 
         if kind == acp::ToolKind::Execute {
@@ -1270,7 +1270,7 @@ impl ToolCall {
         } else {
             label.to_string()
         };
-        let mut markdown = format!("**Tool Call: {}**\nStatus: {}\n\n", label, self.status);
+        let mut markdown = format!("**Tool Call: {}**\nStatus: {}", label, self.status);
         for content in &self.content {
             markdown.push_str(content.to_markdown(cx).as_str());
             markdown.push_str("\n\n");
@@ -1573,7 +1573,7 @@ impl ContentBlock {
                     Self::Unsupported {
                         content: acp::ContentBlock::Image(image),
                         markdown: Self::create_markdown(
-                            "Image content could not be displayed.".into(),
+                            "无法显示图片内容。".into(),
                             language_registry,
                             cx,
                         ),
@@ -1585,9 +1585,9 @@ impl ContentBlock {
             }
             content => {
                 let description = if matches!(&content, acp::ContentBlock::Audio(_)) {
-                    "Audio content is not supported."
+                    "不支持音频内容。"
                 } else {
-                    "This content is not supported."
+                    "不支持此内容。"
                 };
                 Self::Unsupported {
                     content,
@@ -3434,11 +3434,11 @@ impl AcpThread {
                 // Tool call not found - create a failed tool call entry
                 let failed_tool_call = ToolCall {
                     id: update.id().clone(),
-                    label: cx.new(|cx| Markdown::new("Tool call not found".into(), None, None, cx)),
+                    label: cx.new(|cx| Markdown::new("未找到工具调用".into(), None, None, cx)),
                     title: Some("未找到工具调用".into()),
                     kind: acp::ToolKind::Fetch,
                     content: vec![ToolCallContent::ContentBlock(ContentBlock::new(
-                        "Tool call not found".into(),
+                        "未找到工具调用".into(),
                         &languages,
                         path_style,
                         cx,
@@ -4947,7 +4947,7 @@ impl AcpThread {
                     .elicitations
                     .elicitation(elicitation_id)
                     .map(|(_, elicitation)| {
-                        format!("## Input Requested\n\n{}\n\n", elicitation.request.message)
+                        format!("## Input Requested\n\n{}", elicitation.request.message)
                     })
                     .unwrap_or_else(|| entry.to_markdown(cx)),
                 _ => entry.to_markdown(cx),
@@ -6989,7 +6989,7 @@ mod tests {
             assert!(
                 thread
                     .to_markdown(cx)
-                    .contains("Audio content is not supported.")
+                    .contains("不支持音频内容。")
             );
         });
     }
@@ -10071,7 +10071,7 @@ mod tests {
                     match content_block {
                         ContentBlock::Markdown { markdown } => {
                             let markdown_text = markdown.read(cx).source();
-                            assert!(markdown_text.contains("Tool call not found"));
+                            assert!(markdown_text.contains("未找到工具调用"));
                         }
                         ContentBlock::Empty => panic!("Expected markdown content, got empty"),
                         ContentBlock::ResourceLink { .. } => {

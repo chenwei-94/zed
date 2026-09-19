@@ -261,31 +261,31 @@ impl Component for Avatar {
                 .gap_6()
                 .children(vec![
                     example_group(vec![
-                        single_example("Default", Avatar::new(example_avatar).into_any_element()),
+                        single_example("默认", Avatar::new(example_avatar).into_any_element()),
                         single_example(
-                            "Grayscale",
+                            "灰度",
                             Avatar::new(example_avatar)
                                 .grayscale(true)
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Border",
+                            "边框",
                             Avatar::new(example_avatar)
                                 .border_color(cx.theme().colors().border)
                                 .into_any_element(),
                         ).description("可将边框颜色设为与背景一致以形成视觉间隔，从而在头像周围呈现空隙效果。"),
                     ]),
                     example_group_with_title(
-                        "Indicator Styles",
+                        "指示器样式",
                         vec![
                             single_example(
-                                "Muted",
+                                "已静音",
                                 Avatar::new(example_avatar)
                                     .indicator(AvatarAudioStatusIndicator::new(AudioStatus::Muted))
                                     .into_any_element(),
                             ).description("表示协作者的麦克风已静音。"),
                             single_example(
-                                "Deafened",
+                                "已拒听",
                                 Avatar::new(example_avatar)
                                     .indicator(AvatarAudioStatusIndicator::new(
                                         AudioStatus::Deafened,
@@ -293,7 +293,7 @@ impl Component for Avatar {
                                     .into_any_element(),
                             ).description("表示协作者的麦克风和音频均已静音。"),
                             single_example(
-                                "Availability: Free",
+                                "状态：空闲",
                                 Avatar::new(example_avatar)
                                     .indicator(AvatarAvailabilityIndicator::new(
                                         CollaboratorAvailability::Free,
@@ -301,7 +301,7 @@ impl Component for Avatar {
                                     .into_any_element(),
                             ).description("表示此人空闲，通常意味着未在通话中。"),
                             single_example(
-                                "Availability: Busy",
+                                "状态：忙碌",
                                 Avatar::new(example_avatar)
                                     .indicator(AvatarAvailabilityIndicator::new(
                                         CollaboratorAvailability::Busy,

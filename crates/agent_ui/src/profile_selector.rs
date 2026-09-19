@@ -388,9 +388,9 @@ impl ProfilePickerDelegate {
 
     fn documentation(candidate: &ProfileCandidate) -> Option<&'static str> {
         match candidate.id.as_str() {
-            builtin_profiles::WRITE => Some("Get help to write anything."),
-            builtin_profiles::ASK => Some("Chat about your codebase."),
-            builtin_profiles::MINIMAL => Some("Chat about anything with no tools."),
+            builtin_profiles::WRITE => Some("帮你撰写任何内容。"),
+            builtin_profiles::ASK => Some("就代码库进行对话。"),
+            builtin_profiles::MINIMAL => Some("无工具，可聊任何话题。"),
             _ => None,
         }
     }
@@ -402,7 +402,7 @@ impl ProfilePickerDelegate {
         for (idx, candidate) in candidates.iter().enumerate() {
             if !candidate.is_builtin && !inserted_custom_header {
                 if !entries.is_empty() {
-                    entries.push(ProfilePickerEntry::Header("Custom Profiles".into()));
+                    entries.push(ProfilePickerEntry::Header("自定义配置档".into()));
                 }
                 inserted_custom_header = true;
             }
@@ -481,14 +481,14 @@ impl PickerDelegate for ProfilePickerDelegate {
     }
 
     fn placeholder_text(&self, _: &mut Window, _: &mut App) -> Arc<str> {
-        "Search profiles…".into()
+        "搜索配置档…".into()
     }
 
     fn no_matches_text(&self, _window: &mut Window, _cx: &mut App) -> Option<SharedString> {
         let text = if self.candidates.is_empty() {
-            "No profiles.".into()
+            "无配置档。".into()
         } else {
-            "No profiles match your search.".into()
+            "没有符合搜索条件的配置档。".into()
         };
         Some(text)
     }
@@ -873,7 +873,7 @@ mod tests {
         )));
         assert!(entries.iter().any(|entry| matches!(
             entry,
-            ProfilePickerEntry::Header(label) if label.as_ref() == "Custom Profiles"
+            ProfilePickerEntry::Header(label) if label.as_ref() == "自定义配置档"
         )));
     }
 

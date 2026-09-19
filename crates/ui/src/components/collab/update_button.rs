@@ -100,43 +100,43 @@ impl UpdateButton {
     }
 
     pub fn checking() -> Self {
-        Self::new(IconName::LoadCircle, "Checking for Zed Updates…")
+        Self::new(IconName::LoadCircle, "正在检查 Zed 更新…")
             .icon_animate(true)
             .disabled(true)
     }
 
     pub fn downloading(progress: Option<f32>) -> Self {
-        Self::new(IconName::Download, "Downloading Zed Update…")
+        Self::new(IconName::Download, "正在下载 Zed 更新…")
             .progress(progress)
             .disabled(true)
     }
 
     pub fn installing(version: impl Into<SharedString>) -> Self {
-        Self::new(IconName::LoadCircle, "Installing Zed Update…")
+        Self::new(IconName::LoadCircle, "正在安装 Zed 更新…")
             .icon_animate(true)
             .tooltip(version)
             .disabled(true)
     }
 
     pub fn up_to_date() -> Self {
-        Self::new(IconName::Check, "Up to Date").disabled(true)
+        Self::new(IconName::Check, "已是最新").disabled(true)
     }
 
     pub fn updated(version: impl Into<SharedString>) -> Self {
-        Self::new(IconName::Download, "Restart to Update")
+        Self::new(IconName::Download, "重启以更新")
             .tooltip(version)
             .with_dismiss()
     }
 
     pub fn errored(error: impl Into<SharedString>) -> Self {
-        Self::new(IconName::Warning, "Failed to Update")
+        Self::new(IconName::Warning, "更新失败")
             .icon_color(Color::Warning)
             .tooltip(error)
             .with_dismiss()
     }
 
     pub fn version_tooltip_message(version: impl std::fmt::Display) -> String {
-        format!("Update to Version: {version}")
+        format!("更新到版本：{version}")
     }
 
     pub fn downloading_tooltip_message(
@@ -146,7 +146,7 @@ impl UpdateButton {
         let message = Self::version_tooltip_message(version);
         match progress {
             Some(progress) => format!(
-                "{message} ({:.0}% downloaded)",
+                "{message}（已下载 {:.0}%）",
                 progress.clamp(0.0, 1.0) * 100.0
             ),
             None => message,
@@ -242,11 +242,11 @@ impl Component for UpdateButton {
             .gap_6()
             .children(vec![
                 example_group_with_title(
-                    "Progress States",
+                    "进度状态",
                     vec![
-                        single_example("Checking", UpdateButton::checking().into_any_element()),
+                        single_example("检查中", UpdateButton::checking().into_any_element()),
                         single_example(
-                            "Downloading",
+                            "下载中",
                             UpdateButton::downloading(Some(0.45))
                                 .tooltip(UpdateButton::downloading_tooltip_message(
                                     version,
@@ -255,22 +255,22 @@ impl Component for UpdateButton {
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Installing",
+                            "安装中",
                             UpdateButton::installing(version).into_any_element(),
                         ),
-                        single_example("Up to Date", UpdateButton::up_to_date().into_any_element()),
+                        single_example("已是最新", UpdateButton::up_to_date().into_any_element()),
                     ],
                 ),
                 example_group_with_title(
-                    "Actionable States",
+                    "可操作状态",
                     vec![
                         single_example(
-                            "Ready to Update",
+                            "可更新",
                             UpdateButton::updated(version).into_any_element(),
                         ),
                         single_example(
-                            "Error",
-                            UpdateButton::errored("Network timeout").into_any_element(),
+                            "错误",
+                            UpdateButton::errored("网络超时").into_any_element(),
                         ),
                     ],
                 ),

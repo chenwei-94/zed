@@ -67,7 +67,7 @@ impl From<FindPathToolOutput> for LanguageModelToolResultContent {
                     if all_matches_len > RESULTS_PER_PAGE {
                         write!(
                             &mut llm_output,
-                            "\nShowing results {}-{} (provide 'offset' parameter for more results):",
+                            "Showing results {}-{} (provide 'offset' parameter for more results):",
                             offset + 1,
                             offset + current_matches_page.len()
                         )
@@ -113,9 +113,9 @@ impl AgentTool for FindPathTool {
         input: Result<Self::Input, serde_json::Value>,
         _cx: &mut App,
     ) -> SharedString {
-        let mut title = "Find paths".to_string();
+        let mut title = "查找路径".to_string();
         if let Ok(input) = input {
-            title.push_str(&format!(" matching “`{}`”", input.glob));
+            title.push_str(&format!("matching “`{}`”", input.glob));
         }
         title.into()
     }

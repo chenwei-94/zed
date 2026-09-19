@@ -266,12 +266,12 @@ impl Message {
         match self {
             Message::User(message) => message.to_markdown(),
             Message::Agent(message) => message.to_markdown(),
-            Message::Resume => "[resume]\n".into(),
+            Message::Resume => "[resume]".into(),
             Message::Compaction(CompactionInfo::Summary(summary)) => {
-                format!("## Context Compaction (Completed)\n\n{summary}\n\n")
+                format!("## Context Compaction (Completed)\n\n{summary}")
             }
             Message::Compaction(CompactionInfo::ProviderNative { .. }) => {
-                "## Context Compaction (Completed)\n\n".into()
+                "## Context Compaction (Completed)".into()
             }
         }
     }
@@ -440,7 +440,7 @@ impl UserMessage {
                             .ok();
                         }
                         MentionUri::Fetch { url } => {
-                            write!(&mut fetch_context, "\nFetch: {}\n\n{}", url, content).ok();
+                            write!(&mut fetch_context, "Fetch: {}\n\n{}", url, content).ok();
                         }
                         MentionUri::Diagnostics { .. } => {
                             write!(&mut diagnostics_context, "\n{}\n", content).ok();
@@ -459,7 +459,7 @@ impl UserMessage {
                         MentionUri::GitDiff { base_ref } => {
                             write!(
                                 &mut diffs_context,
-                                "\nBranch diff against {}:\n{}",
+                                "Branch diff against {}:\n{}",
                                 base_ref,
                                 MarkdownCodeBlock {
                                     tag: "diff",
@@ -471,7 +471,7 @@ impl UserMessage {
                         MentionUri::MergeConflict { file_path } => {
                             write!(
                                 &mut merge_conflict_context,
-                                "\nMerge conflict in {}:\n{}",
+                                "Merge conflict in {}:\n{}",
                                 file_path,
                                 MarkdownCodeBlock {
                                     tag: "diff",
@@ -482,7 +482,7 @@ impl UserMessage {
                         }
                         MentionUri::Skill { name, source, .. } => {
                             let label = format!("{} ({})", name, source);
-                            write!(&mut skills_context, "\nSkill: {}\n{}\n", label, content).ok();
+                            write!(&mut skills_context, "Skill: {}\n{}", label, content).ok();
                         }
                     }
 
@@ -626,7 +626,7 @@ impl AgentMessage {
                 }
                 AgentMessageContent::ToolUse(tool_use) => {
                     markdown.push_str(&format!(
-                        "**Tool Use**: {} (ID: {})\n",
+                        "**Tool Use**: {} (ID: {})",
                         tool_use.name, tool_use.id
                     ));
                     markdown.push_str(&format!(
@@ -642,11 +642,11 @@ impl AgentMessage {
 
         for tool_result in self.tool_results.values() {
             markdown.push_str(&format!(
-                "**Tool Result**: {} (ID: {})\n\n",
+                "**Tool Result**: {} (ID: {})",
                 tool_result.tool_name, tool_result.tool_use_id
             ));
             if tool_result.is_error {
-                markdown.push_str("**ERROR:**\n");
+                markdown.push_str("**ERROR:**");
             }
 
             for part in &tool_result.content {
@@ -663,7 +663,7 @@ impl AgentMessage {
             if let Some(output) = tool_result.output.as_ref() {
                 writeln!(
                     markdown,
-                    "**Debug Output**:\n\n```json\n{}\n```\n",
+                    "**Debug Output**:\n\n```json\n{}\n```",
                     serde_json::to_string_pretty(output).unwrap()
                 )
                 .unwrap();
@@ -1034,12 +1034,12 @@ impl ToolPermissionContext {
                     choices.push(acp_thread::PermissionOptionChoice {
                         allow: acp::PermissionOption::new(
                             acp::PermissionOptionId::new(format!("always_allow:{}", tool_name)),
-                            format!("Always for {}", tool_name.replace('_', " ")),
+                            format!("对 {} 始终允许", tool_name.replace('_', " ")),
                             acp::PermissionOptionKind::AllowAlways,
                         ),
                         deny: acp::PermissionOption::new(
                             acp::PermissionOptionId::new(format!("always_deny:{}", tool_name)),
-                            format!("Always for {}", tool_name.replace('_', " ")),
+                            format!("对 {} 始终允许", tool_name.replace('_', " ")),
                             acp::PermissionOptionKind::RejectAlways,
                         ),
                         sub_patterns: vec![],
@@ -1047,12 +1047,12 @@ impl ToolPermissionContext {
                     choices.push(acp_thread::PermissionOptionChoice {
                         allow: acp::PermissionOption::new(
                             acp::PermissionOptionId::new("allow"),
-                            "Only this time",
+                            "仅此一次",
                             acp::PermissionOptionKind::AllowOnce,
                         ),
                         deny: acp::PermissionOption::new(
                             acp::PermissionOptionId::new("deny"),
-                            "Only this time",
+                            "仅此一次",
                             acp::PermissionOptionKind::RejectOnce,
                         ),
                         sub_patterns: vec![],
@@ -1133,7 +1133,7 @@ impl ToolPermissionContext {
 
         if shell_supports_always_allow {
             push_choice(
-                format!("Always for {}", tool_name.replace('_', " ")),
+                format!("对 {} 始终允许", tool_name.replace('_', " ")),
                 format!("always_allow:{}", tool_name),
                 format!("always_deny:{}", tool_name),
                 acp::PermissionOptionKind::AllowAlways,
@@ -1143,9 +1143,9 @@ impl ToolPermissionContext {
 
             if let (Some(pattern), Some(display)) = (pattern, pattern_display) {
                 let button_text = if tool_name == TerminalTool::NAME {
-                    format!("Always for `{}` commands", display)
+                    format!("对 `{}` 命令始终如此", display)
                 } else {
-                    format!("Always for `{}`", display)
+                    format!("对 `{}` 始终如此", display)
                 };
                 push_choice(
                     button_text,
@@ -1159,7 +1159,7 @@ impl ToolPermissionContext {
         }
 
         push_choice(
-            "Only this time".to_string(),
+            "仅此一次".to_string(),
             "allow".to_string(),
             "deny".to_string(),
             acp::PermissionOptionKind::AllowOnce,
@@ -3046,7 +3046,7 @@ impl Thread {
                         this.set_model(fallback.clone(), cx);
                     })?;
                     event_stream.send_retry(acp_thread::RetryStatus {
-                        last_error: "Safety filter triggered".into(),
+                        last_error: "触发了安全过滤".into(),
                         attempt: 1,
                         max_attempts: 1,
                         started_at: Instant::now(),
@@ -4549,7 +4549,7 @@ impl Thread {
         let mut markdown = messages_to_markdown(&self.messages);
 
         if let Some(message) = self.pending_message.as_ref() {
-            markdown.push_str("\n## Assistant\n\n");
+            markdown.push_str("## Assistant");
             markdown.push_str(&message.to_markdown());
         }
 
@@ -4873,8 +4873,8 @@ pub(crate) fn messages_to_markdown(messages: &[Arc<Message>]) -> String {
             markdown.push('\n');
         }
         match &**message {
-            Message::User(_) => markdown.push_str("## User\n\n"),
-            Message::Agent(_) => markdown.push_str("## Assistant\n\n"),
+            Message::User(_) => markdown.push_str("## User"),
+            Message::Agent(_) => markdown.push_str("## Assistant"),
             Message::Resume | Message::Compaction(_) => {}
         }
         markdown.push_str(&message.to_markdown());
@@ -5777,12 +5777,12 @@ impl ToolCallEventStream {
             acp_thread::PermissionOptionChoice {
                 allow: acp::PermissionOption::new(
                     acp::PermissionOptionId::new(format!("always_allow_mcp:{tool_id}")),
-                    format!("Always for {display_name} MCP tool"),
+                    format!("对 {display_name} MCP 工具始终允许"),
                     acp::PermissionOptionKind::AllowAlways,
                 ),
                 deny: acp::PermissionOption::new(
                     acp::PermissionOptionId::new(format!("always_deny_mcp:{tool_id}")),
-                    format!("Always for {display_name} MCP tool"),
+                    format!("对 {display_name} MCP 工具始终允许"),
                     acp::PermissionOptionKind::RejectAlways,
                 ),
                 sub_patterns: vec![],
@@ -5790,12 +5790,12 @@ impl ToolCallEventStream {
             acp_thread::PermissionOptionChoice {
                 allow: acp::PermissionOption::new(
                     acp::PermissionOptionId::new("allow"),
-                    "Only this time",
+                    "仅此一次",
                     acp::PermissionOptionKind::AllowOnce,
                 ),
                 deny: acp::PermissionOption::new(
                     acp::PermissionOptionId::new("deny"),
-                    "Only this time",
+                    "仅此一次",
                     acp::PermissionOptionKind::RejectOnce,
                 ),
                 sub_patterns: vec![],
@@ -5912,14 +5912,14 @@ impl ToolCallEventStream {
             reason,
         };
         let allow_thread_label = if self.is_subagent(cx) {
-            "Allow for this subagent"
+            "对此子智能体允许"
         } else {
-            "Allow for this thread"
+            "对此会话允许"
         };
         let options = acp_thread::PermissionOptions::Flat(vec![
             acp::PermissionOption::new(
                 acp::PermissionOptionId::new(acp_thread::SandboxPermission::AllowOnce.as_id()),
-                "Allow once",
+                "允许一次",
                 acp::PermissionOptionKind::AllowOnce,
             ),
             acp::PermissionOption::new(
@@ -5929,7 +5929,7 @@ impl ToolCallEventStream {
             ),
             acp::PermissionOption::new(
                 acp::PermissionOptionId::new(acp_thread::SandboxPermission::AllowAlways.as_id()),
-                "Allow always",
+                "始终允许",
                 acp::PermissionOptionKind::AllowAlways,
             ),
             acp::PermissionOption::new(
@@ -6296,12 +6296,12 @@ impl ToolCallEventStream {
         let retry_label = if retries == 0 {
             "Retry".to_string()
         } else {
-            format!("Retry (attempt {retries})")
+            format!("重试（第 {retries} 次）")
         };
         let allow_thread_label = if self.is_subagent(cx) {
-            "Run without sandbox for this subagent"
+            "对此子智能体不使用沙箱运行"
         } else {
-            "Run without sandbox for this thread"
+            "对此会话不使用沙箱运行"
         };
         let options = acp_thread::PermissionOptions::Flat(vec![
             // Retry isn't an allow/deny choice; the UI renders it with its own
@@ -6316,7 +6316,7 @@ impl ToolCallEventStream {
             ),
             acp::PermissionOption::new(
                 acp::PermissionOptionId::new(acp_thread::SandboxPermission::AllowOnce.as_id()),
-                "Run without sandbox once",
+                "不使用沙箱运行一次",
                 acp::PermissionOptionKind::AllowOnce,
             ),
             acp::PermissionOption::new(
@@ -6326,7 +6326,7 @@ impl ToolCallEventStream {
             ),
             acp::PermissionOption::new(
                 acp::PermissionOptionId::new(acp_thread::SandboxPermission::AllowAlways.as_id()),
-                "Always run without sandbox",
+                "始终不使用沙箱运行",
                 acp::PermissionOptionKind::AllowAlways,
             ),
             acp::PermissionOption::new(

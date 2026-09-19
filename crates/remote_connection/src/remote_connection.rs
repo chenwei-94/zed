@@ -154,9 +154,9 @@ impl Render for RemoteConnectionPrompt {
         let is_password_prompt = self.is_password_prompt;
         let is_masked = self.is_masked;
         let (masked_password_icon, masked_password_tooltip) = if is_masked {
-            (IconName::Eye, "Toggle to Unmask Password")
+            (IconName::Eye, "切换为显示密码")
         } else {
-            (IconName::EyeOff, "Toggle to Mask Password")
+            (IconName::EyeOff, "切换为隐藏密码")
         };
 
         v_flex()

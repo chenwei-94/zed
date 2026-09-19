@@ -165,7 +165,7 @@ impl Addon for CommitDiffAddon {
         menu.when_some(file_to_open, |menu, file| {
             let commit_view = self.commit_view.clone();
             menu.entry(
-                "Open File in Project",
+                "在项目中打开文件",
                 Some(Box::new(OpenFileAtHead)),
                 move |window, cx| {
                     commit_view

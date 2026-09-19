@@ -194,7 +194,7 @@ impl SkillCreatorPage {
             InputField::new(
                 window,
                 cx,
-                "e.g., Fill the PR description following this template.",
+                "例如：按照此模板填写 PR 描述。",
             )
             .label("描述")
             .tab_index(DESCRIPTION_FIELD_TAB_INDEX)
@@ -208,7 +208,7 @@ impl SkillCreatorPage {
                 buffer
             });
             let mut editor = Editor::for_buffer(buffer, None, window, cx);
-            editor.set_placeholder_text("Add skill content…", window, cx);
+            editor.set_placeholder_text("添加技能内容…", window, cx);
             editor.set_soft_wrap_mode(SoftWrap::EditorWidth, cx);
             editor.set_show_gutter(false, cx);
             editor.set_show_wrap_guides(false, cx);
@@ -412,7 +412,7 @@ impl SkillCreatorPage {
     fn recompute_body_error(&mut self, cx: &App) {
         let body = self.current_body(cx);
         self.body_error = if body.trim().is_empty() {
-            Some("Body is required.")
+            Some("正文为必填项。")
         } else {
             None
         };
@@ -458,7 +458,7 @@ impl SkillCreatorPage {
             Ok(imported) => self.apply_imported_skill(imported, window, cx),
             Err(err) => {
                 self.save_error = Some(SharedString::from(format!(
-                    "Couldn't read shared skill: {err}"
+                    "无法读取共享技能：{err}"
                 )));
                 cx.notify();
             }
@@ -766,9 +766,9 @@ impl SkillCreatorPage {
 
         SwitchField::new(
             "disable-model-invocation",
-            Some("Disable model invocation"),
+            Some("禁用模型调用"),
             Some(
-                "Hide this skill from the model's catalog. It can still be invoked via slash command."
+                "从模型目录中隐藏此技能。仍可通过斜杠命令调用。"
                     .into(),
             ),
             toggle_state,
@@ -834,7 +834,7 @@ impl SkillCreatorPage {
 
     fn render_footer(&self, _window: &Window, cx: &mut Context<Self>) -> impl IntoElement {
         let saving = self.saving;
-        let main_action = if saving { "Saving…" } else { "Save Skill" };
+        let main_action = if saving { "Saving…" } else { "保存技能" };
 
         v_flex()
             .w_full()
@@ -1043,11 +1043,11 @@ async fn fetch_skill_url(
 
 fn github_fetch_error(status: StatusCode, body: &[u8]) -> anyhow::Error {
     let mut message = if status == StatusCode::NOT_FOUND {
-        "GitHub returned 404 while fetching the skill; no repository exists at this URL, or it is private"
+        "获取技能时 GitHub 返回 404；该 URL 下不存在仓库，或仓库为私有"
             .to_string()
     } else {
         format!(
-            "GitHub returned {} while fetching the skill",
+            "获取技能时 GitHub 返回 {}",
             status.as_u16()
         )
     };

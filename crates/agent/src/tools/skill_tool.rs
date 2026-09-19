@@ -71,7 +71,7 @@ pub fn render_skill_envelope(skill: &Skill, body: &str) -> String {
         .unwrap();
     }
     writeln!(out, "<directory>{}</directory>", xml_escape(&directory)).unwrap();
-    out.push_str("Relative paths in this skill resolve against <directory>.\n\n");
+    out.push_str("Relative paths in this skill resolve against <directory>.");
     out.push_str(&neutralize_envelope_tags(body.trim()));
     out.push_str("\n</skill_content>\n");
     out
@@ -155,7 +155,7 @@ impl AgentTool for SkillTool {
         _cx: &mut App,
     ) -> SharedString {
         if let Ok(input) = input {
-            format!("`{}` Skill", input.name).into()
+            format!("`{}` 技能", input.name).into()
         } else {
             "Skill".into()
         }

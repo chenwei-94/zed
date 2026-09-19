@@ -69,13 +69,13 @@ pub struct TelemetrySource {
 }
 
 const REASONING_HEADING: &str = "Reasoning";
-const UNCOMMITTED_DIFF_HEADING: &str = "Uncommitted Diff";
-const RECENTLY_OPENED_FILES_HEADING: &str = "Recently Opened Files";
-const RECENTLY_VIEWED_FILES_HEADING: &str = "Recently Viewed Files";
-const EDIT_HISTORY_HEADING: &str = "Edit History";
-const CURSOR_POSITION_HEADING: &str = "Cursor Position";
-const EXPECTED_PATCH_HEADING: &str = "Expected Patch";
-const REJECTED_PATCH_HEADING: &str = "Rejected Patch";
+const UNCOMMITTED_DIFF_HEADING: &str = "未提交的差异";
+const RECENTLY_OPENED_FILES_HEADING: &str = "最近打开的文件";
+const RECENTLY_VIEWED_FILES_HEADING: &str = "最近查看的文件";
+const EDIT_HISTORY_HEADING: &str = "编辑历史";
+const CURSOR_POSITION_HEADING: &str = "光标位置";
+const EXPECTED_PATCH_HEADING: &str = "预期补丁";
+const REJECTED_PATCH_HEADING: &str = "已拒绝的补丁";
 const ACCEPTED_PREDICTION_MARKER: &str = "// User accepted prediction:";
 
 fn write_path_list(markdown: &mut String, heading: &str, files: &[RecentFile]) {

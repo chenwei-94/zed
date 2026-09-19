@@ -878,13 +878,13 @@ impl Render for ConfigurationView {
     fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let env_var_set = self.state.read(cx).api_key_state.is_from_env_var();
         let configured_card_label = if env_var_set {
-            format!("API key set in {API_KEY_ENV_VAR_NAME} environment variable")
+            format!("API 密钥已在环境变量 {API_KEY_ENV_VAR_NAME} 中设置")
         } else {
             let api_url = OpenCodeLanguageModelProvider::api_url(cx);
             if api_url == OPENCODE_API_URL {
-                "API key configured".to_string()
+                "API 密钥已配置".to_string()
             } else {
-                format!("API key configured for {}", api_url)
+                format!("已为 {} 配置 API 密钥", api_url)
             }
         };
 
@@ -897,7 +897,7 @@ impl Render for ConfigurationView {
                 .disabled(env_var_set)
                 .when(env_var_set, |this| {
                     this.tooltip_label(format!(
-                        "To reset your API key, unset the {API_KEY_ENV_VAR_NAME} environment variable."
+                        "要重置 API 密钥，请取消设置 {API_KEY_ENV_VAR_NAME} 环境变量。"
                     ))
                 })
                 .on_click(cx.listener(|this, _, window, cx| this.reset_api_key(window, cx)))
@@ -921,7 +921,7 @@ impl Render for ConfigurationView {
                     )
                     .when(is_editing, |this| {
                         this.child(ListBulletItem::new(
-                            "Paste your API key below and hit enter to start using OpenCode",
+                            "在下方粘贴你的 API 密钥并按回车，即可开始使用 OpenCode",
                         ).label_color(Color::Muted))
                     }),
             )

@@ -788,7 +788,7 @@ fn assemble_patch_from_edits(
                 .map(|component| component.to_string_lossy())
                 .collect::<Vec<_>>()
                 .join("/");
-            diff_output.push_str(&format!("--- a/{path_str}\n+++ b/{path_str}\n"));
+            diff_output.push_str(&format!("--- a/{path_str}\n+++ b/{path_str}"));
             diff_output.push_str(&diff);
             if !diff_output.ends_with('\n') {
                 diff_output.push('\n');

@@ -94,7 +94,7 @@ impl AgentRegistryPage {
             let registry_store = AgentRegistryStore::global(cx);
             let query_editor = cx.new(|cx| {
                 let mut input = Editor::single_line(window, cx);
-                input.set_placeholder_text("Search agents...", window, cx);
+                input.set_placeholder_text("搜索智能体…", window, cx);
                 input
             });
             cx.subscribe(&query_editor, Self::on_query_change).detach();
@@ -292,30 +292,30 @@ impl AgentRegistryPage {
         let fetch_error = registry_store.fetch_error();
 
         let message = if is_fetching {
-            "Loading registry..."
+            "正在加载注册表…"
         } else if fetch_error.is_some() {
-            "Failed to load the agent registry. Please check your connection and try again."
+            "智能体注册表加载失败。请检查网络连接后重试。"
         } else {
             match self.filter {
                 RegistryFilter::All => {
                     if has_search {
-                        "No agents match your search."
+                        "没有匹配搜索的智能体。"
                     } else {
-                        "No agents available."
+                        "没有可用的智能体。"
                     }
                 }
                 RegistryFilter::Installed => {
                     if has_search {
-                        "No installed agents match your search."
+                        "没有匹配搜索的已安装智能体。"
                     } else {
-                        "No installed agents."
+                        "未安装任何智能体。"
                     }
                 }
                 RegistryFilter::NotInstalled => {
                     if has_search {
-                        "No uninstalled agents match your search."
+                        "没有匹配搜索的未安装智能体。"
                     } else {
-                        "No uninstalled agents."
+                        "没有未安装的智能体。"
                     }
                 }
             }
@@ -647,7 +647,7 @@ impl Render for AgentRegistryPage {
                                                 }),
                                             ),
                                             ToggleButtonSimple::new(
-                                                "Not Installed",
+                                                "未安装",
                                                 cx.listener(|this, _event, _, cx| {
                                                     this.filter = RegistryFilter::NotInstalled;
                                                     this.filter_registry_agents(cx);
@@ -701,7 +701,7 @@ impl Item for AgentRegistryPage {
     type Event = ItemEvent;
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "ACP Registry".into()
+        "ACP 注册表".into()
     }
 
     fn telemetry_event_text(&self) -> Option<&'static str> {

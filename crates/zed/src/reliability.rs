@@ -145,7 +145,7 @@ fn start_memory_usage_logging(
                     const MIB: u64 = 1024 * 1024;
                     let delta = match last_logged_resident {
                         Some(last) => {
-                            format!(" ({:+} MiB)", (resident as i64 - last as i64) / MIB as i64)
+                            format!("({:+} MiB)", (resident as i64 - last as i64) / MIB as i64)
                         }
                         None => String::new(),
                     };

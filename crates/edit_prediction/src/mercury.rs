@@ -281,8 +281,8 @@ fn build_prompt(inputs: &Zeta2PromptInput) -> String {
     const EDIT_DIFF_HISTORY_START: &str = "<|edit_diff_history|>\n";
     const EDIT_DIFF_HISTORY_END: &str = "<|/edit_diff_history|>\n";
     const CURSOR_TAG: &str = "<|cursor|>";
-    const CODE_SNIPPET_FILE_PATH_PREFIX: &str = "code_snippet_file_path: ";
-    const CURRENT_FILE_PATH_PREFIX: &str = "current_file_path: ";
+    const CODE_SNIPPET_FILE_PATH_PREFIX: &str = "code_snippet_file_path:";
+    const CURRENT_FILE_PATH_PREFIX: &str = "current_file_path:";
 
     let mut prompt = String::new();
 

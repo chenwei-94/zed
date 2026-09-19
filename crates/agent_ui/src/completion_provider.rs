@@ -211,18 +211,18 @@ impl PromptLocalCommand {
 
     pub fn label(&self) -> &'static str {
         match self {
-            Self::ThumbsUp => "Positive Feedback",
-            Self::ThumbsDown => "Negative Feedback",
+            Self::ThumbsUp => "正面反馈",
+            Self::ThumbsDown => "负面反馈",
         }
     }
 
     pub fn description(&self) -> &'static str {
         match self {
             Self::ThumbsUp => {
-                "Rate this response as helpful. Sends the current conversation to the Zed team."
+                "将此回复评为有帮助。会把当前会话发送给 Zed 团队。"
             }
             Self::ThumbsDown => {
-                "Rate this response as not helpful. Sends the current conversation to the Zed team."
+                "将此回复评为没有帮助。会把当前会话发送给 Zed 团队。"
             }
         }
     }
@@ -267,13 +267,13 @@ impl PromptContextType {
 
     pub fn label(&self) -> &'static str {
         match self {
-            Self::File => "Files & Directories",
+            Self::File => "文件与目录",
             Self::Symbol => "Symbols",
             Self::Fetch => "Fetch",
             Self::Thread => "Threads",
             Self::Skill => "Skills",
             Self::Diagnostics => "Diagnostics",
-            Self::BranchDiff => "Branch Diff",
+            Self::BranchDiff => "分支差异",
         }
     }
 
@@ -397,7 +397,7 @@ impl AvailableCommand {
     fn group(&self) -> CompletionGroup {
         let (key, label) = match self.category {
             Some(acp_thread::CommandCategory::Native) => ("commands", "Commands"),
-            Some(acp_thread::CommandCategory::Mcp) => ("mcp-commands", "MCP Server Commands"),
+            Some(acp_thread::CommandCategory::Mcp) => ("mcp-commands", "MCP 服务器命令"),
             None => ("acp-commands", "Commands"),
         };
         CompletionGroup {
@@ -784,7 +784,7 @@ impl<T: PromptCompletionProviderDelegate> PromptCompletionProvider<T> {
         workspace: Entity<Workspace>,
         cx: &mut App,
     ) -> Option<Completion> {
-        let new_text = format!("@fetch {} ", url_to_fetch);
+        let new_text = format!("@fetch {}", url_to_fetch);
         let url_to_fetch = url::Url::parse(url_to_fetch.as_ref())
             .or_else(|_| url::Url::parse(&format!("https://{url_to_fetch}")))
             .ok()?;
@@ -977,7 +977,7 @@ impl<T: PromptCompletionProviderDelegate> PromptCompletionProvider<T> {
         let uri = MentionUri::GitDiff {
             base_ref: base_ref.to_string(),
         };
-        let crease_text: SharedString = format!("Branch Diff (vs {})", base_ref).into();
+        let crease_text: SharedString = format!("分支差异 (对比 {})", base_ref).into();
         let display_text = format!("@{}", crease_text);
         let new_text = format!("[{}]({}) ", display_text, uri.to_uri());
         let new_text_len = new_text.len();
@@ -2194,7 +2194,7 @@ fn diagnostics_label(
             .expect("at least one part present after non-empty check")
     };
 
-    format!("Diagnostics: {body}")
+    format!("诊断：{body}")
 }
 
 fn diagnostics_submenu_label(
@@ -2620,7 +2620,7 @@ fn build_code_label_for_path(
         label.push_str(&truncated_directory, variable_highlight_id);
     }
     if let Some(line_number) = line_number {
-        label.push_str(&format!(" L{}", line_number), variable_highlight_id);
+        label.push_str(&format!("L{}", line_number), variable_highlight_id);
     }
     label.build()
 }
@@ -2714,7 +2714,7 @@ fn completion_text_for_editor_selections(
     workspace: WeakEntity<Workspace>,
     editor_selections: Vec<(Entity<Buffer>, Range<text::Anchor>)>,
 ) -> (String, ConfirmCallback) {
-    const EDITOR_PLACEHOLDER: &str = "selection ";
+    const EDITOR_PLACEHOLDER: &str = "selection";
 
     let selections = editor_selections
         .into_iter()
@@ -2768,7 +2768,7 @@ fn completion_text_for_terminal_selections(
     mention_set: WeakEntity<MentionSet>,
     terminal_selections: Vec<String>,
 ) -> (String, ConfirmCallback) {
-    const TERMINAL_PLACEHOLDER: &str = "terminal ";
+    const TERMINAL_PLACEHOLDER: &str = "terminal";
 
     let mut new_text = String::new();
     let terminal_ranges: Vec<(String, std::ops::Range<usize>)> = terminal_selections

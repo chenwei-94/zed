@@ -118,14 +118,14 @@ impl Component for Vector {
             .gap_6()
             .children(vec![
                 example_group_with_title(
-                    "Basic Usage",
+                    "基础用法",
                     vec![
                         single_example(
-                            "Default",
+                            "默认",
                             Vector::square(VectorName::ZedLogo, size).into_any_element(),
                         ),
                         single_example(
-                            "Custom Size",
+                            "自定义尺寸",
                             h_flex()
                                 .h(rems_from_px(120_f32))
                                 .justify_center()
@@ -139,16 +139,16 @@ impl Component for Vector {
                     ],
                 ),
                 example_group_with_title(
-                    "Colored",
+                    "彩色",
                     vec![
                         single_example(
-                            "Accent Color",
+                            "强调色",
                             Vector::square(VectorName::ZedLogo, size)
                                 .color(Color::Accent)
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Error Color",
+                            "错误颜色",
                             Vector::square(VectorName::ZedLogo, size)
                                 .color(Color::Error)
                                 .into_any_element(),
@@ -156,7 +156,7 @@ impl Component for Vector {
                     ],
                 ),
                 example_group_with_title(
-                    "Different Vectors",
+                    "不同矢量",
                     vec![single_example(
                         "Zed X Copilot",
                         Vector::square(VectorName::ZedXCopilot, rems_from_px(100_f32))

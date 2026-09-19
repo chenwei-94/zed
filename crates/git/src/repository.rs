@@ -120,7 +120,7 @@ impl InitialGraphCommitData {
         self.ref_names
             .iter()
             .filter_map(|ref_name| {
-                let tag_name = ref_name.strip_prefix("tag: ")?;
+                let tag_name = ref_name.strip_prefix("tag:")?;
 
                 if tag_name.is_empty() {
                     return None;
@@ -192,11 +192,11 @@ fn parse_cat_file_commit(sha: Oid, content: &str) -> Option<CommitData> {
                 continue;
             }
 
-            if let Some(parent_sha) = line.strip_prefix("parent ") {
+            if let Some(parent_sha) = line.strip_prefix("parent") {
                 if let Ok(oid) = Oid::from_str(parent_sha.trim()) {
                     parents.push(oid);
                 }
-            } else if let Some(author_line) = line.strip_prefix("author ") {
+            } else if let Some(author_line) = line.strip_prefix("author") {
                 if let Some((name_email, _timestamp_tz)) = author_line.rsplit_once(' ') {
                     if let Some((name_email, timestamp_str)) = name_email.rsplit_once(' ') {
                         if let Ok(ts) = timestamp_str.parse::<i64>() {
@@ -352,7 +352,7 @@ impl Worktree {
 
     pub fn directory_name(&self, name_anchor_path: Option<&Path>) -> String {
         if self.is_main {
-            return "main worktree".to_string();
+            return "主工作树".to_string();
         }
 
         let dir_name = self
@@ -398,11 +398,11 @@ pub fn parse_worktrees_from_str<T: AsRef<str>>(
             if line.is_empty() {
                 continue;
             }
-            if let Some(rest) = line.strip_prefix("worktree ") {
+            if let Some(rest) = line.strip_prefix("worktree") {
                 path = Some(rest.to_string());
-            } else if let Some(rest) = line.strip_prefix("HEAD ") {
+            } else if let Some(rest) = line.strip_prefix("HEAD") {
                 sha = Some(rest.to_string());
-            } else if let Some(rest) = line.strip_prefix("branch ") {
+            } else if let Some(rest) = line.strip_prefix("branch") {
                 ref_name = Some(rest.to_string());
             } else if line == "bare" {
                 is_bare = true;
@@ -614,7 +614,7 @@ async fn load_commit_object<R: smol::io::AsyncBufRead + Unpin>(
     match object {
         Some(object) if object.kind == CommitDiffObjectKind::Gitlink => {
             Ok(Some(LoadedCommitObject {
-                content: format!("Subproject commit {}\n", object.oid).into_bytes(),
+                content: format!("Subproject commit {}", object.oid).into_bytes(),
                 is_binary: false,
             }))
         }
@@ -690,8 +690,8 @@ impl FetchOptions {
 
     pub fn name(&self) -> SharedString {
         match self {
-            Self::All => "Fetch all remotes".into(),
-            Self::Unshallow => "Fetch missing history".into(),
+            Self::All => "抓取所有远程".into(),
+            Self::Unshallow => "抓取缺失的历史".into(),
             Self::Remote(remote) => remote.name.clone(),
         }
     }
@@ -1389,7 +1389,7 @@ pub async fn get_git_committer(cx: &AsyncApp) -> GitCommitter {
 fn parse_remote_urls(stdout: &str) -> HashMap<String, String> {
     let mut urls = HashMap::default();
     for line in stdout.lines() {
-        if let Some((line, suffix)) = line.rsplit_once(" (fetch)")
+        if let Some((line, suffix)) = line.rsplit_once("(fetch)")
             && (suffix.is_empty() || suffix.starts_with(" [") && suffix.ends_with(']'))
             && let Some((name, url)) = line.split_once(char::is_whitespace)
         {
@@ -3337,7 +3337,7 @@ impl GitRepository for RealGitRepository {
             if !help_output
                 .await
                 .lines()
-                .any(|line| line.trim().starts_with("hook "))
+                .any(|line| line.trim().starts_with("hook"))
             {
                 let hook_abs_path = git_dir.join("hooks").join(hook.as_str());
                 if hook_abs_path.is_file() && git_binary.is_trusted {
@@ -4262,10 +4262,10 @@ fn parse_upstream_track(upstream_track: &str) -> Result<UpstreamTracking> {
         if component == "gone" {
             return Ok(UpstreamTracking::Gone);
         }
-        if let Some(ahead_num) = component.strip_prefix("ahead ") {
+        if let Some(ahead_num) = component.strip_prefix("ahead") {
             ahead = ahead_num.parse::<u32>()?;
         }
-        if let Some(behind_num) = component.strip_prefix("behind ") {
+        if let Some(behind_num) = component.strip_prefix("behind") {
             behind = behind_num.parse::<u32>()?;
         }
     }

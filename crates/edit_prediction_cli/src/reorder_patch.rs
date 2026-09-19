@@ -151,14 +151,14 @@ impl ToString for Patch {
         for hunk in &self.hunks {
             let current_file = hunk.filename.clone();
             if hunk.is_file_creation() {
-                result.push_str("--- /dev/null\n");
+                result.push_str("--- /dev/null");
             } else {
-                result.push_str(&format!("--- a/{}\n", current_file));
+                result.push_str(&format!("--- a/{}", current_file));
             }
             if hunk.is_file_deletion() {
-                result.push_str("+++ /dev/null\n");
+                result.push_str("+++ /dev/null");
             } else {
-                result.push_str(&format!("+++ b/{}\n", current_file));
+                result.push_str(&format!("+++ b/{}", current_file));
             }
             result.push_str(&hunk.to_string());
         }
@@ -223,7 +223,7 @@ impl Patch {
         let len = header_lines.len();
         if len >= 2 {
             if header_lines[len - 2].starts_with("diff --git")
-                && header_lines[len - 1].starts_with("index ")
+                && header_lines[len - 1].starts_with("index")
             {
                 patch.header = header_lines[..len - 2].join("\n") + "\n";
             }

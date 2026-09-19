@@ -1092,13 +1092,13 @@ impl StatefulModal for DevContainerModal {
                 self.render_confirming_write_dev_container(template_entry, window, cx)
             }
             DevContainerState::TemplateWriteFailed(dev_container_error) => self.render_error(
-                "Error Creating Dev Container Definition".to_string(),
+                "创建 Dev Container 定义失败".to_string(),
                 dev_container_error,
                 window,
                 cx,
             ),
             DevContainerState::TemplateQueryReturned(Err(e)) => {
-                self.render_error("Error Retrieving Templates".to_string(), e, window, cx)
+                self.render_error("获取模板失败".to_string(), e, window, cx)
             }
         }
     }
@@ -1172,7 +1172,7 @@ impl StatefulModal for DevContainerModal {
                     .collect::<Vec<TemplateEntry>>();
                 if self.state == DevContainerState::QueryingTemplates {
                     let delegate = TemplatePickerDelegate::new(
-                        "Select a template".to_string(),
+                        "选择模板".to_string(),
                         cx.weak_entity(),
                         items.clone(),
                         Box::new(|entry, this, window, cx| {
@@ -1302,7 +1302,7 @@ impl StatefulModal for DevContainerModal {
                         })
                         .collect::<Vec<FeatureEntry>>();
                     let delegate = FeaturePickerDelegate::new(
-                        "Select features to add".to_string(),
+                        "选择要添加的功能".to_string(),
                         cx.weak_entity(),
                         features,
                         template_entry.clone(),

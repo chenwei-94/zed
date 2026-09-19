@@ -1390,7 +1390,7 @@ impl LspCommand for GetEditPredictionDefinitions {
     type ProtoRequest = proto::GetEditPredictionDefinition;
 
     fn display_name(&self) -> &str {
-        "Get edit prediction definition"
+        "获取编辑预测定义"
     }
 
     fn check_capabilities(&self, capabilities: AdapterServerCapabilities<'_>) -> bool {
@@ -1797,7 +1797,7 @@ impl LspCommand for GetEditPredictionTypeDefinitions {
     type ProtoRequest = proto::GetEditPredictionTypeDefinition;
 
     fn display_name(&self) -> &str {
-        "Get edit prediction type definition"
+        "获取编辑预测类型定义"
     }
 
     fn check_capabilities(&self, capabilities: AdapterServerCapabilities<'_>) -> bool {
@@ -2273,7 +2273,7 @@ impl LspCommand for GetReferences {
     }
 
     fn status(&self) -> Option<String> {
-        Some("Finding references...".to_owned())
+        Some("正在查找引用…".to_owned())
     }
 
     fn check_capabilities(&self, capabilities: AdapterServerCapabilities<'_>) -> bool {
@@ -4764,7 +4764,7 @@ impl LspCommand for GetCodeLens {
     type ProtoRequest = proto::GetCodeLens;
 
     fn display_name(&self) -> &str {
-        "Code Lens"
+        "代码镜头"
     }
 
     fn check_capabilities(&self, capabilities: AdapterServerCapabilities<'_>) -> bool {

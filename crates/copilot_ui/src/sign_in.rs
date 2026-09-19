@@ -17,7 +17,7 @@ use util::ResultExt as _;
 use workspace::{AppState, Toast, Workspace, notifications::NotificationId};
 
 const COPILOT_SIGN_UP_URL: &str = "https://github.com/features/copilot";
-const ERROR_LABEL: &str = "Copilot Edit Predictions had issues starting. You can try reinstalling it and signing in again.";
+const ERROR_LABEL: &str = "Copilot 编辑预测启动时出现问题。你可以尝试重新安装并重新登录。";
 
 struct CopilotStatusToast;
 
@@ -27,18 +27,18 @@ pub fn initiate_sign_in(copilot: Entity<Copilot>, window: &mut Window, cx: &mut 
 }
 
 pub fn initiate_sign_out(copilot: Entity<Copilot>, window: &mut Window, cx: &mut App) {
-    copilot_toast(Some("Signing out of Copilot Edit Predictions…"), window, cx);
+    copilot_toast(Some("正在退出登录 Copilot 编辑预测…"), window, cx);
 
     let sign_out_task = copilot.update(cx, |copilot, cx| copilot.sign_out(cx));
     window
         .spawn(cx, async move |cx| match sign_out_task.await {
             Ok(()) => cx.update(|window, cx| {
-                copilot_toast(Some("Signed out of Copilot Edit Predictions"), window, cx)
+                copilot_toast(Some("已退出登录 Copilot 编辑预测"), window, cx)
             }),
             Err(err) => cx.update(|window, cx| {
                 if let Some(workspace) = Workspace::for_window(window, cx) {
                     workspace.update(cx, |workspace, cx| {
-                        workspace.show_error(format!("Error: {err}"), cx);
+                        workspace.show_error(format!("错误：{err}"), cx);
                     })
                 } else {
                     log::error!("{:?}", err);
@@ -141,9 +141,9 @@ pub fn initiate_sign_in_impl(
         Status::Starting { task } => {
             copilot_toast(
                 Some(if is_reinstall {
-                    "Copilot Edit Predictions is reinstalling…"
+                    "Copilot 编辑预测正在重新安装…"
                 } else {
-                    "Copilot Edit Predictions is starting…"
+                    "Copilot 编辑预测正在启动…"
                 }),
                 window,
                 cx,
@@ -154,7 +154,7 @@ pub fn initiate_sign_in_impl(
                     task.await;
                     cx.update(|window, cx| match copilot.read(cx).status() {
                         Status::Authorized => {
-                            copilot_toast(Some("Copilot Edit Predictions has started."), window, cx)
+                            copilot_toast(Some("Copilot 编辑预测已启动。"), window, cx)
                         }
                         _ => {
                             copilot_toast(None, window, cx);
@@ -272,9 +272,9 @@ impl CopilotCodeVerification {
         cx: &mut Context<Self>,
     ) -> impl Element {
         let connect_button_label = if connect_clicked {
-            "Waiting for connection…"
+            "正在等待连接…"
         } else {
-            "Connect to GitHub"
+            "连接到 GitHub"
         };
 
         v_flex()
@@ -390,7 +390,7 @@ impl CopilotCodeVerification {
             .as_deref()
             .unwrap_or(COPILOT_SIGN_UP_URL)
             .to_owned();
-        let description = "Enable Copilot edit predictions by connecting your existing license once you have subscribed or renewed your subscription.";
+        let description = "订阅或续订后，连接现有许可证即可启用 Copilot 编辑预测。";
 
         v_flex()
             .gap_2()
@@ -596,9 +596,9 @@ impl CopilotChatCodeVerification {
         cx: &mut Context<Self>,
     ) -> impl Element {
         let connect_button_label = if connect_clicked {
-            "Waiting for connection…"
+            "正在等待连接…"
         } else {
-            "Connect to GitHub"
+            "连接到 GitHub"
         };
 
         v_flex()
@@ -860,9 +860,9 @@ impl ConfigurationView {
             "Copilot Chat"
         };
         if self.is_starting() {
-            Some(format!("Starting {product}…").into())
+            Some(format!("正在启动 {product}…").into())
         } else if self.is_signing_in() {
-            Some(format!("Signing into {product}…").into())
+            Some(format!("正在登录 {product}…").into())
         } else {
             None
         }
@@ -888,9 +888,9 @@ impl ConfigurationView {
 
     fn render_sign_in_button(&self, edit_prediction: bool) -> impl IntoElement {
         let label = if edit_prediction {
-            "Sign in to GitHub"
+            "登录 GitHub"
         } else {
-            "Sign In"
+            "登录"
         };
 
         Button::new("sign_in", label)
@@ -918,9 +918,9 @@ impl ConfigurationView {
 
     fn render_reinstall_button(&self, edit_prediction: bool) -> impl IntoElement {
         let label = if edit_prediction {
-            "Reinstall and Sign in"
+            "重新安装并登录"
         } else {
-            "Reinstall Copilot and Sign in"
+            "重新安装 Copilot 并登录"
         };
 
         Button::new("reinstall_and_sign_in", label)
@@ -1006,7 +1006,7 @@ impl ConfigurationView {
             )
         } else if self.is_error() {
             (
-                "Copilot Chat had an issue signing in. Please try again.",
+                "Copilot Chat 登录时出现问题。请重试。",
                 self.render_sign_in_button(false).into_any_element(),
             )
         } else if self.has_no_status() {
@@ -1035,7 +1035,7 @@ impl Render for ConfigurationView {
 
         if is_authenticated(cx) {
             return ConfiguredApiCard::new("copilot-authorized", "已授权")
-                .button_label("Sign Out")
+                .button_label("退出登录")
                 .on_click(move |_, window, cx| {
                     if edit_prediction {
                         if let Some(auth) = GlobalCopilotAuth::try_global(cx) {

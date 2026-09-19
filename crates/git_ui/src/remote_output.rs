@@ -6,13 +6,13 @@ use util::ResultExt as _;
 
 const PULL_REQUEST_HINTS: &[(&str, &str)] = &[
     // GitHub: "Create a pull request for 'branch' on GitHub by visiting:"
-    ("Create a pull request", "Create Pull Request"),
+    ("Create a pull request", "创建拉取请求"),
     // Bitbucket: "Create pull request for branch:"
-    ("Create pull request", "Create Pull Request"),
+    ("Create pull request", "创建拉取请求"),
     // GitLab: "To create a merge request for branch, visit:"
-    ("create a merge request", "Create Merge Request"),
+    ("create a merge request", "创建合并请求"),
     // GitLab: "View merge request for branch:"
-    ("View merge request", "View Merge Request"),
+    ("View merge request", "查看合并请求"),
 ];
 
 #[derive(Clone)]
@@ -89,8 +89,8 @@ pub fn format_output(action: &RemoteAction, output: RemoteCommandOutput) -> Succ
                 }
             } else {
                 let message = match remote {
-                    Some(remote) => format!("Synchronized with {}", remote.name),
-                    None => "Synchronized with remotes".into(),
+                    Some(remote) => format!("已与 {} 同步", remote.name),
+                    None => "已与远程同步".into(),
                 };
                 SuccessMessage {
                     message,
@@ -115,7 +115,7 @@ pub fn format_output(action: &RemoteAction, output: RemoteCommandOutput) -> Succ
 
                 Ok(files_changed)
             };
-            if output.stdout.ends_with("Already up to date.\n") {
+            if output.stdout.ends_with("Already up to date.") {
                 SuccessMessage {
                     message: "拉取：已是最新".into(),
                     style: SuccessStyle::Toast,
@@ -124,13 +124,13 @@ pub fn format_output(action: &RemoteAction, output: RemoteCommandOutput) -> Succ
                 let files_changed = get_changes(&output).log_err();
                 let message = if let Some(files_changed) = files_changed {
                     format!(
-                        "Received {} file change{} from {}",
+                        "已接收 {} 个文件变更{}，来自 {}",
                         files_changed,
                         if files_changed == 1 { "" } else { "s" },
                         remote_ref.name
                     )
                 } else {
-                    format!("Fast forwarded from {}", remote_ref.name)
+                    format!("已从 {} 快进", remote_ref.name)
                 };
                 SuccessMessage {
                     message,
@@ -140,13 +140,13 @@ pub fn format_output(action: &RemoteAction, output: RemoteCommandOutput) -> Succ
                 let files_changed = get_changes(&output).log_err();
                 let message = if let Some(files_changed) = files_changed {
                     format!(
-                        "Merged {} file change{} from {}",
+                        "已合并 {} 个文件变更{}，来自 {}",
                         files_changed,
                         if files_changed == 1 { "" } else { "s" },
                         remote_ref.name
                     )
                 } else {
-                    format!("Merged from {}", remote_ref.name)
+                    format!("已从 {} 合并", remote_ref.name)
                 };
                 SuccessMessage {
                     message,
@@ -165,7 +165,7 @@ pub fn format_output(action: &RemoteAction, output: RemoteCommandOutput) -> Succ
             }
         }
         RemoteAction::Push(branch_name, remote_ref) => {
-            if output.stderr.ends_with("Everything up-to-date\n") {
+            if output.stderr.ends_with("Everything up-to-date") {
                 SuccessMessage {
                     message: "推送：一切都是最新".to_string(),
                     style: SuccessStyle::Toast,
@@ -216,7 +216,7 @@ mod tests {
         let msg = format_output(&action, output);
         if let SuccessStyle::PushPrLink { label, url } = msg.style {
             assert_eq!(msg.message, "Pushed test_branch to test_remote");
-            assert_eq!(label, "Create Pull Request");
+            assert_eq!(label, "创建拉取请求");
             assert_eq!(url, "https://example.com/test/test/pull/new/test");
         } else {
             panic!("Expected PushPrLink variant");
@@ -250,7 +250,7 @@ mod tests {
 
         if let SuccessStyle::PushPrLink { label, url } = msg.style {
             assert_eq!(msg.message, "Pushed test_branch to test_remote");
-            assert_eq!(label, "Create Merge Request");
+            assert_eq!(label, "创建合并请求");
             assert_eq!(
                 url,
                 "https://example.com/test/test/-/merge_requests/new?merge_request%5Bsource_branch%5D=test"
@@ -275,7 +275,7 @@ mod tests {
         assert_eq!(
             extract_pull_request_link(&output),
             Some((
-                "Create Pull Request",
+                "创建拉取请求",
                 "https://bitbucket.example.com/projects/TEST/repos/test/pull-requests?create&sourceBranch=refs/heads/test".to_string()
             ))
         );
@@ -314,7 +314,7 @@ mod tests {
 
         if let SuccessStyle::PushPrLink { label, url } = msg.style {
             assert_eq!(msg.message, "Pushed test_branch to test_remote");
-            assert_eq!(label, "View Merge Request");
+            assert_eq!(label, "查看合并请求");
             assert_eq!(url, "https://example.com/test/test/-/merge_requests/99999");
         } else {
             panic!("Expected PushPrLink variant")

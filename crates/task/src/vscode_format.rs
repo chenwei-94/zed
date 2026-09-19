@@ -82,7 +82,7 @@ fn generate_label(command: &Option<Command>) -> String {
                 command.clone()
             }
         }
-        None => "Untitled Task".to_string(),
+        None => "未命名任务".to_string(),
     }
 }
 
@@ -574,6 +574,6 @@ mod tests {
             })),
             "shell"
         );
-        assert_eq!(generate_label(&None), "Untitled Task");
+        assert_eq!(generate_label(&None), "未命名任务");
     }
 }

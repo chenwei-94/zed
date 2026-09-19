@@ -196,7 +196,7 @@ impl ApplicationMenu {
                         .style(ButtonStyle::Subtle)
                         .icon_size(IconSize::Small)
                         .tab_index(0isize)
-                        .aria_label("Application menu"),
+                        .aria_label("应用菜单"),
                         Tooltip::text("打开应用菜单"),
                     )
                     .with_handle(handle),

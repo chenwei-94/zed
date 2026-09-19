@@ -142,13 +142,13 @@ impl Component for Banner {
     fn preview(_window: &mut Window, _cx: &mut App) -> AnyElement {
         let severity_examples = vec![
             single_example(
-                "Default",
+                "默认",
                 Banner::new()
                     .child(Label::new("这是未做任何自定义的默认横幅"))
                     .into_any_element(),
             ),
             single_example(
-                "Info",
+                "信息",
                 Banner::new()
                     .severity(Severity::Info)
                     .child(Label::new("这是一条信息性消息"))
@@ -159,7 +159,7 @@ impl Component for Banner {
                     .into_any_element(),
             ),
             single_example(
-                "Success",
+                "成功",
                 Banner::new()
                     .severity(Severity::Success)
                     .child(Label::new("操作已成功完成"))
@@ -167,7 +167,7 @@ impl Component for Banner {
                     .into_any_element(),
             ),
             single_example(
-                "Warning",
+                "警告",
                 Banner::new()
                     .severity(Severity::Warning)
                     .child(Label::new("设置文件使用了已弃用的设置"))
@@ -175,7 +175,7 @@ impl Component for Banner {
                     .into_any_element(),
             ),
             single_example(
-                "Error",
+                "错误",
                 Banner::new()
                     .severity(Severity::Error)
                     .child(Label::new("连接错误：无法连接到服务器"))

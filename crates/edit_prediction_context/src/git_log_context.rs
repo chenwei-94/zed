@@ -179,12 +179,12 @@ fn parse_git_log(log: &str) -> Vec<Vec<PathBuf>> {
     let mut commits = Vec::new();
 
     while let Some(line) = lines.next() {
-        if line.starts_with("@@COMMIT ") {
+        if line.starts_with("@@COMMIT") {
             // skip blank line
             lines.next();
             let mut files = Vec::new();
             while let Some(next) = lines.peek()
-                && !next.starts_with("@@COMMIT ")
+                && !next.starts_with("@@COMMIT")
             {
                 let Some(next) = lines.next() else {
                     break;

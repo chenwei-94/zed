@@ -458,7 +458,7 @@ impl CommandPaletteDelegate {
             })
             .child(
                 ButtonLike::new(("remove-command-history", ix))
-                    .aria_label("Remove from Command History")
+                    .aria_label("从命令历史中移除")
                     .tooltip(Tooltip::for_action_title(
                         "从命令历史中移除",
                         &RemoveSelected,
@@ -521,7 +521,7 @@ impl PickerDelegate for CommandPaletteDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Execute a command...".into()
+        "执行命令…".into()
     }
 
     fn select_history(

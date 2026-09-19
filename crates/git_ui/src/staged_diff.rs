@@ -114,7 +114,7 @@ impl StagedDiff {
         telemetry::event!(
             "Git Staged Diff Opened",
             source = if entry.is_some() {
-                "Git Panel"
+                "Git 面板"
             } else {
                 "Action"
             }
@@ -184,7 +184,7 @@ impl StagedDiff {
             DiffMultibuffer::new(
                 branch_diff,
                 Capability::ReadOnly,
-                "No staged changes",
+                "没有已暂存的更改",
                 move |editor, cx| {
                     editor.set_diff_hunk_renderer(Some(Arc::new(StagedDiffHunkRenderer)), cx);
                     editor.rhs_editor().update(cx, |rhs_editor, _cx| {
@@ -303,11 +303,11 @@ impl Item for StagedDiff {
     }
 
     fn tab_tooltip_text(&self, _: &App) -> Option<SharedString> {
-        Some("Staged Changes".into())
+        Some("已暂存的更改".into())
     }
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Staged Changes".into()
+        "已暂存的更改".into()
     }
 
     fn telemetry_event_text(&self) -> Option<&'static str> {
@@ -812,7 +812,7 @@ mod tests {
                     .serialized_item_kind(),
                 "StagedDiff"
             );
-            assert_eq!(active_item.tab_content_text(0, cx), "Staged Changes");
+            assert_eq!(active_item.tab_content_text(0, cx), "已暂存的更改");
             assert!(!active_item.can_save(cx));
         });
     }
@@ -1035,7 +1035,7 @@ mod tests {
                     .serialized_item_kind(),
                 "StagedDiff"
             );
-            assert_eq!(active_item.tab_content_text(0, cx), "Staged Changes");
+            assert_eq!(active_item.tab_content_text(0, cx), "已暂存的更改");
             assert!(!active_item.can_save(cx));
             assert_eq!(workspace.items_of_type::<ProjectDiff>(cx).count(), 0);
             assert_eq!(workspace.items_of_type::<StagedDiff>(cx).count(), 1);

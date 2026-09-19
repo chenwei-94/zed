@@ -69,7 +69,7 @@ fn suggested_label(request: &DebugRequest, debugger: &str) -> SharedString {
             format!("{} ({debugger})", last_path_component).into()
         }
         DebugRequest::Attach(config) => format!(
-            "pid: {} ({debugger})",
+            "PID：{}（{debugger}）",
             config.process_id.unwrap_or(u32::MAX)
         )
         .into(),
@@ -454,7 +454,7 @@ impl NewProcessModal {
                 cx.emit(DismissEvent);
             })
         })
-        .detach_and_prompt_err("Failed to edit debug.json", window, cx, |_, _, _| None);
+        .detach_and_prompt_err("编辑 debug.json 失败", window, cx, |_, _, _| None);
     }
 
     fn adapter_drop_down_menu(
@@ -531,7 +531,7 @@ impl NewProcessModal {
     }
 }
 
-static SELECT_DEBUGGER_LABEL: SharedString = SharedString::new_static("Select Debugger");
+static SELECT_DEBUGGER_LABEL: SharedString = SharedString::new_static("选择调试器");
 
 #[derive(Clone, Copy)]
 pub(crate) enum NewProcessMode {
@@ -835,7 +835,7 @@ impl ConfigureMode {
         });
 
         let cwd = cx.new(|cx| {
-            InputField::new(window, cx, "Ex: $ZED_WORKTREE_ROOT")
+            InputField::new(window, cx, "例如：$ZED_WORKTREE_ROOT")
                 .label("工作目录")
                 .tab_stop(true)
                 .tab_index(2)
@@ -1083,19 +1083,19 @@ impl DebugDelegate {
                 Some(abs_path.to_string_lossy().into_owned())
             }
             Some(TaskSourceKind::Lsp { language_name, .. }) => {
-                Some(format!("LSP: {language_name}"))
+                Some(format!("LSP：{language_name}"))
             }
-            Some(TaskSourceKind::Language { name }) => Some(format!("Language: {name}")),
+            Some(TaskSourceKind::Language { name }) => Some(format!("语言：{name}")),
             _ => context.clone().and_then(|ctx| {
                 ctx.task_context
                     .task_variables
                     .get(&VariableName::RelativeFile)
-                    .map(|f| format!("in {f}"))
+                    .map(|f| format!("{f} 中"))
                     .or_else(|| {
                         ctx.task_context
                             .task_variables
                             .get(&VariableName::Dirname)
-                            .map(|d| format!("in {d}/"))
+                            .map(|d| format!("{d}/ 中"))
                     })
             }),
         }
@@ -1230,7 +1230,7 @@ impl PickerDelegate for DebugDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> std::sync::Arc<str> {
-        "Find a debug task, or debug a command".into()
+        "查找调试任务，或调试命令".into()
     }
 
     fn update_matches(

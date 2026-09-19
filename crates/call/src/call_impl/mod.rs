@@ -707,7 +707,7 @@ impl ActiveCall {
         cx: &mut Context<Self>,
     ) -> Task<Result<u64>> {
         if let Some((room, _)) = self.room.as_ref() {
-            self.report_call_event("Project Shared", cx);
+            self.report_call_event("项目已共享", cx);
             room.update(cx, |room, cx| room.share_project(project, cx))
         } else {
             Task::ready(Err(anyhow!("no active call")))
