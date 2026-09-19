@@ -9457,7 +9457,7 @@ fn notify_if_database_failed(window: WindowHandle<MultiWorkspace>, cx: &mut Asyn
                         cx,
                         |cx| {
                             cx.new(|cx| {
-                                MessageNotification::new("Failed to load the database file.", cx)
+                                MessageNotification::new("加载数据库文件失败。", cx)
                                     .primary_message("File an Issue")
                                     .primary_icon(IconName::Plus)
                                     .primary_on_click(|window, cx| {

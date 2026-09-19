@@ -1628,7 +1628,7 @@ impl MessageEditor {
             files: true,
             directories: false,
             multiple: true,
-            prompt: Some("Select Images".into()),
+            prompt: Some("选择图片".into()),
         });
 
         window

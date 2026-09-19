@@ -914,35 +914,35 @@ impl Component for ButtonLike {
                     single_example(
                         "Default",
                         ButtonLike::new("default")
-                            .child(Label::new("Default"))
+                            .child(Label::new("默认"))
                             .into_any_element(),
                     ),
                     single_example(
                         "Filled",
                         ButtonLike::new("filled")
                             .style(ButtonStyle::Filled)
-                            .child(Label::new("Filled"))
+                            .child(Label::new("填充"))
                             .into_any_element(),
                     ),
                     single_example(
                         "Subtle",
                         ButtonLike::new("outline")
                             .style(ButtonStyle::Subtle)
-                            .child(Label::new("Subtle"))
+                            .child(Label::new("淡色"))
                             .into_any_element(),
                     ),
                     single_example(
                         "Tinted",
                         ButtonLike::new("tinted_accent_style")
                             .style(ButtonStyle::Tinted(TintColor::Accent))
-                            .child(Label::new("Accent"))
+                            .child(Label::new("强调色"))
                             .into_any_element(),
                     ),
                     single_example(
                         "Transparent",
                         ButtonLike::new("transparent")
                             .style(ButtonStyle::Transparent)
-                            .child(Label::new("Transparent"))
+                            .child(Label::new("透明"))
                             .into_any_element(),
                     ),
                 ]),
@@ -952,14 +952,14 @@ impl Component for ButtonLike {
                         single_example(
                             "Left Rounded",
                             ButtonLike::new_rounded_left("left_rounded")
-                                .child(Label::new("Left Rounded"))
+                                .child(Label::new("左侧圆角"))
                                 .style(ButtonStyle::Filled)
                                 .into_any_element(),
                         ),
                         single_example(
                             "Right Rounded",
                             ButtonLike::new_rounded_right("right_rounded")
-                                .child(Label::new("Right Rounded"))
+                                .child(Label::new("右侧圆角"))
                                 .style(ButtonStyle::Filled)
                                 .into_any_element(),
                         ),
@@ -969,12 +969,12 @@ impl Component for ButtonLike {
                                 .gap_px()
                                 .child(
                                     ButtonLike::new_rounded_left("bg_left")
-                                        .child(Label::new("Left"))
+                                        .child(Label::new("左"))
                                         .style(ButtonStyle::Filled),
                                 )
                                 .child(
                                     ButtonLike::new_rounded_right("bg_right")
-                                        .child(Label::new("Right"))
+                                        .child(Label::new("右"))
                                         .style(ButtonStyle::Filled),
                                 )
                                 .into_any_element(),

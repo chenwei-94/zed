@@ -309,7 +309,7 @@ impl EditPredictionContextView {
                             IconButton::new("go-back", IconName::ChevronLeft)
                                 .disabled(self.current_ix == 0 || self.runs.len() < 2)
                                 .tooltip(ui::Tooltip::for_action_title(
-                                    "Go to previous run",
+                                    "转到上一次运行",
                                     &EditPredictionContextGoBack,
                                 ))
                                 .on_click(cx.listener(|this, _, window, cx| {
@@ -338,7 +338,7 @@ impl EditPredictionContextView {
                             IconButton::new("go-forward", IconName::ChevronRight)
                                 .disabled(self.current_ix + 1 == self.runs.len())
                                 .tooltip(ui::Tooltip::for_action_title(
-                                    "Go to next run",
+                                    "转到下一次运行",
                                     &EditPredictionContextGoBack,
                                 ))
                                 .on_click(cx.listener(|this, _, window, cx| {
@@ -406,7 +406,7 @@ impl gpui::Render for EditPredictionContextView {
                             .size_full()
                             .justify_center()
                             .items_center()
-                            .child("No retrieval runs yet"),
+                            .child("尚无检索运行记录"),
                     )
                 } else {
                     this.child(self.runs[self.current_ix].editor.clone())

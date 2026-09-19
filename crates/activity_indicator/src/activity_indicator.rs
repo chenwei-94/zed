@@ -448,7 +448,7 @@ impl ActivityIndicator {
         {
             return Some(Content {
                 icon: ActivityIcon::LoadingSpinner,
-                message: format!("Debug: {}", session.read(cx).adapter()),
+                message: format!("调试：{}", session.read(cx).adapter()),
                 tooltip_message: session.read(cx).label().map(|label| label.to_string()),
                 on_click: None,
             });
@@ -531,7 +531,7 @@ impl ActivityIndicator {
             return Some(Content {
                 icon: ActivityIcon::Icon(IconName::Download),
                 message: format!(
-                    "Downloading {}...",
+                    "正在下载 {}…",
                     downloading.iter().map(|name| name.as_ref()).fold(
                         String::new(),
                         |mut acc, s| {
@@ -556,7 +556,7 @@ impl ActivityIndicator {
             return Some(Content {
                 icon: ActivityIcon::Icon(IconName::Download),
                 message: format!(
-                    "Checking for updates to {}...",
+                    "正在检查 {} 的更新…",
                     checking_for_update.iter().map(|name| name.as_ref()).fold(
                         String::new(),
                         |mut acc, s| {
@@ -581,7 +581,7 @@ impl ActivityIndicator {
             return Some(Content {
                 icon: ActivityIcon::Icon(IconName::Warning),
                 message: format!(
-                    "Failed to run {}. Click to show error.",
+                    "运行 {} 失败。点击查看错误。",
                     failed
                         .iter()
                         .map(|name| name.as_ref())
@@ -604,7 +604,7 @@ impl ActivityIndicator {
         if let Some(failure) = self.project.read(cx).last_formatting_failure(cx) {
             return Some(Content {
                 icon: ActivityIcon::Icon(IconName::Warning),
-                message: format!("Formatting failed: {failure}. Click to see logs."),
+                message: format!("格式化失败：{failure}。点击查看日志。"),
                 on_click: Some(Arc::new(|indicator, window, cx| {
                     indicator.project.update(cx, |project, cx| {
                         project.reset_last_formatting_failure(cx);
@@ -718,7 +718,7 @@ impl ActivityIndicator {
         }
         Some(Content {
             icon: ActivityIcon::Icon(IconName::Info),
-            message: "Partial file index".to_string(),
+            message: "部分文件索引".to_string(),
             tooltip_message: Some("Directories outside of git repositories and deeper than the `file_scan_depth` setting will be indexed on demand.".to_string()),
             on_click: Some(Arc::new(|this, _, cx| {
                 this.deferred_scan_message = DeferredScanMessage::Dismissed;

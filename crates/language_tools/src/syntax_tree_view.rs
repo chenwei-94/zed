@@ -531,7 +531,7 @@ impl Render for SyntaxTreeView {
                         .max_w_3_5()
                         .map(|this| {
                             if editor_state.is_some_and(|state| !state.has_language()) {
-                                this.child(Label::new("Current editor has no associated language"))
+                                this.child(Label::new("当前编辑器没有关联语言"))
                                     .child(
                                         Label::new(concat!(
                                             "Try assigning a language or",
@@ -540,8 +540,8 @@ impl Render for SyntaxTreeView {
                                         .size(LabelSize::Small),
                                     )
                             } else {
-                                this.child(Label::new("Not attached to an editor")).child(
-                                    Label::new("Focus an editor to show a new tree view")
+                                this.child(Label::new("未附加到编辑器")).child(
+                                    Label::new("聚焦编辑器以显示新的树视图")
                                         .size(LabelSize::Small),
                                 )
                             }
@@ -696,7 +696,7 @@ impl SyntaxTreeToolbarItemView {
                                 editor.tab_content_text(Default::default(), cx)
                             });
 
-                            Tooltip::text(format!("Update view to '{active_tab_name}'"))
+                            Tooltip::text(format!("将视图更新为 '{active_tab_name}'"))
                         })
                         .on_click(cx.listener(|this, _, window, cx| {
                             this.update_active_editor(&Default::default(), window, cx);

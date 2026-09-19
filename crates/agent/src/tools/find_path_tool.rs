@@ -146,11 +146,11 @@ impl AgentTool for FindPathTool {
             event_stream.update_fields(
                 acp::ToolCallUpdateFields::new()
                     .title(if paginated_matches.is_empty() {
-                        "No matches".into()
+                        "无匹配项".into()
                     } else if paginated_matches.len() == 1 {
-                        "1 match".into()
+                        "1 个匹配项".into()
                     } else {
-                        format!("{} matches", paginated_matches.len())
+                        format!("{} 个匹配项", paginated_matches.len())
                     })
                     .content(
                         paginated_matches

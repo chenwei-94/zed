@@ -852,7 +852,7 @@ impl Component for SwitchField {
                                 ToggleState::Unselected,
                                 |_, _, _| {},
                             )
-                            .tooltip(Tooltip::text("This is content for this tooltip!"))
+                            .tooltip(Tooltip::text("这是此提示的内容！"))
                             .into_any_element(),
                         ),
                         single_example(
@@ -864,7 +864,7 @@ impl Component for SwitchField {
                                 ToggleState::Selected,
                                 |_, _, _| {},
                             )
-                            .tooltip(Tooltip::text("This is content for this tooltip!"))
+                            .tooltip(Tooltip::text("这是此提示的内容！"))
                             .into_any_element(),
                         ),
                     ],
@@ -963,7 +963,7 @@ impl Component for Checkbox {
                     vec![single_example(
                         "Default",
                         Checkbox::new("checkbox_with_label", ToggleState::Selected)
-                            .label("Always save on quit")
+                            .label("退出时始终保存")
                             .into_any_element(),
                     )],
                 ),
@@ -1052,28 +1052,28 @@ impl Component for Switch {
                         single_example(
                             "Start Label",
                             Switch::new("switch_with_label_start", ToggleState::Selected)
-                                .label("Always save on quit")
+                                .label("退出时始终保存")
                                 .label_position(SwitchLabelPosition::Start)
                                 .into_any_element(),
                         ),
                         single_example(
                             "End Label",
                             Switch::new("switch_with_label_end", ToggleState::Selected)
-                                .label("Always save on quit")
+                                .label("退出时始终保存")
                                 .label_position(SwitchLabelPosition::End)
                                 .into_any_element(),
                         ),
                         single_example(
                             "Default Size Label",
                             Switch::new("switch_with_label_default_size", ToggleState::Selected)
-                                .label("Always save on quit")
+                                .label("退出时始终保存")
                                 .label_size(LabelSize::Default)
                                 .into_any_element(),
                         ),
                         single_example(
                             "Small Size Label",
                             Switch::new("switch_with_label_small_size", ToggleState::Selected)
-                                .label("Always save on quit")
+                                .label("退出时始终保存")
                                 .label_size(LabelSize::Small)
                                 .into_any_element(),
                         ),

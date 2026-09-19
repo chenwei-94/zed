@@ -24,7 +24,7 @@ pub fn open_output(
     let editor = cx.new(|cx| {
         let mut editor = Editor::for_buffer(buffer, None, window, cx);
         editor.buffer().update(cx, |buffer, cx| {
-            buffer.set_title(format!("Output from git {operation}"), cx);
+            buffer.set_title(format!("git {operation} 的输出"), cx);
         });
         editor.set_read_only(true);
         editor
@@ -50,7 +50,7 @@ pub fn show_error_toast(
         cx.defer(move |cx| {
             workspace.update(cx, |workspace, cx| {
                 let workspace_weak = cx.weak_entity();
-                let toast = StatusToast::new(format!("git {} failed", action), cx, |this, _cx| {
+                let toast = StatusToast::new(format!("git {} 失败", action), cx, |this, _cx| {
                     this.icon(
                         Icon::new(IconName::XCircle)
                             .size(IconSize::Small)

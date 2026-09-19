@@ -1157,7 +1157,7 @@ impl NativeAgent {
                     if let Err(error) = expand_project_skills_directories(&worktree, cx).await {
                         project_skills_results.push(vec![Err(SkillLoadError {
                             path: PathBuf::from(project_skills_relative_path()),
-                            message: format!("Failed to scan project skills: {}", error),
+                            message: format!("扫描项目技能失败：{}", error),
                         })]);
                         continue;
                     }
@@ -1176,7 +1176,7 @@ impl NativeAgent {
                             worktree_results.push(Err(SkillLoadError {
                                 path: skill_file.display_path.clone(),
                                 message: format!(
-                                    "SKILL.md file exceeds maximum size of {}KB",
+                                    "SKILL.md 文件超过 {}KB 的大小上限",
                                     MAX_SKILL_FILE_SIZE / 1024
                                 ),
                             }));
@@ -1196,7 +1196,7 @@ impl NativeAgent {
                             Err(error) => {
                                 worktree_results.push(Err(SkillLoadError {
                                     path: skill_file.display_path.clone(),
-                                    message: format!("Failed to read file: {}", error),
+                                    message: format!("读取文件失败：{}", error),
                                 }));
                                 continue;
                             }

@@ -99,8 +99,8 @@ impl Component for ListBulletItem {
             single_example(
                 "With Link",
                 ListBulletItem::new("")
-                    .child(Label::new("Create a Zed account by"))
-                    .child(ButtonLink::new("visiting the website", "https://zed.dev"))
+                    .child(Label::new("通过以下方式创建 Zed 账户："))
+                    .child(ButtonLink::new("访问网站", "https://zed.dev"))
                     .into_any_element(),
             ),
         ];

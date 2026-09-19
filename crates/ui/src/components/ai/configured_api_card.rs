@@ -124,14 +124,14 @@ impl Component for ConfiguredApiCard {
             single_example(
                 "Default",
                 container()
-                    .child(ConfiguredApiCard::new("default", "API key is configured"))
+                    .child(ConfiguredApiCard::new("default", "已配置 API 密钥"))
                     .into_any_element(),
             ),
             single_example(
                 "Custom Button Label",
                 container()
                     .child(
-                        ConfiguredApiCard::new("custom-button-label", "OpenAI API key configured")
+                        ConfiguredApiCard::new("custom-button-label", "已配置 OpenAI API 密钥")
                             .button_label("Remove Key"),
                     )
                     .into_any_element(),
@@ -140,7 +140,7 @@ impl Component for ConfiguredApiCard {
                 "With Tooltip",
                 container()
                     .child(
-                        ConfiguredApiCard::new("with-tooltip", "Anthropic API key configured")
+                        ConfiguredApiCard::new("with-tooltip", "已配置 Anthropic API 密钥")
                             .tooltip_label("Click to reset your API key"),
                     )
                     .into_any_element(),
@@ -149,7 +149,7 @@ impl Component for ConfiguredApiCard {
                 "Disabled",
                 container()
                     .child(
-                        ConfiguredApiCard::new("disabled", "API key is configured").disabled(true),
+                        ConfiguredApiCard::new("disabled", "已配置 API 密钥").disabled(true),
                     )
                     .into_any_element(),
             ),

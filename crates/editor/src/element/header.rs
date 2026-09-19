@@ -765,9 +765,9 @@ pub(crate) fn render_buffer_header(
                                         move |_window, cx| {
                                             Tooltip::with_meta_in(
                                                 if is_folded_for_tooltip {
-                                                    "Unfold Excerpt"
+                                                    "展开摘录"
                                                 } else {
-                                                    "Fold Excerpt"
+                                                    "折叠摘录"
                                                 },
                                                 Some(&ToggleFold),
                                                 format!(
@@ -867,7 +867,7 @@ pub(crate) fn render_buffer_header(
                                             )
                                             .tooltip(move |_, cx| {
                                                 Tooltip::with_meta(
-                                                    "Open File",
+                                                    "打开文件",
                                                     None,
                                                     full_path.clone(),
                                                     cx,
@@ -935,7 +935,7 @@ pub(crate) fn render_buffer_header(
                                 })
                                 .when(show_open_file_button, |this| {
                                     this.child(
-                                        Button::new("open-file-button", "Open File")
+                                        Button::new("open-file-button", "打开文件")
                                             .style(ButtonStyle::OutlinedCustom(
                                                 cx.theme().colors().border.opacity(0.6),
                                             ))

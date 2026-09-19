@@ -448,7 +448,7 @@ impl ContextProvider for TypeScriptContextProvider {
             let mut task_templates = TaskTemplates(Vec::new());
             task_templates.0.push(TaskTemplate {
                 label: format!(
-                    "execute selection {}",
+                    "执行所选内容 {}",
                     VariableName::SelectedText.template_value()
                 ),
                 command: "node".to_owned(),

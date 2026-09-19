@@ -146,7 +146,7 @@ fn emit_update(response: &WebSearchResponse, event_stream: &ToolCallEventStream)
     };
     event_stream.update_fields(
         acp::ToolCallUpdateFields::new()
-            .title(format!("Searched the web: {result_text}"))
+            .title(format!("已搜索网络：{result_text}"))
             .content(
                 response
                     .results

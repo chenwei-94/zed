@@ -491,7 +491,7 @@ impl PickerDelegate for ColumnFilterDelegate {
                 .justify_between()
                 .items_center()
                 .child(
-                    Label::new(format!("{selected_rows} / {total_rows} rows selected"))
+                    Label::new(format!("已选择 {selected_rows} / {total_rows} 行"))
                         .size(LabelSize::Small)
                         .color(Color::Muted),
                 )
@@ -500,7 +500,7 @@ impl PickerDelegate for ColumnFilterDelegate {
                         .id("table-filter-clear-all")
                         .cursor_pointer()
                         .child(
-                            Label::new("Clear all")
+                            Label::new("全部清除")
                                 .size(LabelSize::Small)
                                 .color(Color::Accent),
                         )
@@ -629,10 +629,10 @@ impl TabularDataPreviewPane {
         )
         .tooltip(Tooltip::text(match self.engine.applied_sorting {
             Some(ordering) if ordering.col_idx == col_idx => match ordering.direction {
-                SortDirection::Asc => "Sorted A-Z. Click to sort Z-A",
-                SortDirection::Desc => "Sorted Z-A. Click to disable sorting",
+                SortDirection::Asc => "已按 A-Z 排序。点击按 Z-A 排序",
+                SortDirection::Desc => "已按 Z-A 排序。点击禁用排序",
             },
-            _ => "Not sorted. Click to sort A-Z",
+            _ => "未排序。点击按 A-Z 排序",
         }))
         .on_click(cx.listener(move |this, _event, _window, cx| {
             let new_sorting = match this.engine.applied_sorting {
@@ -679,9 +679,9 @@ impl TabularDataPreviewPane {
             })
             .toggle_state(has_active_filters),
             Tooltip::text(if has_active_filters {
-                "Column has active filters. Click to manage"
+                "列有活动筛选。点击管理"
             } else {
-                "No filters applied. Click to add filters"
+                "未应用筛选。点击添加筛选"
             }),
         )
         .menu({

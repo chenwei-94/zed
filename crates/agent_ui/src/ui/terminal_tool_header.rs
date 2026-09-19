@@ -185,7 +185,7 @@ impl RenderOnce for TerminalToolHeader {
                             .icon_color(Color::Error)
                             .tooltip(move |_window, cx| {
                                 Tooltip::with_meta(
-                                    "Stop This Command",
+                                    "停止此命令",
                                     None,
                                     "Also possible by placing your cursor inside the terminal \
                                      and using regular terminal bindings.",
@@ -213,7 +213,7 @@ impl RenderOnce for TerminalToolHeader {
                         .icon_size(IconSize::Small)
                         .icon_color(Color::Error)
                         .when_some(exit_code, |this, code| {
-                            this.tooltip(Tooltip::text(format!("Exited with code {code}")))
+                            this.tooltip(Tooltip::text(format!("退出码 {code}")))
                         }),
                 )
             })
@@ -283,8 +283,8 @@ impl Component for TerminalToolHeader {
         };
 
         let sandbox_warning = || TerminalSandboxWarning {
-            title: "Ran without sandbox".into(),
-            detail: "Unsandboxed execution is allowed for the rest of this thread.".into(),
+            title: "未在沙箱中运行".into(),
+            detail: "在本会话剩余时间内允许无沙箱执行。".into(),
             docs_url: "https://zed.dev/docs/ai/sandboxing".into(),
         };
 

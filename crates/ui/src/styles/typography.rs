@@ -260,29 +260,29 @@ impl Component for Headline {
             .children(vec![
                 single_example(
                     "XLarge",
-                    Headline::new("XLarge Headline")
+                    Headline::new("超大标题")
                         .size(HeadlineSize::XLarge)
                         .into_any_element(),
                 ),
                 single_example(
                     "Large",
-                    Headline::new("Large Headline")
+                    Headline::new("大标题")
                         .size(HeadlineSize::Large)
                         .into_any_element(),
                 ),
                 single_example(
                     "Medium (Default)",
-                    Headline::new("Medium Headline").into_any_element(),
+                    Headline::new("中标题").into_any_element(),
                 ),
                 single_example(
                     "Small",
-                    Headline::new("Small Headline")
+                    Headline::new("小标题")
                         .size(HeadlineSize::Small)
                         .into_any_element(),
                 ),
                 single_example(
                     "XSmall",
-                    Headline::new("XSmall Headline")
+                    Headline::new("超小标题")
                         .size(HeadlineSize::XSmall)
                         .into_any_element(),
                 ),

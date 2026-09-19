@@ -419,7 +419,7 @@ impl Component for IconButton {
                             IconButton::new("tooltip", IconName::Check)
                                 .style(ButtonStyle::Filled)
                                 .layer(ElevationIndex::Background)
-                                .tooltip(Tooltip::text("As mentioned - with a tooltip"))
+                                .tooltip(Tooltip::text("如前所述 - 带提示"))
                                 .into_any_element(),
                         ),
                     ],

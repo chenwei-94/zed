@@ -395,42 +395,42 @@ impl Component for Label {
                     example_group_with_title(
                         "Sizes",
                         vec![
-                            single_example("Default", Label::new("Project Explorer").into_any_element()),
-                            single_example("Small", Label::new("File: main.rs").size(LabelSize::Small).into_any_element()),
-                            single_example("Large", Label::new("Welcome to Zed").size(LabelSize::Large).into_any_element()),
+                            single_example("Default", Label::new("项目浏览器").into_any_element()),
+                            single_example("Small", Label::new("文件：main.rs").size(LabelSize::Small).into_any_element()),
+                            single_example("Large", Label::new("欢迎使用 Zed").size(LabelSize::Large).into_any_element()),
                         ],
                     ),
                     example_group_with_title(
                         "Colors",
                         vec![
-                            single_example("Default", Label::new("Status: Ready").into_any_element()),
-                            single_example("Accent", Label::new("New Update Available").color(Color::Accent).into_any_element()),
-                            single_example("Error", Label::new("Build Failed").color(Color::Error).into_any_element()),
+                            single_example("Default", Label::new("状态：就绪").into_any_element()),
+                            single_example("Accent", Label::new("有可用更新").color(Color::Accent).into_any_element()),
+                            single_example("Error", Label::new("构建失败").color(Color::Error).into_any_element()),
                         ],
                     ),
                     example_group_with_title(
                         "Styles",
                         vec![
-                            single_example("Default", Label::new("Normal Text").into_any_element()),
-                            single_example("Bold", Label::new("Important Notice").weight(gpui::FontWeight::BOLD).into_any_element()),
-                            single_example("Italic", Label::new("Code Comment").italic().into_any_element()),
-                            single_example("Strikethrough", Label::new("Deprecated Feature").strikethrough().into_any_element()),
-                            single_example("Underline", Label::new("Clickable Link").underline().into_any_element()),
+                            single_example("Default", Label::new("普通文本").into_any_element()),
+                            single_example("Bold", Label::new("重要提示").weight(gpui::FontWeight::BOLD).into_any_element()),
+                            single_example("Italic", Label::new("代码注释").italic().into_any_element()),
+                            single_example("Strikethrough", Label::new("已弃用功能").strikethrough().into_any_element()),
+                            single_example("Underline", Label::new("可点击链接").underline().into_any_element()),
                             single_example("Inline Code", Label::new("fn main() {}").inline_code(cx).into_any_element()),
                         ],
                     ),
                     example_group_with_title(
                         "Line Height Styles",
                         vec![
-                            single_example("Default", Label::new("Multi-line\nText\nExample").into_any_element()),
-                            single_example("UI Label", Label::new("Compact\nUI\nLabel").line_height_style(LineHeightStyle::UiLabel).into_any_element()),
+                            single_example("Default", Label::new("多行\n文本\n示例").into_any_element()),
+                            single_example("UI Label", Label::new("紧凑\n界面\n标签").line_height_style(LineHeightStyle::UiLabel).into_any_element()),
                         ],
                     ),
                     example_group_with_title(
                         "Special Cases",
                         vec![
-                            single_example("Single Line", Label::new("Line 1\nLine 2\nLine 3").single_line().into_any_element()),
-                            single_example("Regular Truncation", div().max_w_24().child(Label::new("This is a very long file name that should be truncated: very_long_file_name_with_many_words.rs").truncate()).into_any_element()),
+                            single_example("Single Line", Label::new("第 1 行\n第 2 行\n第 3 行").single_line().into_any_element()),
+                            single_example("Regular Truncation", div().max_w_24().child(Label::new("这是一个应当被截断的超长文件名：very_long_file_name_with_many_words.rs").truncate()).into_any_element()),
                             single_example("Start Truncation", div().max_w_24().child(Label::new("zed/crates/ui/src/components/label/truncate/label/label.rs").truncate_start()).into_any_element()),
                         ],
                     ),

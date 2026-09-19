@@ -658,7 +658,7 @@ impl StackFrameList {
                                     }
                                 }))
                                 .tooltip(move |window, cx| {
-                                    Tooltip::text("Restart Stack Frame")(window, cx)
+                                    Tooltip::text("重启堆栈帧")(window, cx)
                                 }),
                             ),
                     )
@@ -723,7 +723,7 @@ impl StackFrameList {
                     .truncate()
                     .text_color(cx.theme().colors().text_muted)
                     .child(format!(
-                        "Show {} more{}",
+                        "显示另外 {} 项{}",
                         stack_frames.len(),
                         first_stack_frame
                             .source

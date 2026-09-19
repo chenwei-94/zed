@@ -525,7 +525,7 @@ pub(crate) fn shallow_boundary_notice(
                     .child(
                         div().flex_1().min_w_0().child(
                             Label::new(
-                                "Shallow clone boundary: earlier history is missing, so these lines may come from an older commit.",
+                                "浅克隆边界：缺少更早的历史，因此这些行可能来自较旧的提交。",
                             )
                             .size(LabelSize::Small)
                             .line_height_style(LineHeightStyle::UiLabel),
@@ -541,16 +541,16 @@ pub(crate) fn shallow_boundary_notice(
                             Button::new(
                                 "fetch-unshallow",
                                 if in_flight {
-                                    "Fetching…"
+                                    "正在抓取…"
                                 } else {
-                                    "Fetch Missing History"
+                                    "抓取缺失历史"
                                 },
                             )
                             .style(ButtonStyle::Outlined)
                             .label_size(LabelSize::Small)
                             .disabled(in_flight)
                             .tooltip(Tooltip::text(
-                                "Run `git fetch --unshallow` to download the full history",
+                                "运行 `git fetch --unshallow` 下载完整历史",
                             ))
                             .on_click(move |_, window, cx| {
                                 cx.stop_propagation();
@@ -620,7 +620,7 @@ pub(crate) fn fetch_unshallow(
                 Ok(_) => {
                     workspace.update(cx, |workspace, cx| {
                         let toast = StatusToast::new(
-                            "Fetched the missing commit history",
+                            "已抓取缺失的提交历史",
                             cx,
                             |this, _| {
                                 this.icon(

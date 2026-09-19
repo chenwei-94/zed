@@ -6702,7 +6702,7 @@ impl Editor {
                             let focus_handle = self.focus_handle.clone();
                             move |window, cx| {
                                 Tooltip::for_action_in(
-                                    "Toggle Code Actions",
+                                    "切换代码操作",
                                     &ToggleCodeActions {
                                         deployed_from_indicator: None,
                                         quick_launch: false,
@@ -7975,7 +7975,7 @@ impl Editor {
                             .flex_1()
                             .gap_2()
                             .child(Icon::new(IconName::ZedPredict))
-                            .child(Label::new("Accept Terms of Service"))
+                            .child(Label::new("接受服务条款"))
                             .child(div().w_full())
                             .child(
                                 Icon::new(IconName::ArrowUpRight)
@@ -8163,7 +8163,7 @@ impl Editor {
                                         false,
                                     ))),
                             )
-                            .child(Label::new("Preview").into_any_element())
+                            .child(Label::new("预览").into_any_element())
                             .opacity(if has_completion { 1.0 } else { 0.4 }),
                     )
                 })
@@ -21129,7 +21129,7 @@ impl Render for MissingEditPredictionKeybindingTooltip {
                     v_flex()
                         .flex_1()
                         .text_ui_sm(cx)
-                        .child(Label::new("Conflict with Accept Keybinding"))
+                        .child(Label::new("与接受快捷键冲突"))
                         .child("Your keymap currently overrides the default accept keybinding. To continue, assign one keybinding for the `editor::AcceptEditPrediction` action.")
                 )
                 .child(
@@ -21138,10 +21138,10 @@ impl Render for MissingEditPredictionKeybindingTooltip {
                         .gap_1()
                         .items_end()
                         .w_full()
-                        .child(Button::new("open-keymap", "Assign Keybinding").size(ButtonSize::Compact).on_click(|_ev, window, cx| {
+                        .child(Button::new("open-keymap", "指定快捷键").size(ButtonSize::Compact).on_click(|_ev, window, cx| {
                             window.dispatch_action(zed_actions::OpenKeymap.boxed_clone(), cx)
                         }))
-                        .child(Button::new("see-docs", "See Docs").size(ButtonSize::Compact).on_click(|_ev, _window, cx| {
+                        .child(Button::new("see-docs", "查看文档").size(ButtonSize::Compact).on_click(|_ev, _window, cx| {
                             cx.open_url("https://zed.dev/docs/completions#edit-predictions-missing-keybinding");
                         })),
                 )
@@ -21182,13 +21182,13 @@ fn render_diff_hunk_controls(
         .occlude()
         .shadow_md()
         .child(if status.has_secondary_hunk() {
-            Button::new(("stage", row as u64), "Stage")
+            Button::new(("stage", row as u64), "暂存")
                 .alpha(if status.is_pending() { 0.66 } else { 1.0 })
                 .tooltip({
                     let focus_handle = editor.focus_handle(cx);
                     move |window, cx| {
                         Tooltip::for_action_in(
-                            "Stage Hunk",
+                            "暂存差异块",
                             &::git::ToggleStaged,
                             &focus_handle,
                             window,
@@ -21209,13 +21209,13 @@ fn render_diff_hunk_controls(
                     }
                 })
         } else {
-            Button::new(("unstage", row as u64), "Unstage")
+            Button::new(("unstage", row as u64), "取消暂存")
                 .alpha(if status.is_pending() { 0.66 } else { 1.0 })
                 .tooltip({
                     let focus_handle = editor.focus_handle(cx);
                     move |window, cx| {
                         Tooltip::for_action_in(
-                            "Unstage Hunk",
+                            "取消暂存差异块",
                             &::git::ToggleStaged,
                             &focus_handle,
                             window,
@@ -21237,12 +21237,12 @@ fn render_diff_hunk_controls(
                 })
         })
         .child(
-            Button::new(("restore", row as u64), "Restore")
+            Button::new(("restore", row as u64), "恢复")
                 .tooltip({
                     let focus_handle = editor.focus_handle(cx);
                     move |window, cx| {
                         Tooltip::for_action_in(
-                            "Restore Hunk",
+                            "恢复差异块",
                             &::git::Restore,
                             &focus_handle,
                             window,
@@ -21274,7 +21274,7 @@ fn render_diff_hunk_controls(
                             let focus_handle = editor.focus_handle(cx);
                             move |window, cx| {
                                 Tooltip::for_action_in(
-                                    "Next Hunk",
+                                    "下一个差异块",
                                     &GoToHunk,
                                     &focus_handle,
                                     window,
@@ -21310,7 +21310,7 @@ fn render_diff_hunk_controls(
                             let focus_handle = editor.focus_handle(cx);
                             move |window, cx| {
                                 Tooltip::for_action_in(
-                                    "Previous Hunk",
+                                    "上一个差异块",
                                     &GoToPreviousHunk,
                                     &focus_handle,
                                     window,

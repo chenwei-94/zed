@@ -3835,7 +3835,7 @@ impl ProjectPanel {
             files: false,
             directories: true,
             multiple: false,
-            prompt: Some("Download".into()),
+            prompt: Some("下载".into()),
         });
 
         let fs = self.fs.clone();
@@ -3850,7 +3850,7 @@ impl ProjectPanel {
                             workspace.show_toast(
                                 workspace::Toast::new(
                                     notification_id.clone(),
-                                    format!("Downloading 0/{} files...", total_files),
+                                    format!("正在下载 0/{} 个文件…", total_files),
                                 ),
                                 cx,
                             );
@@ -3867,7 +3867,7 @@ impl ProjectPanel {
                                     workspace::Toast::new(
                                         notification_id.clone(),
                                         format!(
-                                            "Downloading {}/{} files...",
+                                            "正在下载 {}/{} 个文件…",
                                             index + 1,
                                             total_files
                                         ),
@@ -3903,7 +3903,7 @@ impl ProjectPanel {
                             workspace.show_toast(
                                 workspace::Toast::new(
                                     notification_id.clone(),
-                                    format!("Downloaded {} files", total_files),
+                                    format!("已下载 {} 个文件", total_files),
                                 ),
                                 cx,
                             );
@@ -7981,7 +7981,7 @@ impl Render for DraggedProjectEntryView {
                     .bg(cx.theme().colors().background)
                     .map(|this| {
                         if self.selections.len() > 1 && self.selections.contains(&self.selection) {
-                            this.child(Label::new(format!("{} entries", self.selections.len())))
+                            this.child(Label::new(format!("{} 个条目", self.selections.len())))
                         } else {
                             this.child(
                                 h_flex()

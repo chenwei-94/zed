@@ -196,7 +196,7 @@ impl ExtensionCard {
     ) -> Button {
         Button::new(
             Self::button_id(extension_id, ExtensionOperation::Remove),
-            "Uninstall",
+            "卸载",
         )
         .when(ENABLE_HANDLERS, |button| {
             button.on_click({
@@ -221,7 +221,7 @@ impl ExtensionCard {
     ) -> Button {
         Button::new(
             SharedString::from(format!("configure-{extension_id}")),
-            "Configure",
+            "配置",
         )
         .when(ENABLE_HANDLERS, |button| {
             button.on_click({
@@ -251,7 +251,7 @@ impl ExtensionCard {
     ) -> ExtensionCardActions {
         let rebuild = Button::new(
             SharedString::from(format!("rebuild-{}", extension.id)),
-            "Rebuild",
+            "重新构建",
         )
         .color(Color::Accent)
         .disabled(status.disables_actions())
@@ -280,7 +280,7 @@ impl ExtensionCard {
     fn install_button<const ENABLE_HANDLERS: bool>(extension_id: &Arc<str>) -> Button {
         Button::new(
             Self::button_id(extension_id, ExtensionOperation::Install),
-            "Install",
+            "安装",
         )
         .style(ButtonStyle::Tinted(ui::TintColor::Accent))
         .start_icon(
@@ -329,7 +329,7 @@ impl ExtensionCard {
                 let upgrade = matches!(status, ExtensionStatus::Upgrading).then(|| {
                     Button::new(
                         Self::button_id(&extension.id, ExtensionOperation::Upgrade),
-                        "Upgrade",
+                        "升级",
                     )
                     .disabled(status.disables_actions())
                 });
@@ -350,7 +350,7 @@ impl ExtensionCard {
                     );
                     Button::new(
                         Self::button_id(&extension.id, ExtensionOperation::Upgrade),
-                        "Upgrade",
+                        "升级",
                     )
                     .style(ButtonStyle::Tinted(ui::TintColor::Accent))
                     .when(!is_compatible, |button| {
@@ -359,7 +359,7 @@ impl ExtensionCard {
                             move |_, cx| {
                                 Tooltip::simple(
                                     format!(
-                                        "v{version} is not compatible with this version of Zed."
+                                        "v{version} 与此版本的 Zed 不兼容。"
                                     ),
                                     cx,
                                 )
@@ -490,7 +490,7 @@ impl Component for ExtensionCard {
                 name: "Local Theme".to_owned(),
                 version: "0.1.0".into(),
                 schema_version: SchemaVersion::ZERO,
-                description: Some("A locally installed extension under development.".to_owned()),
+                description: Some("本地安装的开发中扩展。".to_owned()),
                 repository: Some("https://github.com/zed-industries/zed".to_owned()),
                 authors: vec!["Extension Developer".to_owned()],
                 lib: Default::default(),
@@ -655,7 +655,7 @@ impl RenderOnce for ExtensionCard {
                                     .color(Color::Muted),
                                 )
                                 .children(installed_version.map(|installed_version| {
-                                    Headline::new(format!("(v{installed_version} installed)"))
+                                    Headline::new(format!("（已安装 v{installed_version}）"))
                                         .size(HeadlineSize::XSmall)
                                 }))
                                 .when(!provided_features.is_empty(), |parent| {
@@ -685,7 +685,7 @@ impl RenderOnce for ExtensionCard {
                         }))
                         .children(download_count.map(|download_count| {
                             Label::new(format!(
-                                "Downloads: {}",
+                                "下载量：{}",
                                 download_count.to_formatted_string(&Locale::en)
                             ))
                             .size(LabelSize::Small)
@@ -723,7 +723,7 @@ impl RenderOnce for ExtensionCard {
                                             .icon_size(IconSize::Small)
                                             .tooltip(move |_, cx| {
                                                 Tooltip::with_meta(
-                                                    "Visit Extension Repository",
+                                                    "访问扩展仓库",
                                                     None,
                                                     repository_url_for_tooltip.clone(),
                                                     cx,
@@ -772,7 +772,7 @@ impl RenderOnce for ExtensionCard {
                             .size_full()
                             .justify_center()
                             .bg(cx.theme().colors().elevated_surface_background.alpha(0.8))
-                            .child(Label::new("Overridden by dev extension.")),
+                            .child(Label::new("已被开发扩展覆盖。")),
                     )
                 }),
         )

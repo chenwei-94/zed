@@ -372,14 +372,14 @@ impl Render for LanguageServerPrompt {
                                             .tooltip(move |_window, cx| {
                                                 if suppress {
                                                     Tooltip::with_meta(
-                                                        "Suppress",
+                                                        "不再提示",
                                                         Some(&SuppressNotification),
                                                         "Click to close",
                                                         cx,
                                                     )
                                                 } else {
                                                     Tooltip::with_meta(
-                                                        "Close",
+                                                        "关闭",
                                                         Some(&menu::Cancel),
                                                         "Suppress with shift-click",
                                                         cx,
@@ -1009,20 +1009,20 @@ pub mod simple_message_notification {
                             .tooltip(move |_window, cx| {
                                 if suppress {
                                     Tooltip::with_meta(
-                                        "Suppress",
+                                        "不再提示",
                                         Some(&SuppressNotification),
                                         "Click to Close",
                                         cx,
                                     )
                                 } else if show_suppress_button {
                                     Tooltip::with_meta(
-                                        "Close",
+                                        "关闭",
                                         Some(&menu::Cancel),
                                         "Shift-click to Suppress",
                                         cx,
                                     )
                                 } else {
-                                    Tooltip::for_action("Close", &menu::Cancel, cx)
+                                    Tooltip::for_action("关闭", &menu::Cancel, cx)
                                 }
                             })
                             .on_click(cx.listener(move |_, _, _, cx| {
@@ -1202,22 +1202,22 @@ pub mod simple_message_notification {
 
         fn preview(_window: &mut Window, cx: &mut App) -> AnyElement {
             let normal =
-                cx.new(|cx| MessageNotification::new("A regular informational notification.", cx));
+                cx.new(|cx| MessageNotification::new("普通的信息通知。", cx));
 
             let with_title = cx.new(|cx| {
-                MessageNotification::new("Some informational content for the user.", cx)
+                MessageNotification::new("面向用户的信息内容。", cx)
                     .with_title("Notification Title")
             });
 
             let with_primary_action = cx.new(|cx| {
-                MessageNotification::new("A new version of Zed is available for download.", cx)
+                MessageNotification::new("有新版本的 Zed 可供下载。", cx)
                     .with_title("Update Available")
                     .primary_message("Restart Now")
                     .primary_icon(IconName::ArrowCircle)
             });
 
             let with_end_icon_action = cx.new(|cx| {
-                MessageNotification::new("Release notes for this version are available online.", cx)
+                MessageNotification::new("此版本的发行说明可在线查看。", cx)
                     .with_title("What’s New")
                     .primary_message("Read Release Notes")
                     .primary_end_icon(IconName::ArrowUpRight)
@@ -1258,7 +1258,7 @@ pub mod simple_message_notification {
                 cx.new(|cx| MessageNotification::from_workspace_error(PreviewError, cx));
 
             let close_only = cx
-                .new(|cx| MessageNotification::new("Default header with just a close button.", cx));
+                .new(|cx| MessageNotification::new("仅带关闭按钮的默认标题栏。", cx));
 
             let copy_and_close = cx.new(|cx| {
                 let msg: SharedString = "This message can be copied to the clipboard.".into();
@@ -1266,7 +1266,7 @@ pub mod simple_message_notification {
             });
 
             let no_close = cx.new(|cx| {
-                MessageNotification::new("This notification can't be closed manually.", cx)
+                MessageNotification::new("此通知无法手动关闭。", cx)
                     .show_close_button(false)
             });
 

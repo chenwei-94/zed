@@ -153,10 +153,8 @@ impl LanguageModelProvider for OpenAiSubscribedProvider {
 
     fn fast_mode_confirmation(&self, _cx: &App) -> Option<FastModeConfirmation> {
         Some(FastModeConfirmation {
-            title: "Enable Fast Mode for OpenAI?".into(),
-            message: "Fast mode sends requests using OpenAI's Priority processing tier, which \
-                targets significantly lower latency than the standard tier and is billed at a \
-                premium per-token rate."
+            title: "为 OpenAI 启用快速模式？".into(),
+            message: "快速模式使用 OpenAI 的 Priority 处理层级发送请求，其延迟显著低于标准层级，但按更高的单 token 费率计费。"
                 .into(),
         })
     }
@@ -242,7 +240,7 @@ impl Render for ConfigurationView {
                     )
                     .when(is_sign_in_cancellable, |this| {
                         this.child(
-                            Button::new("cancel-sign-in", "Cancel")
+                            Button::new("cancel-sign-in", "取消")
                                 .style(ButtonStyle::Subtle)
                                 .size(ButtonSize::Medium)
                                 .on_click(move |_, _window, cx| {

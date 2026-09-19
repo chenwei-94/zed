@@ -119,8 +119,8 @@ const SUGGESTIONS_BY_LANGUAGE: &[LanguageSuggestion] = &[LanguageSuggestion {
         "Twig",
         "Vue.js",
     ],
-    title: "Emmet is available for this file",
-    description: "Emmet expands abbreviations such as `ul>li*3` into HTML and `m10` into CSS.",
+    title: "此文件可用 Emmet",
+    description: "Emmet 可将 `ul>li*3` 等缩写展开为 HTML，将 `m10` 展开为 CSS。",
     docs_url: "https://zed.dev/docs/languages/emmet",
     install_message: "Install Emmet",
 }];
@@ -324,7 +324,7 @@ fn suggest_for_buffer(
             show_suggestion(workspace, &extension_id, cx, |cx| {
                 MessageNotification::new(
                     format!(
-                        "Do you want to install the recommended '{extension_id}' extension for '{file_name_or_extension}' files?"
+                        "是否安装推荐的“{extension_id}”扩展，用于“{file_name_or_extension}”文件？"
                     ),
                     cx,
                 )

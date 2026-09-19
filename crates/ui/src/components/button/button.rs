@@ -536,29 +536,29 @@ impl Component for Button {
                     vec![
                         single_example(
                             "Default",
-                            Button::new("default", "Default").into_any_element(),
+                            Button::new("default", "默认").into_any_element(),
                         ),
                         single_example(
                             "Filled",
-                            Button::new("filled", "Filled")
+                            Button::new("filled", "填充")
                                 .style(ButtonStyle::Filled)
                                 .into_any_element(),
                         ),
                         single_example(
                             "Subtle",
-                            Button::new("outline", "Subtle")
+                            Button::new("outline", "淡色")
                                 .style(ButtonStyle::Subtle)
                                 .into_any_element(),
                         ),
                         single_example(
                             "Tinted",
-                            Button::new("tinted_accent_style", "Accent")
+                            Button::new("tinted_accent_style", "强调色")
                                 .style(ButtonStyle::Tinted(TintColor::Accent))
                                 .into_any_element(),
                         ),
                         single_example(
                             "Transparent",
-                            Button::new("transparent", "Transparent")
+                            Button::new("transparent", "透明")
                                 .style(ButtonStyle::Transparent)
                                 .into_any_element(),
                         ),
@@ -569,25 +569,25 @@ impl Component for Button {
                     vec![
                         single_example(
                             "Accent",
-                            Button::new("tinted_accent", "Accent")
+                            Button::new("tinted_accent", "强调色")
                                 .style(ButtonStyle::Tinted(TintColor::Accent))
                                 .into_any_element(),
                         ),
                         single_example(
                             "Error",
-                            Button::new("tinted_negative", "Error")
+                            Button::new("tinted_negative", "错误")
                                 .style(ButtonStyle::Tinted(TintColor::Error))
                                 .into_any_element(),
                         ),
                         single_example(
                             "Warning",
-                            Button::new("tinted_warning", "Warning")
+                            Button::new("tinted_warning", "警告")
                                 .style(ButtonStyle::Tinted(TintColor::Warning))
                                 .into_any_element(),
                         ),
                         single_example(
                             "Success",
-                            Button::new("tinted_positive", "Success")
+                            Button::new("tinted_positive", "成功")
                                 .style(ButtonStyle::Tinted(TintColor::Success))
                                 .into_any_element(),
                         ),
@@ -598,17 +598,17 @@ impl Component for Button {
                     vec![
                         single_example(
                             "Default",
-                            Button::new("default_state", "Default").into_any_element(),
+                            Button::new("default_state", "默认").into_any_element(),
                         ),
                         single_example(
                             "Disabled",
-                            Button::new("disabled", "Disabled")
+                            Button::new("disabled", "已禁用")
                                 .disabled(true)
                                 .into_any_element(),
                         ),
                         single_example(
                             "Selected",
-                            Button::new("selected", "Selected")
+                            Button::new("selected", "已选中")
                                 .toggle_state(true)
                                 .into_any_element(),
                         ),
@@ -619,26 +619,26 @@ impl Component for Button {
                     vec![
                         single_example(
                             "Start Icon",
-                            Button::new("icon_start", "Start Icon")
+                            Button::new("icon_start", "起始图标")
                                 .start_icon(Icon::new(IconName::Check))
                                 .into_any_element(),
                         ),
                         single_example(
                             "End Icon",
-                            Button::new("icon_end", "End Icon")
+                            Button::new("icon_end", "结束图标")
                                 .end_icon(Icon::new(IconName::Check))
                                 .into_any_element(),
                         ),
                         single_example(
                             "Both Icons",
-                            Button::new("both_icons", "Both Icons")
+                            Button::new("both_icons", "两个图标")
                                 .start_icon(Icon::new(IconName::Check))
                                 .end_icon(Icon::new(IconName::ChevronDown))
                                 .into_any_element(),
                         ),
                         single_example(
                             "Icon Color",
-                            Button::new("icon_color", "Icon Color")
+                            Button::new("icon_color", "图标颜色")
                                 .start_icon(Icon::new(IconName::Check).color(Color::Accent))
                                 .into_any_element(),
                         ),

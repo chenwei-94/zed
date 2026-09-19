@@ -3939,7 +3939,7 @@ impl Project {
                     cx.emit(Event::Toast {
                         notification_id: format!("local-tasks-{path:?}").into(),
                         link: Some(ToastLink {
-                            label: "Open Tasks Documentation",
+                            label: "打开任务文档",
                             url: "https://zed.dev/docs/tasks",
                         }),
                         message,

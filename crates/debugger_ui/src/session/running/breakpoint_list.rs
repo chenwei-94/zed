@@ -636,7 +636,7 @@ impl BreakpointList {
                             let focus_handle = focus_handle.clone();
                             move |_window, cx| {
                                 Tooltip::with_meta_in(
-                                    "Remove Breakpoint",
+                                    "移除断点",
                                     Some(&UnsetBreakpoint),
                                     tooltip,
                                     &focus_handle,
@@ -851,9 +851,9 @@ impl LineBreakpoint {
                 move |_window, cx| {
                     Tooltip::for_action_in(
                         if is_enabled {
-                            "Disable Breakpoint"
+                            "禁用断点"
                         } else {
-                            "Enable Breakpoint"
+                            "启用断点"
                         },
                         &ToggleEnableBreakpoint,
                         &focus_handle,
@@ -935,7 +935,7 @@ impl LineBreakpoint {
                         }))
                         .when_some(self.dir.as_ref(), |this, parent_dir| {
                             this.tooltip(Tooltip::text(format!(
-                                "Worktree parent path: {parent_dir}"
+                                "工作树父路径：{parent_dir}"
                             )))
                         }),
                 )
@@ -1004,9 +1004,9 @@ impl DataBreakpoint {
                     move |_window, cx| {
                         Tooltip::for_action_in(
                             if is_enabled {
-                                "Disable Data Breakpoint"
+                                "禁用数据断点"
                             } else {
-                                "Enable Data Breakpoint"
+                                "启用数据断点"
                             },
                             &ToggleEnableBreakpoint,
                             &focus_handle,
@@ -1108,9 +1108,9 @@ impl ExceptionBreakpoint {
                     move |_window, cx| {
                         Tooltip::for_action_in(
                             if is_enabled {
-                                "Disable Exception Breakpoint"
+                                "禁用异常断点"
                             } else {
-                                "Enable Exception Breakpoint"
+                                "启用异常断点"
                             },
                             &ToggleEnableBreakpoint,
                             &focus_handle,
@@ -1424,7 +1424,7 @@ impl RenderOnce for BreakpointOptionsStrip {
                         .on_click(self.on_click_callback(ActiveBreakpointStripMode::Log))
                         .tooltip(|_window, cx|  {
                             Tooltip::with_meta(
-                                "Set Log Message",
+                                "设置日志消息",
                                 None,
                                 "Set log message to display (instead of stopping) when a breakpoint is hit.",
                                 cx,
@@ -1460,7 +1460,7 @@ impl RenderOnce for BreakpointOptionsStrip {
                             .on_click(self.on_click_callback(ActiveBreakpointStripMode::Condition))
                             .tooltip(|_window, cx|  {
                                 Tooltip::with_meta(
-                                    "Set Condition",
+                                    "设置条件",
                                     None,
                                     "Set condition to evaluate when a breakpoint is hit. Program execution will stop only when the condition is met.",
                                     cx,
@@ -1495,7 +1495,7 @@ impl RenderOnce for BreakpointOptionsStrip {
                         .on_click(self.on_click_callback(ActiveBreakpointStripMode::HitCondition))
                         .tooltip(|_window, cx|  {
                             Tooltip::with_meta(
-                                "Set Hit Condition",
+                                "设置命中条件",
                                 None,
                                 "Set expression that controls how many hits of the breakpoint are ignored.",
                                 cx,

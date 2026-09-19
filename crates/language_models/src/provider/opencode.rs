@@ -786,7 +786,7 @@ struct ConfigurationView {
 impl ConfigurationView {
     fn new(state: Entity<State>, window: &mut Window, cx: &mut Context<Self>) -> Self {
         let api_key_editor = cx.new(|cx| {
-            InputField::new(window, cx, "sk-00000000000000000000000000000000").label("API key")
+            InputField::new(window, cx, "sk-00000000000000000000000000000000").label("API 密钥")
         });
 
         cx.observe(&state, |_, _, cx| {
@@ -913,9 +913,9 @@ impl Render for ConfigurationView {
                 List::new()
                     .child(
                         ListBulletItem::new("")
-                            .child(Label::new("Sign in and get your key at").color(Color::Muted))
+                            .child(Label::new("登录并在此获取密钥").color(Color::Muted))
                             .child(ButtonLink::new(
-                                "OpenCode Console",
+                                "OpenCode 控制台",
                                 "https://opencode.ai/auth",
                             )),
                     )
@@ -928,7 +928,7 @@ impl Render for ConfigurationView {
             .child(api_key_control)
             .child(
                 Label::new(format!(
-                    "You can also set the {API_KEY_ENV_VAR_NAME} environment variable and restart Zed."
+                    "你也可以设置 {API_KEY_ENV_VAR_NAME} 环境变量并重启 Zed。"
                 ))
                 .size(LabelSize::Small)
                 .color(Color::Muted).mt_1p5(),
@@ -936,7 +936,7 @@ impl Render for ConfigurationView {
             .into_any_element();
 
         if self.load_credentials_task.is_some() {
-            Label::new("Loading Credentials…").into_any_element()
+            Label::new("正在加载凭证…").into_any_element()
         } else {
             let settings = OpenCodeLanguageModelProvider::settings(cx);
             let show_zen = settings.show_zen_models;
@@ -944,11 +944,11 @@ impl Render for ConfigurationView {
 
             let subscription_toggles = v_flex()
                 .gap_2()
-                .child(Label::new("Subscriptions"))
+                .child(Label::new("订阅"))
                 .child(
                     Switch::new("opencode-show-zen-models", show_zen.into())
                         .full_width(true)
-                        .label("Show Zen models")
+                        .label("显示 Zen 模型")
                         .label_position(SwitchLabelPosition::Start)
                         .on_click(cx.listener(|this, state, window, cx| {
                             this.set_subscription_enabled(
@@ -963,7 +963,7 @@ impl Render for ConfigurationView {
                 .child(
                     Switch::new("opencode-show-go-models", show_go.into())
                         .full_width(true)
-                        .label("Show Go models")
+                        .label("显示 Go 模型")
                         .label_position(SwitchLabelPosition::Start)
                         .on_click(cx.listener(|this, state, window, cx| {
                             this.set_subscription_enabled(

@@ -324,7 +324,7 @@ impl Render for PendingKeystrokesIndicator {
                                                     .color(Color::Accent),
                                                 )
                                                 .child(
-                                                    Label::new("is waiting for more keys")
+                                                    Label::new("正在等待更多按键")
                                                         .color(Color::Muted),
                                                 ),
                                         )
@@ -355,7 +355,7 @@ impl Render for PendingKeystrokesIndicator {
                                             |el| {
                                                 el.child(
                                                     Label::new(format!(
-                                                        "…and {} more",
+                                                        "…还有 {} 项",
                                                         popover_render_state.bindings.len()
                                                             - MAX_TOOLTIP_BINDINGS
                                                     ))

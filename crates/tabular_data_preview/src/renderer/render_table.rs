@@ -163,7 +163,7 @@ impl TabularDataPreviewPane {
                                     let eo = pos.end.offset;
                                     format!("Pos {so}(L{slv})-{eo}(L{elv})")
                                 }
-                                TableCell::Virtual => "Virtual cell".into(),
+                                TableCell::Virtual => "虚拟单元格".into(),
                             },
                         ))
                     })

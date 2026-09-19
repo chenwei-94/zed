@@ -941,7 +941,7 @@ impl ContextProvider for PythonContextProvider {
         let mut tasks = vec![
             // Execute a selection
             TaskTemplate {
-                label: "execute selection".to_owned(),
+                label: "执行选中内容".to_owned(),
                 command: PYTHON_ACTIVE_TOOLCHAIN_PATH.template_value(),
                 args: vec![
                     "-c".to_owned(),

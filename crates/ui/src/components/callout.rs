@@ -232,12 +232,12 @@ impl Component for Callout {
     }
 
     fn preview(_window: &mut Window, _cx: &mut App) -> AnyElement {
-        let single_action = || Button::new("got-it", "Got it").label_size(LabelSize::Small);
+        let single_action = || Button::new("got-it", "知道了").label_size(LabelSize::Small);
         let multiple_actions = || {
             h_flex()
                 .gap_0p5()
-                .child(Button::new("update", "Backup & Update").label_size(LabelSize::Small))
-                .child(Button::new("dismiss", "Dismiss").label_size(LabelSize::Small))
+                .child(Button::new("update", "备份并更新").label_size(LabelSize::Small))
+                .child(Button::new("dismiss", "忽略").label_size(LabelSize::Small))
         };
 
         let basic_examples = vec![
@@ -245,7 +245,7 @@ impl Component for Callout {
                 "Simple with Title Only",
                 Callout::new()
                     .icon(IconName::Info)
-                    .title("System maintenance scheduled for tonight")
+                    .title("系统维护已安排在今晚")
                     .actions_slot(single_action())
                     .into_any_element(),
             )
@@ -254,9 +254,9 @@ impl Component for Callout {
                 "With Title and Description",
                 Callout::new()
                     .icon(IconName::Warning)
-                    .title("Your settings contain deprecated values")
+                    .title("设置中包含已弃用的值")
                     .description(
-                        "We'll backup your current settings and update them to the new format.",
+                        "将备份当前设置并将其更新为新格式。",
                     )
                     .actions_slot(single_action())
                     .into_any_element(),
@@ -266,8 +266,8 @@ impl Component for Callout {
                 "Error with Multiple Actions",
                 Callout::new()
                     .icon(IconName::Close)
-                    .title("Thread reached the token limit")
-                    .description("Start a new thread from a summary to continue the conversation.")
+                    .title("会话已达 token 上限")
+                    .description("从摘要启动新会话以继续对话。")
                     .actions_slot(multiple_actions())
                     .into_any_element(),
             )
@@ -276,8 +276,8 @@ impl Component for Callout {
                 "Multi-line Description",
                 Callout::new()
                     .icon(IconName::Sparkle)
-                    .title("Upgrade to Pro")
-                    .description("• Unlimited threads\n• Priority support\n• Advanced analytics")
+                    .title("升级到 Pro")
+                    .description("• 无限会话\n• 优先支持\n• 高级分析")
                     .actions_slot(multiple_actions())
                     .into_any_element(),
             )
@@ -287,7 +287,7 @@ impl Component for Callout {
                 Callout::new()
                     .severity(Severity::Error)
                     .icon(IconName::XCircle)
-                    .title("Very Long API Error Description")
+                    .title("超长 API 错误描述")
                     .description_slot(
                         v_flex().gap_1().children(
                             [
@@ -322,7 +322,7 @@ impl Component for Callout {
                 "Info",
                 Callout::new()
                     .icon(IconName::Info)
-                    .title("System maintenance scheduled for tonight")
+                    .title("系统维护已安排在今晚")
                     .actions_slot(single_action())
                     .into_any_element(),
             ),
@@ -331,7 +331,7 @@ impl Component for Callout {
                 Callout::new()
                     .severity(Severity::Warning)
                     .icon(IconName::Triangle)
-                    .title("System maintenance scheduled for tonight")
+                    .title("系统维护已安排在今晚")
                     .actions_slot(single_action())
                     .into_any_element(),
             ),
@@ -340,7 +340,7 @@ impl Component for Callout {
                 Callout::new()
                     .severity(Severity::Error)
                     .icon(IconName::XCircle)
-                    .title("System maintenance scheduled for tonight")
+                    .title("系统维护已安排在今晚")
                     .actions_slot(single_action())
                     .into_any_element(),
             ),
@@ -349,7 +349,7 @@ impl Component for Callout {
                 Callout::new()
                     .severity(Severity::Success)
                     .icon(IconName::Check)
-                    .title("System maintenance scheduled for tonight")
+                    .title("系统维护已安排在今晚")
                     .actions_slot(single_action())
                     .into_any_element(),
             ),

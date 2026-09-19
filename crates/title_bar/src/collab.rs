@@ -241,7 +241,7 @@ impl TitleBar {
                                 .occlude()
                                 .tooltip({
                                     let login = collaborator.user.username.clone();
-                                    Tooltip::text(format!("Follow {login}"))
+                                    Tooltip::text(format!("跟随 {login}"))
                                 }),
                         )
                     }))
@@ -296,7 +296,7 @@ impl TitleBar {
                                         AvatarAudioStatusIndicator::new(ui::AudioStatus::Muted)
                                             .tooltip({
                                                 let username = user.username.clone();
-                                                Tooltip::text(format!("{} is muted", username))
+                                                Tooltip::text(format!("{} 已静音", username))
                                             }),
                                     )
                                 }),
@@ -396,7 +396,7 @@ impl TitleBar {
                     .gap_1()
                     .child(
                         IconButton::new("leave-call", IconName::Exit)
-                            .tooltip(Tooltip::text("Leave Call"))
+                            .tooltip(Tooltip::text("离开通话"))
                             .icon_size(IconSize::Small)
                             .on_click(move |_, _window, cx| {
                                 ActiveCall::global(cx)
@@ -437,7 +437,7 @@ impl TitleBar {
                                 h_flex()
                                     .gap_4()
                                     .justify_between()
-                                    .child(Label::new(format!("Connection: {quality_label}")))
+                                    .child(Label::new(format!("连接：{quality_label}")))
                                     .when(has_key_binding, |this| this.child(key_binding)),
                             )
                             .child(
@@ -468,16 +468,16 @@ impl TitleBar {
                         if is_muted {
                             if is_deafened {
                                 Tooltip::with_meta(
-                                    "Unmute Microphone",
+                                    "取消静音麦克风",
                                     None,
                                     "Audio will be unmuted",
                                     cx,
                                 )
                             } else {
-                                Tooltip::simple("Unmute Microphone", cx)
+                                Tooltip::simple("取消静音麦克风", cx)
                             }
                         } else {
-                            Tooltip::simple("Mute Microphone", cx)
+                            Tooltip::simple("静音麦克风", cx)
                         }
                     })
                     .icon_size(IconSize::Small)
@@ -578,7 +578,7 @@ impl TitleBar {
                                 if is_shared {
                                     this.tooltip(move |_, cx| {
                                         Tooltip::with_meta(
-                                            "Unshare Project",
+                                            "取消共享项目",
                                             None,
                                             unshare_meta.clone(),
                                             cx,
@@ -591,12 +591,12 @@ impl TitleBar {
                                     ))
                                 } else if is_sharing_disabled {
                                     this.disabled(true).tooltip(Tooltip::text(
-                                        "This project may not be shared in a public channel.",
+                                        "此项目不能在公共频道中共享。",
                                     ))
                                 } else {
                                     this.tooltip(move |_, cx| {
                                         Tooltip::with_meta(
-                                            "Share Project",
+                                            "共享项目",
                                             None,
                                             share_meta.clone(),
                                             cx,
@@ -624,9 +624,9 @@ impl TitleBar {
                     .toggle_state(is_screen_sharing)
                     .selected_style(ButtonStyle::Tinted(TintColor::Accent))
                     .tooltip(Tooltip::text(if is_screen_sharing {
-                        "Stop Sharing Screen"
+                        "停止共享屏幕"
                     } else {
-                        "Share Screen"
+                        "共享屏幕"
                     }))
                     .on_click(move |_, window, cx| {
                         let should_share = ActiveCall::global(cx)

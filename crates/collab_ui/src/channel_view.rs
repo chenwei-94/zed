@@ -333,7 +333,7 @@ impl ChannelView {
                 workspace.show_toast(
                     Toast::new(
                         NotificationId::unique::<CopyLinkForPositionToast>(),
-                        "Link copied to clipboard",
+                        "链接已复制到剪贴板",
                     ),
                     cx,
                 );

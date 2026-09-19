@@ -136,7 +136,7 @@ impl ThemePreview {
 
         v_flex()
             .gap_1()
-            .child(Headline::new("Text").size(HeadlineSize::Small).color(Color::Muted))
+            .child(Headline::new("文本").size(HeadlineSize::Small).color(Color::Muted))
             .child(
                 h_flex()
                     .items_start()
@@ -144,17 +144,17 @@ impl ThemePreview {
                     .child(
                         v_flex()
                             .gap_1()
-                            .child(Headline::new("Headline Sizes").size(HeadlineSize::Small).color(Color::Muted))
-                            .child(Headline::new("XLarge Headline").size(HeadlineSize::XLarge))
-                            .child(Headline::new("Large Headline").size(HeadlineSize::Large))
-                            .child(Headline::new("Medium Headline").size(HeadlineSize::Medium))
-                            .child(Headline::new("Small Headline").size(HeadlineSize::Small))
-                            .child(Headline::new("XSmall Headline").size(HeadlineSize::XSmall)),
+                            .child(Headline::new("标题字号").size(HeadlineSize::Small).color(Color::Muted))
+                            .child(Headline::new("超大标题").size(HeadlineSize::XLarge))
+                            .child(Headline::new("大标题").size(HeadlineSize::Large))
+                            .child(Headline::new("中标题").size(HeadlineSize::Medium))
+                            .child(Headline::new("小标题").size(HeadlineSize::Small))
+                            .child(Headline::new("超小标题").size(HeadlineSize::XSmall)),
                     )
                     .child(
                         v_flex()
                             .gap_1()
-                            .child(Headline::new("Text Colors").size(HeadlineSize::Small).color(Color::Muted))
+                            .child(Headline::new("文本颜色").size(HeadlineSize::Small).color(Color::Muted))
                             .child(
                                 Label::new(label_with_contrast(
                                     "Default Text",
@@ -278,10 +278,10 @@ impl ThemePreview {
                     .child(
                         v_flex()
                             .gap_1()
-                            .child(Headline::new("Wrapping Text").size(HeadlineSize::Small).color(Color::Muted))
+                            .child(Headline::new("文本换行").size(HeadlineSize::Small).color(Color::Muted))
                             .child(
                                 div().max_w(px(200.)).child(
-                                "This is a longer piece of text that should wrap to multiple lines. It demonstrates how text behaves when it exceeds the width of its container."
+                                "这是一段较长的文本，应换行为多行。它展示了文本超出容器宽度时的表现。"
                             ))
                     )
             )
@@ -299,7 +299,7 @@ impl ThemePreview {
         v_flex()
             .gap_1()
             .child(
-                Headline::new("Colors")
+                Headline::new("颜色")
                     .size(HeadlineSize::Small)
                     .color(Color::Muted),
             )
@@ -357,8 +357,8 @@ impl ThemePreview {
             .size_full()
             .child(
                 v_flex()
-                    .child(Headline::new("Theme Preview").size(HeadlineSize::Large))
-                    .child(div().w_full().text_color(cx.theme().colors().text_muted).child("This view lets you preview a range of UI elements across a theme. Use it for testing out changes to the theme."))
+                    .child(Headline::new("主题预览").size(HeadlineSize::Large))
+                    .child(div().w_full().text_color(cx.theme().colors().text_muted).child("此视图可预览主题下的各类 UI 元素，用于测试主题更改。"))
                     )
             .child(self.render_theme_layer(ElevationIndex::Background, window, cx))
             .child(self.render_theme_layer(ElevationIndex::Surface, window, cx))
@@ -377,17 +377,17 @@ impl ThemePreview {
             .size_full()
             .child(v_flex()
                 .gap_4()
-                .child(Headline::new("Headline 1").size(HeadlineSize::XLarge))
+                .child(Headline::new("标题 1").size(HeadlineSize::XLarge))
                 .child(Label::new("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."))
-                .child(Headline::new("Headline 2").size(HeadlineSize::Large))
-                .child(Label::new("Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."))
-                .child(Headline::new("Headline 3").size(HeadlineSize::Medium))
-                .child(Label::new("Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."))
-                .child(Headline::new("Headline 4").size(HeadlineSize::Small))
-                .child(Label::new("Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."))
-                .child(Headline::new("Headline 5").size(HeadlineSize::XSmall))
+                .child(Headline::new("标题 2").size(HeadlineSize::Large))
+                .child(Label::new("中文字形与拉丁文差异明显，可在此核对字重、字距与换行表现。"))
+                .child(Headline::new("标题 3").size(HeadlineSize::Medium))
+                .child(Label::new("此段文字用于预览主题正文的字体、行高与配色效果。"))
+                .child(Headline::new("标题 4").size(HeadlineSize::Small))
+                .child(Label::new("评估主题可读性时，可将本段多行文本作为参考。"))
+                .child(Headline::new("标题 5").size(HeadlineSize::XSmall))
                 .child(Label::new("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."))
-                .child(Headline::new("Body Text").size(HeadlineSize::Small))
+                .child(Headline::new("正文").size(HeadlineSize::Small))
                 .child(Label::new("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."))
             )
     }

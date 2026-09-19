@@ -368,12 +368,12 @@ impl Component for DropdownMenu {
                     vec![
                         single_example(
                             "Default",
-                            DropdownMenu::new("default", "Select an option", menu.clone())
+                            DropdownMenu::new("default", "选择一个选项", menu.clone())
                                 .into_any_element(),
                         ),
                         single_example(
                             "Full Width",
-                            DropdownMenu::new("full-width", "Full Width Dropdown", menu.clone())
+                            DropdownMenu::new("full-width", "全宽下拉菜单", menu.clone())
                                 .full_width(true)
                                 .into_any_element(),
                         ),
@@ -383,7 +383,7 @@ impl Component for DropdownMenu {
                     "Submenus",
                     vec![single_example(
                         "With Submenus",
-                        DropdownMenu::new("submenu", "Submenu", menu_with_submenu)
+                        DropdownMenu::new("submenu", "子菜单", menu_with_submenu)
                             .into_any_element(),
                     )],
                 ),
@@ -392,13 +392,13 @@ impl Component for DropdownMenu {
                     vec![
                         single_example(
                             "Outlined",
-                            DropdownMenu::new("outlined", "Outlined Dropdown", menu.clone())
+                            DropdownMenu::new("outlined", "描边下拉菜单", menu.clone())
                                 .style(DropdownStyle::Outlined)
                                 .into_any_element(),
                         ),
                         single_example(
                             "Ghost",
-                            DropdownMenu::new("ghost", "Ghost Dropdown", menu.clone())
+                            DropdownMenu::new("ghost", "幽灵下拉菜单", menu.clone())
                                 .style(DropdownStyle::Ghost)
                                 .into_any_element(),
                         ),
@@ -408,7 +408,7 @@ impl Component for DropdownMenu {
                     "States",
                     vec![single_example(
                         "Disabled",
-                        DropdownMenu::new("disabled", "Disabled Dropdown", menu)
+                        DropdownMenu::new("disabled", "禁用下拉菜单", menu)
                             .disabled(true)
                             .into_any_element(),
                     )],

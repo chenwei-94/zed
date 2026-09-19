@@ -48,7 +48,7 @@ pub(crate) fn settings_popover_menu(
             IconButton::new("table-settings-trigger", IconName::Filter)
                 .icon_size(IconSize::Small)
                 .size(ButtonSize::Compact),
-            Tooltip::text("Table Settings"),
+            Tooltip::text("表格设置"),
         )
         .anchor(Anchor::TopRight)
         .menu(move |window, cx| {

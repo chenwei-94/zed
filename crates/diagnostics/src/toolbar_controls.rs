@@ -62,7 +62,7 @@ impl Render for ToolbarControls {
                 IconButton::new("toggle_search", IconName::MagnifyingGlass)
                     .icon_size(IconSize::Small)
                     .tooltip(Tooltip::for_action_title(
-                        "Buffer Search",
+                        "缓冲区搜索",
                         &buffer_search::Deploy::find(),
                     ))
                     .on_click(|_, window, cx| {
@@ -74,7 +74,7 @@ impl Render for ToolbarControls {
                     IconButton::new("inline_assist", IconName::ZedAssistant)
                         .icon_size(IconSize::Small)
                         .tooltip(Tooltip::for_action_title(
-                            "Inline Assist",
+                            "行内辅助",
                             &InlineAssist::default(),
                         ))
                         .on_click(|_, window, cx| {
@@ -89,7 +89,7 @@ impl Render for ToolbarControls {
                             .icon_color(Color::Error)
                             .icon_size(IconSize::Small)
                             .tooltip(Tooltip::for_action_title(
-                                "Stop Diagnostics Update",
+                                "停止诊断更新",
                                 &ToggleDiagnosticsRefresh,
                             ))
                             .on_click(cx.listener(move |toolbar_controls, _, _, cx| {
@@ -104,7 +104,7 @@ impl Render for ToolbarControls {
                         IconButton::new("refresh-diagnostics", IconName::ArrowCircle)
                             .icon_size(IconSize::Small)
                             .tooltip(Tooltip::for_action_title(
-                                "Refresh Diagnostics",
+                                "刷新诊断",
                                 &ToggleDiagnosticsRefresh,
                             ))
                             .on_click(cx.listener({

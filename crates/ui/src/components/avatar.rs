@@ -273,7 +273,7 @@ impl Component for Avatar {
                             Avatar::new(example_avatar)
                                 .border_color(cx.theme().colors().border)
                                 .into_any_element(),
-                        ).description("Can be used to create visual space by setting the border color to match the background, which creates the appearance of a gap around the avatar."),
+                        ).description("可将边框颜色设为与背景一致以形成视觉间隔，从而在头像周围呈现空隙效果。"),
                     ]),
                     example_group_with_title(
                         "Indicator Styles",
@@ -283,7 +283,7 @@ impl Component for Avatar {
                                 Avatar::new(example_avatar)
                                     .indicator(AvatarAudioStatusIndicator::new(AudioStatus::Muted))
                                     .into_any_element(),
-                            ).description("Indicates the collaborator's mic is muted."),
+                            ).description("表示协作者的麦克风已静音。"),
                             single_example(
                                 "Deafened",
                                 Avatar::new(example_avatar)
@@ -291,7 +291,7 @@ impl Component for Avatar {
                                         AudioStatus::Deafened,
                                     ))
                                     .into_any_element(),
-                            ).description("Indicates that both the collaborator's mic and audio are muted."),
+                            ).description("表示协作者的麦克风和音频均已静音。"),
                             single_example(
                                 "Availability: Free",
                                 Avatar::new(example_avatar)
@@ -299,7 +299,7 @@ impl Component for Avatar {
                                         CollaboratorAvailability::Free,
                                     ))
                                     .into_any_element(),
-                            ).description("Indicates that the person is free, usually meaning they are not in a call."),
+                            ).description("表示此人空闲，通常意味着未在通话中。"),
                             single_example(
                                 "Availability: Busy",
                                 Avatar::new(example_avatar)
@@ -307,7 +307,7 @@ impl Component for Avatar {
                                         CollaboratorAvailability::Busy,
                                     ))
                                     .into_any_element(),
-                            ).description("Indicates that the person is busy, usually meaning they are in a channel or direct call."),
+                            ).description("表示此人忙碌，通常意味着正在频道或直接通话中。"),
                         ],
                     ),
                 ])

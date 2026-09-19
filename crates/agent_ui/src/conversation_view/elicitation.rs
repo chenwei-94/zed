@@ -1336,21 +1336,21 @@ fn preview_form_schema() -> acp::ElicitationSchema {
         .property(
             "account_name",
             acp::StringPropertySchema::new()
-                .title("Account Name")
-                .description("Used to label this connection in the agent panel.")
+                .title("账户名称")
+                .description("用于在智能体面板中标记此连接。")
                 .default_value("Work"),
             true,
         )
         .property(
             "environment",
             acp::StringPropertySchema::new()
-                .title("Environment")
-                .description("Select the environment this credential should target.")
+                .title("环境")
+                .description("选择此凭据所面向的环境。")
                 .one_of(vec![
                     acp::EnumOption::new("production", "Production")
-                        .description("Use the live account and production resources."),
+                        .description("使用正式账户和生产资源。"),
                     acp::EnumOption::new("staging", "Staging")
-                        .description("Validate changes against staging data first."),
+                        .description("先对照暂存数据校验更改。"),
                     acp::EnumOption::new("development", "Development"),
                 ])
                 .default_value("staging"),
@@ -1360,12 +1360,12 @@ fn preview_form_schema() -> acp::ElicitationSchema {
             "scopes",
             acp::MultiSelectPropertySchema::titled(vec![
                 acp::EnumOption::new("profile", "Profile")
-                    .description("Read account identity and basic profile details."),
+                    .description("读取账户身份和基本资料信息。"),
                 acp::EnumOption::new("repository", "Repository Access")
-                    .description("Read and update repositories connected to this account."),
+                    .description("读取并更新连接到此账户的仓库。"),
                 acp::EnumOption::new("terminal", "Terminal Commands"),
             ])
-            .title("Access")
+            .title("访问权限")
             .description("Choose what the agent can use for this authorization.")
             .min_items(1)
             .default_value(vec!["profile".to_string(), "repository".to_string()]),
@@ -1374,8 +1374,8 @@ fn preview_form_schema() -> acp::ElicitationSchema {
         .property(
             "remember",
             acp::BooleanPropertySchema::new()
-                .title("Remember Authorization")
-                .description("Store this authorization for future sessions.")
+                .title("记住授权")
+                .description("将此授权保存以供后续会话使用。")
                 .default_value(true),
             false,
         )
@@ -1862,7 +1862,7 @@ impl<'a> ElicitationCard<'a> {
                                     .color(status_color),
                             )
                             .child(
-                                Label::new(format!("Input Requested by {}", self.requester_name))
+                                Label::new(format!("{} 请求输入", self.requester_name))
                                     .size(LabelSize::Custom(tool_name_font_size))
                                     .truncate(),
                             ),
@@ -2253,7 +2253,7 @@ impl<'a> ElicitationCard<'a> {
                             h_flex()
                                 .gap_1()
                                 .child(
-                                    Label::new("Destination")
+                                    Label::new("目标")
                                         .size(LabelSize::Small)
                                         .color(Color::Muted),
                                 )
@@ -2273,7 +2273,7 @@ impl<'a> ElicitationCard<'a> {
                                         )
                                         .child(
                                             Label::new(format!(
-                                                "This internationalized address displays as {decoded_host}. Verify it carefully."
+                                                "此国际化地址显示为 {decoded_host}。请仔细核对。"
                                             ))
                                             .size(LabelSize::Small)
                                             .color(Color::Warning),
@@ -2366,7 +2366,7 @@ impl<'a> ElicitationCard<'a> {
             )
             .when(!is_accepted_url, |this| {
                 this.child(
-                    Button::new(("elicitation-decline", self.entry_ix), "Decline")
+                    Button::new(("elicitation-decline", self.entry_ix), "谢绝")
                         .tab_index(0_isize)
                         .start_icon(
                             Icon::new(IconName::Close)
@@ -2379,7 +2379,7 @@ impl<'a> ElicitationCard<'a> {
                         }),
                 )
                 .child(
-                    Button::new(("elicitation-cancel", self.entry_ix), "Cancel")
+                    Button::new(("elicitation-cancel", self.entry_ix), "取消")
                         .tab_index(0_isize)
                         .label_size(LabelSize::Small)
                         .on_click(move |_, window, cx| {
@@ -2389,7 +2389,7 @@ impl<'a> ElicitationCard<'a> {
             })
             .when(is_accepted_url, |this| {
                 this.child(
-                    Button::new(("elicitation-dismiss-url", self.entry_ix), "Cancel")
+                    Button::new(("elicitation-dismiss-url", self.entry_ix), "取消")
                         .tab_index(0_isize)
                         .label_size(LabelSize::Small)
                         .on_click(move |_, window, cx| {

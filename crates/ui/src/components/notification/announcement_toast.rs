@@ -172,7 +172,7 @@ impl Component for AnnouncementToast {
                 .child(
                     AnnouncementToast::new()
                         .heading("Introducing Parallel Agents")
-                        .description("Run multiple agent threads simultaneously across projects.")
+                        .description("跨项目同时运行多个智能体会话。")
                         .bullet_item(ListBulletItem::new(
                             "Mix and match Zed's agent with any ACP-compatible agent",
                         ))

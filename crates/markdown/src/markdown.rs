@@ -3389,7 +3389,7 @@ fn image_fallback_element(
         .min_w_0()
         .child(Label::new(label).color(Color::Warning).underline())
         .tooltip(Tooltip::text(
-            "Image failed to load. Open `zed: log` for more details.",
+            "图片加载失败。打开 `zed: log` 查看详情。",
         ))
         .when(open_image_url_on_click, |this| {
             this.cursor_pointer()

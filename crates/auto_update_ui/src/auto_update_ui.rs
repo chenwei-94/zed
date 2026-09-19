@@ -234,7 +234,7 @@ fn announcement_for_version(version: &Version, cx: &App) -> Option<AnnouncementC
 
         Some(AnnouncementContent {
             heading: "Introducing Skills Support".into(),
-            description: "Extend the agent with focused instructions and domain knowledge.".into(),
+            description: "通过针对性指令和领域知识扩展智能体。".into(),
             bullet_items,
             primary_action_label: "Try Now".into(),
             secondary_action_label: "Read Documentation".into(),
@@ -350,7 +350,7 @@ fn show_update_notification(cx: &mut App) {
             move |cx| {
                 let workspace_handle = cx.entity().downgrade();
                 cx.new(|cx| {
-                    MessageNotification::new(format!("Updated to {app_name} {}", version), cx)
+                    MessageNotification::new(format!("已更新到 {app_name} {}", version), cx)
                         .primary_message("View Release Notes")
                         .primary_on_click(move |window, cx| {
                             if let Some(workspace) = workspace_handle.upgrade() {

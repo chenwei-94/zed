@@ -384,7 +384,7 @@ async fn upload_minidump(
         form = form
             .text(
                 format!("{root}[Description]"),
-                "A GPU found on the users system. May or may not be the GPU Zed is running on",
+                "在用户系统上检测到的 GPU。可能是也可能不是 Zed 正在使用的 GPU",
             )
             .text(format!("{root}[type]"), "gpu")
             .text(format!("{root}[name]"), device_name.unwrap_or(name))
@@ -401,7 +401,7 @@ async fn upload_minidump(
         form = form
             .text(
                 "sentry[contexts][Active_GPU][Description]",
-                "The GPU Zed is running on",
+                "Zed 正在使用的 GPU",
             )
             .text("sentry[contexts][Active_GPU][type]", "gpu")
             .text("sentry[contexts][Active_GPU][name]", active_gpu.device_name)

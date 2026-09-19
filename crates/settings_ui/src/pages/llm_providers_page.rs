@@ -85,7 +85,7 @@ pub(crate) fn render_add_llm_provider_popover(
 
     PopoverMenu::new("add-llm-provider-popover")
         .trigger(
-            Button::new("add-llm-provider", "Add Provider")
+            Button::new("add-llm-provider", "添加提供商")
                 .style(ButtonStyle::Outlined)
                 .track_focus(&focus_handle)
                 .label_size(LabelSize::Small)
@@ -267,7 +267,7 @@ fn render_api_key_providers_item(
                         .min_w_0()
                         .max_w_1_2()
                         .gap_0p5()
-                        .child(Label::new("API Key"))
+                        .child(Label::new("API 密钥"))
                         .child(
                             h_flex()
                                 .w_full()
@@ -275,13 +275,13 @@ fn render_api_key_providers_item(
                                 .flex_wrap()
                                 .gap_0p5()
                                 .child(
-                                    Label::new("Visit the")
+                                    Label::new("访问")
                                         .size(LabelSize::Small)
                                         .color(Color::Muted),
                                 )
                                 .child(
                                     ButtonLink::new(
-                                        format!("{provider_name} dashboard"),
+                                        format!("{provider_name} 仪表板"),
                                         api_key_url,
                                     )
                                     .no_icon(true)
@@ -289,14 +289,14 @@ fn render_api_key_providers_item(
                                     .label_color(Color::Muted),
                                 )
                                 .child(
-                                    Label::new("to generate an API key.")
+                                    Label::new("以生成 API 密钥。")
                                         .size(LabelSize::Small)
                                         .color(Color::Muted),
                                 ),
                         )
                         .child(
                             Label::new(format!(
-                                "Or set the {env_var_name} env var and restart Zed for it to take effect."
+                                "或设置 {env_var_name} 环境变量并重启 Zed 使其生效。"
                             ))
                             .size(LabelSize::XSmall)
                             .color(Color::Muted),
@@ -385,13 +385,13 @@ fn render_subpage_item(
                 .min_w_0()
                 .max_w_1_2()
                 .gap_0p5()
-                .child(Label::new("Configure Provider"))
+                .child(Label::new("配置提供商"))
                 .when_some(description, |this, description| {
                     this.child(render_inline_description(provider_name, description))
                 }),
         )
         .child(
-            Button::new(format!("configure-{}", provider_id.0), "Configure")
+            Button::new(format!("configure-{}", provider_id.0), "配置")
                 .style(ButtonStyle::OutlinedGhost)
                 .size(ButtonSize::Medium)
                 .end_icon(
@@ -415,12 +415,12 @@ fn render_inline_description(
         InlineDescription::ApiKeyUrl(url) => h_flex()
             .gap_0p5()
             .child(
-                Label::new("To find an API key, visit the")
+                Label::new("如需查找 API 密钥，请访问")
                     .size(LabelSize::Small)
                     .color(Color::Muted),
             )
             .child(
-                ButtonLink::new(format!("{provider_name} dashboard."), url)
+                ButtonLink::new(format!("{provider_name} 仪表板。"), url)
                     .label_size(LabelSize::Small),
             )
             .into_any_element(),
@@ -764,9 +764,9 @@ fn render_models_section(
         .child(
             h_flex()
                 .justify_between()
-                .child(Label::new("Models"))
+                .child(Label::new("模型"))
                 .child(
-                    Button::new("add-model", "Add Model")
+                    Button::new("add-model", "添加模型")
                         .start_icon(
                             Icon::new(IconName::Plus)
                                 .size(IconSize::XSmall)
@@ -832,7 +832,7 @@ fn render_model(
         .child(render_model_capabilities(kind, model, index, window, cx))
         .when(model_count > 1, |this| {
             this.child(
-                Button::new(("remove-model", index), "Remove Model")
+                Button::new(("remove-model", index), "移除模型")
                     .start_icon(
                         Icon::new(IconName::Trash)
                             .size(IconSize::XSmall)
@@ -996,7 +996,7 @@ fn render_reasoning_effort_selector(
 
     v_flex()
         .gap_1()
-        .child(Label::new("Default reasoning effort").size(LabelSize::Small))
+        .child(Label::new("默认推理强度").size(LabelSize::Small))
         .child(
             DropdownMenu::new(
                 ElementId::Name(format!("reasoning-effort-selector-{index}").into()),
@@ -1028,7 +1028,7 @@ fn render_form_actions(cx: &mut Context<SettingsWindow>) -> impl IntoElement {
         .gap_1()
         .justify_end()
         .child(
-            Button::new("llm-provider-form-cancel", "Cancel").on_click(cx.listener(
+            Button::new("llm-provider-form-cancel", "取消").on_click(cx.listener(
                 |this, _, window, cx| {
                     this.llm_provider_form = None;
                     this.pop_sub_page(window, cx);
@@ -1036,7 +1036,7 @@ fn render_form_actions(cx: &mut Context<SettingsWindow>) -> impl IntoElement {
             )),
         )
         .child(
-            Button::new("llm-provider-form-save", "Save Provider")
+            Button::new("llm-provider-form-save", "保存提供商")
                 .style(ButtonStyle::Filled)
                 .on_click(cx.listener(|this, _, window, cx| {
                     save_llm_provider_form(this, window, cx);

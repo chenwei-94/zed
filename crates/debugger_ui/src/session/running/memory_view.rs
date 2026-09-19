@@ -474,7 +474,7 @@ impl MemoryView {
                         _ = self.workspace.update(cx, |this, cx| {
                             this.toggle_status_toast(
                                 StatusToast::new(format!(
-                                    "Debug Adapter `{adapter_name}` does not support writing to memory"
+                                    "调试适配器 `{adapter_name}` 不支持写入内存"
                                 ), cx, |this, cx| {
                                     cx.spawn(async move |this, cx| {
                                         cx.background_executor().timer(Duration::from_secs(2)).await;

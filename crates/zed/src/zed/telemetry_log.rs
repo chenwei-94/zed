@@ -269,7 +269,7 @@ impl TelemetryLogView {
         struct TelemetryLogReadError;
         cx.emit(TelemetryLogEvent::ShowToast(Toast::new(
             NotificationId::unique::<TelemetryLogReadError>(),
-            format!("Failed to read telemetry log: {}", error),
+            format!("读取遥测日志失败：{}", error),
         )));
     }
 
@@ -510,9 +510,9 @@ impl Render for TelemetryLogView {
                     .justify_center()
                     .items_center()
                     .child(if self.events.is_empty() {
-                        "No telemetry events recorded yet"
+                        "尚无遥测事件记录"
                     } else {
-                        "No events match the current filter"
+                        "没有事件匹配当前筛选条件"
                     })
                     .into_any()
             } else {
@@ -580,7 +580,7 @@ impl Render for TelemetryLogToolbarItemView {
             .child(
                 IconButton::new("clear_events", IconName::Trash)
                     .icon_size(IconSize::Small)
-                    .tooltip(Tooltip::text("Clear Events"))
+                    .tooltip(Tooltip::text("清除事件"))
                     .disabled(!has_events)
                     .on_click(cx.listener(move |_this, _, _window, cx| {
                         telemetry_log_clone.update(cx, |log, cx| {
@@ -591,7 +591,7 @@ impl Render for TelemetryLogToolbarItemView {
             .child(
                 IconButton::new("open_log_file", IconName::File)
                     .icon_size(IconSize::Small)
-                    .tooltip(Tooltip::text("Open Raw Log File"))
+                    .tooltip(Tooltip::text("打开原始日志文件"))
                     .on_click(|_, _window, cx| {
                         let path = Telemetry::log_file_path();
                         cx.open_url(&format!("file://{}", path.display()));

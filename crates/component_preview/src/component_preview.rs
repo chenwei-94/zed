@@ -403,7 +403,7 @@ impl ComponentPreview {
                 let selected = self.active_page == PreviewPage::AllComponents;
 
                 ListItem::new(ix)
-                    .child(Label::new("All Components"))
+                    .child(Label::new("所有组件"))
                     .selectable(true)
                     .toggle_state(selected)
                     .inset(true)
@@ -494,7 +494,7 @@ impl ComponentPreview {
                         .items_center()
                         .justify_center()
                         .text_color(cx.theme().colors().text_muted)
-                        .child(format!("No components matching '{}'.", self.filter_text))
+                        .child(format!("没有匹配 “{}” 的组件。", self.filter_text))
                         .into_any_element()
                 } else {
                     list(
@@ -546,7 +546,7 @@ impl ComponentPreview {
                 .size_full()
                 .items_center()
                 .justify_center()
-                .child("Component not found")
+                .child("未找到组件")
                 .into_any_element()
         }
     }
@@ -555,7 +555,7 @@ impl ComponentPreview {
         if let Some(workspace) = self.workspace.upgrade() {
             workspace.update(cx, |workspace, cx| {
                 let status_toast =
-                    StatusToast::new("`zed/new-notification-system` created!", cx, |this, _cx| {
+                    StatusToast::new("已创建 `zed/new-notification-system`！", cx, |this, _cx| {
                         this.icon(
                             Icon::new(IconName::GitBranch)
                                 .size(IconSize::Small)
@@ -644,7 +644,7 @@ impl Render for ComponentPreview {
                             .border_t_1()
                             .border_color(cx.theme().colors().border)
                             .child(
-                                Button::new("toast-test", "Launch Toast")
+                                Button::new("toast-test", "启动提示")
                                     .full_width()
                                     .on_click(cx.listener({
                                         move |this, _, _window, cx| {
