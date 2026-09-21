@@ -252,10 +252,7 @@ impl Render for WorktreeFetchFailedToast {
                     .size(IconSize::Small)
                     .color(Color::Error),
             )
-            .child(Label::new(format!(
-                "{} 抓取失败",
-                self.remote_branch_name
-            )))
+            .child(Label::new(format!("{} 抓取失败", self.remote_branch_name)))
             .child(
                 Button::new(
                     "use-local-worktree-base",

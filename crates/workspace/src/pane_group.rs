@@ -407,10 +407,7 @@ impl PaneLeaderDecorator for PaneRenderContext<'_> {
                     } => {
                         if Some(leader_project_id) == self.project.read(cx).remote_id() {
                             is_in_unshared_view.then(|| {
-                                Label::new(format!(
-                                    "{} 位于未共享的窗格中",
-                                    leader.user.username
-                                ))
+                                Label::new(format!("{} 位于未共享的窗格中", leader.user.username))
                             })
                         } else {
                             leader_join_data = Some((leader_project_id, leader.user.legacy_id));

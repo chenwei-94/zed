@@ -94,11 +94,9 @@ impl Display for DevContainerError {
             f,
             "{}",
             match self {
-                DevContainerError::DockerNotAvailable =>
-                    "在 $PATH 中找不到 docker CLI".to_string(),
-                DevContainerError::ContainerNotValid(id) => format!(
-                    "docker 镜像 {id} 的配置不符合开发容器的要求"
-                ),
+                DevContainerError::DockerNotAvailable => "在 $PATH 中找不到 docker CLI".to_string(),
+                DevContainerError::ContainerNotValid(id) =>
+                    format!("docker 镜像 {id} 的配置不符合开发容器的要求"),
                 DevContainerError::DevContainerScriptsFailed =>
                     "开发容器的生命周期脚本无法执行".to_string(),
                 DevContainerError::DevContainerUpFailed(_) => {
@@ -112,17 +110,17 @@ impl Display for DevContainerError {
                 DevContainerError::DevContainerParseFailed =>
                     "解析文件 .devcontainer/devcontainer.json 失败".to_string(),
                 DevContainerError::NotInValidProject => "不在有效的项目内".to_string(),
-                DevContainerError::CommandFailed(program) =>
-                    format!("运行外部程序 {program} 失败"),
-                DevContainerError::FilesystemError =>
-                    "下载资源到本地时出错".to_string(),
+                DevContainerError::CommandFailed(program) => format!("运行外部程序 {program} 失败"),
+                DevContainerError::FilesystemError => "下载资源到本地时出错".to_string(),
                 DevContainerError::ResourceFetchFailed =>
                     "从模板或功能仓库抓取资源失败".to_string(),
                 DevContainerError::DevContainerValidationFailed(failure) => failure.to_string(),
                 DevContainerError::MultipleMatchingContainers(ids) => format!(
                     "有多个容器匹配此项目的开发容器标签（{}），Zed 无法确定要连接哪一个。请用 `docker stop <id>` 和 `docker rm <id>` 停止并移除过期的容器，然后重试。",
-                    ids.join(",
-                    ")
+                    ids.join(
+                        ",
+                    "
+                    )
                 ),
             }
         )

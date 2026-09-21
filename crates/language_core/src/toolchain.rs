@@ -76,9 +76,7 @@ impl ToolchainScope {
 
     pub fn description(&self) -> &'static str {
         match self {
-            ToolchainScope::Subproject(_, _) => {
-                "仅在当前所在的子项目中可用。"
-            }
+            ToolchainScope::Subproject(_, _) => "仅在当前所在的子项目中可用。",
             ToolchainScope::Project => "在当前项目的所有位置均可用。",
             ToolchainScope::Global => "在此机器的所有项目中均可用。",
         }

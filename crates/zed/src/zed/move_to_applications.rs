@@ -74,9 +74,7 @@ impl MoveToApplicationsRequest {
             .prompt(
                 PromptLevel::Info,
                 "将 Zed 移动到 Applications？",
-                Some(
-                    "Zed 正从临时位置运行。将其移动到 Applications 以完成安装。",
-                ),
+                Some("Zed 正从临时位置运行。将其移动到 Applications 以完成安装。"),
                 &[
                     PromptButton::ok("Yes"),
                     PromptButton::cancel("No"),

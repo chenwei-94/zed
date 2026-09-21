@@ -507,9 +507,7 @@ pub fn validate_name(name: &str) -> Result<(), &'static str> {
         return Err("技能名称不能为空");
     }
     if name.len() > MAX_SKILL_NAME_LEN {
-        return Err(formatcp!(
-            "技能名称最多 {MAX_SKILL_NAME_LEN} 个字符"
-        ));
+        return Err(formatcp!("技能名称最多 {MAX_SKILL_NAME_LEN} 个字符"));
     }
     if name.starts_with('-') || name.ends_with('-') {
         return Err("Skill name must not start or end with a hyphen");
@@ -530,9 +528,7 @@ pub fn validate_description(description: &str) -> Result<(), &'static str> {
         return Err("Skill description cannot be empty");
     }
     if description.chars().count() > MAX_SKILL_DESCRIPTION_LEN {
-        return Err(formatcp!(
-            "技能描述最多 {MAX_SKILL_DESCRIPTION_LEN} 个字符"
-        ));
+        return Err(formatcp!("技能描述最多 {MAX_SKILL_DESCRIPTION_LEN} 个字符"));
     }
     Ok(())
 }

@@ -124,9 +124,7 @@ fn render_inspector_id(inspector_id: &InspectorElementId, cx: &App) -> Div {
                     div()
                         .id("instance-id")
                         .text_ui(cx)
-                        .tooltip(Tooltip::text(
-                            "区分来自同一源码位置的元素",
-                        ))
+                        .tooltip(Tooltip::text("区分来自同一源码位置的元素"))
                         .child(format!("实例 {}", inspector_id.instance_id)),
                 ),
         )
@@ -150,9 +148,7 @@ fn render_inspector_id(inspector_id: &InspectorElementId, cx: &App) -> Div {
                 .id("global-id")
                 .text_ui(cx)
                 .min_h_20()
-                .tooltip(Tooltip::text(
-                    "最近带 ID 祖先的 GlobalElementId",
-                ))
+                .tooltip(Tooltip::text("最近带 ID 祖先的 GlobalElementId"))
                 .child(inspector_id.path.global_id.to_string()),
         )
 }

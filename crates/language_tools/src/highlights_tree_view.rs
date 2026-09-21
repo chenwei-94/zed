@@ -846,25 +846,19 @@ impl Render for HighlightsTreeView {
                             if self.editor.is_some() {
                                 let has_any = !self.cached_entries.is_empty();
                                 if has_any {
-                                    this.child(Label::new("所有高亮均已被过滤"))
-                                        .child(
-                                            Label::new(
-                                                "在工具栏中启用文本、语法或语义高亮",
-                                            )
+                                    this.child(Label::new("所有高亮均已被过滤")).child(
+                                        Label::new("在工具栏中启用文本、语法或语义高亮")
                                             .size(LabelSize::Small),
-                                        )
+                                    )
                                 } else {
                                     this.child(Label::new("未找到高亮")).child(
-                                        Label::new(
-                                            "编辑器没有文本、语法或语义词元高亮",
-                                        )
-                                        .size(LabelSize::Small),
+                                        Label::new("编辑器没有文本、语法或语义词元高亮")
+                                            .size(LabelSize::Small),
                                     )
                                 }
                             } else {
                                 this.child(Label::new("未附加到编辑器")).child(
-                                    Label::new("聚焦编辑器以显示高亮")
-                                        .size(LabelSize::Small),
+                                    Label::new("聚焦编辑器以显示高亮").size(LabelSize::Small),
                                 )
                             }
                         });

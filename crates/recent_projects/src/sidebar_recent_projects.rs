@@ -367,12 +367,7 @@ impl PickerDelegate for SidebarRecentProjectsDelegate {
                         .child(highlighted_match.render(window, cx)),
                 )
                 .tooltip(move |_, cx| {
-                    Tooltip::with_meta(
-                        "在此窗口中打开项目",
-                        None,
-                        tooltip_path.clone(),
-                        cx,
-                    )
+                    Tooltip::with_meta("在此窗口中打开项目", None, tooltip_path.clone(), cx)
                 })
                 .into_any_element(),
         )

@@ -78,12 +78,11 @@ fn contains(
     let list = h
         .param(0)
         .and_then(|v| v.value().as_array())
-        .ok_or_else(|| {
-            handlebars::RenderError::new("包含：列表参数缺失或无效")
-        })?;
-    let query = h.param(1).map(|v| v.value()).ok_or_else(|| {
-        handlebars::RenderError::new("包含：查询参数缺失或无效")
-    })?;
+        .ok_or_else(|| handlebars::RenderError::new("包含：列表参数缺失或无效"))?;
+    let query = h
+        .param(1)
+        .map(|v| v.value())
+        .ok_or_else(|| handlebars::RenderError::new("包含：查询参数缺失或无效"))?;
 
     if list.contains(query) {
         out.write("true")?;

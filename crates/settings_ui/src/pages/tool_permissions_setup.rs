@@ -575,11 +575,9 @@ fn render_verification_section(
                             )
                         } else {
                             this.child(
-                                Label::new(
-                                    "模式预览与引擎结果不一致，正在显示权威结果。",
-                                )
-                                .size(LabelSize::XSmall)
-                                .color(Color::Warning),
+                                Label::new("模式预览与引擎结果不一致，正在显示权威结果。")
+                                    .size(LabelSize::XSmall)
+                                    .color(Color::Warning),
                             )
                         }
                     })
@@ -821,11 +819,9 @@ fn render_invalid_patterns_section(
                 .child(Label::new("无效模式").color(Color::Error)),
         )
         .child(
-            Label::new(
-                "这些模式未能编译为正则表达式。在修复或移除之前，该工具将被阻止。",
-            )
-            .size(LabelSize::Small)
-            .color(Color::Muted),
+            Label::new("这些模式未能编译为正则表达式。在修复或移除之前，该工具将被阻止。")
+                .size(LabelSize::Small)
+                .color(Color::Muted),
         )
         .child(
             v_flex()
@@ -1081,11 +1077,9 @@ fn render_global_default_mode_section(current_mode: ToolPermissionMode) -> AnyEl
                 .min_w_0()
                 .child(Label::new("默认权限"))
                 .child(
-                    Label::new(
-                        "控制所有工具操作的默认行为。单个工具的规则和模式可覆盖此项。",
-                    )
-                    .size(LabelSize::Small)
-                    .color(Color::Muted),
+                    Label::new("控制所有工具操作的默认行为。单个工具的规则和模式可覆盖此项。")
+                        .size(LabelSize::Small)
+                        .color(Color::Muted),
                 ),
         )
         .child(

@@ -357,12 +357,7 @@ impl ExtensionCard {
                         button.tooltip({
                             let version = extension.manifest.version.clone();
                             move |_, cx| {
-                                Tooltip::simple(
-                                    format!(
-                                        "v{version} 与此版本的 Zed 不兼容。"
-                                    ),
-                                    cx,
-                                )
+                                Tooltip::simple(format!("v{version} 与此版本的 Zed 不兼容。"), cx)
                             }
                         })
                     })

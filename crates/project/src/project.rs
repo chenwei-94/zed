@@ -3952,8 +3952,7 @@ impl Project {
             },
             SettingsObserverEvent::LocalDebugScenariosUpdated(result) => match result {
                 Err(InvalidSettingsError::Debug { message, path }) => {
-                    let message =
-                        format!("设置本地调试场景失败（{path:?}）：\n{message}");
+                    let message = format!("设置本地调试场景失败（{path:?}）：\n{message}");
                     cx.emit(Event::Toast {
                         notification_id: format!("local-debug-scenarios-{path:?}").into(),
                         link: None,

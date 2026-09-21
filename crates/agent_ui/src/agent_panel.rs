@@ -3874,11 +3874,7 @@ impl AgentPanel {
         {
             Ok(data) => data,
             Err(_) => {
-                Self::show_deferred_toast(
-                    &self.workspace,
-                    "解码剪贴板内容失败（应为 base64）",
-                    cx,
-                );
+                Self::show_deferred_toast(&self.workspace, "解码剪贴板内容失败（应为 base64）", cx);
                 return;
             }
         };
@@ -3886,11 +3882,7 @@ impl AgentPanel {
         let shared_thread = match SharedThread::from_bytes(&thread_data) {
             Ok(thread) => thread,
             Err(_) => {
-                Self::show_deferred_toast(
-                    &self.workspace,
-                    "从剪贴板解析会话数据失败",
-                    cx,
-                );
+                Self::show_deferred_toast(&self.workspace, "从剪贴板解析会话数据失败", cx);
                 return;
             }
         };
@@ -5676,12 +5668,7 @@ impl AgentPanel {
                 IconButton::new("agent-options-menu", IconName::Ellipsis)
                     .icon_size(IconSize::Small),
                 move |_window, cx| {
-                    Tooltip::for_action_in(
-                        "切换智能体菜单",
-                        &ToggleOptionsMenu,
-                        &focus_handle,
-                        cx,
-                    )
+                    Tooltip::for_action_in("切换智能体菜单", &ToggleOptionsMenu, &focus_handle, cx)
                 },
             )
             .anchor(Anchor::TopRight)

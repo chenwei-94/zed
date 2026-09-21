@@ -12,7 +12,8 @@ use crate::components::{SettingsInputField, SettingsSectionHeader};
 
 const DOMAINS_DESCRIPTION: &str = "每个条目都是精确域名（github.com）或以 *. 开头的子域通配符（*.npmjs.org）。不允许使用 IP 地址和本地域名。";
 
-const WRITE_PATHS_DESCRIPTION: &str = "每个条目必须是绝对路径，并授予对整个子树的写入权限，受保护的 Git 元数据除外。";
+const WRITE_PATHS_DESCRIPTION: &str =
+    "每个条目必须是绝对路径，并授予对整个子树的写入权限，受保护的 Git 元数据除外。";
 
 pub(crate) fn render_sandbox_settings_page(
     settings_window: &SettingsWindow,
@@ -435,8 +436,7 @@ fn canonicalize_host(host: &str) -> Result<String, String> {
         .map_err(|error| match error {
             HostPatternError::Empty => "域名不能为空。".to_string(),
             HostPatternError::IpLiteral(_) => {
-                "不允许使用 IP 地址和本地域名；请输入类似 github.com 的域名。"
-                    .to_string()
+                "不允许使用 IP 地址和本地域名；请输入类似 github.com 的域名。".to_string()
             }
             HostPatternError::InvalidWildcard(_) => {
                 "通配符只能作为开头的标签，例如 *.github.com。".to_string()

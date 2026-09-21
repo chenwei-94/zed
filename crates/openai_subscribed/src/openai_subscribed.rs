@@ -1050,8 +1050,7 @@ async fn get_fresh_credentials(
                         .update(cx, |s, cx| {
                             s.refresh_task = None;
                             s.credentials = None;
-                            s.last_auth_error =
-                                Some("会话已过期。请重新登录。".into());
+                            s.last_auth_error = Some("会话已过期。请重新登录。".into());
                             s.reset_model_catalog();
                             cx.notify();
                         })

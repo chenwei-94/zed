@@ -316,11 +316,7 @@ impl ZedAiOnboarding {
             .gap_1()
             .child(Self::certified_user_stamp(cx))
             .child(Headline::new("欢迎使用 Zed Pro"))
-            .child(
-                Label::new("包含以下内容：")
-                    .color(Color::Muted)
-                    .mb_2(),
-            )
+            .child(Label::new("包含以下内容：").color(Color::Muted).mb_2())
             .child(PlanDefinitions.pro_plan())
             .children(self.render_dismiss_button())
             .into_any_element()
@@ -333,11 +329,7 @@ impl ZedAiOnboarding {
             .gap_1()
             .child(Self::business_stamp(cx))
             .child(Headline::new("欢迎使用 Zed Business"))
-            .child(
-                Label::new("包含以下内容：")
-                    .color(Color::Muted)
-                    .mb_2(),
-            )
+            .child(Label::new("包含以下内容：").color(Color::Muted).mb_2())
             .child(PlanDefinitions.business_plan())
             .children(self.render_dismiss_button())
             .into_any_element()
@@ -350,11 +342,7 @@ impl ZedAiOnboarding {
             .gap_1()
             .child(Self::vip_stamp(cx))
             .child(Headline::new("欢迎使用 Zed VIP"))
-            .child(
-                Label::new("包含以下内容：")
-                    .color(Color::Muted)
-                    .mb_2(),
-            )
+            .child(Label::new("包含以下内容：").color(Color::Muted).mb_2())
             .child(PlanDefinitions.vip_plan())
             .children(self.render_dismiss_button())
             .into_any_element()
@@ -367,11 +355,7 @@ impl ZedAiOnboarding {
             .gap_1()
             .child(Self::student_stamp(cx))
             .child(Headline::new("欢迎使用 Zed Student"))
-            .child(
-                Label::new("包含以下内容：")
-                    .color(Color::Muted)
-                    .mb_2(),
-            )
+            .child(Label::new("包含以下内容：").color(Color::Muted).mb_2())
             .child(PlanDefinitions.student_plan())
             .children(self.render_dismiss_button())
             .into_any_element()
@@ -441,14 +425,8 @@ impl Component for ZedAiOnboarding {
             .min_w_0()
             .gap_4()
             .children(vec![
-                single_example(
-                    "未登录",
-                    onboarding(SignInStatus::SignedOut, None, false),
-                ),
-                single_example(
-                    "新账号",
-                    onboarding(SignInStatus::SignedIn, None, true),
-                ),
+                single_example("未登录", onboarding(SignInStatus::SignedOut, None, false)),
+                single_example("新账号", onboarding(SignInStatus::SignedIn, None, true)),
                 single_example(
                     "免费方案",
                     onboarding(SignInStatus::SignedIn, Some(Plan::ZedFree), false),

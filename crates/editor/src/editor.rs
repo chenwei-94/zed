@@ -2977,9 +2977,9 @@ impl Editor {
             cx,
             |e, _, _| match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
-                "远程 Zed 实例尚不支持此功能。需要升级到 {}",
-                e.error_tag("required").unwrap_or("the latest version")
-            )),
+                    "远程 Zed 实例尚不支持此功能。需要升级到 {}",
+                    e.error_tag("required").unwrap_or("the latest version")
+                )),
                 _ => None,
             },
         );
@@ -3063,9 +3063,9 @@ impl Editor {
         .detach_and_prompt_err("创建缓冲区失败", window, cx, |e, _, _| {
             match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
-                "远程 Zed 实例尚不支持此功能。需要升级到 {}",
-                e.error_tag("required").unwrap_or("the latest version")
-            )),
+                    "远程 Zed 实例尚不支持此功能。需要升级到 {}",
+                    e.error_tag("required").unwrap_or("the latest version")
+                )),
                 _ => None,
             }
         });
@@ -4730,9 +4730,7 @@ impl Editor {
         let meta = if is_rejected {
             SharedString::from("此行没有关联的可执行代码。")
         } else if !breakpoint.is_disabled() {
-            SharedString::from(format!(
-                "{alt_as_text}-单击可禁用\n右键查看更多选项"
-            ))
+            SharedString::from(format!("{alt_as_text}-单击可禁用\n右键查看更多选项"))
         } else {
             SharedString::from("右键单击查看更多选项")
         };
@@ -6249,12 +6247,8 @@ impl Editor {
         .unwrap_or_default();
 
         let placeholder_text = match edit_action {
-            BreakpointPromptEditAction::Log => {
-                "断点命中时记录的消息。{} 内的表达式会被插值。"
-            }
-            BreakpointPromptEditAction::Condition => {
-                "断点命中时的条件。{} 内的表达式会被插值。"
-            }
+            BreakpointPromptEditAction::Log => "断点命中时记录的消息。{} 内的表达式会被插值。",
+            BreakpointPromptEditAction::Condition => "断点命中时的条件。{} 内的表达式会被插值。",
             BreakpointPromptEditAction::HitCondition => "忽略多少次断点命中",
         };
 

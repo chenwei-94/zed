@@ -1258,10 +1258,7 @@ impl Component for GitStatusIcon {
                 single_example("已修改", GitStatusIcon::new(modified).into_any_element()),
                 single_example("已添加", GitStatusIcon::new(added).into_any_element()),
                 single_example("已删除", GitStatusIcon::new(deleted).into_any_element()),
-                single_example(
-                    "有冲突",
-                    GitStatusIcon::new(conflict).into_any_element(),
-                ),
+                single_example("有冲突", GitStatusIcon::new(conflict).into_any_element()),
             ])])
             .into_any_element()
     }

@@ -1046,9 +1046,7 @@ impl Render for ProjectSearchView {
             let model = self.entity.read(cx);
 
             let heading_text = match model.search_state {
-                SearchState::Running { .. } if model.search_state.no_results_so_far() => {
-                    "无结果"
-                }
+                SearchState::Running { .. } if model.search_state.no_results_so_far() => "无结果",
                 SearchState::Running {
                     activity: SearchActivity::WaitingForScan,
                     ..
@@ -3127,9 +3125,7 @@ impl Render for ProjectSearchBar {
                             }),
                     )
                     .when(limit_reached, |this| {
-                        this.tooltip(Tooltip::text(
-                            "已达到搜索上限\n请缩小搜索范围",
-                        ))
+                        this.tooltip(Tooltip::text("已达到搜索上限\n请缩小搜索范围"))
                     }),
             );
 
@@ -3139,9 +3135,7 @@ impl Render for ProjectSearchBar {
             .child(
                 IconButton::new("project-search-filter-button", IconName::Filter)
                     .shape(IconButtonShape::Square)
-                    .tooltip(|_window, cx| {
-                        Tooltip::for_action("切换筛选", &ToggleFilters, cx)
-                    })
+                    .tooltip(|_window, cx| Tooltip::for_action("切换筛选", &ToggleFilters, cx))
                     .on_click(cx.listener(|this, _, window, cx| {
                         this.toggle_filters(window, cx);
                     }))
@@ -3154,12 +3148,7 @@ impl Render for ProjectSearchBar {
                     .tooltip({
                         let focus_handle = focus_handle.clone();
                         move |_window, cx| {
-                            Tooltip::for_action_in(
-                                "切换筛选",
-                                &ToggleFilters,
-                                &focus_handle,
-                                cx,
-                            )
+                            Tooltip::for_action_in("切换筛选", &ToggleFilters, &focus_handle, cx)
                         }
                     }),
             )

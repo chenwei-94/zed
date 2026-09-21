@@ -104,12 +104,7 @@ fn distance_string(
     let months = distance / 2_592_000;
 
     let string = if distance < 5 && include_seconds {
-        if hide_prefix {
-            "5 秒"
-        } else {
-            "不到 5 秒"
-        }
-        .to_string()
+        if hide_prefix { "5 秒" } else { "不到 5 秒" }.to_string()
     } else if distance < 10 && include_seconds {
         if hide_prefix {
             "10 秒"
@@ -180,21 +175,11 @@ fn distance_string(
     } else if distance < 31_540_000 {
         format!("{} 个月", months)
     } else if distance < 39_425_000 {
-        if hide_prefix {
-            "1 年"
-        } else {
-            "约 1 年"
-        }
-        .to_string()
+        if hide_prefix { "1 年" } else { "约 1 年" }.to_string()
     } else if distance < 55_195_000 {
         if hide_prefix { "1 年" } else { "1 年以上" }.to_string()
     } else if distance < 63_080_000 {
-        if hide_prefix {
-            "2 年"
-        } else {
-            "将近 2 年"
-        }
-        .to_string()
+        if hide_prefix { "2 年" } else { "将近 2 年" }.to_string()
     } else {
         let years = distance / 31_536_000;
         let remaining_months = (distance % 31_536_000) / 2_592_000;

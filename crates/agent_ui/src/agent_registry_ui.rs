@@ -416,12 +416,7 @@ impl AgentRegistryPage {
             )
             .icon_size(IconSize::Small)
             .tooltip(move |_, cx| {
-                Tooltip::with_meta(
-                    "访问智能体仓库",
-                    None,
-                    repository_for_tooltip.clone(),
-                    cx,
-                )
+                Tooltip::with_meta("访问智能体仓库", None, repository_for_tooltip.clone(), cx)
             })
             .on_click(move |_, _, cx| {
                 cx.open_url(&repository_for_click);
@@ -436,9 +431,7 @@ impl AgentRegistryPage {
                 IconName::Link,
             )
             .icon_size(IconSize::Small)
-            .tooltip(move |_, cx| {
-                Tooltip::with_meta("访问智能体网站", None, website.clone(), cx)
-            })
+            .tooltip(move |_, cx| Tooltip::with_meta("访问智能体网站", None, website.clone(), cx))
             .on_click(move |_, _, cx| {
                 cx.open_url(&website_for_click);
             })
@@ -453,12 +446,7 @@ impl AgentRegistryPage {
             )
             .icon_size(IconSize::Small)
             .tooltip(move |_, cx| {
-                Tooltip::with_meta(
-                    "查看智能体许可或服务条款",
-                    None,
-                    license_url.clone(),
-                    cx,
-                )
+                Tooltip::with_meta("查看智能体许可或服务条款", None, license_url.clone(), cx)
             })
             .on_click(move |_, _, cx| {
                 cx.open_url(&license_url_for_click);

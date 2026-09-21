@@ -2419,9 +2419,7 @@ impl Sidebar {
                             let tooltip_text = if waiting_thread_count == 1 {
                                 "1 个会话正在等待确认".to_string()
                             } else {
-                                format!(
-                                    "{waiting_thread_count} 个会话正在等待确认",
-                                )
+                                format!("{waiting_thread_count} 个会话正在等待确认",)
                             };
                             this.child(
                                 div()
@@ -3804,11 +3802,7 @@ impl Sidebar {
     }
 
     fn show_no_thread_summary_model_toast(workspace: Entity<Workspace>, cx: &mut App) {
-        Self::show_thread_title_toast(
-            workspace,
-            "未配置用于汇总会话标题的模型。",
-            cx,
-        );
+        Self::show_thread_title_toast(workspace, "未配置用于汇总会话标题的模型。", cx);
     }
 
     fn regenerate_thread_title(
@@ -3901,11 +3895,7 @@ impl Sidebar {
                     }
                     Err(_) => {
                         if let Some(workspace) = this.active_workspace(cx) {
-                            Self::show_thread_title_toast(
-                                workspace,
-                                "重新生成会话标题失败。",
-                                cx,
-                            );
+                            Self::show_thread_title_toast(workspace, "重新生成会话标题失败。", cx);
                         }
                     }
                 }
@@ -7611,10 +7601,7 @@ impl Sidebar {
             .map(SharedString::as_str)
             .join(" and ");
 
-        let description = format!(
-            "从 {} 导入会话，从中断处继续。",
-            channel_names
-        );
+        let description = format!("从 {} 导入会话，从中断处继续。", channel_names);
 
         let on_import = cx.listener(|this, _, _window, cx| {
             telemetry::event!(
@@ -8195,9 +8182,8 @@ pub fn dump_workspace_info(
             buffer.set_text(output, cx);
         });
 
-        let buffer = cx.new(|cx| {
-            editor::MultiBuffer::singleton(buffer, cx).with_title("工作区信息".into())
-        });
+        let buffer =
+            cx.new(|cx| editor::MultiBuffer::singleton(buffer, cx).with_title("工作区信息".into()));
 
         _this.update_in(cx, |workspace, window, cx| {
             workspace.add_item_to_active_pane(

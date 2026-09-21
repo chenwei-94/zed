@@ -187,11 +187,8 @@ impl NodeRuntime {
             // TODO: When support is added for setting `options.allow_binary_download`, update this
             // error message.
             return Box::new(UnavailableNodeRuntime {
-                error_message: format!(
-                    "从 PATH 检查系统 Node.js 时失败：{}",
-                    system_node_error
-                )
-                .into(),
+                error_message: format!("从 PATH 检查系统 Node.js 时失败：{}", system_node_error)
+                    .into(),
             });
         } else {
             // failure case is cached because it will always happen with these options

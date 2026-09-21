@@ -10692,9 +10692,7 @@ pub fn join_channel(
                                 "Please ask someone to add you and try again."
                             )
                             .into(),
-                            ErrorCode::Disconnected => {
-                                "请检查网络连接后重试。".into()
-                            }
+                            ErrorCode::Disconnected => "请检查网络连接后重试。".into(),
                             _ => format!("{}\n\n请重试。", err).into(),
                         };
                         window.prompt(

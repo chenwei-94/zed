@@ -140,13 +140,11 @@ impl LanguageModelProvider for OpenAiSubscribedProvider {
     }
 
     fn authentication_error_message(&self) -> SharedString {
-        "ChatGPT 订阅会话无效或已过期。请通过 设置 > AI > LLM Providers 重新登录以继续。"
-            .into()
+        "ChatGPT 订阅会话无效或已过期。请通过 设置 > AI > LLM Providers 重新登录以继续。".into()
     }
 
     fn missing_credentials_error_message(&self) -> SharedString {
-        "尚未登录 ChatGPT 账号。请通过 设置 > AI > LLM Providers 登录以继续。"
-            .into()
+        "尚未登录 ChatGPT 账号。请通过 设置 > AI > LLM Providers 登录以继续。".into()
     }
 
     fn fast_mode_confirmation(&self, _cx: &App) -> Option<FastModeConfirmation> {

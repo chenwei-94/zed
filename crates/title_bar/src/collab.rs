@@ -87,7 +87,12 @@ pub fn toggle_screen_sharing(
         }
         Err(e) => Task::ready(Err(e)),
     };
-    toggle_screen_sharing.detach_and_prompt_err("共享屏幕失败", window, cx, |e, _, _| Some(format!("{:?}\n\n请检查是否已在设置中授予 Zed 录制屏幕的权限。", e)));
+    toggle_screen_sharing.detach_and_prompt_err("共享屏幕失败", window, cx, |e, _, _| {
+        Some(format!(
+            "{:?}\n\n请检查是否已在设置中授予 Zed 录制屏幕的权限。",
+            e
+        ))
+    });
 }
 
 pub fn toggle_mute(cx: &mut App) {
@@ -467,12 +472,7 @@ impl TitleBar {
                     .tooltip(move |_window, cx| {
                         if is_muted {
                             if is_deafened {
-                                Tooltip::with_meta(
-                                    "取消静音麦克风",
-                                    None,
-                                    "音频将取消静音",
-                                    cx,
-                                )
+                                Tooltip::with_meta("取消静音麦克风", None, "音频将取消静音", cx)
                             } else {
                                 Tooltip::simple("取消静音麦克风", cx)
                             }
@@ -590,17 +590,11 @@ impl TitleBar {
                                         },
                                     ))
                                 } else if is_sharing_disabled {
-                                    this.disabled(true).tooltip(Tooltip::text(
-                                        "此项目不能在公共频道中共享。",
-                                    ))
+                                    this.disabled(true)
+                                        .tooltip(Tooltip::text("此项目不能在公共频道中共享。"))
                                 } else {
                                     this.tooltip(move |_, cx| {
-                                        Tooltip::with_meta(
-                                            "共享项目",
-                                            None,
-                                            share_meta.clone(),
-                                            cx,
-                                        )
+                                        Tooltip::with_meta("共享项目", None, share_meta.clone(), cx)
                                     })
                                     .on_click(cx.listener(
                                         move |this, _, _, cx| {

@@ -223,12 +223,12 @@ fn announcement_for_version(version: &Version, cx: &App) -> Option<AnnouncementC
             rules_to_skills_migration::migration_result().is_some_and(|result| !result.is_empty());
 
         let mut bullet_items: Vec<SharedString> = Vec::with_capacity(3);
-        bullet_items
-            .push(format!("技能位于 {GLOBAL_SKILLS_DIR_DISPLAY}/<name>/SKILL.md").into());
+        bullet_items.push(format!("技能位于 {GLOBAL_SKILLS_DIR_DISPLAY}/<name>/SKILL.md").into());
         bullet_items.push("输入 / 可手动调用技能".into());
         if migrated_anything {
             bullet_items.push(
-                "规则库正在让位于技能：默认规则现在位于全局 AGENTS.md 中，其他规则已转换为技能".into(),
+                "规则库正在让位于技能：默认规则现在位于全局 AGENTS.md 中，其他规则已转换为技能"
+                    .into(),
             );
         }
 

@@ -219,11 +219,9 @@ impl<S: ApiCompatibleProviderSettings> Render for ApiCompatibleProviderConfigura
                         .child(self.api_key_editor.clone()),
                 )
                 .child(
-                    Label::new(format!(
-                        "你也可以设置 {env_var_name} 环境变量并重启 Zed。",
-                    ))
-                    .size(LabelSize::Small)
-                    .color(Color::Muted),
+                    Label::new(format!("你也可以设置 {env_var_name} 环境变量并重启 Zed。",))
+                        .size(LabelSize::Small)
+                        .color(Color::Muted),
                 )
                 .into_any()
         } else {
@@ -241,15 +239,13 @@ impl<S: ApiCompatibleProviderSettings> Render for ApiCompatibleProviderConfigura
                         .min_w_0()
                         .gap_1()
                         .child(Icon::new(IconName::Check).color(Color::Success))
-                        .child(
-                            div().w_full().overflow_x_hidden().text_ellipsis().child(Label::new(
-                                if env_var_set {
-                                    format!("API 密钥已通过 {env_var_name} 环境变量设置")
-                                } else {
-                                    format!("已为 {} 配置 API 密钥", state.settings.api_url())
-                                },
-                            )),
-                        ),
+                        .child(div().w_full().overflow_x_hidden().text_ellipsis().child(
+                            Label::new(if env_var_set {
+                                format!("API 密钥已通过 {env_var_name} 环境变量设置")
+                            } else {
+                                format!("已为 {} 配置 API 密钥", state.settings.api_url())
+                            }),
+                        )),
                 )
                 .child(
                     h_flex().flex_shrink_0().child(
@@ -262,9 +258,9 @@ impl<S: ApiCompatibleProviderSettings> Render for ApiCompatibleProviderConfigura
                                     "要重置 API 密钥，取消设置 {env_var_name} 环境变量。",
                                 )))
                             })
-                            .on_click(cx.listener(|this, _, window, cx| {
-                                this.reset_api_key(window, cx)
-                            })),
+                            .on_click(
+                                cx.listener(|this, _, window, cx| this.reset_api_key(window, cx)),
+                            ),
                     ),
                 )
                 .into_any()

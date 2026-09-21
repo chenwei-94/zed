@@ -2885,12 +2885,7 @@ impl Pane {
                 .disabled(!toggleable)
                 .tooltip(move |_, cx| {
                     if toggleable {
-                        Tooltip::with_meta(
-                            "解锁标签页",
-                            None,
-                            "这将使此标签页可编辑",
-                            cx,
-                        )
+                        Tooltip::with_meta("解锁标签页", None, "这将使此标签页可编辑", cx)
                     } else {
                         Tooltip::with_meta("标签页已锁定", None, "此标签页为只读", cx)
                     }
@@ -4136,10 +4131,7 @@ impl Pane {
                 }
                 if project.is_via_remote_server() {
                     if !project.is_via_wsl(cx) {
-                        workspace.show_error(
-                            "无法将本地文件拖放到远程 SSH/Docker 项目",
-                            cx,
-                        );
+                        workspace.show_error("无法将本地文件拖放到远程 SSH/Docker 项目", cx);
                         return (true, false);
                     }
                     return (false, true);
@@ -4194,10 +4186,7 @@ impl Pane {
                         if translated.is_empty() && !paths.is_empty() {
                             workspace
                                 .update_in(cx, |workspace, _, cx| {
-                                    workspace.show_error(
-                                        "无法将拖放的路径转换为 WSL 路径",
-                                        cx,
-                                    );
+                                    workspace.show_error("无法将拖放的路径转换为 WSL 路径", cx);
                                 })
                                 .ok();
                             return;
@@ -4343,10 +4332,7 @@ fn default_render_tab_bar_buttons(
                             .action("搜索符号", ToggleProjectSymbols.boxed_clone())
                             .separator()
                             .action("新建终端", NewTerminal::default().boxed_clone())
-                            .action(
-                                "新建居中终端",
-                                NewCenterTerminal::default().boxed_clone(),
-                            )
+                            .action("新建居中终端", NewCenterTerminal::default().boxed_clone())
                     }))
                 }),
         )
@@ -4388,11 +4374,7 @@ fn default_render_tab_bar_buttons(
                     pane.toggle_zoom(&crate::ToggleZoom, window, cx);
                 }))
                 .tooltip(move |_window, cx| {
-                    Tooltip::for_action(
-                        if zoomed { "缩小" } else { "放大" },
-                        &ToggleZoom,
-                        cx,
-                    )
+                    Tooltip::for_action(if zoomed { "缩小" } else { "放大" }, &ToggleZoom, cx)
                 })
         })
         .into_any_element()

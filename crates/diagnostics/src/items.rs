@@ -117,9 +117,7 @@ impl Render for DiagnosticIndicator {
                     .child(diagnostic_indicator)
                     .tab_index(0isize)
                     .aria_label(diagnostics_label)
-                    .tooltip(move |_window, cx| {
-                        Tooltip::for_action("项目诊断", &Deploy, cx)
-                    })
+                    .tooltip(move |_window, cx| Tooltip::for_action("项目诊断", &Deploy, cx))
                     .on_click(cx.listener(|this, _, window, cx| {
                         if let Some(workspace) = this.workspace.upgrade() {
                             if this.summary.error_count == 0 && this.summary.warning_count > 0 {

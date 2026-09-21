@@ -1969,8 +1969,7 @@ async fn resolve_auth_required(
         return ContextServerState::Error {
             configuration,
             server,
-            error: "服务器返回 401 未授权。检查已配置的 Authorization 请求头。"
-                .into(),
+            error: "服务器返回 401 未授权。检查已配置的 Authorization 请求头。".into(),
         };
     }
 

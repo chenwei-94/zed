@@ -225,19 +225,15 @@ impl Component for SandboxStatusTooltip {
             ]));
 
         let thread_section = SandboxSection::new("此会话允许：")
-            .group(
-                SandboxGroup::new("写入权限").row(SandboxRow::path("/Users/you/project/build")),
-            )
+            .group(SandboxGroup::new("写入权限").row(SandboxRow::path("/Users/you/project/build")))
             .group(SandboxGroup::new("网络访问").row(SandboxRow::message("None")));
 
         let unrestricted_section = SandboxSection::new("设置中定义：")
-            .group(SandboxGroup::new("写入权限").row(SandboxRow::message(
-                "除受保护的 Git 元数据外的所有路径",
-            )))
             .group(
-                SandboxGroup::new("网络访问")
-                    .row(SandboxRow::message("所有域名（不受限制）")),
-            );
+                SandboxGroup::new("写入权限")
+                    .row(SandboxRow::message("除受保护的 Git 元数据外的所有路径")),
+            )
+            .group(SandboxGroup::new("网络访问").row(SandboxRow::message("所有域名（不受限制）")));
 
         let container = || div().p_2().elevation_2(cx).max_w_112();
 

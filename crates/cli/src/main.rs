@@ -850,10 +850,7 @@ fn prompt_open_behavior() -> Option<cli::CliBehaviorSetting> {
 
     let blue = console::Style::new().blue();
     let items = [
-        format!(
-            "添加到现有 Zed 窗口（{}）",
-            blue.apply_to("zed --existing")
-        ),
+        format!("添加到现有 Zed 窗口（{}）", blue.apply_to("zed --existing")),
         format!("打开新窗口（{}）", blue.apply_to("zed --classic")),
     ];
 

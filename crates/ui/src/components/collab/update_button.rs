@@ -264,10 +264,7 @@ impl Component for UpdateButton {
                 example_group_with_title(
                     "可操作状态",
                     vec![
-                        single_example(
-                            "可更新",
-                            UpdateButton::updated(version).into_any_element(),
-                        ),
+                        single_example("可更新", UpdateButton::updated(version).into_any_element()),
                         single_example(
                             "错误",
                             UpdateButton::errored("网络超时").into_any_element(),

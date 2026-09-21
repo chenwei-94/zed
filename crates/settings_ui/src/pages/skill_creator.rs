@@ -191,14 +191,10 @@ impl SkillCreatorPage {
         window.focus(&name_editor.focus_handle(cx), cx);
 
         let description_editor = cx.new(|cx| {
-            InputField::new(
-                window,
-                cx,
-                "例如：按照此模板填写 PR 描述。",
-            )
-            .label("描述")
-            .tab_index(DESCRIPTION_FIELD_TAB_INDEX)
-            .tab_stop(true)
+            InputField::new(window, cx, "例如：按照此模板填写 PR 描述。")
+                .label("描述")
+                .tab_index(DESCRIPTION_FIELD_TAB_INDEX)
+                .tab_stop(true)
         });
 
         let body_editor = cx.new(|cx| {
@@ -457,9 +453,7 @@ impl SkillCreatorPage {
         match parse_imported_skill(&content, "") {
             Ok(imported) => self.apply_imported_skill(imported, window, cx),
             Err(err) => {
-                self.save_error = Some(SharedString::from(format!(
-                    "无法读取共享技能：{err}"
-                )));
+                self.save_error = Some(SharedString::from(format!("无法读取共享技能：{err}")));
                 cx.notify();
             }
         }
@@ -767,10 +761,7 @@ impl SkillCreatorPage {
         SwitchField::new(
             "disable-model-invocation",
             Some("禁用模型调用"),
-            Some(
-                "从模型目录中隐藏此技能。仍可通过斜杠命令调用。"
-                    .into(),
-            ),
+            Some("从模型目录中隐藏此技能。仍可通过斜杠命令调用。".into()),
             toggle_state,
             cx.listener(|this, _state: &ToggleState, _window, cx| {
                 this.toggle_disable_model_invocation(cx);
@@ -1043,13 +1034,9 @@ async fn fetch_skill_url(
 
 fn github_fetch_error(status: StatusCode, body: &[u8]) -> anyhow::Error {
     let mut message = if status == StatusCode::NOT_FOUND {
-        "获取技能时 GitHub 返回 404；该 URL 下不存在仓库，或仓库为私有"
-            .to_string()
+        "获取技能时 GitHub 返回 404；该 URL 下不存在仓库，或仓库为私有".to_string()
     } else {
-        format!(
-            "获取技能时 GitHub 返回 {}",
-            status.as_u16()
-        )
+        format!("获取技能时 GitHub 返回 {}", status.as_u16())
     };
 
     let response_text = truncated_response_body_for_error(body);

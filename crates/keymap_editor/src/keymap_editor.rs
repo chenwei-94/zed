@@ -1245,9 +1245,7 @@ impl KeymapEditor {
                     "未发现冲突的快捷键"
                 }
             }
-            (FilterState::All, SearchMode::KeyStroke { .. }) => {
-                "未找到匹配所输入按键的快捷键"
-            }
+            (FilterState::All, SearchMode::KeyStroke { .. }) => "未找到匹配所输入按键的快捷键",
             (FilterState::All, SearchMode::Normal) => "未找到匹配该查询的结果",
         };
 
@@ -1963,11 +1961,7 @@ impl Render for KeymapEditor {
         if let SearchMode::KeyStroke { exact_match } = self.search_mode {
             let button = IconButton::new("keystrokes-exact-match", IconName::CaseSensitive)
                 .tooltip(move |_window, cx| {
-                    Tooltip::for_action(
-                        "切换精确匹配模式",
-                        &ToggleExactKeystrokeMatching,
-                        cx,
-                    )
+                    Tooltip::for_action("切换精确匹配模式", &ToggleExactKeystrokeMatching, cx)
                 })
                 .shape(IconButtonShape::Square)
                 .toggle_state(exact_match)
@@ -2806,45 +2800,52 @@ impl KeybindingEditorModal {
                 self.creating.not().then_some(self.editing_keybind_idx),
             );
 
-        conflicting_indices.map(|KeybindConflict {
-            first_conflict_index,
-            remaining_conflict_amount,
-        }|
-        {
-            let conflicting_action_name = self
-                .keymap_editor
-                .read(cx)
-                .keybindings
-                .get(first_conflict_index)
-                .map(|keybind| keybind.action().name);
+        conflicting_indices
+            .map(
+                |KeybindConflict {
+                     first_conflict_index,
+                     remaining_conflict_amount,
+                 }| {
+                    let conflicting_action_name = self
+                        .keymap_editor
+                        .read(cx)
+                        .keybindings
+                        .get(first_conflict_index)
+                        .map(|keybind| keybind.action().name);
 
-            let warning_message = match conflicting_action_name {
-                Some(name) => {
-                     if remaining_conflict_amount > 0 {
-                        format!(
-                            "你的快捷键会与“{}”操作及其他 {} 个绑定冲突",
-                            name, remaining_conflict_amount
-                        )
+                    let warning_message = match conflicting_action_name {
+                        Some(name) => {
+                            if remaining_conflict_amount > 0 {
+                                format!(
+                                    "你的快捷键会与“{}”操作及其他 {} 个绑定冲突",
+                                    name, remaining_conflict_amount
+                                )
+                            } else {
+                                format!("你的快捷键会与“{}”操作冲突", name)
+                            }
+                        }
+                        None => {
+                            log::info!(
+                                "Could not find action in keybindings with index {}",
+                                first_conflict_index
+                            );
+                            "你的快捷键会与其他操作冲突".to_string()
+                        }
+                    };
+
+                    let warning = InputError::warning(warning_message);
+                    if self
+                        .error
+                        .as_ref()
+                        .is_some_and(|old_error| *old_error == warning)
+                    {
+                        Ok(())
                     } else {
-                        format!("你的快捷键会与“{}”操作冲突", name)
+                        Err(warning)
                     }
-                }
-                None => {
-                    log::info!(
-                        "Could not find action in keybindings with index {}",
-                        first_conflict_index
-                    );
-                    "你的快捷键会与其他操作冲突".to_string()
-                }
-            };
-
-            let warning = InputError::warning(warning_message);
-            if self.error.as_ref().is_some_and(|old_error| *old_error == warning) {
-                Ok(())
-           } else {
-                Err(warning)
-            }
-        }).unwrap_or(Ok(()))?;
+                },
+            )
+            .unwrap_or(Ok(()))?;
 
         let create = self.creating;
         let keyboard_mapper = cx.keyboard_mapper().clone();
@@ -3101,9 +3102,7 @@ impl Render for KeybindingEditorModal {
                                         },
                                     )
                                 })
-                                .when(self.creating, |this| {
-                                    this.child(Label::new("创建快捷键"))
-                                }),
+                                .when(self.creating, |this| this.child(Label::new("创建快捷键"))),
                         ),
                     )
                     .section(

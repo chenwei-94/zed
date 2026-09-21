@@ -322,18 +322,12 @@ impl ElicitationFormSubmission {
                         .min_items
                         .is_some_and(|min_items| values.len() < min_items as usize)
                     {
-                        Err(
-                            format!("{} 需要选择更多项", property_title(name, property))
-                                .into(),
-                        )
+                        Err(format!("{} 需要选择更多项", property_title(name, property)).into())
                     } else if schema
                         .max_items
                         .is_some_and(|max_items| values.len() > max_items as usize)
                     {
-                        Err(
-                            format!("{} 选择的项过多", property_title(name, property))
-                                .into(),
-                        )
+                        Err(format!("{} 选择的项过多", property_title(name, property)).into())
                     } else {
                         Ok(Some(values.into()))
                     }

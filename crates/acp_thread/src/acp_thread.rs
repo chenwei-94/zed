@@ -6986,11 +6986,7 @@ mod tests {
                 compaction.summary.as_slice(),
                 [ContentBlock::Unsupported { content, .. }] if content == &audio
             ));
-            assert!(
-                thread
-                    .to_markdown(cx)
-                    .contains("不支持音频内容。")
-            );
+            assert!(thread.to_markdown(cx).contains("不支持音频内容。"));
         });
     }
 

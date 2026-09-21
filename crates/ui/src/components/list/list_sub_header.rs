@@ -103,10 +103,7 @@ impl Component for ListSubHeader {
                 example_group_with_title(
                     "基础子标题",
                     vec![
-                        single_example(
-                            "简单",
-                            ListSubHeader::new("Subsection").into_any_element(),
-                        ),
+                        single_example("简单", ListSubHeader::new("Subsection").into_any_element()),
                         single_example(
                             "带图标",
                             ListSubHeader::new("Documents")

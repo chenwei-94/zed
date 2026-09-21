@@ -817,8 +817,7 @@ impl KeymapFile {
             });
             add_deprecation(
                 &mut actions_with_empty_input,
-                "此操作不接受输入——只应使用操作名字符串。"
-                    .to_string(),
+                "此操作不接受输入——只应使用操作名字符串。".to_string(),
             );
             action_with_arguments_alternatives.push(actions_with_empty_input);
         }
@@ -837,8 +836,7 @@ impl KeymapFile {
             });
             add_deprecation(
                 &mut actions_with_empty_input,
-                "此操作不接受输入——只应使用操作名字符串。"
-                    .to_string(),
+                "此操作不接受输入——只应使用操作名字符串。".to_string(),
             );
             unbind_target_action_alternatives.push(actions_with_empty_input);
         }
@@ -1567,9 +1565,7 @@ impl Action for ActionSequence {
     }
 
     fn documentation() -> Option<&'static str> {
-        Some(
-            "运行一系列操作。\n\n注意：这**不会**等待异步操作完成后再运行下一个操作。",
-        )
+        Some("运行一系列操作。\n\n注意：这**不会**等待异步操作完成后再运行下一个操作。")
     }
 }
 

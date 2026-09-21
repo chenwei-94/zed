@@ -69,23 +69,13 @@ impl DebuggerPaneItem {
     }
     pub(crate) fn tab_tooltip(self) -> SharedString {
         let tooltip = match self {
-            DebuggerPaneItem::Console => {
-                "显示程序输出，并允许手动输入调试器命令"
-            }
-            DebuggerPaneItem::Variables => {
-                "显示当前堆栈帧中局部变量与全局变量的当前值"
-            }
+            DebuggerPaneItem::Console => "显示程序输出，并允许手动输入调试器命令",
+            DebuggerPaneItem::Variables => "显示当前堆栈帧中局部变量与全局变量的当前值",
             DebuggerPaneItem::BreakpointList => "列出代码中设置的所有活动断点",
-            DebuggerPaneItem::Frames => {
-                "显示调用堆栈，可在函数调用之间导航"
-            }
+            DebuggerPaneItem::Frames => "显示调用堆栈，可在函数调用之间导航",
             DebuggerPaneItem::Modules => "显示程序加载的所有模块或库",
-            DebuggerPaneItem::LoadedSources => {
-                "列出调试器当前已加载并使用的所有源文件"
-            }
-            DebuggerPaneItem::Terminal => {
-                "在调试环境中提供交互式终端会话"
-            }
+            DebuggerPaneItem::LoadedSources => "列出调试器当前已加载并使用的所有源文件",
+            DebuggerPaneItem::Terminal => "在调试环境中提供交互式终端会话",
             DebuggerPaneItem::MemoryView => "允许查看内存内容",
         };
         SharedString::new_static(tooltip)

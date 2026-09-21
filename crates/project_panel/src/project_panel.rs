@@ -1285,10 +1285,7 @@ impl ProjectPanel {
                             .when(is_dir && !is_root, |menu| {
                                 menu.separator()
                                     .action("全部展开", Box::new(ExpandSelectedEntryAndChildren))
-                                    .action(
-                                        "全部折叠",
-                                        Box::new(CollapseSelectedEntryAndChildren),
-                                    )
+                                    .action("全部折叠", Box::new(CollapseSelectedEntryAndChildren))
                             })
                             .when(is_dir && is_root, |menu| {
                                 menu.separator()
@@ -2025,18 +2022,16 @@ impl ProjectPanel {
 
             let trimmed_filename = filename.trim();
             if trimmed_filename != filename {
-                edit_state.validation_state = ValidationState::Warning(
-                    "文件或目录名包含开头或结尾的空白字符。".to_string(),
-                );
+                edit_state.validation_state =
+                    ValidationState::Warning("文件或目录名包含开头或结尾的空白字符。".to_string());
                 cx.notify();
                 return;
             }
             let trimmed_filename = trimmed_filename.trim_start_matches('/');
 
             let Ok(filename) = RelPath::from_unix_str(trimmed_filename) else {
-                edit_state.validation_state = ValidationState::Warning(
-                    "文件或目录名包含开头或结尾的空白字符。".to_string(),
-                );
+                edit_state.validation_state =
+                    ValidationState::Warning("文件或目录名包含开头或结尾的空白字符。".to_string());
                 cx.notify();
                 return;
             };
@@ -2775,11 +2770,7 @@ impl ProjectPanel {
     {
         let (message_start, confirmation_label, detail) = match kind {
             RemovalKind::Trash => ("是否将以下内容移到回收站", "Trash", None),
-            RemovalKind::Delete => (
-                "确定要永久删除",
-                "Delete",
-                Some("此操作无法撤销。"),
-            ),
+            RemovalKind::Delete => ("确定要永久删除", "Delete", Some("此操作无法撤销。")),
         };
 
         let mut message = match names {
@@ -3866,11 +3857,7 @@ impl ProjectPanel {
                                 workspace.show_toast(
                                     workspace::Toast::new(
                                         notification_id.clone(),
-                                        format!(
-                                            "正在下载 {}/{} 个文件…",
-                                            index + 1,
-                                            total_files
-                                        ),
+                                        format!("正在下载 {}/{} 个文件…", index + 1, total_files),
                                     ),
                                     cx,
                                 );

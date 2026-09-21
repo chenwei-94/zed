@@ -1577,13 +1577,10 @@ impl NativeAgent {
         let Some(state) = project_state else {
             return Vec::new();
         };
-        let compact_command = acp::AvailableCommand::new(
-            COMPACT_COMMAND_NAME,
-            "总结当前对话以释放上下文空间",
-        )
-        .meta(acp_thread::meta_with_command_category(
-            acp_thread::CommandCategory::Native,
-        ));
+        let compact_command =
+            acp::AvailableCommand::new(COMPACT_COMMAND_NAME, "总结当前对话以释放上下文空间").meta(
+                acp_thread::meta_with_command_category(acp_thread::CommandCategory::Native),
+            );
 
         let registry = state.context_server_registry.read(cx);
 

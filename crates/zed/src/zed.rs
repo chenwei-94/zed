@@ -1962,18 +1962,16 @@ fn notify_settings_errors(result: settings::SettingsParseResult, is_user: bool, 
             if !showed_parse_error {
                 show_app_notification(id, cx, move |cx| {
                     cx.new(|cx| {
-                        MessageNotification::new(
-                            format!(
-                                "迁移设置失败\n{err}"
-                            ),
-                            cx,
-                        )
-                        .primary_message("打开设置文件")
-                        .primary_icon(IconName::Settings)
-                        .primary_on_click(|window, cx| {
-                            window.dispatch_action(zed_actions::OpenSettingsFile.boxed_clone(), cx);
-                            cx.emit(DismissEvent);
-                        })
+                        MessageNotification::new(format!("迁移设置失败\n{err}"), cx)
+                            .primary_message("打开设置文件")
+                            .primary_icon(IconName::Settings)
+                            .primary_on_click(|window, cx| {
+                                window.dispatch_action(
+                                    zed_actions::OpenSettingsFile.boxed_clone(),
+                                    cx,
+                                );
+                                cx.emit(DismissEvent);
+                            })
                     })
                 });
             }

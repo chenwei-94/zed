@@ -252,11 +252,9 @@ impl Render for CursorPosition {
                             context,
                             cx,
                         ),
-                        None => Tooltip::for_action(
-                            "转到行/列",
-                            &editor::actions::ToggleGoToLine,
-                            cx,
-                        ),
+                        None => {
+                            Tooltip::for_action("转到行/列", &editor::actions::ToggleGoToLine, cx)
+                        }
                     }),
             )
         })

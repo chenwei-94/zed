@@ -147,9 +147,7 @@ impl Render for DisconnectedOverlay {
         let can_reconnect = matches!(self.host, Host::RemoteServerProject(..));
 
         let message = match &self.host {
-            Host::CollabGuestProject => {
-                "与远程项目的连接已断开。".to_string()
-            }
+            Host::CollabGuestProject => "与远程项目的连接已断开。".to_string(),
             Host::RemoteServerProject(options, server_not_running) => {
                 let autosave = if ProjectSettings::get_global(cx)
                     .session

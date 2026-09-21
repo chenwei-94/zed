@@ -98,9 +98,7 @@ fn build_grouped_entries(store: &ReplStore, worktree_id: WorktreeId) -> Vec<Kern
 
     // Python Environments section
     if !python_envs.is_empty() {
-        entries.push(KernelPickerEntry::SectionHeader(
-            "Python 环境".into(),
-        ));
+        entries.push(KernelPickerEntry::SectionHeader("Python 环境".into()));
         entries.extend(python_envs);
     }
 

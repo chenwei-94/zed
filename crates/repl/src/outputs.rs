@@ -352,8 +352,7 @@ impl Output {
                                             let multibuffer = cx.new(|cx| {
                                                 let mut multi_buffer =
                                                     MultiBuffer::singleton(buffer.clone(), cx);
-                                                multi_buffer
-                                                    .set_title("完整错误".to_string(), cx);
+                                                multi_buffer.set_title("完整错误".to_string(), cx);
                                                 multi_buffer
                                             });
                                             Editor::for_multibuffer(multibuffer, None, window, cx)
@@ -781,9 +780,7 @@ impl Render for ExecutionView {
             ExecutionStatus::Shutdown => Label::new("内核已关闭")
                 .color(Color::Muted)
                 .into_any_element(),
-            ExecutionStatus::Queued => Label::new("排队中…")
-                .color(Color::Muted)
-                .into_any_element(),
+            ExecutionStatus::Queued => Label::new("排队中…").color(Color::Muted).into_any_element(),
             ExecutionStatus::KernelErrored(error) => Label::new(format!("内核错误：{}", error))
                 .color(Color::Error)
                 .into_any_element(),

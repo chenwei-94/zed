@@ -173,10 +173,7 @@ impl Component for TabBar {
                 example_group_with_title(
                     "基础用法",
                     vec![
-                        single_example(
-                            "空标签栏",
-                            TabBar::new("empty_tab_bar").into_any_element(),
-                        ),
+                        single_example("空标签栏", TabBar::new("empty_tab_bar").into_any_element()),
                         single_example(
                             "带标签页",
                             TabBar::new("tab_bar_with_tabs")

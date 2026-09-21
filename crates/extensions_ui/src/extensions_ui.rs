@@ -75,9 +75,7 @@ struct DevExtensionNotInstalledError {
 impl WorkspaceError for DevExtensionNotInstalledError {
     fn primary_message(&self) -> SharedString {
         match &self.extension_id {
-            Some(extension_id) => {
-                format!("开发扩展“{extension_id}”未安装。").into()
-            }
+            Some(extension_id) => format!("开发扩展“{extension_id}”未安装。").into(),
             None => "未安装任何开发扩展。".into(),
         }
     }
@@ -218,10 +216,8 @@ pub fn init(cx: &mut App) {
                                     .update(cx, |workspace, cx| {
                                         // NOTE: using `anyhow::context` here ends up not printing
                                         // the error
-                                        workspace.show_error(
-                                            format!("安装开发扩展失败：{}", err),
-                                            cx,
-                                        );
+                                        workspace
+                                            .show_error(format!("安装开发扩展失败：{}", err), cx);
                                     })
                                     .ok();
                             }
@@ -1136,8 +1132,7 @@ impl ExtensionsPage {
                     cx,
                 ),
                 Feature::Git => self.render_feature_upsell_banner(
-                    "Zed 自带基础 Git 支持——未来还会推出更多功能。"
-                        .into(),
+                    "Zed 自带基础 Git 支持——未来还会推出更多功能。".into(),
                     "https://zed.dev/docs/git".into(),
                     false,
                     cx,

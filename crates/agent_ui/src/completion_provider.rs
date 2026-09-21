@@ -218,12 +218,8 @@ impl PromptLocalCommand {
 
     pub fn description(&self) -> &'static str {
         match self {
-            Self::ThumbsUp => {
-                "将此回复评为有帮助。会把当前会话发送给 Zed 团队。"
-            }
-            Self::ThumbsDown => {
-                "将此回复评为没有帮助。会把当前会话发送给 Zed 团队。"
-            }
+            Self::ThumbsUp => "将此回复评为有帮助。会把当前会话发送给 Zed 团队。",
+            Self::ThumbsDown => "将此回复评为没有帮助。会把当前会话发送给 Zed 团队。",
         }
     }
 

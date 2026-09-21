@@ -314,7 +314,11 @@ fn git_panel_context_menu(
         context_menu
             .context(focus_handle.clone())
             .action_disabled_when(!has_unstaged_changes, "全部暂存", StageAll.boxed_clone())
-            .action_disabled_when(!has_staged_changes, "全部取消暂存", UnstageAll.boxed_clone())
+            .action_disabled_when(
+                !has_staged_changes,
+                "全部取消暂存",
+                UnstageAll.boxed_clone(),
+            )
             .action_disabled_when(
                 !has_staged_tracked_changes,
                 "恢复所有变更",
@@ -2544,10 +2548,7 @@ impl GitPanel {
                 let (message, confirm_text) = if entry.status.is_deleted() {
                     ("确定要恢复", "恢复文件")
                 } else {
-                    (
-                        "确定要放弃以下文件的更改：",
-                        "放弃更改",
-                    )
+                    ("确定要放弃以下文件的更改：", "放弃更改")
                 };
                 let prompt = window.prompt(
                     PromptLevel::Warning,
@@ -2912,12 +2913,7 @@ impl GitPanel {
             RestoreTrackedFiles,
             Cancel,
         }
-        let prompt = prompt(
-            "放弃这些文件的更改？",
-            Some(&details),
-            window,
-            cx,
-        );
+        let prompt = prompt("放弃这些文件的更改？", Some(&details), window, cx);
         cx.spawn_in(window, async move |this, cx| {
             if let Ok(RestoreCancel::RestoreTrackedFiles) = prompt.await {
                 this.update_in(cx, |this, window, cx| {
@@ -3653,11 +3649,7 @@ impl GitPanel {
         };
 
         if self.has_unstaged_conflicts() {
-            error_spawn(
-                "仍有冲突。提交前必须先暂存这些冲突",
-                window,
-                cx,
-            );
+            error_spawn("仍有冲突。提交前必须先暂存这些冲突", window, cx);
             return;
         }
 
@@ -3798,10 +3790,7 @@ impl GitPanel {
                     Uncommit,
                     Cancel,
                 }
-                let detail = format!(
-                    "该提交已推送到 {}。",
-                    pushed_to.into_iter().join(", ")
-                );
+                let detail = format!("该提交已推送到 {}。", pushed_to.into_iter().join(", "));
                 let result = cx
                     .update(|window, cx| prompt("确定吗？", Some(&detail), window, cx))?
                     .await?;
@@ -6960,12 +6949,10 @@ impl GitPanel {
         v_flex().flex_1().size_full().overflow_hidden().map(|this| {
             let has_repo = self.active_repository.is_some();
             match &self.commit_history {
-                _ if !has_repo => {
-                    this.child(Self::render_history_placeholder("未找到仓库"))
+                _ if !has_repo => this.child(Self::render_history_placeholder("未找到仓库")),
+                CommitHistory::Error(_) => {
+                    this.child(Self::render_history_placeholder("加载提交历史失败"))
                 }
-                CommitHistory::Error(_) => this.child(Self::render_history_placeholder(
-                    "加载提交历史失败",
-                )),
                 CommitHistory::Loading => {
                     this.child(Self::render_history_placeholder("正在加载提交历史…"))
                 }
@@ -8870,9 +8857,7 @@ impl Render for GenerateCommitMessageConfigurationTooltip {
         ui::tooltip_container(cx, |container, _cx| {
             container
                 .gap_1p5()
-                .child(Label::new(
-                    "配置 LLM 提供商以生成提交信息。",
-                ))
+                .child(Label::new("配置 LLM 提供商以生成提交信息。"))
                 .child(
                     h_flex()
                         .gap_1()

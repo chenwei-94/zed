@@ -2700,9 +2700,7 @@ impl Render for ConfigurationView {
         }
 
         let configured_label = match &auth {
-            Some(BedrockAuth::Automatic) => {
-                "使用自动凭证（AWS 默认凭证链）".into()
-            }
+            Some(BedrockAuth::Automatic) => "使用自动凭证（AWS 默认凭证链）".into(),
             Some(BedrockAuth::NamedProfile { profile_name }) => {
                 format!("使用 AWS 配置档：{profile_name}")
             }
@@ -2744,10 +2742,7 @@ impl Render for ConfigurationView {
                 ZED_BEDROCK_BEARER_TOKEN_VAR.name
             ))
         } else if is_settings_derived {
-            Some(
-                "身份验证方式在设置中配置。修改需编辑 settings.json。"
-                    .to_string(),
-            )
+            Some("身份验证方式在设置中配置。修改需编辑 settings.json。".to_string())
         } else {
             None
         };

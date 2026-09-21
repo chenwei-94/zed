@@ -107,13 +107,10 @@ pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
                         cx,
                         |cx| {
                             cx.new(|cx| {
-                                MessageNotification::new(
-                                    "可以手动将 `zed` 添加到 PATH。",
-                                    cx,
-                                )
-                                .with_title("无法安装 Zed CLI")
-                                .more_info_message("看看怎么做")
-                                .more_info_url(CANT_INSTALL_DOCS_URL)
+                                MessageNotification::new("可以手动将 `zed` 添加到 PATH。", cx)
+                                    .with_title("无法安装 Zed CLI")
+                                    .more_info_message("看看怎么做")
+                                    .more_info_url(CANT_INSTALL_DOCS_URL)
                             })
                         },
                     );

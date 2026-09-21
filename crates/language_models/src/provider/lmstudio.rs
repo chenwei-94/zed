@@ -788,23 +788,35 @@ impl Render for ConfigurationView {
                 v_flex()
                     .gap_1()
                     .child(Headline::new("LM Studio").size(HeadlineSize::Small))
-                    .child(
-                        Label::new("在本地运行 Llama、Phi 和 Qwen 等 LLM。").color(Color::Muted),
-                    )
+                    .child(Label::new("在本地运行 Llama、Phi 和 Qwen 等 LLM。").color(Color::Muted))
                     .child(
                         List::new()
-                            .child(ListBulletItem::new(
-                                "LM Studio 需要处于运行状态，并至少下载一个模型。",
-                            ).label_color(Color::Muted))
+                            .child(
+                                ListBulletItem::new(
+                                    "LM Studio 需要处于运行状态，并至少下载一个模型。",
+                                )
+                                .label_color(Color::Muted),
+                            )
                             .child(
                                 ListBulletItem::new("")
-                                    .child(Label::new("要获取第一个模型，可尝试运行").color(Color::Muted))
-                                    .child(Label::new("lms get qwen2.5-coder-7b").inline_code(cx).color(Color::Muted).ml_1()),
+                                    .child(
+                                        Label::new("要获取第一个模型，可尝试运行")
+                                            .color(Color::Muted),
+                                    )
+                                    .child(
+                                        Label::new("lms get qwen2.5-coder-7b")
+                                            .inline_code(cx)
+                                            .color(Color::Muted)
+                                            .ml_1(),
+                                    ),
                             ),
                     )
-                    .child(Label::new(
-                        "也可以指定 URL 和 API 密钥（可能非必需）来连接到 LM Studio 服务器：",
-                    ).color(Color::Muted)),
+                    .child(
+                        Label::new(
+                            "也可以指定 URL 和 API 密钥（可能非必需）来连接到 LM Studio 服务器：",
+                        )
+                        .color(Color::Muted),
+                    ),
             )
             .child(self.render_api_url_editor(cx))
             .child(self.render_api_key_editor(cx))
@@ -837,21 +849,18 @@ impl Render for ConfigurationView {
                                     )
                                 } else {
                                     this.child(
-                                        Button::new(
-                                            "download_lmstudio_button",
-                                            "下载 LM Studio",
-                                        )
-                                        .style(ButtonStyle::OutlinedGhost)
-                                        .size(ButtonSize::Medium)
-                                        .end_icon(
-                                            Icon::new(IconName::ArrowUpRight)
-                                                .size(IconSize::Small)
-                                                .color(Color::Muted),
-                                        )
-                                        .on_click(move |_, _window, cx| {
-                                            cx.open_url(LMSTUDIO_DOWNLOAD_URL)
-                                        })
-                                        .into_any_element(),
+                                        Button::new("download_lmstudio_button", "下载 LM Studio")
+                                            .style(ButtonStyle::OutlinedGhost)
+                                            .size(ButtonSize::Medium)
+                                            .end_icon(
+                                                Icon::new(IconName::ArrowUpRight)
+                                                    .size(IconSize::Small)
+                                                    .color(Color::Muted),
+                                            )
+                                            .on_click(move |_, _window, cx| {
+                                                cx.open_url(LMSTUDIO_DOWNLOAD_URL)
+                                            })
+                                            .into_any_element(),
                                     )
                                 }
                             })
@@ -878,7 +887,7 @@ impl Render for ConfigurationView {
                                         h_flex()
                                             .gap_1()
                                             .child(Icon::new(IconName::Check).color(Color::Success))
-                                            .child(Label::new("已连接"))
+                                            .child(Label::new("已连接")),
                                     )
                                     .child(
                                         IconButton::new("refresh-models", IconName::RotateCcw)

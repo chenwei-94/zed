@@ -561,11 +561,7 @@ impl ConfigureContextServerModal {
                     scroll_handle: ScrollHandle::new(),
                     secret_editor: cx.new(|cx| {
                         let mut editor = Editor::single_line(window, cx);
-                        editor.set_placeholder_text(
-                            "输入客户端密钥（公共客户端留空）",
-                            window,
-                            cx,
-                        );
+                        editor.set_placeholder_text("输入客户端密钥（公共客户端留空）", window, cx);
                         editor.set_masked(true, cx);
                         editor
                     }),
@@ -746,18 +742,15 @@ impl ConfigureContextServerModal {
         self.workspace
             .update(cx, {
                 |workspace, cx| {
-                    let status_toast = StatusToast::new(
-                        format!("{} 配置成功。", id.0),
-                        cx,
-                        |this, _cx| {
+                    let status_toast =
+                        StatusToast::new(format!("{} 配置成功。", id.0), cx, |this, _cx| {
                             this.icon(
                                 Icon::new(IconName::ToolHammer)
                                     .size(IconSize::Small)
                                     .color(Color::Muted),
                             )
                             .action("忽略", |_, _| {})
-                        },
-                    );
+                        });
 
                     workspace.toggle_status_toast(status_toast, cx);
                 }
@@ -801,8 +794,7 @@ impl ConfigureContextServerModal {
     }
 
     fn render_modal_description(&self, window: &mut Window, cx: &mut Context<Self>) -> AnyElement {
-        const MODAL_DESCRIPTION: &str =
-            "请查阅服务器文档，了解必需的参数和环境变量。";
+        const MODAL_DESCRIPTION: &str = "请查阅服务器文档，了解必需的参数和环境变量。";
 
         if let ConfigurationSource::Extension {
             installation_instructions: Some(installation_instructions),
@@ -1018,11 +1010,9 @@ impl ConfigureContextServerModal {
                             .color(Color::Muted),
                     )
                     .child(
-                        Label::new(
-                            "输入 OAuth 客户端密钥，公共客户端可留空",
-                        )
-                        .size(LabelSize::Small)
-                        .color(Color::Muted),
+                        Label::new("输入 OAuth 客户端密钥，公共客户端可留空")
+                            .size(LabelSize::Small)
+                            .color(Color::Muted),
                     ),
             )
             .child(

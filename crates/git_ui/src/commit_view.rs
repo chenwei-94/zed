@@ -546,16 +546,8 @@ impl CommitView {
             .items_center()
             .justify_center()
             .gap_2()
-            .child(
-                Label::new("此提交位于浅克隆的边界。")
-                    .color(Color::Muted),
-            )
-            .child(
-                Label::new(
-                    "未抓取其父历史，因此无法显示它引入的更改。",
-                )
-                .color(Color::Muted),
-            )
+            .child(Label::new("此提交位于浅克隆的边界。").color(Color::Muted))
+            .child(Label::new("未抓取其父历史，因此无法显示它引入的更改。").color(Color::Muted))
             .child(
                 h_flex()
                     .gap_2()
@@ -573,40 +565,40 @@ impl CommitView {
                                     "抓取缺失历史"
                                 },
                             )
-                                .style(ButtonStyle::Filled)
-                                .disabled(fetch_in_flight)
-                                .tooltip(Tooltip::text(
-                                    "运行 `git fetch --unshallow` 下载完整历史，然后显示此提交的变更。",
-                                ))
-                                .on_click(move |_, window, cx| {
-                                    let fetch = crate::commit_tooltip::fetch_unshallow(
-                                        repository.clone(),
-                                        workspace.clone(),
-                                        window,
-                                        cx,
-                                    );
-                                    let commit_sha = commit_sha.clone();
-                                    let repository = repository.downgrade();
-                                    let workspace = workspace.clone();
-                                    let file_filter = file_filter.clone();
-                                    window
-                                        .spawn(cx, async move |cx| {
-                                            fetch.await?;
-                                            cx.update(|window, cx| {
-                                                Self::open_with_options(
-                                                    commit_sha,
-                                                    repository,
-                                                    workspace,
-                                                    stash,
-                                                    file_filter,
-                                                    false,
-                                                    window,
-                                                    cx,
-                                                )
-                                            })
+                            .style(ButtonStyle::Filled)
+                            .disabled(fetch_in_flight)
+                            .tooltip(Tooltip::text(
+                                "运行 `git fetch --unshallow` 下载完整历史，然后显示此提交的变更。",
+                            ))
+                            .on_click(move |_, window, cx| {
+                                let fetch = crate::commit_tooltip::fetch_unshallow(
+                                    repository.clone(),
+                                    workspace.clone(),
+                                    window,
+                                    cx,
+                                );
+                                let commit_sha = commit_sha.clone();
+                                let repository = repository.downgrade();
+                                let workspace = workspace.clone();
+                                let file_filter = file_filter.clone();
+                                window
+                                    .spawn(cx, async move |cx| {
+                                        fetch.await?;
+                                        cx.update(|window, cx| {
+                                            Self::open_with_options(
+                                                commit_sha,
+                                                repository,
+                                                workspace,
+                                                stash,
+                                                file_filter,
+                                                false,
+                                                window,
+                                                cx,
+                                            )
                                         })
-                                        .detach_and_log_err(cx);
-                                }),
+                                    })
+                                    .detach_and_log_err(cx);
+                            }),
                         )
                     })
                     .child(
@@ -618,24 +610,24 @@ impl CommitView {
                                 "加载完整快照"
                             },
                         )
-                            .style(ButtonStyle::Outlined)
-                            .tooltip(Tooltip::text(if file_filter.is_some() {
-                                "以新增方式显示此文件在此提交处的完整内容。"
-                            } else {
-                                "以新增方式显示此提交处的所有文件。在大型仓库中可能较慢。"
-                            }))
-                            .on_click(move |_, window, cx| {
-                                Self::open_with_options(
-                                    commit_sha.clone(),
-                                    repository.downgrade(),
-                                    workspace.clone(),
-                                    stash,
-                                    file_filter.clone(),
-                                    true,
-                                    window,
-                                    cx,
-                                );
-                            }),
+                        .style(ButtonStyle::Outlined)
+                        .tooltip(Tooltip::text(if file_filter.is_some() {
+                            "以新增方式显示此文件在此提交处的完整内容。"
+                        } else {
+                            "以新增方式显示此提交处的所有文件。在大型仓库中可能较慢。"
+                        }))
+                        .on_click(move |_, window, cx| {
+                            Self::open_with_options(
+                                commit_sha.clone(),
+                                repository.downgrade(),
+                                workspace.clone(),
+                                stash,
+                                file_filter.clone(),
+                                true,
+                                window,
+                                cx,
+                            );
+                        }),
                     ),
             )
     }

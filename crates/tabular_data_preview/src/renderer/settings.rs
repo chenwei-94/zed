@@ -126,9 +126,7 @@ fn append_dev_only_entries(
     let menu = toggle_entry(
         menu,
         "可变高度",
-        Some(
-            "仅供开发使用的区块，用于调试目的。\n表格数据预览功能正式发布后将移除",
-        ),
+        Some("仅供开发使用的区块，用于调试目的。\n表格数据预览功能正式发布后将移除"),
         settings.rendering_with == RowRenderMechanism::VariableList,
         view_entity,
         |settings| settings.rendering_with = RowRenderMechanism::VariableList,

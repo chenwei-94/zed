@@ -534,10 +534,7 @@ impl Component for Button {
                 example_group_with_title(
                     "按钮样式",
                     vec![
-                        single_example(
-                            "默认",
-                            Button::new("default", "默认").into_any_element(),
-                        ),
+                        single_example("默认", Button::new("default", "默认").into_any_element()),
                         single_example(
                             "填充",
                             Button::new("filled", "填充")

@@ -60,13 +60,8 @@ pub fn init(cx: &mut App) {
                     })
                     .log_err();
 
-                    cx.prompt(
-                        PromptLevel::Info,
-                        "已复制到剪贴板",
-                        Some(&specs),
-                        &["OK"],
-                    )
-                    .await
+                    cx.prompt(PromptLevel::Info, "已复制到剪贴板", Some(&specs), &["OK"])
+                        .await
                 })
                 .detach();
             })

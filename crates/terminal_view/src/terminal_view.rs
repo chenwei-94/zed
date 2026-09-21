@@ -535,10 +535,7 @@ impl TerminalView {
             menu.context(self.focus_handle.clone())
                 .when(self.shows_workspace_actions(), |menu| {
                     menu.action("新建终端", Box::new(NewTerminal::default()))
-                        .action(
-                            "新建居中终端",
-                            Box::new(NewCenterTerminal::default()),
-                        )
+                        .action("新建居中终端", Box::new(NewCenterTerminal::default()))
                         .separator()
                 })
                 .action("复制", Box::new(Copy))

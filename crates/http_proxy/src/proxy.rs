@@ -106,9 +106,9 @@ impl DenyReason {
             DenyReason::IpLiteralRejected { target } => format!(
                 "target '{target}' is an IP literal; only hostnames are permitted by sandbox policy"
             ),
-            DenyReason::ResolvedToForbiddenIp { host } => format!(
-                "主机 '{host}' 只解析到回环/私有/链路本地地址，沙箱策略禁止此类访问"
-            ),
+            DenyReason::ResolvedToForbiddenIp { host } => {
+                format!("主机 '{host}' 只解析到回环/私有/链路本地地址，沙箱策略禁止此类访问")
+            }
         }
     }
 }

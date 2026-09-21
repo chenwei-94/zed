@@ -120,7 +120,9 @@ impl AgentImportStatus {
         match self {
             Self::Loading => Some("正在获取会话…".into()),
             Self::Ready { .. } => None,
-            Self::Unsupported => Some("无法从此智能体导入会话，因为它不支持 ACP 的 session/list 能力。".into()),
+            Self::Unsupported => {
+                Some("无法从此智能体导入会话，因为它不支持 ACP 的 session/list 能力。".into())
+            }
             Self::Error(error) => Some(format!("获取会话失败：{error}").into()),
         }
     }

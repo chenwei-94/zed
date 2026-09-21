@@ -1066,9 +1066,7 @@ impl ConversationView {
             && agent.clone().downcast::<NativeAgentServer>().is_none()
         {
             return ServerState::LoadError {
-                error: LoadError::Other(
-                    "共享项目中尚不支持外部智能体。".into(),
-                ),
+                error: LoadError::Other("共享项目中尚不支持外部智能体。".into()),
             };
         }
         let session_work_dirs = work_dirs.unwrap_or_else(|| project.read(cx).default_path_list(cx));
@@ -1564,9 +1562,7 @@ impl ConversationView {
                 .clone()
                 .unwrap_or_else(|| "Loading…".into()),
             ServerState::LoadError { error, .. } => match error {
-                LoadError::Unsupported { .. } => {
-                    format!("升级 {}", self.agent.agent_id()).into()
-                }
+                LoadError::Unsupported { .. } => format!("升级 {}", self.agent.agent_id()).into(),
                 LoadError::FailedToInstall(_) => {
                     format!("安装 {} 失败", self.agent.agent_id()).into()
                 }
@@ -1756,8 +1752,7 @@ impl ConversationView {
                 }
                 if !is_subagent {
                     let model_or_agent_name = self.current_model_name(cx);
-                    let notification_message =
-                        format!("{} 拒绝响应此请求", model_or_agent_name);
+                    let notification_message = format!("{} 拒绝响应此请求", model_or_agent_name);
                     self.notify_with_sound(&notification_message, IconName::Warning, window, cx);
                 }
             }
@@ -1776,12 +1771,7 @@ impl ConversationView {
                     });
                 }
                 if !is_subagent {
-                    self.notify_with_sound(
-                        "智能体因错误停止",
-                        IconName::Warning,
-                        window,
-                        cx,
-                    );
+                    self.notify_with_sound("智能体因错误停止", IconName::Warning, window, cx);
                 }
             }
             AcpThreadEvent::LoadError(error) => {
@@ -2784,10 +2774,7 @@ impl ConversationView {
         let (heading_label, description_label) = (
             format!("升级 {} 以配合 Zed 使用", self.agent.agent_id()),
             if version.is_empty() {
-                format!(
-                    "当前使用的 {} 未报告有效的 --version",
-                    path,
-                )
+                format!("当前使用的 {} 未报告有效的 --version", path,)
             } else {
                 format!(
                     "当前使用的 {} 版本仅为 {}（至少需要 {minimum_version}）",
@@ -3340,15 +3327,9 @@ fn native_available_skills(
 
 fn placeholder_text(agent_name: &str, has_commands: bool) -> String {
     if agent_name == agent::ZED_AGENT_ID.as_ref() {
-        format!(
-            "向 {} 发送消息，@ 添加上下文，/ 使用命令",
-            agent_name
-        )
+        format!("向 {} 发送消息，@ 添加上下文，/ 使用命令", agent_name)
     } else if has_commands {
-        format!(
-            "向 {} 发送消息 — @ 添加上下文，/ 使用命令",
-            agent_name
-        )
+        format!("向 {} 发送消息 — @ 添加上下文，/ 使用命令", agent_name)
     } else {
         format!("向 {} 发送消息 — @ 添加上下文", agent_name)
     }

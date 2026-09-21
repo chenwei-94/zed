@@ -711,28 +711,24 @@ impl Render for AgentDiffPane {
             .size_full()
             .when(is_empty, |el| {
                 el.child(
-                    v_flex()
-                        .items_center()
-                        .gap_2()
-                        .child("无更改可审查")
-                        .child(
-                            Button::new("continue-iterating", "继续迭代")
-                                .style(ButtonStyle::Filled)
-                                .start_icon(
-                                    Icon::new(IconName::ForwardArrow)
-                                        .size(IconSize::Small)
-                                        .color(Color::Muted),
-                                )
-                                .full_width()
-                                .key_binding(KeyBinding::for_action_in(
-                                    &ToggleFocus,
-                                    &focus_handle.clone(),
-                                    cx,
-                                ))
-                                .on_click(|_event, window, cx| {
-                                    window.dispatch_action(ToggleFocus.boxed_clone(), cx)
-                                }),
-                        ),
+                    v_flex().items_center().gap_2().child("无更改可审查").child(
+                        Button::new("continue-iterating", "继续迭代")
+                            .style(ButtonStyle::Filled)
+                            .start_icon(
+                                Icon::new(IconName::ForwardArrow)
+                                    .size(IconSize::Small)
+                                    .color(Color::Muted),
+                            )
+                            .full_width()
+                            .key_binding(KeyBinding::for_action_in(
+                                &ToggleFocus,
+                                &focus_handle.clone(),
+                                cx,
+                            ))
+                            .on_click(|_event, window, cx| {
+                                window.dispatch_action(ToggleFocus.boxed_clone(), cx)
+                            }),
+                    ),
                 )
             })
             .when(!is_empty, |el| el.child(self.editor.clone()))

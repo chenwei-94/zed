@@ -302,12 +302,13 @@ impl Render for QuickActionBar {
                             .action("转到行/列", Box::new(ToggleGoToLine))
                             .separator()
                             .action("下一个问题", Box::new(GoToDiagnostic::default()))
-                            .action(
-                                "上一个问题",
-                                Box::new(GoToPreviousDiagnostic::default()),
-                            )
+                            .action("上一个问题", Box::new(GoToPreviousDiagnostic::default()))
                             .separator()
-                            .action_disabled_when(!has_diff_hunks, "下一个差异块", Box::new(GoToHunk))
+                            .action_disabled_when(
+                                !has_diff_hunks,
+                                "下一个差异块",
+                                Box::new(GoToHunk),
+                            )
                             .action_disabled_when(
                                 !has_diff_hunks,
                                 "上一个差异块",
@@ -389,7 +390,7 @@ impl Render for QuickActionBar {
                                                 })
                                                 .ok();
                                         }
-                                    }
+                                    },
                                 );
                             }
 
@@ -440,29 +441,37 @@ impl Render for QuickActionBar {
                             }
 
                             if supports_minimap {
-                                menu = menu.toggleable_entry("Minimap", minimap_enabled, IconPosition::Start, Some(editor::actions::ToggleMinimap.boxed_clone()), {
-                                    let editor = editor.clone();
-                                    move |window, cx| {
-                                        editor
-                                            .update(cx, |editor, cx| {
-                                                editor.toggle_minimap(
-                                                    &editor::actions::ToggleMinimap,
-                                                    window,
-                                                    cx,
-                                                );
-                                            })
-                                            .ok();
-                                    }
-                                },)
+                                menu = menu.toggleable_entry(
+                                    "Minimap",
+                                    minimap_enabled,
+                                    IconPosition::Start,
+                                    Some(editor::actions::ToggleMinimap.boxed_clone()),
+                                    {
+                                        let editor = editor.clone();
+                                        move |window, cx| {
+                                            editor
+                                                .update(cx, |editor, cx| {
+                                                    editor.toggle_minimap(
+                                                        &editor::actions::ToggleMinimap,
+                                                        window,
+                                                        cx,
+                                                    );
+                                                })
+                                                .ok();
+                                        }
+                                    },
+                                )
                             }
 
                             if has_edit_prediction_provider {
                                 let mut edit_prediction_entry = ContextMenuEntry::new("编辑预测")
-                                    .toggleable(IconPosition::Start, edit_predictions_enabled_at_cursor && show_edit_predictions)
+                                    .toggleable(
+                                        IconPosition::Start,
+                                        edit_predictions_enabled_at_cursor && show_edit_predictions,
+                                    )
                                     .disabled(!edit_predictions_enabled_at_cursor)
-                                    .action(
-                                        editor::actions::ToggleEditPrediction.boxed_clone(),
-                                    ).handler({
+                                    .action(editor::actions::ToggleEditPrediction.boxed_clone())
+                                    .handler({
                                         let editor = editor.clone();
                                         move |window, cx| {
                                             editor
@@ -477,9 +486,11 @@ impl Render for QuickActionBar {
                                         }
                                     });
                                 if !edit_predictions_enabled_at_cursor {
-                                    edit_prediction_entry = edit_prediction_entry.documentation_aside(DocumentationSide::Left, |_| {
-                                        Label::new("此文件位于排除列表中，无法切换编辑预测。").into_any_element()
-                                    });
+                                    edit_prediction_entry = edit_prediction_entry
+                                        .documentation_aside(DocumentationSide::Left, |_| {
+                                            Label::new("此文件位于排除列表中，无法切换编辑预测。")
+                                                .into_any_element()
+                                        });
                                 }
 
                                 menu = menu.item(edit_prediction_entry);
@@ -510,25 +521,34 @@ impl Render for QuickActionBar {
                                 );
 
                                 if supports_inline_diagnostics {
-                                    let mut inline_diagnostics_item = ContextMenuEntry::new("行内诊断")
-                                        .toggleable(IconPosition::Start, diagnostics_enabled && inline_diagnostics_enabled)
-                                        .action(ToggleInlineDiagnostics.boxed_clone())
-                                        .handler({
-                                            let editor = editor.clone();
-                                            move |window, cx| {
-                                                editor
-                                                    .update(cx, |editor, cx| {
-                                                        editor.toggle_inline_diagnostics(
-                                                            &ToggleInlineDiagnostics,
-                                                            window,
-                                                            cx,
-                                                        );
-                                                    })
-                                                    .ok();
-                                            }
-                                        });
+                                    let mut inline_diagnostics_item =
+                                        ContextMenuEntry::new("行内诊断")
+                                            .toggleable(
+                                                IconPosition::Start,
+                                                diagnostics_enabled && inline_diagnostics_enabled,
+                                            )
+                                            .action(ToggleInlineDiagnostics.boxed_clone())
+                                            .handler({
+                                                let editor = editor.clone();
+                                                move |window, cx| {
+                                                    editor
+                                                        .update(cx, |editor, cx| {
+                                                            editor.toggle_inline_diagnostics(
+                                                                &ToggleInlineDiagnostics,
+                                                                window,
+                                                                cx,
+                                                            );
+                                                        })
+                                                        .ok();
+                                                }
+                                            });
                                     if !diagnostics_enabled {
-                                        inline_diagnostics_item = inline_diagnostics_item.disabled(true).documentation_aside(DocumentationSide::Left, |_|  Label::new("启用常规诊断后才能使用行内诊断。").into_any_element());
+                                        inline_diagnostics_item = inline_diagnostics_item
+                                            .disabled(true)
+                                            .documentation_aside(DocumentationSide::Left, |_| {
+                                                Label::new("启用常规诊断后才能使用行内诊断。")
+                                                    .into_any_element()
+                                            });
                                     }
                                     menu = menu.item(inline_diagnostics_item)
                                 }
@@ -632,11 +652,7 @@ impl Render for QuickActionBar {
                                     move |window, cx| {
                                         editor
                                             .update(cx, |editor, cx| {
-                                                editor.toggle_git_blame(
-                                                    &git::Blame,
-                                                    window,
-                                                    cx,
-                                                )
+                                                editor.toggle_git_blame(&git::Blame, window, cx)
                                             })
                                             .ok();
                                     }
@@ -656,10 +672,16 @@ impl Render for QuickActionBar {
                                             } else {
                                                 GitDiffBaseSetting::DefaultBranch
                                             };
-                                            update_settings_file(fs.clone(), cx, move |settings, _| {
-                                                settings.git.get_or_insert_default().diff_base =
-                                                    Some(diff_base);
-                                            });
+                                            update_settings_file(
+                                                fs.clone(),
+                                                cx,
+                                                move |settings, _| {
+                                                    settings
+                                                        .git
+                                                        .get_or_insert_default()
+                                                        .diff_base = Some(diff_base);
+                                                },
+                                            );
                                         }
                                     },
                                 );
@@ -675,8 +697,14 @@ impl Render for QuickActionBar {
                                 {
                                     move |window, cx| {
                                         let new_value = !vim_mode_enabled;
-                                        VimModeSetting::override_global(VimModeSetting(new_value), cx);
-                                        HelixModeSetting::override_global(HelixModeSetting(false), cx);
+                                        VimModeSetting::override_global(
+                                            VimModeSetting(new_value),
+                                            cx,
+                                        );
+                                        HelixModeSetting::override_global(
+                                            HelixModeSetting(false),
+                                            cx,
+                                        );
                                         window.refresh();
                                     }
                                 },
@@ -689,11 +717,14 @@ impl Render for QuickActionBar {
                                 {
                                     move |window, cx| {
                                         let new_value = !helix_mode_enabled;
-                                        HelixModeSetting::override_global(HelixModeSetting(new_value), cx);
+                                        HelixModeSetting::override_global(
+                                            HelixModeSetting(new_value),
+                                            cx,
+                                        );
                                         VimModeSetting::override_global(VimModeSetting(false), cx);
                                         window.refresh();
                                     }
-                                }
+                                },
                             );
 
                             menu
