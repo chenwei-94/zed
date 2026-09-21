@@ -252,7 +252,7 @@ fn general_page(cx: &App) -> SettingsPage {
                 field: Box::new(
                     SettingField {
                         organization_override: None,
-                        json_path: Some("worktree.private_files"),
+                        json_path: Some("private_files"),
                         pick: |settings_content| {
                             settings_content.project.worktree.private_files.as_ref()
                         },
@@ -6069,7 +6069,7 @@ fn panels_page() -> SettingsPage {
                 field: Box::new(
                     SettingField {
                         organization_override: None,
-                        json_path: Some("worktree.hidden_files"),
+                        json_path: Some("hidden_files"),
                         pick: |settings_content| {
                             settings_content.project.worktree.hidden_files.as_ref()
                         },
@@ -11253,7 +11253,7 @@ fn edit_prediction_language_settings_section() -> [SettingsPageItem; 5] {
         }),
         SettingsPageItem::SettingItem(SettingItem {
             title: "在语言作用域中禁用",
-            description: "控制是否在指定语言作用域中显示编辑预测。",
+            description: "在这些语言作用域中禁用编辑预测，例如 \"comment\" 与 \"string\"。用 \"...\" 可追加作用域，无需重复继承来的列表。",
             field: Box::new(
                 SettingField {
                     organization_override: None,

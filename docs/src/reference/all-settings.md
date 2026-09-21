@@ -100,7 +100,7 @@ To configure panel sizing, open the Settings Editor and search for “Agent Pane
 
 ### Flexible Sizing {#agent-panel-flexible-sizing}
 
-- Description: Whether the agent panel uses flexible (proportional) sizing when docked to the left or right. When enabled, `agent.default_width` does not control the panel width, and double-clicking the panel’s outer resize handle restores the default proportion.
+- Description: Whether the agent panel uses flexible (proportional) sizing when docked to the left or right. When enabled, `agent.default_width` does not control the panel width, and double-clicking the panel's outer resize handle restores the default proportion.
 - Setting: `agent.flexible`
 - Default: `true`
 
@@ -141,7 +141,7 @@ Open the Settings Editor and search for “Threads Sidebar Default Width”. Or 
 }
 ```
 
-If you haven’t manually resized the sidebar, its width follows changes to this setting immediately. A manually resized width takes precedence until you double-click the divider to reset it. After resetting, the sidebar follows this setting again.
+If you haven't manually resized the sidebar, its width follows changes to this setting immediately. A manually resized width takes precedence until you double-click the divider to reset it. After resetting, the sidebar follows this setting again.
 
 Widths saved by older versions of Zed are preserved if they differ from the previous default of 300 pixels. A saved width of 300 pixels uses this setting instead.
 
@@ -209,7 +209,7 @@ Open the Settings Editor and search for “Threads Sidebar Auto Open”. Or add 
 }
 ```
 
-> Note: This setting has no effect in Vim mode, as rewrap is already allowed everywhere.
+> Note: This setting has no effect in [Vim mode](../vim.md), as rewrap is already allowed everywhere.
 
 ## Auto Indent
 
@@ -789,6 +789,7 @@ For the case of "open", regular selection behavior can be achieved by holding `a
 - Default:
 
 ```json [settings]
+{
   "edit_predictions": {
     "disabled_globs": [
       "**/.env*",
@@ -803,6 +804,7 @@ For the case of "open", regular selection behavior can be achieved by holding `a
       "/**/zed/keymap.json"
     ]
   }
+}
 ```
 
 **Options**
@@ -847,13 +849,29 @@ For the case of "open", regular selection behavior can be achieved by holding `a
 
 ### Disabled Globs
 
-- Description: A list of globs for which edit predictions should be disabled for. This list adds to a pre-existing, sensible default set of globs. Any additional ones you add are combined with them.
+- Description: Disable edit predictions for files matching these glob patterns.
 - Setting: `disabled_globs`
 - Default: `["**/.env*", "**/*.pem", "**/*.key", "**/*.cert", "**/*.crt", "**/.dev.vars", "**/secrets.yml", "**/.zed/settings.json", "/**/zed/settings.json", "/**/zed/keymap.json"]`
 
 **Options**
 
 List of `string` values.
+
+Use `"..."` to add patterns without repeating Zed's defaults. In project settings, it extends the user or parent configuration value. Omit `"..."` to replace the inherited list.
+
+```json [settings]
+{
+  "edit_predictions": {
+    "disabled_globs": ["**/build/**", "..."]
+  }
+}
+```
+
+Inherited patterns are inserted at `"..."`, and duplicates keep their first occurrence.
+
+Set `[]` to clear the inherited list. Omit this setting to inherit it unchanged.
+
+Relative patterns are matched against paths relative to the worktree root. Absolute patterns are matched against absolute paths. A leading `~` is expanded to your home folder.
 
 ### Prediction Debounce
 
@@ -880,41 +898,32 @@ See [Configuring the Prediction Debounce](../ai/edit-prediction.md#configuring-t
 
 ## Edit Predictions Disabled in
 
-- Description: A list of language scopes in which edit predictions should be disabled.
 - Setting: `edit_predictions_disabled_in`
-- Default: `[]`
-
-**Options**
-
-List of `string` values
-
-1. Don't show edit predictions in comments:
+- Description: Disable edit predictions in these language scopes, such as "comment" and "string".
+- Default:
 
 ```json [settings]
 {
-  "edit_predictions_disabled_in": ["comment"]
+  "edit_predictions_disabled_in": []
 }
 ```
 
-2. Don't show edit predictions in strings and comments:
+Use `"..."` to add scopes without repeating the inherited list. In project settings, it extends the user or parent configuration value. In language-specific settings, it extends the scopes inherited by that language. Omit `"..."` to replace the inherited list.
 
 ```json [settings]
 {
-  "edit_predictions_disabled_in": ["comment", "string"]
-}
-```
-
-3. Only in Go, don't show edit predictions in strings and comments:
-
-```json [settings]
-{
+  "edit_predictions_disabled_in": ["comment"],
   "languages": {
     "Go": {
-      "edit_predictions_disabled_in": ["comment", "string"]
+      "edit_predictions_disabled_in": ["string", "..."]
     }
   }
 }
 ```
+
+Inherited scopes are inserted at `"..."`, and duplicates keep their first occurrence.
+
+Set `[]` to clear the inherited list. Omit this setting to inherit it unchanged.
 
 ## Current Line Highlight
 
@@ -1878,13 +1887,13 @@ Each option controls displaying of a particular toolbar element. If all elements
 
 ## Use System Tabs
 
-- Description: Whether to allow windows to tab together based on the user’s tabbing preference (macOS only).
+- Description: Whether to allow windows to tab together based on the user's tabbing preference (macOS only).
 - Setting: `use_system_window_tabs`
 - Default: `false`
 
 **Options**
 
-This setting enables integration with macOS’s native window tabbing feature. When set to `true`, Zed windows can be grouped together as tabs in a single macOS window, following the system-wide tabbing preferences set by the user (such as "Always", "In Full Screen", or "Never"). This setting is only available on macOS.
+This setting enables integration with macOS's native window tabbing feature. When set to `true`, Zed windows can be grouped together as tabs in a single macOS window, following the system-wide tabbing preferences set by the user (such as "Always", "In Full Screen", or "Never"). This setting is only available on macOS.
 
 ## Fullscreen Mode
 
@@ -2353,7 +2362,7 @@ The result is still `)))` and not `))))))`, which is what it would be by default
 }
 ```
 
-Use `"..."` to add patterns without repeating Zed’s defaults. In project settings, it extends the user or parent configuration value. Omit `"..."` to replace the inherited list.
+Use `"..."` to add patterns without repeating Zed's defaults. In project settings, it extends the user or parent configuration value. Omit `"..."` to replace the inherited list.
 
 ```json [settings]
 {
@@ -2375,7 +2384,7 @@ Inherited patterns are inserted at `"..."`, and duplicates keep their first occu
 }
 ```
 
-Use `"..."` to add patterns without repeating Zed’s defaults. In project settings, it extends the user or parent configuration value. Omit `"..."` to replace the inherited list.
+Use `"..."` to add patterns without repeating Zed's defaults. In project settings, it extends the user or parent configuration value. Omit `"..."` to replace the inherited list.
 
 ```json [settings]
 {
@@ -2934,28 +2943,28 @@ Example:
 
 ## Hidden Files {#hidden-files}
 
-- Description: Glob patterns that mark files and folders as hidden in the Project Panel.
 - Setting: `hidden_files`
-- Default: `["**/.*"]`
-
-**Options**
-
-List of `string` glob patterns.
-
-The default matches files and folders whose names start with a dot. Files inside matching folders are also considered hidden.
-
-The [Project Panel](../project-panel.md#hiding-files) shows hidden entries by default. To hide them, enable **Hide Hidden** under **Panels > Project Panel** in the Settings Editor, or set `project_panel.hide_hidden` to `true`.
-
-Customizing `hidden_files` replaces the default patterns. To hide `*.log` files while keeping dotfiles and dotfolders hidden, add this to your `settings.json`:
+- Description: Treat files and folders matching these glob patterns as hidden, including files inside matching folders. To [hide these entries](../project-panel.md#hiding-files), run `project panel: toggle hide hidden` from the command palette or set `project_panel.hide_hidden` to `true`.
+- Default:
 
 ```json [settings]
 {
-  "hidden_files": ["**/*.log", "**/.*"],
+  "hidden_files": ["**/.*"]
+}
+```
+
+Use `"..."` to add patterns without repeating Zed's defaults. In project settings, it extends the user or parent configuration value. Omit `"..."` to replace the inherited list.
+
+```json [settings]
+{
+  "hidden_files": ["**/*.log", "..."],
   "project_panel": {
     "hide_hidden": true
   }
 }
 ```
+
+Inherited patterns are inserted at `"..."`, and duplicates keep their first occurrence.
 
 ## Indent Guides
 
@@ -3908,7 +3917,7 @@ List of `string` glob patterns
 }
 ```
 
-Use `"..."` to add patterns without repeating Zed’s defaults. In project settings, it extends the user or parent configuration value. Omit `"..."` to replace the inherited list.
+Use `"..."` to add patterns without repeating Zed's defaults. In project settings, it extends the user or parent configuration value. Omit `"..."` to replace the inherited list.
 
 ```json [settings]
 {
@@ -4214,7 +4223,7 @@ Non-negative `integer` values
 
 ## Semantic Tokens
 
-- Description: Controls how semantic tokens from language servers are used for syntax highlighting.
+- Description: Controls how [semantic tokens](../semantic-tokens.md) from language servers are used for syntax highlighting.
 - Setting: `semantic_tokens`
 - Default: `off`
 
