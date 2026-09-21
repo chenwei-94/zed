@@ -113,9 +113,9 @@ impl AgentTool for FindPathTool {
         input: Result<Self::Input, serde_json::Value>,
         _cx: &mut App,
     ) -> SharedString {
-        let mut title = "Find paths".to_string();
+        let mut title = "查找路径".to_string();
         if let Ok(input) = input {
-            title.push_str(&format!(" matching “`{}`”", input.glob));
+            title.push_str(&format!(" 匹配 “`{}`”", input.glob));
         }
         title.into()
     }
@@ -146,11 +146,11 @@ impl AgentTool for FindPathTool {
             event_stream.update_fields(
                 acp::ToolCallUpdateFields::new()
                     .title(if paginated_matches.is_empty() {
-                        "No matches".into()
+                        "无匹配项".into()
                     } else if paginated_matches.len() == 1 {
-                        "1 match".into()
+                        "1 个匹配项".into()
                     } else {
-                        format!("{} matches", paginated_matches.len())
+                        format!("{} 个匹配项", paginated_matches.len())
                     })
                     .content(
                         paginated_matches

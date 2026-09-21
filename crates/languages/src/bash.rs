@@ -15,7 +15,7 @@ use util::{ResultExt, maybe};
 pub(super) fn bash_task_context() -> ContextProviderWithTasks {
     ContextProviderWithTasks::new(TaskTemplates(vec![
         TaskTemplate {
-            label: "execute selection".to_owned(),
+            label: "执行选中内容".to_owned(),
             command: VariableName::SelectedText.template_value(),
             ..TaskTemplate::default()
         },

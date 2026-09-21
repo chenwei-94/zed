@@ -132,7 +132,7 @@ pub fn start_kernel_tasks<S: KernelSession + 'static>(
                         ref err @ (runtimelib::RuntimeError::ParseError { .. }
                         | runtimelib::RuntimeError::SerdeError(_)),
                     ) => {
-                        let error_detail = format!("Kernel issue on {channel} channel\n\n{err}");
+                        let error_detail = format!("内核在 {channel} 通道上出现问题\n\n{err}");
                         log::warn!("kernel: {error_detail}");
                         session
                             .update_in(cx, |session, _window, cx| {
@@ -312,11 +312,11 @@ impl KernelSpecification {
             Self::PythonEnv(spec) => SharedString::from(
                 spec.environment_kind
                     .clone()
-                    .unwrap_or_else(|| "Python Environment".to_string()),
+                    .unwrap_or_else(|| "Python 环境".to_string()),
             ),
-            Self::JupyterServer(_) => "Jupyter Server".into(),
-            Self::SshRemote(_) => "SSH Remote".into(),
-            Self::WslRemote(_) => "WSL Remote".into(),
+            Self::JupyterServer(_) => "Jupyter 服务器".into(),
+            Self::SshRemote(_) => "SSH 远程".into(),
+            Self::WslRemote(_) => "WSL 远程".into(),
         }
     }
 
@@ -356,9 +356,9 @@ impl KernelSpecification {
                 .as_ref()
                 .map(|kind| SharedString::from(kind.clone())),
             Self::Jupyter(_) => Some("Jupyter".into()),
-            Self::JupyterServer(_) => Some("Jupyter Server".into()),
-            Self::SshRemote(_) => Some("SSH Remote".into()),
-            Self::WslRemote(_) => Some("WSL Remote".into()),
+            Self::JupyterServer(_) => Some("Jupyter 服务器".into()),
+            Self::SshRemote(_) => Some("SSH 远程".into()),
+            Self::WslRemote(_) => Some("WSL 远程".into()),
         }
     }
 
@@ -497,7 +497,7 @@ pub fn python_env_kernel_specifications(
                         );
                         return Some(KernelSpecification::SshRemote(
                             SshRemoteKernelSpecification {
-                                name: format!("Remote {}", toolchain.name),
+                                name: format!("远程 {}", toolchain.name),
                                 path: toolchain.path.clone(),
                                 kernelspec: default_kernelspec,
                             },

@@ -376,9 +376,9 @@ impl LoadProgress {
     /// `0→100%` and the label says which stage it is.
     pub fn stage_label(&self) -> &'static str {
         match self.current.as_str() {
-            "text_model" => "Loading weights",
-            "spec_model" => "Loading draft",
-            "mmproj_model" => "Loading projector",
+            "text_model" => "正在加载权重",
+            "spec_model" => "正在加载草稿模型",
+            "mmproj_model" => "正在加载投影模型",
             _ => "Loading",
         }
     }
@@ -781,7 +781,7 @@ mod tests {
         }));
         let progress = weights.load_progress().unwrap();
         assert!((progress.value - 0.4).abs() < 1e-4);
-        assert_eq!(progress.stage_label(), "Loading weights");
+        assert_eq!(progress.stage_label(), "正在加载权重");
         assert_eq!(progress.progress_label(), "Loading weights 40%");
 
         // The projector stage runs 0→1 on its own (not 90→100%).
@@ -793,7 +793,7 @@ mod tests {
         }));
         let progress = projector.load_progress().unwrap();
         assert!((progress.value - 0.5).abs() < 1e-4);
-        assert_eq!(progress.stage_label(), "Loading projector");
+        assert_eq!(progress.stage_label(), "正在加载投影模型");
 
         // Non-loading events carry no progress.
         let loaded = model_event(serde_json::json!({

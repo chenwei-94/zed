@@ -1483,7 +1483,7 @@ impl EditPredictionStore {
                                     timestamp: Instant::now(),
                                     metadata: vec![
                                         (
-                                            "Cache Hits",
+                                            "缓存命中",
                                             format!(
                                                 "{}/{}",
                                                 cache_hit_count,
@@ -1492,12 +1492,12 @@ impl EditPredictionStore {
                                             .into(),
                                         ),
                                         (
-                                            "Max LSP Time",
+                                            "最大 LSP 耗时",
                                             format!("{} ms", max_definition_latency.as_millis())
                                                 .into(),
                                         ),
                                         (
-                                            "Mean LSP Time",
+                                            "平均 LSP 耗时",
                                             format!("{} ms", mean_definition_latency.as_millis())
                                                 .into(),
                                         ),

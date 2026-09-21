@@ -172,9 +172,7 @@ impl ColumnFilterDelegate {
         let mut header_inserted = false;
         for (row_index, positions) in matches {
             if rows[row_index].hidden_by.is_some() && !header_inserted {
-                entries.push(ColumnFilterListEntry::Header(
-                    "Hidden by other filters".into(),
-                ));
+                entries.push(ColumnFilterListEntry::Header("被其他筛选条件隐藏".into()));
                 header_inserted = true;
             }
             entries.push(ColumnFilterListEntry::Row {
@@ -307,7 +305,7 @@ impl PickerDelegate for ColumnFilterDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        format!("Search {} unique values…", self.available_count).into()
+        format!("搜索 {} 个唯一值…", self.available_count).into()
     }
 
     fn update_matches(
@@ -491,7 +489,7 @@ impl PickerDelegate for ColumnFilterDelegate {
                 .justify_between()
                 .items_center()
                 .child(
-                    Label::new(format!("{selected_rows} / {total_rows} rows selected"))
+                    Label::new(format!("已选择 {selected_rows} / {total_rows} 行"))
                         .size(LabelSize::Small)
                         .color(Color::Muted),
                 )
@@ -500,7 +498,7 @@ impl PickerDelegate for ColumnFilterDelegate {
                         .id("table-filter-clear-all")
                         .cursor_pointer()
                         .child(
-                            Label::new("Clear all")
+                            Label::new("全部清除")
                                 .size(LabelSize::Small)
                                 .color(Color::Accent),
                         )
@@ -568,12 +566,8 @@ impl TabularDataPreviewPane {
                     Cow::Borrowed(_) => header_text.clone(),
                     Cow::Owned(replaced) => SharedString::from(replaced),
                 };
-                with_copy_on_right_click(
-                    header_text_cell,
-                    header_text,
-                    "Right click to copy column name",
-                )
-                .child(displayed_header)
+                with_copy_on_right_click(header_text_cell, header_text, "右键单击复制列名")
+                    .child(displayed_header)
             })
             .child(
                 GradientFade::new(base_bg, base_bg, base_bg)
@@ -629,10 +623,10 @@ impl TabularDataPreviewPane {
         )
         .tooltip(Tooltip::text(match self.engine.applied_sorting {
             Some(ordering) if ordering.col_idx == col_idx => match ordering.direction {
-                SortDirection::Asc => "Sorted A-Z. Click to sort Z-A",
-                SortDirection::Desc => "Sorted Z-A. Click to disable sorting",
+                SortDirection::Asc => "已按 A-Z 排序。点击按 Z-A 排序",
+                SortDirection::Desc => "已按 Z-A 排序。点击禁用排序",
             },
-            _ => "Not sorted. Click to sort A-Z",
+            _ => "未排序。点击按 A-Z 排序",
         }))
         .on_click(cx.listener(move |this, _event, _window, cx| {
             let new_sorting = match this.engine.applied_sorting {
@@ -679,9 +673,9 @@ impl TabularDataPreviewPane {
             })
             .toggle_state(has_active_filters),
             Tooltip::text(if has_active_filters {
-                "Column has active filters. Click to manage"
+                "列有活动筛选。点击管理"
             } else {
-                "No filters applied. Click to add filters"
+                "未应用筛选。点击添加筛选"
             }),
         )
         .menu({

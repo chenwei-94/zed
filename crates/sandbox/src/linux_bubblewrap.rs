@@ -103,13 +103,12 @@ impl LauncherStatus {
     /// A human-readable explanation suitable for diagnostics.
     pub fn describe(self) -> &'static str {
         match self {
-            LauncherStatus::BwrapNotFound => "no usable `bwrap` binary was found on PATH",
+            LauncherStatus::BwrapNotFound => "在 PATH 中找不到可用的 `bwrap` 可执行文件",
             LauncherStatus::SetuidRejected => {
-                "the only available `bwrap` is setuid-root, which Zed refuses to run"
+                "唯一可用的 `bwrap` 是 setuid-root 的，Zed 拒绝运行它"
             }
             LauncherStatus::SandboxProbeFailed => {
-                "`bwrap` is present but failed to create a sandbox (unprivileged user \
-                 namespaces may be disabled)"
+                "`bwrap` 存在，但创建沙箱失败（可能禁用了非特权用户命名空间）"
             }
         }
     }

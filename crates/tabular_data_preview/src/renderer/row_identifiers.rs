@@ -119,14 +119,12 @@ impl TabularDataPreviewPane {
                 // toggling shows its effect on the row identifier column immediately, instead of
                 // being hidden behind the open popover until it's dismissed.
                 let (icon, tooltip_text) = match self.settings.numbering_type {
-                    RowIdentifiers::SrcLines => (
-                        IconName::Code,
-                        "Showing file line numbers.\nClick to show sequential row numbers.",
-                    ),
-                    RowIdentifiers::RowNum => (
-                        IconName::Hash,
-                        "Showing sequential row numbers.\nClick to show file line numbers.",
-                    ),
+                    RowIdentifiers::SrcLines => {
+                        (IconName::Code, "显示文件行号。\n点击显示顺序行号。")
+                    }
+                    RowIdentifiers::RowNum => {
+                        (IconName::Hash, "显示顺序行号。\n点击显示文件行号。")
+                    }
                 };
 
                 let view = cx.entity();

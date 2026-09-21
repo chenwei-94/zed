@@ -68,7 +68,7 @@ impl AgentTool for DeletePathTool {
         _cx: &mut App,
     ) -> SharedString {
         if let Ok(input) = input {
-            format!("Delete “`{}`”", input.path).into()
+            format!("删除 “`{}`”", input.path).into()
         } else {
             "Delete path".into()
         }
@@ -142,7 +142,7 @@ impl AgentTool for DeletePathTool {
                     ToolPermissionDecision::Confirm => Some(cx.update(|cx| {
                         let context =
                             crate::ToolPermissionContext::new(Self::NAME, vec![path.clone()]);
-                        let title = format!("Delete {}", MarkdownInlineCode(&path));
+                        let title = format!("删除 {}", MarkdownInlineCode(&path));
                         authorize_with_sensitive_settings(
                             settings_kind,
                             context,

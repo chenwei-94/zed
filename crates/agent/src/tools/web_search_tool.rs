@@ -140,13 +140,13 @@ impl AgentTool for WebSearchTool {
 
 fn emit_update(response: &WebSearchResponse, event_stream: &ToolCallEventStream) {
     let result_text = if response.results.len() == 1 {
-        "1 result".to_string()
+        "1 个结果".to_string()
     } else {
-        format!("{} results", response.results.len())
+        format!("{} 个结果", response.results.len())
     };
     event_stream.update_fields(
         acp::ToolCallUpdateFields::new()
-            .title(format!("Searched the web: {result_text}"))
+            .title(format!("已搜索网络：{result_text}"))
             .content(
                 response
                     .results

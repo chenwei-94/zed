@@ -107,7 +107,7 @@ impl PickerDelegate for BaseKeymapSelectorDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Select a base keymap...".into()
+        "选择基础键位映射…".into()
     }
 
     fn match_count(&self) -> usize {
@@ -185,7 +185,7 @@ impl PickerDelegate for BaseKeymapSelectorDelegate {
             let base_keymap = BaseKeymap::from_names(&selection.string);
 
             telemetry::event!(
-                "Settings Changed",
+                "设置已更改",
                 setting = "keymap",
                 value = base_keymap.to_string()
             );

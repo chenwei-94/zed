@@ -31,7 +31,7 @@ pub async fn run_load_project(
 
     let project = setup_project(example, &app_state, &progress, &mut cx).await?;
 
-    progress.set_substatus("applying edit history");
+    progress.set_substatus("应用编辑历史");
     let open_buffers = apply_edit_history(example, &project, &mut cx).await?;
 
     let ep_store = cx
@@ -53,7 +53,7 @@ pub async fn run_load_project(
         store.set_recent_paths_for_project(&project, recent_paths, cx);
     });
 
-    progress.set_substatus("resolving cursor");
+    progress.set_substatus("解析光标");
     let (buffer, cursor_position) =
         cursor_position(example, &project, &open_buffers, &mut cx).await?;
     buffer
@@ -294,7 +294,7 @@ async fn setup_worktree(example: &Example, step_progress: &StepProgress) -> Resu
     }
 
     if !git_repo_exists {
-        step_progress.set_substatus(format!("cloning {}", repo_name.name));
+        step_progress.set_substatus(format!("正在克隆 {}", repo_name.name));
         fs::create_dir_all(&repo_dir)?;
         git::run_git(&repo_dir, &["init"]).await?;
         git::run_git(
@@ -305,14 +305,14 @@ async fn setup_worktree(example: &Example, step_progress: &StepProgress) -> Resu
     }
 
     // Resolve the example to a revision, fetching it if needed.
-    step_progress.set_substatus("fetching");
+    step_progress.set_substatus("抓取中");
     let revision = git::fetch_if_needed(&repo_dir, &example.spec.revision).await?;
 
     // Clean up any stale worktree registrations from previous crashed runs.
     git::run_git(&repo_dir, &["worktree", "prune"]).await.ok();
 
     // Create the worktree for this example if needed.
-    step_progress.set_substatus("preparing worktree");
+    step_progress.set_substatus("准备工作树");
 
     // Check if worktree exists and is valid (not just a directory from a crashed run).
     let worktree_valid = worktree_path.is_dir()
@@ -353,7 +353,7 @@ async fn setup_worktree(example: &Example, step_progress: &StepProgress) -> Resu
     drop(repo_lock);
 
     if !example.spec.uncommitted_diff.is_empty() {
-        step_progress.set_substatus("applying diff");
+        step_progress.set_substatus("应用差异");
 
         // old examples had full paths in the uncommitted diff.
         let uncommitted_diff =

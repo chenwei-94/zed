@@ -37,7 +37,7 @@ pub async fn run_scoring(
 
     let progress = example_progress.start(Step::Score);
 
-    progress.set_substatus("computing metrics");
+    progress.set_substatus("计算指标");
     let example_for_scoring = example.clone();
     example.score = cx
         .background_spawn(async move {
@@ -168,7 +168,7 @@ pub fn run_context_coverage_scoring(
 ) -> anyhow::Result<()> {
     let progress = example_progress.start(Step::Score);
 
-    progress.set_substatus("computing context coverage");
+    progress.set_substatus("计算上下文覆盖率");
     let prompt_inputs = example
         .prompt_inputs
         .as_ref()

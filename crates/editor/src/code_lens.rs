@@ -20,7 +20,7 @@ use crate::{
     runnables::RunnableTaskStatus,
 };
 
-static EMPTY_LENS_FALLBACK_TITLE: SharedString = SharedString::new_static("0 references");
+static EMPTY_LENS_FALLBACK_TITLE: SharedString = SharedString::new_static("0 个引用");
 const CODE_LENS_SEPARATOR: &str = " | ";
 
 #[derive(Clone, Debug)]

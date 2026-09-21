@@ -118,7 +118,7 @@ async fn render_outline(
     let page_start = offset + 1;
     let page_end = offset + entries_rendered;
     let total_symbols = if has_more {
-        format!("more than {}", page_end)
+        format!("超过 {}", page_end)
     } else {
         page_end.to_string()
     };

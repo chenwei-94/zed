@@ -273,7 +273,7 @@ impl State {
                     this.update(cx, |state, cx| {
                         if state.model_catalog_generation == model_catalog_generation {
                             state.last_model_catalog_error =
-                                Some(format!("Failed to load models: {error:#}").into());
+                                Some(format!("加载模型失败：{error:#}").into());
                             cx.notify();
                         }
                     })
@@ -339,7 +339,7 @@ impl State {
                             this.update(cx, |state, cx| {
                                 state.sign_in_state = SignInState::Idle;
                                 state.last_auth_error =
-                                    Some("Failed to save credentials. Please try again.".into());
+                                    Some("保存凭据失败。请重试。".into());
                                 cx.notify();
                             })
                             .log_err();
@@ -350,7 +350,7 @@ impl State {
                     log::error!("ChatGPT subscription sign-in failed: {err:?}");
                     this.update(cx, |state, cx| {
                         state.sign_in_state = SignInState::Idle;
-                        state.last_auth_error = Some("Sign-in failed. Please try again.".into());
+                        state.last_auth_error = Some("登录失败。请重试。".into());
                         cx.notify();
                     })
                     .log_err();
@@ -877,7 +877,7 @@ impl LanguageModel for OpenAiSubscribedLanguageModel {
                     ReasoningEffort::Low => ("Low", "low"),
                     ReasoningEffort::Medium => ("Medium", "medium"),
                     ReasoningEffort::High => ("High", "high"),
-                    ReasoningEffort::XHigh => ("Extra High", "xhigh"),
+                    ReasoningEffort::XHigh => ("极高", "xhigh"),
                     ReasoningEffort::Max => ("Max", "max"),
                 };
 
@@ -1050,8 +1050,7 @@ async fn get_fresh_credentials(
                         .update(cx, |s, cx| {
                             s.refresh_task = None;
                             s.credentials = None;
-                            s.last_auth_error =
-                                Some("Your session has expired. Please sign in again.".into());
+                            s.last_auth_error = Some("会话已过期。请重新登录。".into());
                             s.reset_model_catalog();
                             cx.notify();
                         })

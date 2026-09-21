@@ -341,7 +341,7 @@ mod tests {
 
         let snapshot = recording.snapshot();
         assert_eq!(snapshot.events.len(), 4);
-        assert!(snapshot.events[0].detail.contains("Access"));
+        assert!(snapshot.events[0].detail.contains("访问权限"));
         assert_eq!(
             snapshot.events[0].event_kind.as_deref(),
             Some("Access(Any)")

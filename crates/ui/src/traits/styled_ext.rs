@@ -19,8 +19,21 @@ fn elevated_borderless<E: Styled>(this: E, cx: &mut App, index: ElevationIndex) 
 
 /// Extends [`gpui::Styled`] with Zed-specific styling methods.
 // gate on rust-analyzer so rust-analyzer never needs to expand this macro, it takes up to 10 seconds to expand due to inefficiencies in rust-analyzers proc-macro srv
+//
+// ── RLT 分支改动（保留项）────────────────────────────────────────────────────
+// 【改了什么】反射模块的门控由 `all(debug_assertions, not(rust_analyzer))` 改为
+//   `all(any(feature = "inspector", debug_assertions), not(rust_analyzer))`。
+// 【为什么改】与 gpui 侧**对齐**。上游 `gpui/src/styled.rs` 早已使用
+//   `any(feature = "inspector", debug_assertions)` 形式，本文件却漏改 ⇒ 在
+//   `--release --features inspector` 下 gpui 生成了反射模块而 ui 没有，
+//   `ui::styled_ext_reflection` 不存在，`inspector_ui` 直接编译失败
+//   （实测报错：`E0432: no styled_ext_reflection in the root`）。
+// 【为什么必须同步】`inspector_ui` 依赖该反射模块枚举元素样式；gpui 与 ui 两侧
+//   任一单独开启都不成立，属**成对约束**（`crates/zed/Cargo.toml` 的 inspector
+//   feature 已把三者捆在一起）。
+// 【影响面】默认不开启 `inspector` ⇒ 退化为原 `debug_assertions`，与上游一致。
 #[cfg_attr(
-    all(debug_assertions, not(rust_analyzer)),
+    all(any(feature = "inspector", debug_assertions), not(rust_analyzer)),
     gpui_macros::derive_inspector_reflection
 )]
 pub trait StyledExt: Styled + Sized {

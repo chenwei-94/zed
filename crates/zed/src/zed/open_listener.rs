@@ -995,7 +995,7 @@ async fn open_local_workspace(
             log::error!("failed to open workspace [{paths}]: {error:#}");
             responses
                 .send(CliResponse::Stderr {
-                    message: format!("error opening [{paths}]: {error:#}"),
+                    message: format!("打开 [{paths}] 出错：{error:#}"),
                 })
                 .log_err();
             return true;

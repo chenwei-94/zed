@@ -3664,7 +3664,7 @@ mod tests {
             .await
             .expect_err("scoping a request in an unsandboxed thread should be rejected");
         assert!(
-            error.contains("Sandboxing is disabled for this thread"),
+            error.contains("此会话已禁用沙箱"),
             "unexpected error: {error}"
         );
         // The error must name exactly the fields that have no effect.

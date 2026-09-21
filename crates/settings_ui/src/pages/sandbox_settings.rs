@@ -10,9 +10,10 @@ use util::ResultExt as _;
 use crate::SettingsWindow;
 use crate::components::{SettingsInputField, SettingsSectionHeader};
 
-const DOMAINS_DESCRIPTION: &str = "Each entry is an exact domain (github.com) or a leading-*. subdomain wildcard (*.npmjs.org). IP addresses and local domains are not allowed.";
+const DOMAINS_DESCRIPTION: &str = "每个条目都是精确域名（github.com）或以 *. 开头的子域通配符（*.npmjs.org）。不允许使用 IP 地址和本地域名。";
 
-const WRITE_PATHS_DESCRIPTION: &str = "Each entry must be an absolute path and grants write access to the whole subtree, except protected Git metadata.";
+const WRITE_PATHS_DESCRIPTION: &str =
+    "每个条目必须是绝对路径，并授予对整个子树的写入权限，受保护的 Git 元数据除外。";
 
 pub(crate) fn render_sandbox_settings_page(
     settings_window: &SettingsWindow,
@@ -61,9 +62,9 @@ pub(crate) fn render_sandbox_settings_page(
         .child(
             SwitchField::new(
                 "sandbox-enabled",
-                Some("Enable Sandbox"),
+                Some("启用沙箱"),
                 Some(
-                    "Wrap agent-run terminal commands in an OS-level sandbox. When off, commands run with Zed's own permissions."
+                    "将智能体运行的终端命令包装在操作系统级沙箱中。关闭时，命令以 Zed 自身的权限运行。"
                         .into(),
                 ),
                 sandbox_enabled,
@@ -76,11 +77,11 @@ pub(crate) fn render_sandbox_settings_page(
         .child({
             let docs_url =
                 client::zed_urls::sandboxing_docs(Some("persistent-sandbox-permissions"), cx);
-            let tooltip = format!("Opens {docs_url}");
+            let tooltip = format!("打开 {docs_url}");
             // Wrap in a row so the button shrinks to its content width instead
             // of stretching across the settings page.
             h_flex().child(
-                Button::new("sandbox-docs-link", "Learn more about sandboxing")
+                Button::new("sandbox-docs-link", "了解沙箱详情")
                     .label_size(LabelSize::Small)
                     .color(Color::Muted)
                     .end_icon(
@@ -99,7 +100,7 @@ pub(crate) fn render_sandbox_settings_page(
                     .severity(Severity::Warning)
                     .child(Label::new(error).size(LabelSize::Small))
                     .action_slot(
-                        Button::new("dismiss-sandbox-host-error", "Dismiss")
+                        Button::new("dismiss-sandbox-host-error", "忽略")
                             .style(ButtonStyle::Tinted(ui::TintColor::Warning))
                             .on_click(cx.listener(|this, _, _, cx| {
                                 this.sandbox_host_validation_error = None;
@@ -111,13 +112,13 @@ pub(crate) fn render_sandbox_settings_page(
         .child(
             v_flex()
                 .gap_4()
-                .child(SettingsSectionHeader::new("Network").no_padding(true))
+                .child(SettingsSectionHeader::new("网络").no_padding(true))
                 .child(
                     SwitchField::new(
                         "sandbox-allow-all-hosts",
-                        Some("Allow All Domains"),
+                        Some("允许所有域名"),
                         Some(
-                            "Let sandboxed commands reach any domain over the network without prompting."
+                            "让沙箱命令无需提示即可访问网络上的任何域名。"
                                 .into(),
                         ),
                         permissions.allow_all_hosts,
@@ -128,7 +129,7 @@ pub(crate) fn render_sandbox_settings_page(
                     .tab_index(0),
                 )
                 .child(render_list_section(
-                    "Allowed Domains",
+                    "允许的域名",
                     DOMAINS_DESCRIPTION,
                     host_rows,
                     add_host_input,
@@ -140,13 +141,13 @@ pub(crate) fn render_sandbox_settings_page(
         .child(
             v_flex()
                 .gap_4()
-                .child(SettingsSectionHeader::new("File System").no_padding(true))
+                .child(SettingsSectionHeader::new("文件系统").no_padding(true))
                 .child(
                     SwitchField::new(
                         "sandbox-allow-fs-write-all",
-                        Some("Allow All File System Writes"),
+                        Some("允许所有文件系统写入"),
                         Some(
-                            "Let sandboxed commands write anywhere except protected Git metadata without prompting."
+                            "让沙箱命令无需提示即可写入任何位置，受保护的 Git 元数据除外。"
                                 .into(),
                         ),
                         permissions.allow_fs_write_all,
@@ -157,7 +158,7 @@ pub(crate) fn render_sandbox_settings_page(
                     .tab_index(0),
                 )
                 .child(render_list_section(
-                    "Writable Paths",
+                    "可写路径",
                     WRITE_PATHS_DESCRIPTION,
                     path_rows,
                     add_path_input,
@@ -168,13 +169,13 @@ pub(crate) fn render_sandbox_settings_page(
         .child(
             v_flex()
                 .gap_4()
-                .child(SettingsSectionHeader::new("Escalation Prompts").no_padding(true))
+                .child(SettingsSectionHeader::new("权限升级提示").no_padding(true))
                 .child(
                     SwitchField::new(
                         "sandbox-warn-confusable-unicode",
-                        Some("Warn About Confusable Unicode"),
+                        Some("对易混淆 Unicode 发出警告"),
                         Some(
-                            "Warn when an approval prompt requests a domain or write path that contains potentially confusable Unicode characters, such as homoglyphs (i.e. two symbols that look similar, such as a Cyrillic `а`)"
+                            "当审批提示请求的域名或写入路径包含可能易混淆的 Unicode 字符时发出警告，例如同形字（即两个看起来相似的符号，如西里尔字母 `а`）"
                                 .into(),
                         ),
                         permissions.warn_confusable_unicode,
@@ -187,9 +188,9 @@ pub(crate) fn render_sandbox_settings_page(
                 .child(
                     SwitchField::new(
                         "sandbox-warn-ntfs-grants",
-                        Some("Warn About Windows-Drive Grants"),
+                        Some("对 Windows 驱动器授权发出警告"),
                         Some(
-                            "Windows only: warn when a sandbox grant targets a file on a Windows drive (accessed inside WSL via DrvFs). Such grants are enforced through a translated path and their sandbox-integrity guarantees are weaker than files on the Linux distro's own filesystem."
+                            "仅 Windows：当沙箱授权指向 Windows 驱动器上的文件（在 WSL 中通过 DrvFs 访问）时发出警告。此类授权通过转换后的路径执行，其沙箱完整性保证弱于 Linux 发行版自身文件系统上的文件。"
                                 .into(),
                         ),
                         permissions.warn_ntfs_grants,
@@ -244,7 +245,7 @@ fn render_empty_state(border_color: gpui::Hsla) -> AnyElement {
         .border_dashed()
         .border_color(border_color)
         .child(
-            Label::new("Nothing configured")
+            Label::new("未配置任何内容")
                 .size(LabelSize::Small)
                 .color(Color::Disabled),
         )
@@ -265,7 +266,7 @@ fn render_host_row(index: usize, host: String, cx: &mut Context<SettingsWindow>)
             IconButton::new(format!("sandbox-host-delete-{}", index), IconName::Trash)
                 .icon_size(IconSize::Small)
                 .icon_color(Color::Muted)
-                .tooltip(Tooltip::text("Remove Domain"))
+                .tooltip(Tooltip::text("移除域"))
                 .on_click(cx.listener(move |_, _, _, cx| {
                     remove_network_host(host_for_delete.clone(), cx);
                 })),
@@ -301,7 +302,7 @@ fn render_add_host_input(cx: &mut Context<SettingsWindow>) -> AnyElement {
     let settings_window = cx.entity().downgrade();
 
     SettingsInputField::new("sandbox-host-new")
-        .with_placeholder("Add domain (e.g. github.com or *.npmjs.org)…")
+        .with_placeholder("添加域名（例如 github.com 或 *.npmjs.org）…")
         .tab_index(0)
         .with_buffer_font()
         .display_clear_button()
@@ -348,7 +349,7 @@ fn render_path_row(index: usize, path: PathBuf, cx: &mut Context<SettingsWindow>
             IconButton::new(format!("sandbox-path-delete-{}", index), IconName::Trash)
                 .icon_size(IconSize::Small)
                 .icon_color(Color::Muted)
-                .tooltip(Tooltip::text("Remove Path"))
+                .tooltip(Tooltip::text("移除路径"))
                 .on_click(cx.listener(move |_, _, _, cx| {
                     remove_write_path(path_for_delete.clone(), cx);
                 })),
@@ -375,7 +376,7 @@ fn render_add_path_input(cx: &mut Context<SettingsWindow>) -> AnyElement {
     let settings_window = cx.entity().downgrade();
 
     SettingsInputField::new("sandbox-path-new")
-        .with_placeholder("Add an absolute path (e.g. /path/to/directory)…")
+        .with_placeholder("添加绝对路径（例如 /path/to/directory）…")
         .tab_index(0)
         .with_buffer_font()
         .display_clear_button()
@@ -433,16 +434,15 @@ fn canonicalize_host(host: &str) -> Result<String, String> {
     HostPattern::parse(host)
         .map(|pattern| pattern.to_string())
         .map_err(|error| match error {
-            HostPatternError::Empty => "Domain cannot be empty.".to_string(),
+            HostPatternError::Empty => "域名不能为空。".to_string(),
             HostPatternError::IpLiteral(_) => {
-                "IP addresses and local domains aren't allowed; enter a domain like github.com."
-                    .to_string()
+                "不允许使用 IP 地址和本地域名；请输入类似 github.com 的域名。".to_string()
             }
             HostPatternError::InvalidWildcard(_) => {
-                "Wildcards are only allowed as a leading label, e.g. *.github.com.".to_string()
+                "通配符只能作为开头的标签，例如 *.github.com。".to_string()
             }
             HostPatternError::Invalid { .. } => {
-                "Not a valid domain. Use a domain like github.com or *.npmjs.org.".to_string()
+                "不是有效的域名。请使用类似 github.com 或 *.npmjs.org 的域名。".to_string()
             }
         })
 }

@@ -1077,7 +1077,7 @@ impl SettingsStore {
         match (path.clone(), kind, content) {
             (LocalSettingsPath::InWorktree(directory_path), LocalSettingsKind::Tasks, _) => {
                 return Err(InvalidSettingsError::Tasks {
-                    message: "Attempted to submit tasks into the settings store".to_string(),
+                    message: "尝试将任务提交到设置存储".to_string(),
                     path: directory_path
                         .join(RelPath::from_unix_str(task_file_name()).unwrap())
                         .as_std_path()
@@ -1086,8 +1086,7 @@ impl SettingsStore {
             }
             (LocalSettingsPath::InWorktree(directory_path), LocalSettingsKind::Debug, _) => {
                 return Err(InvalidSettingsError::Debug {
-                    message: "Attempted to submit debugger config into the settings store"
-                        .to_string(),
+                    message: "尝试将调试器配置提交到设置存储".to_string(),
                     path: directory_path
                         .join(RelPath::from_unix_str(task_file_name()).unwrap())
                         .as_std_path()
@@ -1228,7 +1227,7 @@ impl SettingsStore {
             replace_subschema::<LanguageToSettingsMap>(generator, || {
                 json_schema!({
                     "type": "object",
-                    "errorMessage": "No language with this name is installed.",
+                    "errorMessage": "未安装使用此名称的语言。",
                     "properties": params.language_names.iter().map(|name| (name.clone(), language_settings_content_ref.clone())).collect::<serde_json::Map<_, _>>()
                 })
             });
@@ -1238,7 +1237,7 @@ impl SettingsStore {
             replace_subschema::<FileTypeMap>(generator, || {
                 json_schema!({
                     "type": "object",
-                    "errorMessage": "No language with this name is installed.",
+                    "errorMessage": "未安装使用此名称的语言。",
                     "properties": params.language_names.iter().map(|name| (name.clone(), file_type_patterns_ref.clone())).collect::<serde_json::Map<_, _>>(),
                     "additionalProperties": file_type_patterns_ref.clone()
                 })

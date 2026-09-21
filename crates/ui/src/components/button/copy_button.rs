@@ -148,7 +148,7 @@ impl Component for CopyButton {
 
         let examples = vec![
             single_example(
-                "Default",
+                "默认",
                 h_flex()
                     .gap_1()
                     .child(Label::new(label_text).size(LabelSize::Small))
@@ -156,7 +156,7 @@ impl Component for CopyButton {
                     .into_any_element(),
             ),
             single_example(
-                "Multiple Icon Sizes",
+                "多种图标尺寸",
                 h_flex()
                     .gap_1()
                     .child(Label::new(label_text).size(LabelSize::Small))
@@ -172,7 +172,7 @@ impl Component for CopyButton {
                     .into_any_element(),
             ),
             single_example(
-                "Custom Tooltip Label",
+                "自定义提示标签",
                 h_flex()
                     .gap_1()
                     .child(Label::new(label_text).size(LabelSize::Small))
@@ -183,7 +183,7 @@ impl Component for CopyButton {
                     .into_any_element(),
             ),
             single_example(
-                "Visible On Hover",
+                "悬停时可见",
                 h_flex()
                     .group("container")
                     .gap_1()

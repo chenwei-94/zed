@@ -221,7 +221,7 @@ impl Editor {
         self.add_edit_block(
             target.anchor,
             label,
-            "Enter bookmark label (Optional)",
+            "输入书签标签（可选）",
             Some(Box::new(move |label, _, cx| {
                 bookmark_store.update(cx, |store, cx| {
                     store.edit_bookmark(&target.buffer, target.buffer_anchor, label, cx)
@@ -245,7 +245,7 @@ impl Editor {
             self.add_edit_block(
                 target.anchor,
                 "",
-                "Enter bookmark label (Optional)",
+                "输入书签标签（可选）",
                 Some(Box::new(move |label: String, _, cx| {
                     bookmark_store.update(cx, |store, cx| {
                         store.toggle_bookmark(target.buffer, target.buffer_anchor, label, cx);

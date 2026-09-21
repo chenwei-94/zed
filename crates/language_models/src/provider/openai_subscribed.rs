@@ -113,7 +113,7 @@ impl LanguageModelProvider for OpenAiSubscribedProvider {
         let title = if is_authenticated {
             None
         } else {
-            Some("Configure ChatGPT".into())
+            Some("配置 ChatGPT".into())
         };
         let description = if is_authenticated {
             None
@@ -140,23 +140,17 @@ impl LanguageModelProvider for OpenAiSubscribedProvider {
     }
 
     fn authentication_error_message(&self) -> SharedString {
-        "Your ChatGPT subscription session is invalid or has expired. \
-        Sign in again via Settings > AI > LLM Providers to continue."
-            .into()
+        "ChatGPT 订阅会话无效或已过期。请通过 设置 > AI > LLM Providers 重新登录以继续。".into()
     }
 
     fn missing_credentials_error_message(&self) -> SharedString {
-        "You are not signed in to your ChatGPT account. \
-        Sign in via Settings > AI > LLM Providers to continue."
-            .into()
+        "尚未登录 ChatGPT 账号。请通过 设置 > AI > LLM Providers 登录以继续。".into()
     }
 
     fn fast_mode_confirmation(&self, _cx: &App) -> Option<FastModeConfirmation> {
         Some(FastModeConfirmation {
-            title: "Enable Fast Mode for OpenAI?".into(),
-            message: "Fast mode sends requests using OpenAI's Priority processing tier, which \
-                targets significantly lower latency than the standard tier and is billed at a \
-                premium per-token rate."
+            title: "为 OpenAI 启用快速模式？".into(),
+            message: "快速模式使用 OpenAI 的 Priority 处理层级发送请求，其延迟显著低于标准层级，但按更高的单 token 费率计费。"
                 .into(),
         })
     }
@@ -177,7 +171,7 @@ impl Render for ConfigurationView {
             let label = state
                 .email()
                 .map(|e| format!("Signed in as {e}"))
-                .unwrap_or_else(|| "Signed in".to_string());
+                .unwrap_or_else(|| "已登录".to_string());
             let model_catalog_error = state.model_catalog_error();
 
             let state_entity = self.state.clone();
@@ -186,7 +180,7 @@ impl Render for ConfigurationView {
                 .gap_2()
                 .child(
                     ConfiguredApiCard::new("openai-subscribed-sign-out", SharedString::from(label))
-                        .button_label("Sign Out")
+                        .button_label("退出登录")
                         .on_click(cx.listener(move |_this, _, _window, cx| {
                             state_entity
                                 .update(cx, |state, cx| state.sign_out(cx))
@@ -216,9 +210,9 @@ impl Render for ConfigurationView {
         let is_signing_in = state.is_signing_in();
         let is_sign_in_cancellable = state.is_sign_in_cancellable();
         let button_label = if is_signing_in {
-            "Signing in…"
+            "正在登录…"
         } else {
-            "Sign In"
+            "登录"
         };
 
         v_flex()
@@ -242,7 +236,7 @@ impl Render for ConfigurationView {
                     )
                     .when(is_sign_in_cancellable, |this| {
                         this.child(
-                            Button::new("cancel-sign-in", "Cancel")
+                            Button::new("cancel-sign-in", "取消")
                                 .style(ButtonStyle::Subtle)
                                 .size(ButtonSize::Medium)
                                 .on_click(move |_, _window, cx| {

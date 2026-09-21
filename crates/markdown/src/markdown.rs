@@ -3382,15 +3382,13 @@ fn image_fallback_element(
         .filter(|alt| !alt.is_empty())
         .unwrap_or_else(|| dest_url.clone());
 
-    let label = format!("Failed to Load: {link_label}");
+    let label = format!("加载失败：{link_label}");
 
     div()
         .id("image-fallback")
         .min_w_0()
         .child(Label::new(label).color(Color::Warning).underline())
-        .tooltip(Tooltip::text(
-            "Image failed to load. Open `zed: log` for more details.",
-        ))
+        .tooltip(Tooltip::text("图片加载失败。打开 `zed: log` 查看详情。"))
         .when(open_image_url_on_click, |this| {
             this.cursor_pointer()
                 .on_click(move |_, _, cx| cx.open_url(&dest_url))
@@ -3458,9 +3456,9 @@ fn render_wrap_code_block_button(
     markdown: Entity<Markdown>,
 ) -> impl IntoElement {
     let (icon, tooltip) = if is_wrapped {
-        (IconName::TextUnwrap, "Unwrap Content")
+        (IconName::TextUnwrap, "取消内容换行")
     } else {
-        (IconName::TextWrap, "Wrap Content")
+        (IconName::TextWrap, "内容换行")
     };
     let button_id = ElementId::NamedChild(
         Arc::new(ElementId::from(("wrap-code-block", markdown.entity_id()))),

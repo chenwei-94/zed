@@ -184,18 +184,18 @@ impl Component for AlertModal {
                 .p_4()
                 .children(vec![
                     example_group(vec![single_example(
-                        "Basic Alert",
+                        "基础提示框",
                         AlertModal::new("simple-modal")
-                            .title("Do you want to leave the current call?")
+                            .title("要离开当前通话吗？")
                             .child(
-                                "The current window will be closed, and connections to any shared projects will be terminated."
+                                "当前窗口将关闭，与所有共享项目的连接将终止。"
                             )
-                            .primary_action("Leave Call")
+                            .primary_action("离开通话")
                             .dismiss_label("Cancel")
                             .into_any_element(),
                     )]),
                     example_group(vec![single_example(
-                        "Custom Header",
+                        "自定义标题",
                         AlertModal::new("custom-header-modal")
                             .header(
                                 v_flex()
@@ -206,7 +206,7 @@ impl Component for AlertModal {
                                         h_flex()
                                             .gap_1()
                                             .child(Icon::new(IconName::Warning).color(Color::Warning))
-                                            .child(Headline::new("Unrecognized Workspace").size(HeadlineSize::Small))
+                                            .child(Headline::new("无法识别的工作区").size(HeadlineSize::Small))
                                     )
                                     .child(
                                         h_flex()
@@ -215,16 +215,15 @@ impl Component for AlertModal {
                                     )
                             )
                             .child(
-                                "Untrusted workspaces are opened in Restricted Mode to protect your system.
-Review .zed/settings.json for any extensions or commands configured by this project.",
+                                "为保护系统，不受信任的工作区会以受限模式打开。\n请检查 .zed/settings.json 中此项目配置的扩展或命令。",
                             )
                             .child(
                                 v_flex()
                                     .mt_1()
-                                    .child(Label::new("Restricted mode prevents:").color(Color::Muted))
-                                    .child(ListBulletItem::new("Project settings from being applied"))
-                                    .child(ListBulletItem::new("Language servers from running"))
-                                    .child(ListBulletItem::new("MCP integrations from installing"))
+                                    .child(Label::new("受限模式会阻止：").color(Color::Muted))
+                                    .child(ListBulletItem::new("项目设置被应用"))
+                                    .child(ListBulletItem::new("语言服务器运行"))
+                                    .child(ListBulletItem::new("MCP 集成被安装"))
                             )
                             .footer(
                                 h_flex()
@@ -232,13 +231,13 @@ Review .zed/settings.json for any extensions or commands configured by this proj
                                     .justify_between()
                                     .child(
                                         Checkbox::new("trust-parent", ToggleState::Unselected)
-                                            .label("Trust all projects in parent directory")
+                                            .label("信任父目录中的所有项目")
                                     )
                                     .child(
                                         h_flex()
                                             .gap_1()
-                                            .child(Button::new("restricted", "Stay in Restricted Mode").color(Color::Muted))
-                                            .child(Button::new("trust", "Trust and Continue").style(ButtonStyle::Filled))
+                                            .child(Button::new("restricted", "保持受限模式").color(Color::Muted))
+                                            .child(Button::new("trust", "信任并继续").style(ButtonStyle::Filled))
                                     )
                             )
                             .width(rems(40.))

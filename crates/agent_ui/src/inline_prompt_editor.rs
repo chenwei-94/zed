@@ -129,7 +129,7 @@ impl<T: 'static> Render for PromptEditor<T> {
             .icon_color(Color::Muted)
             .when(!menu_visible, |this| {
                 this.tooltip(move |_window, cx| {
-                    Tooltip::with_meta("Add Context", None, "Or type @ to include context", cx)
+                    Tooltip::with_meta("添加上下文", None, "或输入 @ 以包含上下文", cx)
                 })
             })
             .on_click(cx.listener(move |this, _, window, cx| {
@@ -357,7 +357,7 @@ impl<T: 'static> PromptEditor<T> {
         self.editor = cx.new(|cx| {
             let mut editor = Editor::auto_height(1, Self::MAX_LINES as usize, window, cx);
             editor.set_soft_wrap_mode(language::language_settings::SoftWrap::EditorWidth, cx);
-            editor.set_placeholder_text("Add a prompt…", window, cx);
+            editor.set_placeholder_text("添加提示词…", window, cx);
             editor.set_text(prompt, window, cx);
             creases = insert_message_creases(&mut editor, &existing_creases, window, cx);
 
@@ -400,10 +400,10 @@ impl<T: 'static> PromptEditor<T> {
 
         let agent_panel_keybinding =
             ui::text_for_action(&zed_actions::assistant::ToggleFocus, window, cx)
-                .map(|keybinding| format!("{keybinding} to chat"))
+                .map(|keybinding| format!("{keybinding} 进行对话"))
                 .unwrap_or_default();
 
-        format!("{action}… ({agent_panel_keybinding} ― ↓↑ for history — @ to include context)")
+        format!("{action}… （{agent_panel_keybinding} ― ↓↑ 查看历史 — @ 添加上下文）")
     }
 
     pub fn prompt(&self, cx: &App) -> String {
@@ -596,22 +596,18 @@ impl<T: 'static> PromptEditor<T> {
     fn thumbs_up(&mut self, _: &ThumbsUpResult, _window: &mut Window, cx: &mut Context<Self>) {
         match &self.session_state.completion {
             CompletionState::Pending => {
-                self.toast("Can't rate, still generating...", None, cx);
+                self.toast("无法评价，仍在生成…", None, cx);
                 return;
             }
             CompletionState::Rated => {
-                self.toast(
-                    "Already rated this completion",
-                    Some(self.session_state.session_id),
-                    cx,
-                );
+                self.toast("已评价过此补全", Some(self.session_state.session_id), cx);
                 return;
             }
             CompletionState::Generated { completion_text } => {
                 let model_info = self.model_selector.read(cx).active_model(cx);
                 let (model_id, use_streaming_tools) = {
                     let Some(configured_model) = model_info else {
-                        self.toast("No configured model", None, cx);
+                        self.toast("未配置模型", None, cx);
                         return;
                     };
                     (
@@ -659,22 +655,18 @@ impl<T: 'static> PromptEditor<T> {
     fn thumbs_down(&mut self, _: &ThumbsDownResult, _window: &mut Window, cx: &mut Context<Self>) {
         match &self.session_state.completion {
             CompletionState::Pending => {
-                self.toast("Can't rate, still generating...", None, cx);
+                self.toast("无法评价，仍在生成…", None, cx);
                 return;
             }
             CompletionState::Rated => {
-                self.toast(
-                    "Already rated this completion",
-                    Some(self.session_state.session_id),
-                    cx,
-                );
+                self.toast("已评价过此补全", Some(self.session_state.session_id), cx);
                 return;
             }
             CompletionState::Generated { completion_text } => {
                 let model_info = self.model_selector.read(cx).active_model(cx);
                 let (model_telemetry_id, use_streaming_tools) = {
                     let Some(configured_model) = model_info else {
-                        self.toast("No configured model", None, cx);
+                        self.toast("未配置模型", None, cx);
                         return;
                     };
                     (
@@ -732,7 +724,7 @@ impl<T: 'static> PromptEditor<T> {
                         .autohide();
 
                         if let Some(uuid) = uuid {
-                            toast = toast.on_click("Click to copy rating ID", move |_, cx| {
+                            toast = toast.on_click("点击复制评分 ID", move |_, cx| {
                                 cx.write_to_clipboard(ClipboardItem::new_string(uuid.to_string()));
                             });
                         };
@@ -824,7 +816,7 @@ impl<T: 'static> PromptEditor<T> {
                         Tooltip::with_meta(
                             mode.tooltip_interrupt(),
                             Some(&menu::Cancel),
-                            "Changes won't be discarded",
+                            "更改不会被丢弃",
                             cx,
                         )
                     })
@@ -842,7 +834,7 @@ impl<T: 'static> PromptEditor<T> {
                                 Tooltip::with_meta(
                                     mode.tooltip_restart(),
                                     Some(&menu::Confirm),
-                                    "Changes will be discarded",
+                                    "更改将被丢弃",
                                     cx,
                                 )
                             })
@@ -883,9 +875,9 @@ impl<T: 'static> PromptEditor<T> {
                                                     .icon_color(Color::Disabled)
                                                     .tooltip(move |_, cx| {
                                                         Tooltip::with_meta(
-                                                            "Good Result",
+                                                            "结果良好",
                                                             None,
-                                                            "You already rated this result",
+                                                            "已评价过此结果",
                                                             cx,
                                                         )
                                                     })
@@ -893,7 +885,7 @@ impl<T: 'static> PromptEditor<T> {
                                                 this.icon_color(Color::Muted).tooltip(
                                                     move |_, cx| {
                                                         Tooltip::for_action(
-                                                            "Good Result",
+                                                            "结果良好",
                                                             &ThumbsUpResult,
                                                             cx,
                                                         )
@@ -914,9 +906,9 @@ impl<T: 'static> PromptEditor<T> {
                                                     .icon_color(Color::Disabled)
                                                     .tooltip(move |_, cx| {
                                                         Tooltip::with_meta(
-                                                            "Bad Result",
+                                                            "结果不佳",
                                                             None,
-                                                            "You already rated this result",
+                                                            "已评价过此结果",
                                                             cx,
                                                         )
                                                     })
@@ -924,7 +916,7 @@ impl<T: 'static> PromptEditor<T> {
                                                 this.icon_color(Color::Muted).tooltip(
                                                     move |_, cx| {
                                                         Tooltip::for_action(
-                                                            "Bad Result",
+                                                            "结果不佳",
                                                             &ThumbsDownResult,
                                                             cx,
                                                         )
@@ -950,7 +942,7 @@ impl<T: 'static> PromptEditor<T> {
                                     .shape(IconButtonShape::Square)
                                     .tooltip(|_window, cx| {
                                         Tooltip::for_action(
-                                            "Execute Generated Command",
+                                            "执行生成的命令",
                                             &menu::SecondaryConfirm,
                                             cx,
                                         )
@@ -1006,12 +998,7 @@ impl<T: 'static> PromptEditor<T> {
             .shape(IconButtonShape::Square)
             .tooltip({
                 move |_window, cx| {
-                    Tooltip::for_action_in(
-                        "Close Assistant",
-                        &editor::actions::Cancel,
-                        &focus_handle,
-                        cx,
-                    )
+                    Tooltip::for_action_in("关闭助手", &editor::actions::Cancel, &focus_handle, cx)
                 }
             })
             .on_click(cx.listener(|_, _, _, cx| cx.emit(PromptEditorEvent::CancelRequested)))
@@ -1060,7 +1047,7 @@ impl<T: 'static> PromptEditor<T> {
                         let focus_handle = self.editor.focus_handle(cx);
                         move |_window, cx| {
                             cx.new(|cx| {
-                                let mut tooltip = Tooltip::new("Previous Alternative").key_binding(
+                                let mut tooltip = Tooltip::new("上一个备选").key_binding(
                                     KeyBinding::for_action_in(
                                         &CyclePreviousInlineAssist,
                                         &focus_handle,
@@ -1101,7 +1088,7 @@ impl<T: 'static> PromptEditor<T> {
                         let focus_handle = self.editor.focus_handle(cx);
                         move |_window, cx| {
                             cx.new(|cx| {
-                                let mut tooltip = Tooltip::new("Next Alternative").key_binding(
+                                let mut tooltip = Tooltip::new("下一个备选").key_binding(
                                     KeyBinding::for_action_in(
                                         &CycleNextInlineAssist,
                                         &focus_handle,
@@ -1548,22 +1535,22 @@ impl GenerationMode {
     }
     fn tooltip_interrupt(self) -> &'static str {
         match self {
-            GenerationMode::Generate => "Interrupt Generation",
-            GenerationMode::Transform => "Interrupt Transform",
+            GenerationMode::Generate => "中断生成",
+            GenerationMode::Transform => "中断变换",
         }
     }
 
     fn tooltip_restart(self) -> &'static str {
         match self {
-            GenerationMode::Generate => "Restart Generation",
-            GenerationMode::Transform => "Restart Transform",
+            GenerationMode::Generate => "重新生成",
+            GenerationMode::Transform => "重新变换",
         }
     }
 
     fn tooltip_accept(self) -> &'static str {
         match self {
-            GenerationMode::Generate => "Accept Generation",
-            GenerationMode::Transform => "Accept Transform",
+            GenerationMode::Generate => "接受生成",
+            GenerationMode::Transform => "接受变换",
         }
     }
 }

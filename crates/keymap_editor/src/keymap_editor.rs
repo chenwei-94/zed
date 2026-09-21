@@ -555,7 +555,7 @@ impl KeymapEditor {
 
         let filter_editor = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Filter action names…", window, cx);
+            editor.set_placeholder_text("筛选操作名称…", window, cx);
             editor
         });
 
@@ -1089,7 +1089,7 @@ impl KeymapEditor {
             let context_menu = ContextMenu::build(window, cx, |menu, _window, _cx| {
                 menu.context(self.focus_handle.clone())
                     .when(selected_binding_is_unmapped, |this| {
-                        this.action("Create", Box::new(CreateBinding))
+                        this.action("创建", Box::new(CreateBinding))
                     })
                     .action_disabled_when(
                         selected_binding_is_non_interactable,
@@ -1102,16 +1102,16 @@ impl KeymapEditor {
                         Box::new(DeleteBinding),
                     )
                     .separator()
-                    .action("Copy Action", Box::new(CopyAction))
+                    .action("复制操作", Box::new(CopyAction))
                     .action_disabled_when(
                         selected_binding_has_no_context,
-                        "Copy Context",
+                        "复制上下文",
                         Box::new(CopyContext),
                     )
                     .separator()
                     .action_disabled_when(
                         selected_binding_has_no_context,
-                        "Show Matching Keybindings",
+                        "显示匹配的快捷键",
                         Box::new(ShowMatchingKeybinds),
                     )
             });
@@ -1152,7 +1152,7 @@ impl KeymapEditor {
             base_button_style(index, IconName::Warning)
                 .icon_color(Color::Warning)
                 .disabled(true)
-                .tooltip(Tooltip::text("This action is unbound"))
+                .tooltip(Tooltip::text("此操作未绑定快捷键"))
         } else if self.filter_state != FilterState::Conflicts
             && let Some(conflict) = conflict
         {
@@ -1161,7 +1161,7 @@ impl KeymapEditor {
                     .icon_color(Color::Warning)
                     .tooltip(|_window, cx| {
                         Tooltip::with_meta(
-                            "View conflicts",
+                            "查看冲突",
                             Some(&ToggleConflictFilter),
                             concat!("Use ", ui::alt_key_name!(), "+click to show all conflicts"),
                             cx,
@@ -1180,9 +1180,9 @@ impl KeymapEditor {
                 base_button_style(index, IconName::Info)
                     .tooltip(|_window, cx| {
                         Tooltip::with_meta(
-                            "Edit this binding",
+                            "编辑此快捷键",
                             Some(&ShowMatchingKeybinds),
-                            "This binding is overridden by other bindings.",
+                            "此按键绑定被其他绑定覆盖。",
                             cx,
                         )
                     })
@@ -1195,7 +1195,7 @@ impl KeymapEditor {
                 base_button_style(index, IconName::Info)
                     .tooltip(|_window, cx| {
                         Tooltip::with_meta(
-                            "Show matching keybinds",
+                            "显示匹配的快捷键",
                             Some(&ShowMatchingKeybinds),
                             concat!(
                                 "This binding is overridden by other bindings.\nUse ",
@@ -1226,7 +1226,7 @@ impl KeymapEditor {
                 })
                 .when(
                     self.show_hover_menus && !self.context_menu_deployed(),
-                    |this| this.tooltip(Tooltip::for_action_title("Edit Keybinding", &EditBinding)),
+                    |this| this.tooltip(Tooltip::for_action_title("编辑快捷键", &EditBinding)),
                 )
                 .on_click(cx.listener(move |this, _, window, cx| {
                     this.select_index(index, None, window, cx);
@@ -1240,15 +1240,13 @@ impl KeymapEditor {
         let hint = match (self.filter_state, &self.search_mode) {
             (FilterState::Conflicts, _) => {
                 if self.keybinding_conflict_state.any_user_binding_conflicts() {
-                    "No conflicting keybinds found that match the provided query"
+                    "未发现匹配该查询的冲突快捷键"
                 } else {
-                    "No conflicting keybinds found"
+                    "未发现冲突的快捷键"
                 }
             }
-            (FilterState::All, SearchMode::KeyStroke { .. }) => {
-                "No keybinds found matching the entered keystrokes"
-            }
-            (FilterState::All, SearchMode::Normal) => "No matches found for the provided query",
+            (FilterState::All, SearchMode::KeyStroke { .. }) => "未找到匹配所输入按键的快捷键",
+            (FilterState::All, SearchMode::Normal) => "未找到匹配该查询的结果",
         };
 
         Label::new(hint).color(Color::Muted).into_any_element()
@@ -1633,7 +1631,7 @@ impl KeymapEditor {
                                 None,
                             ))
                             .map(add_filter(
-                                "No Action",
+                                "无操作",
                                 show_no_action_bindings,
                                 Some(ToggleNoActionBindings.boxed_clone()),
                                 &focus_handle,
@@ -1688,7 +1686,7 @@ impl KeymapEditor {
                         self.keybinding_conflict_state.any_user_binding_conflicts(),
                         |this| this.indicator(Indicator::dot().color(Color::Warning)),
                     ),
-                Tooltip::text("Filters"),
+                Tooltip::text("筛选器"),
             );
 
         fn add_filter(
@@ -1954,7 +1952,7 @@ impl Item for KeymapEditor {
     type Event = ();
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> ui::SharedString {
-        "Keymap Editor".into()
+        "键位映射编辑器".into()
     }
 }
 
@@ -1963,11 +1961,7 @@ impl Render for KeymapEditor {
         if let SearchMode::KeyStroke { exact_match } = self.search_mode {
             let button = IconButton::new("keystrokes-exact-match", IconName::CaseSensitive)
                 .tooltip(move |_window, cx| {
-                    Tooltip::for_action(
-                        "Toggle Exact Match Mode",
-                        &ToggleExactKeystrokeMatching,
-                        cx,
-                    )
+                    Tooltip::for_action("切换精确匹配模式", &ToggleExactKeystrokeMatching, cx)
                 })
                 .shape(IconButtonShape::Square)
                 .toggle_state(exact_match)
@@ -2059,7 +2053,7 @@ impl Render for KeymapEditor {
                                             let focus_handle = focus_handle.clone();
                                             move |_window, cx| {
                                                 Tooltip::for_action_in(
-                                                    "Search by Keystrokes",
+                                                    "按按键搜索",
                                                     &ToggleKeystrokeSearch,
                                                     &focus_handle,
                                                     cx,
@@ -2077,7 +2071,7 @@ impl Render for KeymapEditor {
                                         self.render_filter_dropdown(focus_handle, cx)
                                     )
                                     .child(
-                                        Button::new("edit-in-json", "Edit in JSON")
+                                        Button::new("edit-in-json", "在 JSON 中编辑")
                                             .key_binding(
                                                 ui::KeyBinding::for_action_in(&zed_actions::OpenKeymapFile, &focus_handle, cx)
                                                     .map(|kb| kb.size(rems_from_px(10_f32))),
@@ -2090,7 +2084,7 @@ impl Render for KeymapEditor {
                                             })
                                     )
                                     .child(
-                                        Button::new("create", "Create Keybinding")
+                                        Button::new("create", "创建快捷键")
                                             .style(ButtonStyle::Outlined)
                                             .key_binding(
                                                 ui::KeyBinding::for_action_in(&OpenCreateKeybindingModal, &focus_handle, cx)
@@ -2324,21 +2318,21 @@ impl Render for KeymapEditor {
                                                 let overriding_binding = this.keybindings.get(conflict.index);
                                                 let context = overriding_binding.and_then(|binding| {
                                                     match conflict.override_source {
-                                                        KeybindSource::User  => Some("your keymap"),
-                                                        KeybindSource::Vim => Some("the vim keymap"),
-                                                        KeybindSource::Base => Some("your base keymap"),
+                                                        KeybindSource::User  => Some("你的键位映射"),
+                                                        KeybindSource::Vim => Some("Vim 键位映射"),
+                                                        KeybindSource::Base => Some("你的基础键位映射"),
                                                         _ => {
                                                             log::error!("Unexpected override from the {} keymap", conflict.override_source.name());
                                                             None
                                                         }
-                                                    }.map(|source| format!("This keybinding is overridden by the '{}' binding from {}.", binding.action().humanized_name, source))
-                                                }).unwrap_or_else(|| "This binding is overridden.".to_string());
+                                                    }.map(|source| format!("此快捷键被“{}”绑定覆盖，来源：{}。", binding.action().humanized_name, source))
+                                                }).unwrap_or_else(|| "此绑定已被覆盖。".to_string());
 
                                                 row.tooltip(Tooltip::text(context))
                                             },
                                         )
                                         .when(is_unbound_by_unbind, |row| {
-                                            row.tooltip(Tooltip::text("This action is unbound"))
+                                            row.tooltip(Tooltip::text("此操作未绑定快捷键"))
                                         }),
                                 )
                                 .border_2()
@@ -2506,8 +2500,8 @@ impl KeybindingEditorModal {
             .new(|cx| KeystrokeInput::new(editing_keybind.keystrokes().map(Vec::from), window, cx));
 
         let context_editor: Entity<InputField> = cx.new(|cx| {
-            let input = InputField::new(window, cx, "Keybinding Context")
-                .label("Edit Context")
+            let input = InputField::new(window, cx, "快捷键上下文")
+                .label("编辑上下文")
                 .label_size(LabelSize::Default);
 
             if let Some(context) = editing_keybind
@@ -2562,8 +2556,8 @@ impl KeybindingEditorModal {
                 .collect();
 
             let editor = cx.new(|cx| {
-                let input = InputField::new(window, cx, "Type an action name")
-                    .label("Action")
+                let input = InputField::new(window, cx, "输入操作名称")
+                    .label("操作")
                     .label_size(LabelSize::Default);
 
                 let editor_entity = input.editor();
@@ -2806,45 +2800,52 @@ impl KeybindingEditorModal {
                 self.creating.not().then_some(self.editing_keybind_idx),
             );
 
-        conflicting_indices.map(|KeybindConflict {
-            first_conflict_index,
-            remaining_conflict_amount,
-        }|
-        {
-            let conflicting_action_name = self
-                .keymap_editor
-                .read(cx)
-                .keybindings
-                .get(first_conflict_index)
-                .map(|keybind| keybind.action().name);
+        conflicting_indices
+            .map(
+                |KeybindConflict {
+                     first_conflict_index,
+                     remaining_conflict_amount,
+                 }| {
+                    let conflicting_action_name = self
+                        .keymap_editor
+                        .read(cx)
+                        .keybindings
+                        .get(first_conflict_index)
+                        .map(|keybind| keybind.action().name);
 
-            let warning_message = match conflicting_action_name {
-                Some(name) => {
-                     if remaining_conflict_amount > 0 {
-                        format!(
-                            "Your keybind would conflict with the \"{}\" action and {} other bindings",
-                            name, remaining_conflict_amount
-                        )
+                    let warning_message = match conflicting_action_name {
+                        Some(name) => {
+                            if remaining_conflict_amount > 0 {
+                                format!(
+                                    "你的快捷键会与“{}”操作及其他 {} 个绑定冲突",
+                                    name, remaining_conflict_amount
+                                )
+                            } else {
+                                format!("你的快捷键会与“{}”操作冲突", name)
+                            }
+                        }
+                        None => {
+                            log::info!(
+                                "Could not find action in keybindings with index {}",
+                                first_conflict_index
+                            );
+                            "你的快捷键会与其他操作冲突".to_string()
+                        }
+                    };
+
+                    let warning = InputError::warning(warning_message);
+                    if self
+                        .error
+                        .as_ref()
+                        .is_some_and(|old_error| *old_error == warning)
+                    {
+                        Ok(())
                     } else {
-                        format!("Your keybind would conflict with the \"{}\" action", name)
+                        Err(warning)
                     }
-                }
-                None => {
-                    log::info!(
-                        "Could not find action in keybindings with index {}",
-                        first_conflict_index
-                    );
-                    "Your keybind would conflict with other actions".to_string()
-                }
-            };
-
-            let warning = InputError::warning(warning_message);
-            if self.error.as_ref().is_some_and(|old_error| *old_error == warning) {
-                Ok(())
-           } else {
-                Err(warning)
-            }
-        }).unwrap_or(Ok(()))?;
+                },
+            )
+            .unwrap_or(Ok(()))?;
 
         let create = self.creating;
         let keyboard_mapper = cx.keyboard_mapper().clone();
@@ -2892,7 +2893,7 @@ impl KeybindingEditorModal {
                                 fallback: keymap.table_interaction_state.read(cx).scroll_offset(),
                             });
                             let status_toast = StatusToast::new(
-                                format!("Saved edits to the {} action.", humanized_action_name),
+                                format!("已保存对 {} 操作的修改。", humanized_action_name),
                                 cx,
                                 move |this, _cx| {
                                     this.icon(
@@ -3101,9 +3102,7 @@ impl Render for KeybindingEditorModal {
                                         },
                                     )
                                 })
-                                .when(self.creating, |this| {
-                                    this.child(Label::new("Create Keybinding"))
-                                }),
+                                .when(self.creating, |this| this.child(Label::new("创建快捷键"))),
                         ),
                     )
                     .section(
@@ -3119,7 +3118,7 @@ impl Render for KeybindingEditorModal {
                                 .child(
                                     v_flex()
                                         .gap_1()
-                                        .child(Label::new("Edit Keystroke"))
+                                        .child(Label::new("编辑按键"))
                                         .child(self.keybind_editor.clone())
                                         .child(h_flex().gap_px().when(
                                             matching_bindings_count > 0,
@@ -3145,7 +3144,7 @@ impl Render for KeybindingEditorModal {
                                                         .color(Color::Muted),
                                                 )
                                                 .child(
-                                                    Button::new("show_matching", "View")
+                                                    Button::new("show_matching", "视图")
                                                         .label_size(LabelSize::Small)
                                                         .end_icon(
                                                             Icon::new(IconName::ArrowUpRight)
@@ -3167,7 +3166,7 @@ impl Render for KeybindingEditorModal {
                                     this.child(
                                         v_flex()
                                             .gap_1()
-                                            .child(Label::new("Edit Arguments"))
+                                            .child(Label::new("编辑参数"))
                                             .child(editor),
                                     )
                                 })
@@ -3186,10 +3185,10 @@ impl Render for KeybindingEditorModal {
                             h_flex()
                                 .gap_1()
                                 .child(
-                                    Button::new("cancel", "Cancel")
+                                    Button::new("cancel", "取消")
                                         .on_click(cx.listener(|_, _, _, cx| cx.emit(DismissEvent))),
                                 )
-                                .child(Button::new("save-btn", "Save").on_click(cx.listener(
+                                .child(Button::new("save-btn", "保存").on_click(cx.listener(
                                     |this, _event, _window, cx| {
                                         this.save_or_display_error(cx);
                                     },
@@ -3394,7 +3393,7 @@ impl ActionArgumentsEditor {
             editor.set_text(arguments, window, cx);
         } else {
             // TODO: default value from schema?
-            editor.set_placeholder_text("Action Arguments", window, cx);
+            editor.set_placeholder_text("操作参数", window, cx);
         }
     }
 

@@ -482,7 +482,7 @@ pub fn authorize_symlink_access(
     cx: &mut App,
 ) -> Task<Result<()>> {
     let title = format!(
-        "`{}` points outside the project (symlink to `{}`)",
+        "`{}` 指向项目外（符号链接到 `{}`）",
         display_path,
         canonical_target.display(),
     );
@@ -541,7 +541,7 @@ pub fn authorize_symlink_escapes(
         .map(|(path, target)| format!("`{}` → `{}`", path, target.display()))
         .collect::<Vec<_>>()
         .join(" and ");
-    let title = format!("{} (symlinks outside project)", targets);
+    let title = format!("{}（指向项目外的符号链接）", targets);
 
     let context = ToolPermissionContext::symlink_target(
         tool_name,
@@ -641,7 +641,7 @@ pub fn authorize_file_edit(
     }
 
     let path_owned = path.to_path_buf();
-    let title = format!("Edit {}", util::markdown::MarkdownInlineCode(&path_str));
+    let title = format!("编辑 {}", util::markdown::MarkdownInlineCode(&path_str));
     let tool_name = tool_name.to_string();
     let thread = thread.clone();
     let event_stream = event_stream.clone();
@@ -830,9 +830,7 @@ pub fn authorize_dirty_buffer(
 ) -> Task<Result<DirtyBufferDecision>> {
     let (message, options) = match kind {
         DirtyBufferPromptKind::Edit => (
-            "This file has unsaved changes. Do you want to save or discard them \
-             before the agent continues editing?"
-                .to_string(),
+            "此文件有未保存的更改。要在智能体继续编辑前保存还是放弃这些更改？".to_string(),
             vec![
                 acp::PermissionOption::new(
                     acp::PermissionOptionId::new("save"),
@@ -847,7 +845,7 @@ pub fn authorize_dirty_buffer(
             ],
         ),
         DirtyBufferPromptKind::Overwrite => (
-            "This file has unsaved changes and the agent wants to overwrite it.".to_string(),
+            "此文件有未保存的更改，智能体想要覆盖它。".to_string(),
             vec![
                 acp::PermissionOption::new(
                     acp::PermissionOptionId::new("discard"),

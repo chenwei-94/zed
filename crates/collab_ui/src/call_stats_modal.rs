@@ -296,7 +296,7 @@ impl Render for CallStatsModal {
             .child(
                 h_flex()
                     .justify_between()
-                    .child(Label::new("Call Diagnostics").size(LabelSize::Large))
+                    .child(Label::new("通话诊断").size(LabelSize::Large))
                     .child(
                         Label::new(quality_text)
                             .size(LabelSize::Large)
@@ -307,7 +307,7 @@ impl Render for CallStatsModal {
                 this.child(
                     h_flex()
                         .justify_center()
-                        .child(Label::new("Showing diagnostics from the most recent call").color(Color::Muted)),
+                        .child(Label::new("显示最近一次通话的诊断").color(Color::Muted)),
                 )
             })
             .when(!has_diagnostics, |this| {
@@ -315,7 +315,7 @@ impl Render for CallStatsModal {
                     h_flex()
                         .justify_center()
                         .py_4()
-                        .child(Label::new("No call diagnostics available").color(Color::Muted)),
+                        .child(Label::new("没有可用的通话诊断").color(Color::Muted)),
                 )
             })
             .when(has_diagnostics, |this| {
@@ -327,7 +327,7 @@ impl Render for CallStatsModal {
                         .overflow_y_scroll()
                         .child(
                             Label::new(format!(
-                                "{sample_count} samples · {:.0}s retained · {recent_issue_count} affected intervals in the last 60s",
+                                "{sample_count} 个样本 · 保留 {:.0}s · 最近 60 秒内 {recent_issue_count} 个受影响区间",
                                 retained_duration.as_secs_f64()
                             ))
                             .size(LabelSize::Small)
@@ -336,31 +336,31 @@ impl Render for CallStatsModal {
                         .child(
                             v_flex()
                                 .gap_1()
-                                .child(Label::new("Network").weight(FontWeight::SEMIBOLD))
+                                .child(Label::new("网络").weight(FontWeight::SEMIBOLD))
                                 .child(self.render_metric_row(
                                     "Latency",
-                                    "Time for data to travel to the server",
+                                    "数据传到服务器所需时间",
                                     stats.latency_ms,
                                     |v| format!("{:.0}ms", v),
                                     |v| metric_rating("Latency", v),
                                 ))
                                 .child(self.render_metric_row(
                                     "Jitter",
-                                    "Variance or fluctuation in latency",
+                                    "延迟的波动或抖动",
                                     stats.jitter_ms,
                                     |v| format!("{:.0}ms", v),
                                     |v| metric_rating("Jitter", v),
                                 ))
                                 .child(self.render_metric_row(
-                                    "Packet loss",
-                                    "Amount of data lost during transfer",
+                                    "丢包",
+                                    "传输过程中丢失的数据量",
                                     stats.packet_loss_pct,
                                     |v| format!("{:.1}%", v),
                                     packet_loss_rating,
                                 ))
                                 .child(self.render_metric_row(
-                                    "Input lag",
-                                    "Delay from audio capture to WebRTC",
+                                    "输入延迟",
+                                    "从音频采集到 WebRTC 的延迟",
                                     stats.input_lag.map(|d| d.0.as_millis()),
                                     |v| format!("{}ms", v),
                                     input_lag_rating,
@@ -369,10 +369,10 @@ impl Render for CallStatsModal {
                         .child(
                             v_flex()
                                 .gap_1()
-                                .child(Label::new("Inbound audio").weight(FontWeight::SEMIBOLD))
+                                .child(Label::new("入站音频").weight(FontWeight::SEMIBOLD))
                                 .when(remote_audio.is_empty(), |this| {
                                     this.child(
-                                        Label::new("Waiting for inbound audio statistics")
+                                        Label::new("正在等待入站音频统计")
                                             .color(Color::Muted),
                                     )
                                 })
@@ -390,11 +390,11 @@ impl Render for CallStatsModal {
                         .justify_end()
                         .gap_2()
                         .child(
-                            Button::new("copy-call-diagnostics", "Copy Report")
+                            Button::new("copy-call-diagnostics", "复制报告")
                                 .on_click(cx.listener(|this, _, _, cx| this.copy_report(cx))),
                         )
                         .child(
-                            Button::new("save-call-diagnostics", "Save Report…")
+                            Button::new("save-call-diagnostics", "保存报告…")
                                 .on_click(cx.listener(|this, _, _, cx| this.save_report(cx))),
                         ),
                 )
@@ -472,7 +472,7 @@ impl CallStatsModal {
             )
             .child(
                 Label::new(format!(
-                    "Loss {packet_loss} · jitter {:.1}ms · jitter buffer {jitter_buffer_delay}",
+                    "丢包 {packet_loss} · 抖动 {:.1}ms · 抖动缓冲 {jitter_buffer_delay}",
                     audio.jitter_ms
                 ))
                 .size(LabelSize::Small)
@@ -480,7 +480,7 @@ impl CallStatsModal {
             )
             .child(
                 Label::new(format!(
-                    "WebRTC repaired {repaired_audio_duration} in {} {repair_event_label}",
+                    "WebRTC 修复了 {repaired_audio_duration}，涉及 {} 个 {repair_event_label}",
                     audio.concealment_events,
                 ))
                 .size(LabelSize::Small)
@@ -488,7 +488,7 @@ impl CallStatsModal {
             )
             .child(
                 Label::new(format!(
-                    "Local playback starved for {starved_audio_duration} · dropped {dropped_audio_duration} · buffered {buffered_audio_duration} (peak {peak_buffered_audio_duration})",
+                    "本地播放饥饿 {starved_audio_duration} · 丢弃 {dropped_audio_duration} · 缓冲 {buffered_audio_duration}（峰值 {peak_buffered_audio_duration}）",
                 ))
                 .size(LabelSize::Small)
                 .color(Color::Muted),

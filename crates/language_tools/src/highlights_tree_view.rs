@@ -846,25 +846,19 @@ impl Render for HighlightsTreeView {
                             if self.editor.is_some() {
                                 let has_any = !self.cached_entries.is_empty();
                                 if has_any {
-                                    this.child(Label::new("All highlights are filtered out"))
-                                        .child(
-                                            Label::new(
-                                                "Enable text, syntax, or semantic highlights in the toolbar",
-                                            )
+                                    this.child(Label::new("所有高亮均已被过滤")).child(
+                                        Label::new("在工具栏中启用文本、语法或语义高亮")
                                             .size(LabelSize::Small),
-                                        )
+                                    )
                                 } else {
-                                    this.child(Label::new("No highlights found")).child(
-                                        Label::new(
-                                            "The editor has no text, syntax, or semantic token highlights",
-                                        )
-                                        .size(LabelSize::Small),
+                                    this.child(Label::new("未找到高亮")).child(
+                                        Label::new("编辑器没有文本、语法或语义词元高亮")
+                                            .size(LabelSize::Small),
                                     )
                                 }
                             } else {
-                                this.child(Label::new("Not attached to an editor")).child(
-                                    Label::new("Focus an editor to show highlights")
-                                        .size(LabelSize::Small),
+                                this.child(Label::new("未附加到编辑器")).child(
+                                    Label::new("聚焦编辑器以显示高亮").size(LabelSize::Small),
                                 )
                             }
                         });
@@ -956,9 +950,9 @@ impl HighlightsTreeToolbarItemView {
         let filtered = tree_view.entry_count();
 
         let label = if filtered == total {
-            format!("{} highlights", total)
+            format!("{} 项高亮", total)
         } else {
-            format!("{} / {} highlights", filtered, total)
+            format!("{} / {} 项高亮", filtered, total)
         };
 
         Some(ButtonLike::new("highlights header").child(Label::new(label)))
@@ -985,7 +979,7 @@ impl HighlightsTreeToolbarItemView {
                 IconButton::new("toggle-highlights-settings-icon", IconName::Filter)
                     .icon_size(IconSize::Small)
                     .toggle_state(self.toggle_settings_handle.is_deployed()),
-                Tooltip::text("Highlights Settings"),
+                Tooltip::text("高亮设置"),
             )
             .anchor(gpui::Anchor::TopRight)
             .with_handle(self.toggle_settings_handle.clone())
@@ -996,7 +990,7 @@ impl HighlightsTreeToolbarItemView {
 
                 let menu = ContextMenu::build(window, cx, move |menu, _, _| {
                     menu.toggleable_entry(
-                        "Text Highlights",
+                        "文本高亮",
                         show_text,
                         IconPosition::Start,
                         Some(ToggleTextHighlights.boxed_clone()),
@@ -1020,7 +1014,7 @@ impl HighlightsTreeToolbarItemView {
                         },
                     )
                     .toggleable_entry(
-                        "Syntax Tokens",
+                        "语法标记",
                         show_syntax,
                         IconPosition::Start,
                         Some(ToggleSyntaxTokens.boxed_clone()),
@@ -1044,7 +1038,7 @@ impl HighlightsTreeToolbarItemView {
                         },
                     )
                     .toggleable_entry(
-                        "Semantic Tokens",
+                        "语义标记",
                         show_semantic,
                         IconPosition::Start,
                         Some(ToggleSemanticTokens.boxed_clone()),

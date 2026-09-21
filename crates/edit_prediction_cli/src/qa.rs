@@ -185,7 +185,7 @@ pub async fn run_qa(
     let model = model_for_backend(args.backend);
     let prompt = build_prompt(example).context("Failed to build QA prompt")?;
 
-    step_progress.set_substatus("generating");
+    step_progress.set_substatus("生成中");
 
     let response = match args.backend {
         BatchProvider::Anthropic => {

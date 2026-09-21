@@ -566,7 +566,7 @@ fn resolve_outcome_from_selection(
         }
     }
 
-    // Use the selected granularity choice ("Always for terminal" or "Only this time").
+    // Use the selected granularity choice ("Always for terminal" or "仅此一次").
     let selected_index = selection
         .and_then(|s| s.choice_index())
         .unwrap_or_else(|| choices.len().saturating_sub(1));
@@ -1066,9 +1066,7 @@ impl ConversationView {
             && agent.clone().downcast::<NativeAgentServer>().is_none()
         {
             return ServerState::LoadError {
-                error: LoadError::Other(
-                    "External agents are not yet supported in shared projects.".into(),
-                ),
+                error: LoadError::Other("共享项目中尚不支持外部智能体。".into()),
             };
         }
         let session_work_dirs = work_dirs.unwrap_or_else(|| project.read(cx).default_path_list(cx));
@@ -1564,14 +1562,12 @@ impl ConversationView {
                 .clone()
                 .unwrap_or_else(|| "Loading…".into()),
             ServerState::LoadError { error, .. } => match error {
-                LoadError::Unsupported { .. } => {
-                    format!("Upgrade {}", self.agent.agent_id()).into()
-                }
+                LoadError::Unsupported { .. } => format!("升级 {}", self.agent.agent_id()).into(),
                 LoadError::FailedToInstall(_) => {
-                    format!("Failed to Install {}", self.agent.agent_id()).into()
+                    format!("安装 {} 失败", self.agent.agent_id()).into()
                 }
-                LoadError::Exited { .. } => format!("{} Exited", self.agent.agent_id()).into(),
-                LoadError::Other(_) => format!("Error Loading {}", self.agent.agent_id()).into(),
+                LoadError::Exited { .. } => format!("{} 已退出", self.agent.agent_id()).into(),
+                LoadError::Other(_) => format!("加载 {} 出错", self.agent.agent_id()).into(),
             },
         }
     }
@@ -1670,11 +1666,11 @@ impl ConversationView {
                 self.load_subagent_session(subagent_session_id.clone(), session_id, window, cx)
             }
             AcpThreadEvent::ToolAuthorizationRequested(_) => {
-                self.notify_with_sound("Waiting for tool confirmation", IconName::Info, window, cx);
+                self.notify_with_sound("等待工具确认", IconName::Info, window, cx);
             }
             AcpThreadEvent::ToolAuthorizationReceived(_) => {}
             AcpThreadEvent::ElicitationRequested(_) => {
-                self.notify_with_sound("Waiting for input", IconName::Info, window, cx);
+                self.notify_with_sound("等待输入", IconName::Info, window, cx);
             }
             AcpThreadEvent::ElicitationResponded(_) => {}
             AcpThreadEvent::Retry(retry) => {
@@ -1736,9 +1732,9 @@ impl ConversationView {
                     let used_tools = thread.read(cx).used_tools_since_last_user_message();
                     self.notify_with_sound(
                         if used_tools {
-                            "Finished running tools"
+                            "工具运行完成"
                         } else {
-                            "New message"
+                            "新消息"
                         },
                         IconName::ZedAssistant,
                         window,
@@ -1756,8 +1752,7 @@ impl ConversationView {
                 }
                 if !is_subagent {
                     let model_or_agent_name = self.current_model_name(cx);
-                    let notification_message =
-                        format!("{} refused to respond to this request", model_or_agent_name);
+                    let notification_message = format!("{} 拒绝响应此请求", model_or_agent_name);
                     self.notify_with_sound(&notification_message, IconName::Warning, window, cx);
                 }
             }
@@ -1776,12 +1771,7 @@ impl ConversationView {
                     });
                 }
                 if !is_subagent {
-                    self.notify_with_sound(
-                        "Agent stopped due to an error",
-                        IconName::Warning,
-                        window,
-                        cx,
-                    );
+                    self.notify_with_sound("智能体因错误停止", IconName::Warning, window, cx);
                 }
             }
             AcpThreadEvent::LoadError(error) => {
@@ -2322,7 +2312,7 @@ impl ConversationView {
         if pending_auth_method.is_some() {
             return Callout::new()
                 .icon(IconName::Info)
-                .title(format!("Authenticating to {}…", agent_display_name))
+                .title(format!("正在登录到 {}…", agent_display_name))
                 .actions_slot(
                     Icon::new(IconName::ArrowCircle)
                         .size(IconSize::Small)
@@ -2335,7 +2325,7 @@ impl ConversationView {
 
         Callout::new()
             .icon(IconName::Info)
-            .title(format!("Authenticate to {}", agent_display_name))
+            .title(format!("登录到 {}", agent_display_name))
             .when(auth_methods.len() == 1, |this| {
                 this.actions_slot(auth_buttons())
             })
@@ -2345,7 +2335,7 @@ impl ConversationView {
                     .map(|this| {
                         if show_fallback_description {
                             this.child(
-                                Label::new("Choose one of the following authentication options:")
+                                Label::new("选择以下身份验证方式之一：")
                                     .size(LabelSize::Small)
                                     .color(Color::Muted),
                             )
@@ -2740,23 +2730,23 @@ impl ConversationView {
             } => {
                 return self.render_unsupported(path, current_version, minimum_version, window, cx);
             }
-            LoadError::FailedToInstall(msg) => ("Failed to Install", msg.to_string()),
+            LoadError::FailedToInstall(msg) => ("安装失败", msg.to_string()),
             LoadError::Exited { status, stderr } => {
                 let mut message = format!("Server exited with status {status}");
                 if let Some(stderr) = stderr {
                     message.push_str("\n");
                     message.push_str(stderr);
                 };
-                ("Failed to Launch", message)
+                ("启动失败", message)
             }
-            LoadError::Other(msg) => ("Failed to Launch", msg.to_string()),
+            LoadError::Other(msg) => ("启动失败", msg.to_string()),
         };
 
         let action_slot = h_flex()
             .gap_1()
             .child(
-                Button::new("retry-agent-launch", "Retry")
-                    .tooltip(Tooltip::text("Try to restart the agent"))
+                Button::new("retry-agent-launch", "重试")
+                    .tooltip(Tooltip::text("尝试重启智能体"))
                     .on_click(cx.listener(move |this, _, window, cx| {
                         this.retry_connection(window, cx);
                     })),
@@ -2782,15 +2772,12 @@ impl ConversationView {
         cx: &mut Context<Self>,
     ) -> AnyElement {
         let (heading_label, description_label) = (
-            format!("Upgrade {} to work with Zed", self.agent.agent_id()),
+            format!("升级 {} 以配合 Zed 使用", self.agent.agent_id()),
             if version.is_empty() {
-                format!(
-                    "Currently using {}, which does not report a valid --version",
-                    path,
-                )
+                format!("当前使用的 {} 未报告有效的 --version", path,)
             } else {
                 format!(
-                    "Currently using {}, which is only version {} (need at least {minimum_version})",
+                    "当前使用的 {} 版本仅为 {}（至少需要 {minimum_version}）",
                     path, version
                 )
             },
@@ -3233,7 +3220,7 @@ impl ConversationView {
                 .and_then(|active| active.read(cx).model_selector.clone())
                 .and_then(|selector| selector.read(cx).active_model(cx))
                 .map(|model| model.name.clone())
-                .unwrap_or_else(|| SharedString::from("The model"))
+                .unwrap_or_else(|| SharedString::from("该模型"))
         } else {
             // ACP agent - use the agent name (e.g., "Claude Agent", "Gemini CLI")
             self.agent.agent_id().0
@@ -3243,7 +3230,7 @@ impl ConversationView {
     fn create_copy_button(&self, message: impl Into<String>) -> impl IntoElement {
         let message = message.into();
 
-        CopyButton::new("copy-error-message", message).tooltip_label("Copy Error Message")
+        CopyButton::new("copy-error-message", message).tooltip_label("复制错误消息")
     }
 
     pub(crate) fn reauthenticate(&mut self, window: &mut Window, cx: &mut Context<Self>) {
@@ -3340,17 +3327,11 @@ fn native_available_skills(
 
 fn placeholder_text(agent_name: &str, has_commands: bool) -> String {
     if agent_name == agent::ZED_AGENT_ID.as_ref() {
-        format!(
-            "Message the {}, @ to include context, / for commands",
-            agent_name
-        )
+        format!("向 {} 发送消息，@ 添加上下文，/ 使用命令", agent_name)
     } else if has_commands {
-        format!(
-            "Message {} — @ to include context, / for commands",
-            agent_name
-        )
+        format!("向 {} 发送消息 — @ 添加上下文，/ 使用命令", agent_name)
     } else {
-        format!("Message {} — @ to include context", agent_name)
+        format!("向 {} 发送消息 — @ 添加上下文", agent_name)
     }
 }
 
@@ -9732,7 +9713,7 @@ pub(crate) mod tests {
                     "Missing pattern option"
                 );
                 assert!(
-                    labels.contains(&"Only this time"),
+                    labels.contains(&"仅此一次"),
                     "Missing 'Only this time' option"
                 );
             }
@@ -10009,7 +9990,7 @@ pub(crate) mod tests {
                     "Missing 'Always for terminal' option"
                 );
                 assert!(
-                    labels.contains(&"Only this time"),
+                    labels.contains(&"仅此一次"),
                     "Missing 'Only this time' option"
                 );
                 // Should NOT contain a pattern option
@@ -10222,7 +10203,7 @@ pub(crate) mod tests {
 
         cx.run_until_parked();
 
-        // Verify default granularity is the last option (index 2 = "Only this time")
+        // Verify default granularity is the last option (index 2 = "仅此一次")
         thread_view.read_with(cx, |thread_view, cx| {
             let state = thread_view.active_thread().unwrap();
             let selected = state.read(cx).permission_selections.get(&tool_call_id);
@@ -10399,7 +10380,7 @@ pub(crate) mod tests {
 
         cx.run_until_parked();
 
-        // Use default granularity (last option = "Only this time")
+        // Use default granularity (last option = "仅此一次")
         // Simulate clicking the Deny button
         active_thread(&conversation_view, cx).update_in(cx, |view, window, cx| {
             view.reject_once(&RejectOnce, window, cx)
@@ -10564,7 +10545,7 @@ pub(crate) mod tests {
 
         let outcome = super::resolve_outcome_from_selection(&options, None, true).unwrap();
 
-        // Last choice is "Only this time" → option_id "allow".
+        // Last choice is "仅此一次" → option_id "allow".
         assert_eq!(outcome.option_id.0.as_ref(), "allow");
         assert_eq!(outcome.option_kind, acp::PermissionOptionKind::AllowOnce);
     }
@@ -10594,7 +10575,7 @@ pub(crate) mod tests {
         let outcome =
             super::resolve_outcome_from_selection(&options, Some(&selection), true).unwrap();
 
-        // choices.get(999) is None, falls back to choices.last() → "Only this time".
+        // choices.get(999) is None, falls back to choices.last() → "仅此一次".
         assert_eq!(outcome.option_id.0.as_ref(), "allow");
     }
 

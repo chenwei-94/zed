@@ -165,7 +165,7 @@ impl Addon for CommitDiffAddon {
         menu.when_some(file_to_open, |menu, file| {
             let commit_view = self.commit_view.clone();
             menu.entry(
-                "Open File in Project",
+                "在项目中打开文件",
                 Some(Box::new(OpenFileAtHead)),
                 move |window, cx| {
                     commit_view
@@ -546,16 +546,8 @@ impl CommitView {
             .items_center()
             .justify_center()
             .gap_2()
-            .child(
-                Label::new("This commit is at the boundary of a shallow clone.")
-                    .color(Color::Muted),
-            )
-            .child(
-                Label::new(
-                    "Its parent history was not fetched, so the changes it introduced cannot be shown.",
-                )
-                .color(Color::Muted),
-            )
+            .child(Label::new("此提交位于浅克隆的边界。").color(Color::Muted))
+            .child(Label::new("未抓取其父历史，因此无法显示它引入的更改。").color(Color::Muted))
             .child(
                 h_flex()
                     .gap_2()
@@ -568,74 +560,74 @@ impl CommitView {
                             Button::new(
                                 "fetch-unshallow",
                                 if fetch_in_flight {
-                                    "Fetching…"
+                                    "正在抓取…"
                                 } else {
-                                    "Fetch Missing History"
+                                    "抓取缺失历史"
                                 },
                             )
-                                .style(ButtonStyle::Filled)
-                                .disabled(fetch_in_flight)
-                                .tooltip(Tooltip::text(
-                                    "Run `git fetch --unshallow` to download the full history, then show this commit's changes.",
-                                ))
-                                .on_click(move |_, window, cx| {
-                                    let fetch = crate::commit_tooltip::fetch_unshallow(
-                                        repository.clone(),
-                                        workspace.clone(),
-                                        window,
-                                        cx,
-                                    );
-                                    let commit_sha = commit_sha.clone();
-                                    let repository = repository.downgrade();
-                                    let workspace = workspace.clone();
-                                    let file_filter = file_filter.clone();
-                                    window
-                                        .spawn(cx, async move |cx| {
-                                            fetch.await?;
-                                            cx.update(|window, cx| {
-                                                Self::open_with_options(
-                                                    commit_sha,
-                                                    repository,
-                                                    workspace,
-                                                    stash,
-                                                    file_filter,
-                                                    false,
-                                                    window,
-                                                    cx,
-                                                )
-                                            })
+                            .style(ButtonStyle::Filled)
+                            .disabled(fetch_in_flight)
+                            .tooltip(Tooltip::text(
+                                "运行 `git fetch --unshallow` 下载完整历史，然后显示此提交的变更。",
+                            ))
+                            .on_click(move |_, window, cx| {
+                                let fetch = crate::commit_tooltip::fetch_unshallow(
+                                    repository.clone(),
+                                    workspace.clone(),
+                                    window,
+                                    cx,
+                                );
+                                let commit_sha = commit_sha.clone();
+                                let repository = repository.downgrade();
+                                let workspace = workspace.clone();
+                                let file_filter = file_filter.clone();
+                                window
+                                    .spawn(cx, async move |cx| {
+                                        fetch.await?;
+                                        cx.update(|window, cx| {
+                                            Self::open_with_options(
+                                                commit_sha,
+                                                repository,
+                                                workspace,
+                                                stash,
+                                                file_filter,
+                                                false,
+                                                window,
+                                                cx,
+                                            )
                                         })
-                                        .detach_and_log_err(cx);
-                                }),
+                                    })
+                                    .detach_and_log_err(cx);
+                            }),
                         )
                     })
                     .child(
                         Button::new(
                             "load-shallow-snapshot",
                             if file_filter.is_some() {
-                                "Load File Snapshot"
+                                "加载文件快照"
                             } else {
-                                "Load Full Snapshot"
+                                "加载完整快照"
                             },
                         )
-                            .style(ButtonStyle::Outlined)
-                            .tooltip(Tooltip::text(if file_filter.is_some() {
-                                "Show this file's full contents at this commit as added."
-                            } else {
-                                "Show every file at this commit as added. This can be slow in large repositories."
-                            }))
-                            .on_click(move |_, window, cx| {
-                                Self::open_with_options(
-                                    commit_sha.clone(),
-                                    repository.downgrade(),
-                                    workspace.clone(),
-                                    stash,
-                                    file_filter.clone(),
-                                    true,
-                                    window,
-                                    cx,
-                                );
-                            }),
+                        .style(ButtonStyle::Outlined)
+                        .tooltip(Tooltip::text(if file_filter.is_some() {
+                            "以新增方式显示此文件在此提交处的完整内容。"
+                        } else {
+                            "以新增方式显示此提交处的所有文件。在大型仓库中可能较慢。"
+                        }))
+                        .on_click(move |_, window, cx| {
+                            Self::open_with_options(
+                                commit_sha.clone(),
+                                repository.downgrade(),
+                                workspace.clone(),
+                                stash,
+                                file_filter.clone(),
+                                true,
+                                window,
+                                cx,
+                            );
+                        }),
                     ),
             )
     }
@@ -830,7 +822,7 @@ impl CommitView {
                     )
                     .when(self.stash.is_none(), |this| {
                         this.child(
-                            Button::new("sha", "Commit SHA")
+                            Button::new("sha", "提交 SHA")
                                 .start_icon(
                                     Icon::new(copy_icon)
                                         .size(IconSize::Small)
@@ -840,7 +832,7 @@ impl CommitView {
                                     let commit_sha = commit_sha.clone();
                                     move |_, cx| {
                                         Tooltip::with_meta(
-                                            "Copy Commit SHA",
+                                            "复制提交 SHA",
                                             None,
                                             commit_sha.clone(),
                                             cx,
@@ -1460,7 +1452,7 @@ impl Render for CommitViewToolbar {
                     .icon_size(IconSize::Small)
                     .tooltip(move |_, cx| {
                         Tooltip::for_action(
-                            "Buffer Search",
+                            "缓冲区搜索",
                             &zed_actions::buffer_search::Deploy::find(),
                             cx,
                         )
@@ -1476,7 +1468,7 @@ impl Render for CommitViewToolbar {
                 this.child(
                     IconButton::new("show-in-git-graph", IconName::GitGraph)
                         .icon_size(IconSize::Small)
-                        .tooltip(Tooltip::text("Show in Git Graph"))
+                        .tooltip(Tooltip::text("在 Git 图表中显示"))
                         .on_click(move |_, window, cx| {
                             window.dispatch_action(
                                 Box::new(crate::git_graph::OpenAtCommit {
@@ -1491,7 +1483,7 @@ impl Render for CommitViewToolbar {
 
                     IconButton::new("view_on_provider", icon)
                         .icon_size(IconSize::Small)
-                        .tooltip(Tooltip::text(format!("View on {}", provider_name)))
+                        .tooltip(Tooltip::text(format!("在 {} 上查看", provider_name)))
                         .on_click(move |_, _, cx| cx.open_url(&url))
                 }))
             })

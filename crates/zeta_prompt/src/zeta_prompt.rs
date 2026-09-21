@@ -1411,7 +1411,7 @@ pub fn format_active_buffer_diagnostics_with_budget(
         diagnostic_indices.sort_unstable_by_key(&distance);
     }
 
-    let mut output = format!("{}diagnostics\n", seed_coder::FILE_MARKER);
+    let mut output = format!("{}diagnostics", seed_coder::FILE_MARKER);
     let header_tokens = estimate_tokens(output.len());
     if header_tokens > budget {
         return String::new();
@@ -4156,7 +4156,7 @@ pub mod seed_coder {
     pub const SEPARATOR: &str = "=======\n";
     pub const END_MARKER: &str = ">>>>>>> UPDATED\n";
 
-    pub const NO_EDITS: &str = "NO_EDITS\n";
+    pub const NO_EDITS: &str = "NO_EDITS";
 
     pub fn special_tokens() -> &'static [&'static str] {
         &[

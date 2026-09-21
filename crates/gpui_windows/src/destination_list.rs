@@ -47,8 +47,8 @@ impl DockMenuItem {
         match item {
             MenuItem::Action { name, action, .. } => Ok(Self {
                 name: name.clone(),
-                description: if name == "New Window" {
-                    "Opens a new window".into()
+                description: if name == "新建窗口" {
+                    "打开新窗口".into()
                 } else {
                     name
                 },
@@ -176,7 +176,7 @@ fn add_recent_folders(
         }
 
         if tasks.GetCount().unwrap_or(0) > 0 {
-            list.AppendCategory(&HSTRING::from("Recent Folders"), &tasks)?;
+            list.AppendCategory(&HSTRING::from("最近使用的文件夹"), &tasks)?;
         }
         Ok(())
     }

@@ -346,7 +346,7 @@ fn render_conflict_buttons(
         .gap_1()
         .bg(cx.theme().colors().editor_background)
         .child(
-            Button::new("head", format!("Use {}", conflict.ours_branch_name))
+            Button::new("head", format!("使用 {}", conflict.ours_branch_name))
                 .label_size(LabelSize::Small)
                 .on_click({
                     let editor = editor.clone();
@@ -365,7 +365,7 @@ fn render_conflict_buttons(
                 }),
         )
         .child(
-            Button::new("origin", format!("Use {}", conflict.theirs_branch_name))
+            Button::new("origin", format!("使用 {}", conflict.theirs_branch_name))
                 .label_size(LabelSize::Small)
                 .on_click({
                     let editor = editor.clone();
@@ -384,7 +384,7 @@ fn render_conflict_buttons(
                 }),
         )
         .child(
-            Button::new("both", "Use Both")
+            Button::new("both", "两者都用")
                 .label_size(LabelSize::Small)
                 .on_click({
                     let editor = editor.clone();
@@ -405,7 +405,7 @@ fn render_conflict_buttons(
         )
         .when(is_ai_enabled, |this| {
             this.child(Divider::vertical()).child(
-                Button::new("resolve-with-agent", "Resolve with Agent")
+                Button::new("resolve-with-agent", "用智能体解决")
                     .label_size(LabelSize::Small)
                     .start_icon(
                         Icon::new(IconName::ZedAssistant)
@@ -627,13 +627,13 @@ impl Render for MergeConflictIndicator {
         let file_count = self.conflicted_paths.len();
 
         let message: SharedString = format!(
-            "Resolve Merge Conflict{} with Agent",
+            "用智能体解决合并冲突{}",
             if file_count == 1 { "" } else { "s" }
         )
         .into();
 
         let tooltip_label: SharedString = format!(
-            "Found {} {} across the codebase",
+            "在代码库中发现 {} 处 {}",
             file_count,
             if file_count == 1 {
                 "conflict"
@@ -666,12 +666,7 @@ impl Render for MergeConflictIndicator {
                             .child(Label::new(message).size(LabelSize::Small)),
                     )
                     .tooltip(move |_, cx| {
-                        Tooltip::with_meta(
-                            tooltip_label.clone(),
-                            None,
-                            "Click to Resolve with Agent",
-                            cx,
-                        )
+                        Tooltip::with_meta(tooltip_label.clone(), None, "点击用智能体解决", cx)
                     })
                     .on_click(cx.listener(|this, _, window, cx| {
                         this.resolve_with_agent(window, cx);

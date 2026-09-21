@@ -64,29 +64,19 @@ impl DebuggerPaneItem {
             DebuggerPaneItem::Modules => SharedString::new_static("Modules"),
             DebuggerPaneItem::LoadedSources => SharedString::new_static("Sources"),
             DebuggerPaneItem::Terminal => SharedString::new_static("Terminal"),
-            DebuggerPaneItem::MemoryView => SharedString::new_static("Memory View"),
+            DebuggerPaneItem::MemoryView => SharedString::new_static("内存视图"),
         }
     }
     pub(crate) fn tab_tooltip(self) -> SharedString {
         let tooltip = match self {
-            DebuggerPaneItem::Console => {
-                "Displays program output and allows manual input of debugger commands"
-            }
-            DebuggerPaneItem::Variables => {
-                "Shows current values of local and global variables in the current stack frame"
-            }
-            DebuggerPaneItem::BreakpointList => "Lists all active breakpoints set in the code",
-            DebuggerPaneItem::Frames => {
-                "Displays the call stack, letting you navigate between function calls"
-            }
-            DebuggerPaneItem::Modules => "Shows all modules or libraries loaded by the program",
-            DebuggerPaneItem::LoadedSources => {
-                "Lists all source files currently loaded and used by the debugger"
-            }
-            DebuggerPaneItem::Terminal => {
-                "Provides an interactive terminal session within the debugging environment"
-            }
-            DebuggerPaneItem::MemoryView => "Allows inspection of memory contents",
+            DebuggerPaneItem::Console => "显示程序输出，并允许手动输入调试器命令",
+            DebuggerPaneItem::Variables => "显示当前堆栈帧中局部变量与全局变量的当前值",
+            DebuggerPaneItem::BreakpointList => "列出代码中设置的所有活动断点",
+            DebuggerPaneItem::Frames => "显示调用堆栈，可在函数调用之间导航",
+            DebuggerPaneItem::Modules => "显示程序加载的所有模块或库",
+            DebuggerPaneItem::LoadedSources => "列出调试器当前已加载并使用的所有源文件",
+            DebuggerPaneItem::Terminal => "在调试环境中提供交互式终端会话",
+            DebuggerPaneItem::MemoryView => "允许查看内存内容",
         };
         SharedString::new_static(tooltip)
     }

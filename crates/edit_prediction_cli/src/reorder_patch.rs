@@ -223,7 +223,7 @@ impl Patch {
         let len = header_lines.len();
         if len >= 2 {
             if header_lines[len - 2].starts_with("diff --git")
-                && header_lines[len - 1].starts_with("index ")
+                && header_lines[len - 1].starts_with("index")
             {
                 patch.header = header_lines[..len - 2].join("\n") + "\n";
             }

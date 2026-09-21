@@ -150,11 +150,11 @@ impl AgentTool for CreateThreadTool {
         _cx: &mut App,
     ) -> SharedString {
         match input {
-            Ok(i) => format!("Create thread: {}", i.title).into(),
+            Ok(i) => format!("创建会话：{}", i.title).into(),
             Err(value) => value
                 .get("title")
                 .and_then(|v| v.as_str())
-                .map(|s| format!("Create thread: {s}").into())
+                .map(|s| format!("创建会话：{s}").into())
                 .unwrap_or_else(|| "Create thread".into()),
         }
     }

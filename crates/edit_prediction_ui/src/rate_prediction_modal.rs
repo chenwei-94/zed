@@ -87,8 +87,8 @@ enum RatePredictionView {
 impl RatePredictionView {
     pub fn name(&self) -> &'static str {
         match self {
-            Self::SuggestedEdits => "Suggested Edits",
-            Self::RawInput => "Recorded Events & Input",
+            Self::SuggestedEdits => "建议的编辑",
+            Self::RawInput => "记录的事件与输入",
         }
     }
 }
@@ -101,7 +101,7 @@ impl RatePredictionsModal {
                 RatePredictionsModal::new(ep_store, language_registry, window, cx)
             });
 
-            telemetry::event!("Rate Prediction Modal Open", source = "Edit Prediction");
+            telemetry::event!("Rate Prediction Modal Open", source = "编辑预测");
         }
     }
 
@@ -362,7 +362,7 @@ impl RatePredictionsModal {
                         start_anchor,
                         &InlayHint {
                             position: start_hint_position,
-                            label: InlayHintLabel::String("╭─ editable region start\n".into()),
+                            label: InlayHintLabel::String("╭─ 可编辑区域开始".into()),
                             kind: Some(InlayHintKind::Parameter),
                             padding_left: false,
                             padding_right: false,
@@ -375,7 +375,7 @@ impl RatePredictionsModal {
                         end_anchor,
                         &InlayHint {
                             position: end_hint_position,
-                            label: InlayHintLabel::String("\n╰─ editable region end".into()),
+                            label: InlayHintLabel::String("╰─ 可编辑区域结束".into()),
                             kind: Some(InlayHintKind::Parameter),
                             padding_left: false,
                             padding_right: false,
@@ -439,7 +439,7 @@ impl RatePredictionsModal {
         write!(formatted_inputs, "## Events\n\n").unwrap();
 
         for event in events {
-            formatted_inputs.push_str("```diff\n");
+            formatted_inputs.push_str("```diff");
             zeta_prompt::write_event(formatted_inputs, event.as_ref());
             formatted_inputs.push_str("```\n\n");
         }
@@ -797,7 +797,7 @@ impl RatePredictionsModal {
                     editor.set_show_wrap_guides(false, cx);
                     editor.set_show_indent_guides(false, cx);
                     editor.set_show_edit_predictions(Some(false), window, cx);
-                    editor.set_placeholder_text("Add your feedback…", window, cx);
+                    editor.set_placeholder_text("添加反馈…", window, cx);
                     editor.set_completion_provider(Some(Rc::new(FeedbackCompletionProvider)));
                     if focus {
                         cx.focus_self(window);
@@ -880,7 +880,7 @@ impl RatePredictionsModal {
                                 .px_2()
                                 .border_b_1()
                                 .border_color(border_color)
-                                .child(Label::new("Predicted Patch").size(LabelSize::Small)),
+                                .child(Label::new("预测的补丁").size(LabelSize::Small)),
                         )
                         .child(
                             div()
@@ -906,7 +906,7 @@ impl RatePredictionsModal {
                                 .gap_2()
                                 .border_b_1()
                                 .border_color(border_color)
-                                .child(Label::new("Expected Patch").size(LabelSize::Small)),
+                                .child(Label::new("预期补丁").size(LabelSize::Small)),
                         )
                         .child(
                             div()
@@ -995,9 +995,7 @@ impl RatePredictionsModal {
                             )
                             .into_any_element()
                         } else {
-                            div()
-                                .child("No active completion".to_string())
-                                .into_any_element()
+                            div().child("无活动补全".to_string()).into_any_element()
                         }),
                 )
                 .id("raw-input-view"),
@@ -1090,7 +1088,7 @@ impl RatePredictionsModal {
                             .child(
                                 DropdownMenu::new(
                                         "failure-mode-dropdown",
-                                        "Issue",
+                                        "问题",
                                         failure_mode_menu,
                                     )
                                     .handle(self.failure_mode_menu_handle.clone())
@@ -1144,7 +1142,7 @@ impl RatePredictionsModal {
                                             .size(IconSize::Small)
                                             .color(Color::Success),
                                     )
-                                    .child(Label::new("Rated completion.").color(Color::Muted)),
+                                    .child(Label::new("已评价补全。").color(Color::Muted)),
                             )
                         } else if active_prediction.prediction.edits.is_empty() {
                             Some(
@@ -1154,7 +1152,7 @@ impl RatePredictionsModal {
                                             .size(IconSize::Small)
                                             .color(Color::Warning),
                                     )
-                                    .child(Label::new("No edits produced.").color(Color::Muted)),
+                                    .child(Label::new("未产生编辑。").color(Color::Muted)),
                             )
                         } else {
                             Some(label_container)
@@ -1163,12 +1161,12 @@ impl RatePredictionsModal {
                             h_flex()
                                 .gap_1()
                                 .child(
-                                    Button::new("bad", "Bad Prediction")
+                                    Button::new("bad", "预测不佳")
                                         .start_icon(Icon::new(IconName::ThumbsDown).size(IconSize::Small))
                                         .disabled(rated || feedback_empty)
                                         .when(feedback_empty, |this| {
                                             this.tooltip(Tooltip::text(
-                                                "Explain what's bad about it before reporting it",
+                                                "报告前先说明问题所在",
                                             ))
                                         })
                                         .key_binding(KeyBinding::for_action_in(
@@ -1187,7 +1185,7 @@ impl RatePredictionsModal {
                                         })),
                                 )
                                 .child(
-                                    Button::new("good", "Good Prediction")
+                                    Button::new("good", "预测良好")
                                         .start_icon(Icon::new(IconName::ThumbsUp).size(IconSize::Small))
                                         .disabled(rated)
                                         .key_binding(KeyBinding::for_action_in(
@@ -1225,9 +1223,9 @@ impl RatePredictionsModal {
 
                 let (icon_name, icon_color, tooltip_text) =
                     match (rated, completion.edits.is_empty()) {
-                        (true, _) => (IconName::Check, Color::Success, "Rated Prediction"),
-                        (false, true) => (IconName::File, Color::Muted, "No Edits Produced"),
-                        (false, false) => (IconName::FileDiff, Color::Accent, "Edits Available"),
+                        (true, _) => (IconName::Check, Color::Success, "已评价预测"),
+                        (false, true) => (IconName::File, Color::Muted, "未产生编辑"),
+                        (false, false) => (IconName::FileDiff, Color::Accent, "可用编辑数"),
                     };
                 let (trigger_icon, trigger_tooltip) = match completion.trigger {
                     PredictEditsRequestTrigger::Testing => (IconName::Debug, "Testing"),
@@ -1235,32 +1233,32 @@ impl RatePredictionsModal {
                         (IconName::ToolDiagnostics, "Diagnostics")
                     }
                     PredictEditsRequestTrigger::DiagnosticNavigation => {
-                        (IconName::ArrowRight, "Diagnostic Navigation")
+                        (IconName::ArrowRight, "诊断导航")
                     }
                     PredictEditsRequestTrigger::Cli => (IconName::Terminal, "CLI"),
                     PredictEditsRequestTrigger::Explicit => (IconName::Person, "Explicit"),
-                    PredictEditsRequestTrigger::BufferEdit => (IconName::Pencil, "Buffer Edit"),
+                    PredictEditsRequestTrigger::BufferEdit => (IconName::Pencil, "缓冲区编辑"),
                     PredictEditsRequestTrigger::LSPCompletionAccepted => {
-                        (IconName::Code, "LSP Completion Accepted")
+                        (IconName::Code, "LSP 补全已接受")
                     }
                     PredictEditsRequestTrigger::PredictionAccepted => {
-                        (IconName::ZedPredict, "Prediction Accepted")
+                        (IconName::ZedPredict, "预测已接受")
                     }
                     PredictEditsRequestTrigger::PredictionPartiallyAccepted => {
-                        (IconName::CheckDouble, "Prediction Partially Accepted")
+                        (IconName::CheckDouble, "预测部分采纳")
                     }
-                    PredictEditsRequestTrigger::EditorCreated => (IconName::File, "Editor Created"),
+                    PredictEditsRequestTrigger::EditorCreated => (IconName::File, "编辑器已创建"),
                     PredictEditsRequestTrigger::ProviderChanged => {
-                        (IconName::Settings, "Provider Changed")
+                        (IconName::Settings, "提供商已更改")
                     }
                     PredictEditsRequestTrigger::UserInfoChanged => {
-                        (IconName::Person, "User Info Changed")
+                        (IconName::Person, "用户信息已更改")
                     }
                     PredictEditsRequestTrigger::VimModeChanged => {
-                        (IconName::Keyboard, "Vim Mode Changed")
+                        (IconName::Keyboard, "Vim 模式已更改")
                     }
                     PredictEditsRequestTrigger::SettingsChanged => {
-                        (IconName::Settings, "Settings Changed")
+                        (IconName::Settings, "设置已更改")
                     }
                     PredictEditsRequestTrigger::Other => (IconName::CircleHelp, "Other"),
                 };
@@ -1303,7 +1301,7 @@ impl RatePredictionsModal {
                             ),
                     )
                     .tooltip(Tooltip::text(format!(
-                        "{tooltip_text} • Trigger: {trigger_tooltip}"
+                        "{tooltip_text} • 触发条件：{trigger_tooltip}"
                     )))
                     .on_click(cx.listener(move |this, _, window, cx| {
                         this.select_completion(Some(completion.clone()), true, window, cx);
@@ -1356,7 +1354,7 @@ impl Render for RatePredictionsModal {
                             .border_color(border_color)
                             .child(Icon::new(icons.base).size(IconSize::Small))
                             .child(
-                                Label::new("From most recent to oldest")
+                                Label::new("从最新到最早")
                                     .color(Color::Muted)
                                     .size(LabelSize::Small),
                             )
@@ -1409,22 +1407,22 @@ struct FeedbackCompletionProvider;
 
 impl FeedbackCompletionProvider {
     const FAILURE_MODES: &'static [(&'static str, &'static str)] = &[
-        ("@location", "Unexpected location"),
-        ("@malformed", "Incomplete, cut off, or syntax error"),
+        ("@location", "位置异常"),
+        ("@malformed", "不完整、被截断或存在语法错误"),
         (
             "@deleted",
             "Deleted code that should be kept (use `@reverted` if it undid a recent edit)",
         ),
-        ("@style", "Wrong coding style or conventions"),
-        ("@repetitive", "Repeated existing code"),
-        ("@hallucinated", "Referenced non-existent symbols"),
-        ("@formatting", "Wrong indentation or structure"),
-        ("@aggressive", "Changed more than expected"),
-        ("@conservative", "Too cautious, changed too little"),
-        ("@context", "Ignored or misunderstood context"),
-        ("@reverted", "Undid recent edits"),
-        ("@cursor_position", "Cursor placed in unhelpful position"),
-        ("@whitespace", "Unwanted whitespace or newline changes"),
+        ("@style", "编码风格或约定错误"),
+        ("@repetitive", "重复了现有代码"),
+        ("@hallucinated", "引用了不存在的符号"),
+        ("@formatting", "缩进或结构错误"),
+        ("@aggressive", "改动超出了预期"),
+        ("@conservative", "过于保守，改动太少"),
+        ("@context", "忽略或误解了上下文"),
+        ("@reverted", "撤销了最近的编辑"),
+        ("@cursor_position", "光标位置无帮助"),
+        ("@whitespace", "多余的空白或换行更改"),
     ];
 }
 

@@ -68,7 +68,7 @@ impl RenderOnce for ProjectEmptyState {
                             .child(Label::new(label).size(LabelSize::Small).color(Color::Muted)),
                     )
                     .child(
-                        Button::new("open_project", "Open Project")
+                        Button::new("open_project", "打开项目")
                             .full_width()
                             .key_binding(self.open_project_key_binding)
                             .when_some(self.on_open_project, |button, handler| {
@@ -79,11 +79,11 @@ impl RenderOnce for ProjectEmptyState {
                         h_flex()
                             .gap_2()
                             .child(Divider::horizontal().color(DividerColor::Border))
-                            .child(Label::new("or").size(LabelSize::XSmall).color(Color::Muted))
+                            .child(Label::new("或").size(LabelSize::XSmall).color(Color::Muted))
                             .child(Divider::horizontal().color(DividerColor::Border)),
                     )
                     .child(
-                        Button::new("clone_repo", "Clone Repository")
+                        Button::new("clone_repo", "克隆代码仓库")
                             .full_width()
                             .when_some(self.on_clone_repo, |button, handler| {
                                 button.on_click(handler)

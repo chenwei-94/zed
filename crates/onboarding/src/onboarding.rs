@@ -274,7 +274,7 @@ impl Onboarding {
     }
 
     fn on_finish(_: &Finish, _: &mut Window, cx: &mut App) {
-        telemetry::event!("Finish Setup");
+        telemetry::event!("完成设置");
         go_to_welcome_page(cx);
     }
 
@@ -351,11 +351,11 @@ impl Render for Onboarding {
                                             .child(
                                                 v_flex()
                                                     .child(
-                                                        Headline::new("Welcome to Zed")
+                                                        Headline::new("欢迎使用 Zed")
                                                             .size(HeadlineSize::Small),
                                                     )
                                                     .child(
-                                                        Label::new("The editor for what's next")
+                                                        Label::new("面向未来的编辑器")
                                                             .color(Color::Muted)
                                                             .size(LabelSize::Small)
                                                             .italic(),
@@ -363,7 +363,7 @@ impl Render for Onboarding {
                                             ),
                                     )
                                     .child({
-                                        Button::new("finish_setup", "Finish Setup")
+                                        Button::new("finish_setup", "完成设置")
                                             .style(ButtonStyle::Filled)
                                             .size(ButtonSize::Medium)
                                             .width(rems_from_px(200_f32))
@@ -484,7 +484,7 @@ pub async fn handle_import_vscode_settings(
                 zlog::error!("{err:?}");
                 let _ = cx.prompt(
                     gpui::PromptLevel::Info,
-                    &format!("Could not find or load a {source} settings file"),
+                    &format!("找不到或无法加载 {source} 设置文件"),
                     None,
                     &["OK"],
                 );
@@ -496,8 +496,7 @@ pub async fn handle_import_vscode_settings(
         let prompt = cx.prompt(
             gpui::PromptLevel::Warning,
             &format!(
-                "Importing {} settings may overwrite your existing settings. \
-                Will import settings from {}",
+                "导入 {} 设置可能覆盖现有设置。将从 {} 导入设置",
                 vscode_settings.source,
                 truncate_and_remove_front(&vscode_settings.path.to_string_lossy(), 128),
             ),
@@ -527,7 +526,7 @@ pub async fn handle_import_vscode_settings(
         .update_in(cx, |workspace, _, cx| match result {
             Ok(_) => {
                 let confirmation_toast = StatusToast::new(
-                    format!("Your {} settings were successfully imported.", source),
+                    format!("{} 设置已成功导入。", source),
                     cx,
                     |this, _| {
                         this.icon(
@@ -549,21 +548,18 @@ pub async fn handle_import_vscode_settings(
                 workspace.toggle_status_toast(confirmation_toast, cx);
             }
             Err(_) => {
-                let error_toast = StatusToast::new(
-                    "Failed to import settings. See log for details",
-                    cx,
-                    |this, _| {
+                let error_toast =
+                    StatusToast::new("导入设置失败。详见日志", cx, |this, _| {
                         this.icon(
                             Icon::new(IconName::Close)
                                 .size(IconSize::Small)
                                 .color(Color::Error),
                         )
-                        .action("Open Log", |window, cx| {
+                        .action("打开日志", |window, cx| {
                             window.dispatch_action(workspace::OpenLog.boxed_clone(), cx)
                         })
                         .dismiss_button(true)
-                    },
-                );
+                    });
                 workspace.toggle_status_toast(error_toast, cx);
             }
         })

@@ -64,7 +64,7 @@ impl SkillLoadWarning {
                 actual_len,
                 max_len,
             } => format!(
-                "Skill description is {actual_len} characters, exceeding the {max_len}-character limit. The skill was loaded, but long descriptions may consume more model-context tokens."
+                "技能描述长度为 {actual_len} 个字符，超出 {max_len} 字符上限。技能已加载，但过长的描述会占用更多模型上下文 token。"
             ),
         }
     }
@@ -504,12 +504,10 @@ pub fn slugify_skill_name(input: &str) -> Option<String> {
 /// can convert them to `anyhow::Error` via `anyhow::Error::msg`.
 pub fn validate_name(name: &str) -> Result<(), &'static str> {
     if name.is_empty() {
-        return Err("Skill name cannot be empty");
+        return Err("技能名称不能为空");
     }
     if name.len() > MAX_SKILL_NAME_LEN {
-        return Err(formatcp!(
-            "Skill name must be at most {MAX_SKILL_NAME_LEN} characters"
-        ));
+        return Err(formatcp!("技能名称最多 {MAX_SKILL_NAME_LEN} 个字符"));
     }
     if name.starts_with('-') || name.ends_with('-') {
         return Err("Skill name must not start or end with a hyphen");
@@ -530,9 +528,7 @@ pub fn validate_description(description: &str) -> Result<(), &'static str> {
         return Err("Skill description cannot be empty");
     }
     if description.chars().count() > MAX_SKILL_DESCRIPTION_LEN {
-        return Err(formatcp!(
-            "Skill description must be at most {MAX_SKILL_DESCRIPTION_LEN} characters"
-        ));
+        return Err(formatcp!("技能描述最多 {MAX_SKILL_DESCRIPTION_LEN} 个字符"));
     }
     Ok(())
 }
@@ -634,7 +630,7 @@ pub async fn load_skill_frontmatter(
         .await
         .map_err(|e| SkillLoadError {
             path: skill_file_path.clone(),
-            message: format!("Failed to read SKILL.md metadata: {}", e),
+            message: format!("读取 SKILL.md 元数据失败：{}", e),
         })?;
     if let Some(metadata) = metadata
         && metadata.len > MAX_SKILL_FILE_SIZE as u64
@@ -642,7 +638,7 @@ pub async fn load_skill_frontmatter(
         return Err(SkillLoadError {
             path: skill_file_path.clone(),
             message: format!(
-                "SKILL.md file exceeds maximum size of {}KB",
+                "SKILL.md 文件超过 {}KB 的大小上限",
                 MAX_SKILL_FILE_SIZE / 1024
             ),
         });
@@ -653,7 +649,7 @@ pub async fn load_skill_frontmatter(
         .await
         .map_err(|e| SkillLoadError {
             path: skill_file_path.clone(),
-            message: format!("Failed to read file: {}", e),
+            message: format!("读取文件失败：{}", e),
         })?;
 
     parse_skill_frontmatter(&skill_file_path, &content, source).map_err(|e| SkillLoadError {
@@ -672,7 +668,7 @@ pub async fn read_skill_body(
 ) -> Result<String, SkillLoadError> {
     let content = fs.load(skill_file_path).await.map_err(|e| SkillLoadError {
         path: skill_file_path.to_path_buf(),
-        message: format!("Failed to read file: {}", e),
+        message: format!("读取文件失败：{}", e),
     })?;
 
     read_skill_body_from_content(skill_file_path, &content)

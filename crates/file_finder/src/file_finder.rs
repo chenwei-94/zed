@@ -1333,11 +1333,11 @@ impl FileFinderDelegate {
                 } => (
                     channel_name.to_string(),
                     string_match.positions.clone(),
-                    "Channel Notes".to_string(),
+                    "频道笔记".to_string(),
                     vec![],
                 ),
                 Match::CreateNew(project_path) => (
-                    format!("Create File: {}", project_path.path.display(path_style)),
+                    format!("创建文件：{}", project_path.path.display(path_style)),
                     vec![],
                     String::from(""),
                     vec![],
@@ -1788,7 +1788,7 @@ impl PickerDelegate for FileFinderDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Search project files...".into()
+        "搜索项目文件…".into()
     }
 
     fn searchbar_trailer(
@@ -1801,9 +1801,9 @@ impl PickerDelegate for FileFinderDelegate {
         // Clicking includes ignored files unless they're already included, in
         // which case it excludes them again (see `handle_toggle_ignored`).
         let tooltip_label = if including_ignored {
-            "Exclude Ignored Files"
+            "排除被忽略的文件"
         } else {
-            "Include Ignored Files"
+            "包含被忽略的文件"
         };
 
         let filter_button = IconButton::new("filter-ignored", IconName::FileIgnored)
@@ -2061,7 +2061,7 @@ impl PickerDelegate for FileFinderDelegate {
                     ..Default::default()
                 };
                 let mut message = picker::HighlightedTextBuilder::default();
-                message.push_plain("Create file ");
+                message.push_plain("创建文件");
                 message.push_styled(project_path.path.display(path_style), path_highlight);
                 message.push_plain("?");
                 Some(picker::PreviewUpdate::message(message.build()))
@@ -2099,9 +2099,9 @@ impl PickerDelegate for FileFinderDelegate {
         _cx: &mut Context<Picker<Self>>,
     ) -> Vec<picker::PickerAction> {
         let open_label: SharedString = if self.selected_matches.len() > 1 {
-            "Open multiple".into()
+            "打开多个".into()
         } else {
-            "Open File".into()
+            "打开文件".into()
         };
         vec![
             picker::PickerAction::header("Split…"),

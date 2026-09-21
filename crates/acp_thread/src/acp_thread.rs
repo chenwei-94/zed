@@ -318,7 +318,7 @@ impl UserMessage {
         {
             writeln!(markdown, "## User (checkpoint)").unwrap();
         } else {
-            writeln!(markdown, "## User").unwrap();
+            writeln!(markdown, "## User\n\n").unwrap();
         }
         writeln!(markdown).unwrap();
         writeln!(markdown, "{}", self.content.to_markdown(cx)).unwrap();
@@ -1034,7 +1034,7 @@ impl ToolCall {
             return tool_name
                 .filter(|name| !name.trim().is_empty())
                 .cloned()
-                .unwrap_or_else(|| "Tool call".into());
+                .unwrap_or_else(|| "工具调用".into());
         };
 
         if kind == acp::ToolKind::Execute {
@@ -1635,7 +1635,7 @@ impl ContentBlock {
                     Self::Unsupported {
                         content: acp::ContentBlock::Image(image),
                         markdown: Self::create_markdown(
-                            "Image content could not be displayed.".into(),
+                            "无法显示图片内容。".into(),
                             language_registry,
                             cx,
                         ),
@@ -1644,9 +1644,9 @@ impl ContentBlock {
             }
             content => {
                 let description = if matches!(&content, acp::ContentBlock::Audio(_)) {
-                    "Audio content is not supported."
+                    "不支持音频内容。"
                 } else {
-                    "This content is not supported."
+                    "不支持此内容。"
                 };
                 Self::Unsupported {
                     content,
@@ -3400,11 +3400,11 @@ impl AcpThread {
                 // Tool call not found - create a failed tool call entry
                 let failed_tool_call = ToolCall {
                     id: update.id().clone(),
-                    label: cx.new(|cx| Markdown::new("Tool call not found".into(), None, None, cx)),
-                    title: Some("Tool call not found".into()),
+                    label: cx.new(|cx| Markdown::new("未找到工具调用".into(), None, None, cx)),
+                    title: Some("未找到工具调用".into()),
                     kind: acp::ToolKind::Fetch,
                     content: vec![ToolCallContent::ContentBlock(ContentBlock::new_output(
-                        "Tool call not found".into(),
+                        "未找到工具调用".into(),
                         &languages,
                         cx,
                     ))],
@@ -7465,11 +7465,7 @@ mod tests {
                 compaction.summary.as_slice(),
                 [ContentBlock::Unsupported { content, .. }] if content == &audio
             ));
-            assert!(
-                thread
-                    .to_markdown(cx)
-                    .contains("Audio content is not supported.")
-            );
+            assert!(thread.to_markdown(cx).contains("不支持音频内容。"));
         });
     }
 
@@ -10541,7 +10537,7 @@ mod tests {
                     match content_block {
                         ContentBlock::Markdown { markdown } => {
                             let markdown_text = markdown.read(cx).source();
-                            assert!(markdown_text.contains("Tool call not found"));
+                            assert!(markdown_text.contains("未找到工具调用"));
                         }
                         ContentBlock::ResourceLink { .. } => {
                             panic!("Expected markdown content, got resource link")

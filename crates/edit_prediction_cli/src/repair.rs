@@ -157,8 +157,7 @@ fn build_score_feedback(example: &Example) -> Option<String> {
         feedback.push_str(&format!("- {issue}\n"));
     }
     feedback.push_str(
-        "\nRemember: if the previous prediction was actually correct, output `KEEP_PREVIOUS`. \
-         If no edits should be made at all and you are unsure how to improve it, output `NO_EDITS`.",
+        "\nRemember: if the previous prediction was actually correct, output `KEEP_PREVIOUS`. If no edits should be made at all and you are unsure how to improve it, output `NO_EDITS`.",
     );
 
     Some(feedback)
@@ -186,16 +185,12 @@ pub fn build_repair_message(example: &Example) -> Result<String> {
 
     let token_counts = count_patch_token_changes(actual_patch);
     let mut token_change_info = format!(
-        "\n## Token Change Statistics\n\n\
-         - **Deleted tokens**: {}\n\
-         - **Inserted tokens**: {}",
+        "\n## Token Change Statistics\n\n- **Deleted tokens**: {}\n- **Inserted tokens**: {}",
         token_counts.deleted_tokens, token_counts.inserted_tokens,
     );
     if token_counts.deleted_tokens > 100 || token_counts.inserted_tokens > 100 {
         token_change_info.push_str(
-            "\n\n> **Note:** The token change count is high. \
-             Consider producing a more scoped edit that targets only the lines \
-             that truly need to change, rather than rewriting large sections.",
+            "\n\n> **Note:** The token change count is high. Consider producing a more scoped edit that targets only the lines that truly need to change, rather than rewriting large sections.",
         );
     }
 
@@ -313,7 +308,7 @@ pub async fn run_repair(
     let model = model_for_backend(args.backend);
     let repair_message = build_repair_message(example).context("Failed to build repair message")?;
 
-    step_progress.set_substatus("generating");
+    step_progress.set_substatus("生成中");
 
     let response = match args.backend {
         BatchProvider::Anthropic => {

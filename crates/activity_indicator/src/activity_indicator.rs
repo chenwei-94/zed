@@ -426,7 +426,7 @@ impl ActivityIndicator {
 
                 let additional_work_count = pending_work.count();
                 if additional_work_count > 0 {
-                    write!(&mut message, " + {} more", additional_work_count).unwrap();
+                    write!(&mut message, "另有 {} 项", additional_work_count).unwrap();
                 }
 
                 return Some(Content {
@@ -448,7 +448,7 @@ impl ActivityIndicator {
         {
             return Some(Content {
                 icon: ActivityIcon::LoadingSpinner,
-                message: format!("Debug: {}", session.read(cx).adapter()),
+                message: format!("调试：{}", session.read(cx).adapter()),
                 tooltip_message: session.read(cx).label().map(|label| label.to_string()),
                 on_click: None,
             });
@@ -531,7 +531,7 @@ impl ActivityIndicator {
             return Some(Content {
                 icon: ActivityIcon::Icon(IconName::Download),
                 message: format!(
-                    "Downloading {}...",
+                    "正在下载 {}…",
                     downloading.iter().map(|name| name.as_ref()).fold(
                         String::new(),
                         |mut acc, s| {
@@ -556,7 +556,7 @@ impl ActivityIndicator {
             return Some(Content {
                 icon: ActivityIcon::Icon(IconName::Download),
                 message: format!(
-                    "Checking for updates to {}...",
+                    "正在检查 {} 的更新…",
                     checking_for_update.iter().map(|name| name.as_ref()).fold(
                         String::new(),
                         |mut acc, s| {
@@ -581,7 +581,7 @@ impl ActivityIndicator {
             return Some(Content {
                 icon: ActivityIcon::Icon(IconName::Warning),
                 message: format!(
-                    "Failed to run {}. Click to show error.",
+                    "运行 {} 失败。点击查看错误。",
                     failed
                         .iter()
                         .map(|name| name.as_ref())
@@ -604,7 +604,7 @@ impl ActivityIndicator {
         if let Some(failure) = self.project.read(cx).last_formatting_failure(cx) {
             return Some(Content {
                 icon: ActivityIcon::Icon(IconName::Warning),
-                message: format!("Formatting failed: {failure}. Click to see logs."),
+                message: format!("格式化失败：{failure}。点击查看日志。"),
                 on_click: Some(Arc::new(|indicator, window, cx| {
                     indicator.project.update(cx, |project, cx| {
                         project.reset_last_formatting_failure(cx);
@@ -619,8 +619,8 @@ impl ActivityIndicator {
         if let Some((server_name, health, message)) = health_messages.pop() {
             let health_str = match health {
                 ServerHealth::Ok => format!("({server_name}) "),
-                ServerHealth::Warning => format!("({server_name}) Warning: "),
-                ServerHealth::Error => format!("({server_name}) Error: "),
+                ServerHealth::Warning => format!("（{server_name}）警告："),
+                ServerHealth::Error => format!("（{server_name}）错误："),
             };
             let single_line_message = message
                 .lines()
@@ -669,15 +669,15 @@ impl ActivityIndicator {
         {
             let (message, icon) = match operation {
                 ExtensionOperation::Install => (
-                    format!("Installing {extension_id} extension…"),
+                    format!("正在安装 {extension_id} 扩展…"),
                     ActivityIcon::LoadingSpinner,
                 ),
                 ExtensionOperation::Upgrade => (
-                    format!("Updating {extension_id} extension…"),
+                    format!("正在更新 {extension_id} 扩展…"),
                     ActivityIcon::Icon(IconName::Download),
                 ),
                 ExtensionOperation::Remove => (
-                    format!("Removing {extension_id} extension…"),
+                    format!("正在移除 {extension_id} 扩展…"),
                     ActivityIcon::LoadingSpinner,
                 ),
             };
@@ -718,8 +718,11 @@ impl ActivityIndicator {
         }
         Some(Content {
             icon: ActivityIcon::Icon(IconName::Info),
-            message: "Partial file index".to_string(),
-            tooltip_message: Some("Directories outside of git repositories and deeper than the `file_scan_depth` setting will be indexed on demand.".to_string()),
+            message: "部分文件索引".to_string(),
+            tooltip_message: Some(
+                "位于 Git 仓库之外、深度超过 `file_scan_depth` 设置的目录将按需建立索引。"
+                    .to_string(),
+            ),
             on_click: Some(Arc::new(|this, _, cx| {
                 this.deferred_scan_message = DeferredScanMessage::Dismissed;
                 cx.notify();
@@ -800,7 +803,7 @@ impl Render for ActivityIndicator {
                                     has_cancellable_work = true;
                                     let language_server_id = work.language_server_id;
                                     let token = work.progress_token.clone();
-                                    let title = SharedString::from(format!("Cancel {title}"));
+                                    let title = SharedString::from(format!("取消 {title}"));
                                     menu = menu.custom_entry(
                                         move |_, _| {
                                             h_flex()

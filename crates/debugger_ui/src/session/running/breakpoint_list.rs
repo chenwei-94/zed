@@ -192,9 +192,9 @@ impl BreakpointList {
     ) {
         self.strip_mode = Some(prop);
         let placeholder = match prop {
-            ActiveBreakpointStripMode::Log => "Set Log Message",
-            ActiveBreakpointStripMode::Condition => "Set Condition",
-            ActiveBreakpointStripMode::HitCondition => "Set Hit Condition",
+            ActiveBreakpointStripMode::Log => "设置日志消息",
+            ActiveBreakpointStripMode::Condition => "设置条件",
+            ActiveBreakpointStripMode::HitCondition => "设置命中条件",
         };
         let mut is_exception_breakpoint = true;
         let active_value = self.selected_ix.and_then(|ix| {
@@ -580,21 +580,16 @@ impl BreakpointList {
         let focus_handle = self.focus_handle.clone();
 
         let remove_breakpoint_tooltip = selection_kind.map(|(kind, _)| match kind {
-            SelectedBreakpointKind::Source => "Remove breakpoint from a breakpoint list",
-            SelectedBreakpointKind::Exception => {
-                "Exception Breakpoints cannot be removed from the breakpoint list"
-            }
-            SelectedBreakpointKind::Data => "Remove data breakpoint from a breakpoint list",
+            SelectedBreakpointKind::Source => "从断点列表中移除断点",
+            SelectedBreakpointKind::Exception => "异常断点无法从断点列表中移除",
+            SelectedBreakpointKind::Data => "从断点列表中移除数据断点",
         });
 
         let toggle_label = selection_kind.map(|(_, is_enabled)| {
             if is_enabled {
-                (
-                    "Disable Breakpoint",
-                    "Disable a breakpoint without removing it from the list",
-                )
+                ("禁用断点", "禁用断点但保留在列表中")
             } else {
-                ("Enable Breakpoint", "Re-enable a breakpoint")
+                ("启用断点", "重新启用断点")
             }
         });
 
@@ -636,7 +631,7 @@ impl BreakpointList {
                             let focus_handle = focus_handle.clone();
                             move |_window, cx| {
                                 Tooltip::with_meta_in(
-                                    "Remove Breakpoint",
+                                    "移除断点",
                                     Some(&UnsetBreakpoint),
                                     tooltip,
                                     &focus_handle,
@@ -851,9 +846,9 @@ impl LineBreakpoint {
                 move |_window, cx| {
                     Tooltip::for_action_in(
                         if is_enabled {
-                            "Disable Breakpoint"
+                            "禁用断点"
                         } else {
-                            "Enable Breakpoint"
+                            "启用断点"
                         },
                         &ToggleEnableBreakpoint,
                         &focus_handle,
@@ -934,9 +929,7 @@ impl LineBreakpoint {
                                 .truncate()
                         }))
                         .when_some(self.dir.as_ref(), |this, parent_dir| {
-                            this.tooltip(Tooltip::text(format!(
-                                "Worktree parent path: {parent_dir}"
-                            )))
+                            this.tooltip(Tooltip::text(format!("工作树父路径：{parent_dir}")))
                         }),
                 )
                 .child(BreakpointOptionsStrip {
@@ -1004,9 +997,9 @@ impl DataBreakpoint {
                     move |_window, cx| {
                         Tooltip::for_action_in(
                             if is_enabled {
-                                "Disable Data Breakpoint"
+                                "禁用数据断点"
                             } else {
-                                "Enable Data Breakpoint"
+                                "启用数据断点"
                             },
                             &ToggleEnableBreakpoint,
                             &focus_handle,
@@ -1108,9 +1101,9 @@ impl ExceptionBreakpoint {
                     move |_window, cx| {
                         Tooltip::for_action_in(
                             if is_enabled {
-                                "Disable Exception Breakpoint"
+                                "禁用异常断点"
                             } else {
-                                "Enable Exception Breakpoint"
+                                "启用异常断点"
                             },
                             &ToggleEnableBreakpoint,
                             &focus_handle,
@@ -1403,34 +1396,36 @@ impl RenderOnce for BreakpointOptionsStrip {
             .when(has_logs || self.is_selected, |this| {
                 this.child(
                     div()
-                    .map(self.add_focus_styles(
-                        ActiveBreakpointStripMode::Log,
-                        supports_logs,
-                        window,
-                        cx,
-                    ))
-                    .child(
-                        IconButton::new(
-                            SharedString::from(format!("{id}-log-toggle")),
-                            IconName::Notepad,
-                        )
-                        .shape(ui::IconButtonShape::Square)
-                        .style(style_for_toggle(ActiveBreakpointStripMode::Log, has_logs))
-                        .icon_size(IconSize::Small)
-                        .icon_color(color_for_toggle(has_logs))
-                        .when(has_logs, |this| this.indicator(Indicator::dot().color(Color::Info)))
-                        .disabled(!supports_logs)
-                        .toggle_state(self.is_toggled(ActiveBreakpointStripMode::Log))
-                        .on_click(self.on_click_callback(ActiveBreakpointStripMode::Log))
-                        .tooltip(|_window, cx|  {
-                            Tooltip::with_meta(
-                                "Set Log Message",
-                                None,
-                                "Set log message to display (instead of stopping) when a breakpoint is hit.",
-                                cx,
+                        .map(self.add_focus_styles(
+                            ActiveBreakpointStripMode::Log,
+                            supports_logs,
+                            window,
+                            cx,
+                        ))
+                        .child(
+                            IconButton::new(
+                                SharedString::from(format!("{id}-log-toggle")),
+                                IconName::Notepad,
                             )
-                        }),
-                    )
+                            .shape(ui::IconButtonShape::Square)
+                            .style(style_for_toggle(ActiveBreakpointStripMode::Log, has_logs))
+                            .icon_size(IconSize::Small)
+                            .icon_color(color_for_toggle(has_logs))
+                            .when(has_logs, |this| {
+                                this.indicator(Indicator::dot().color(Color::Info))
+                            })
+                            .disabled(!supports_logs)
+                            .toggle_state(self.is_toggled(ActiveBreakpointStripMode::Log))
+                            .on_click(self.on_click_callback(ActiveBreakpointStripMode::Log))
+                            .tooltip(|_window, cx| {
+                                Tooltip::with_meta(
+                                    "设置日志消息",
+                                    None,
+                                    "设置断点命中时显示的日志消息（而不是停止执行）。",
+                                    cx,
+                                )
+                            }),
+                        ),
                 )
             })
             .when(has_condition || self.is_selected, |this| {
@@ -1454,55 +1449,62 @@ impl RenderOnce for BreakpointOptionsStrip {
                             ))
                             .icon_size(IconSize::Small)
                             .icon_color(color_for_toggle(has_condition))
-                            .when(has_condition, |this| this.indicator(Indicator::dot().color(Color::Info)))
+                            .when(has_condition, |this| {
+                                this.indicator(Indicator::dot().color(Color::Info))
+                            })
                             .disabled(!supports_condition)
                             .toggle_state(self.is_toggled(ActiveBreakpointStripMode::Condition))
                             .on_click(self.on_click_callback(ActiveBreakpointStripMode::Condition))
-                            .tooltip(|_window, cx|  {
+                            .tooltip(|_window, cx| {
                                 Tooltip::with_meta(
-                                    "Set Condition",
+                                    "设置条件",
                                     None,
-                                    "Set condition to evaluate when a breakpoint is hit. Program execution will stop only when the condition is met.",
+                                    "设置断点命中时要计算的条件。仅在条件满足时程序才会停止执行。",
                                     cx,
                                 )
                             }),
-                        )
+                        ),
                 )
             })
             .when(has_hit_condition || self.is_selected, |this| {
-                this.child(div()
-                    .map(self.add_focus_styles(
-                        ActiveBreakpointStripMode::HitCondition,
-                        supports_hit_condition,
-                        window,
-                        cx,
-                    ))
-                    .child(
-                        IconButton::new(
-                            SharedString::from(format!("{id}-hit-condition-toggle")),
-                            IconName::ArrowDown10,
-                        )
-                        .style(style_for_toggle(
+                this.child(
+                    div()
+                        .map(self.add_focus_styles(
                             ActiveBreakpointStripMode::HitCondition,
-                            has_hit_condition,
+                            supports_hit_condition,
+                            window,
+                            cx,
                         ))
-                        .shape(ui::IconButtonShape::Square)
-                        .icon_size(IconSize::Small)
-                        .icon_color(color_for_toggle(has_hit_condition))
-                        .when(has_hit_condition, |this| this.indicator(Indicator::dot().color(Color::Info)))
-                        .disabled(!supports_hit_condition)
-                        .toggle_state(self.is_toggled(ActiveBreakpointStripMode::HitCondition))
-                        .on_click(self.on_click_callback(ActiveBreakpointStripMode::HitCondition))
-                        .tooltip(|_window, cx|  {
-                            Tooltip::with_meta(
-                                "Set Hit Condition",
-                                None,
-                                "Set expression that controls how many hits of the breakpoint are ignored.",
-                                cx,
+                        .child(
+                            IconButton::new(
+                                SharedString::from(format!("{id}-hit-condition-toggle")),
+                                IconName::ArrowDown10,
                             )
-                        }),
-                    ))
-
+                            .style(style_for_toggle(
+                                ActiveBreakpointStripMode::HitCondition,
+                                has_hit_condition,
+                            ))
+                            .shape(ui::IconButtonShape::Square)
+                            .icon_size(IconSize::Small)
+                            .icon_color(color_for_toggle(has_hit_condition))
+                            .when(has_hit_condition, |this| {
+                                this.indicator(Indicator::dot().color(Color::Info))
+                            })
+                            .disabled(!supports_hit_condition)
+                            .toggle_state(self.is_toggled(ActiveBreakpointStripMode::HitCondition))
+                            .on_click(
+                                self.on_click_callback(ActiveBreakpointStripMode::HitCondition),
+                            )
+                            .tooltip(|_window, cx| {
+                                Tooltip::with_meta(
+                                    "设置命中条件",
+                                    None,
+                                    "设置用于控制忽略断点命中次数的表达式。",
+                                    cx,
+                                )
+                            }),
+                        ),
+                )
             })
     }
 }

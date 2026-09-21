@@ -53,7 +53,7 @@ impl AgentTool for GetCodeActionsTool {
         _cx: &mut App,
     ) -> SharedString {
         if let Ok(input) = input {
-            format!("Get code actions for `{}`", input.symbol.symbol_name).into()
+            format!("获取 `{}` 的代码操作", input.symbol.symbol_name).into()
         } else {
             "Get code actions".into()
         }

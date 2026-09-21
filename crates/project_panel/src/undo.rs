@@ -430,11 +430,9 @@ enum UndoMessage {
 impl UndoMessage {
     fn error_title(&self) -> &'static str {
         match self {
-            UndoMessage::Changed(_) => {
-                "this is a bug in the manage_undo_and_redo task please report"
-            }
-            UndoMessage::Undo => "Undo Failed",
-            UndoMessage::Redo => "Redo Failed",
+            UndoMessage::Changed(_) => "这是 manage_undo_and_redo 任务中的 bug，请反馈",
+            UndoMessage::Undo => "撤销失败",
+            UndoMessage::Redo => "重做失败",
         }
     }
 }

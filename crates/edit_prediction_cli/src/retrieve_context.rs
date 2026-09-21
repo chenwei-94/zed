@@ -377,10 +377,7 @@ async fn wait_for_language_servers_to_start(
         });
     });
 
-    step_progress.set_substatus(format!(
-        "waiting for {} LSPs",
-        servers_pending_diagnostics.len()
-    ));
+    step_progress.set_substatus(format!("等待 {} 个 LSP", servers_pending_diagnostics.len()));
 
     let timeout_duration = if servers_pending_start.is_empty() {
         Duration::from_secs(30)
@@ -395,7 +392,7 @@ async fn wait_for_language_servers_to_start(
         let step_progress = step_progress.clone();
         move |lsp_store, event, cx| match event {
             project::LspStoreEvent::LanguageServerAdded(id, name, _) => {
-                step_progress.set_substatus(format!("LSP started: {}", name));
+                step_progress.set_substatus(format!("LSP 已启动：{}", name));
                 started_tx.try_send(*id).ok();
             }
             project::LspStoreEvent::DiskBasedDiagnosticsFinished { language_server_id } => {
@@ -404,7 +401,7 @@ async fn wait_for_language_servers_to_start(
                     .language_server_adapter_for_id(*language_server_id)
                     .unwrap()
                     .name();
-                step_progress.set_substatus(format!("LSP idle: {}", name));
+                step_progress.set_substatus(format!("LSP 空闲：{}", name));
                 diag_tx.try_send(*language_server_id).ok();
             }
             project::LspStoreEvent::LanguageServerUpdate {

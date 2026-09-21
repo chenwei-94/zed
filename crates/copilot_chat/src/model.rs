@@ -95,7 +95,7 @@ impl LanguageModel for CopilotChatLanguageModel {
                     "low" => "Low".into(),
                     "medium" => "Medium".into(),
                     "high" => "High".into(),
-                    "xhigh" => "Extra High".into(),
+                    "xhigh" => "极高".into(),
                     _ => language_model::SharedString::from(level.clone()),
                 };
                 LanguageModelEffortLevel {

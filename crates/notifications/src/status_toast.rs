@@ -116,7 +116,7 @@ impl Render for StatusToast {
                         .shape(ui::IconButtonShape::Square)
                         .icon_size(IconSize::Small)
                         .icon_color(Color::Muted)
-                        .tooltip(Tooltip::text("Dismiss"))
+                        .tooltip(Tooltip::text("忽略"))
                         .on_click(move |_click_event, _window, cx| {
                             handle.update(cx, |_, cx| {
                                 cx.emit(DismissEvent);
@@ -157,37 +157,35 @@ impl Component for StatusToast {
     }
 
     fn preview(_window: &mut Window, cx: &mut App) -> AnyElement {
-        let text_example = StatusToast::new("Operation completed", cx, |this, _| this);
+        let text_example = StatusToast::new("操作已完成", cx, |this, _| this);
 
-        let action_example = StatusToast::new("Update ready to install", cx, |this, _cx| {
-            this.action("Restart", |_, _| {})
+        let action_example = StatusToast::new("更新已就绪，可以安装", cx, |this, _cx| {
+            this.action("重启", |_, _| {})
         });
 
         let dismiss_button_example =
-            StatusToast::new("Dismiss Button", cx, |this, _| this.dismiss_button(true));
+            StatusToast::new("关闭按钮", cx, |this, _| this.dismiss_button(true));
 
-        let icon_example = StatusToast::new(
-            "Nathan Sobo accepted your contact request",
-            cx,
-            |this, _| {
+        let icon_example =
+            StatusToast::new("Nathan Sobo 接受了联系人请求", cx, |this, _| {
                 this.icon(
                     Icon::new(IconName::Check)
                         .size(IconSize::Small)
                         .color(Color::Muted),
                 )
-            },
-        );
+            });
 
-        let success_example = StatusToast::new("Pushed 4 changes to `zed/main`", cx, |this, _| {
-            this.icon(
-                Icon::new(IconName::Check)
-                    .size(IconSize::Small)
-                    .color(Color::Success),
-            )
-        });
+        let success_example =
+            StatusToast::new("已将 4 项更改推送到 `zed/main`", cx, |this, _| {
+                this.icon(
+                    Icon::new(IconName::Check)
+                        .size(IconSize::Small)
+                        .color(Color::Success),
+                )
+            });
 
         let error_example = StatusToast::new(
-            "git push: Couldn't find remote origin `iamnbutler/zed`",
+            "git push：找不到远程 origin `iamnbutler/zed`",
             cx,
             |this, _cx| {
                 this.icon(
@@ -195,54 +193,57 @@ impl Component for StatusToast {
                         .size(IconSize::Small)
                         .color(Color::Error),
                 )
-                .action("More Info", |_, _| {})
+                .action("更多信息", |_, _| {})
             },
         );
 
-        let warning_example = StatusToast::new("You have outdated settings", cx, |this, _cx| {
+        let warning_example = StatusToast::new("设置已过时", cx, |this, _cx| {
             this.icon(
                 Icon::new(IconName::Warning)
                     .size(IconSize::Small)
                     .color(Color::Warning),
             )
-            .action("More Info", |_, _| {})
+            .action("更多信息", |_, _| {})
         });
 
-        let pr_example =
-            StatusToast::new("`zed/new-notification-system` created!", cx, |this, _cx| {
+        let pr_example = StatusToast::new(
+            "已创建 `zed/new-notification-system`！",
+            cx,
+            |this, _cx| {
                 this.icon(
                     Icon::new(IconName::GitBranch)
                         .size(IconSize::Small)
                         .color(Color::Muted),
                 )
-                .action("Open Pull Request", |_, cx| {
+                .action("打开拉取请求", |_, cx| {
                     cx.open_url("https://github.com/")
                 })
-            });
+            },
+        );
 
         v_flex()
             .gap_6()
             .p_4()
             .children(vec![
                 example_group_with_title(
-                    "Basic Toast",
+                    "基础浮动提示",
                     vec![
-                        single_example("Text", div().child(text_example).into_any_element()),
-                        single_example("Action", div().child(action_example).into_any_element()),
-                        single_example("Icon", div().child(icon_example).into_any_element()),
+                        single_example("文本", div().child(text_example).into_any_element()),
+                        single_example("操作", div().child(action_example).into_any_element()),
+                        single_example("图标", div().child(icon_example).into_any_element()),
                         single_example(
-                            "Dismiss Button",
+                            "关闭按钮",
                             div().child(dismiss_button_example).into_any_element(),
                         ),
                     ],
                 ),
                 example_group_with_title(
-                    "Examples",
+                    "示例",
                     vec![
-                        single_example("Success", div().child(success_example).into_any_element()),
-                        single_example("Error", div().child(error_example).into_any_element()),
-                        single_example("Warning", div().child(warning_example).into_any_element()),
-                        single_example("Create PR", div().child(pr_example).into_any_element()),
+                        single_example("成功", div().child(success_example).into_any_element()),
+                        single_example("错误", div().child(error_example).into_any_element()),
+                        single_example("警告", div().child(warning_example).into_any_element()),
+                        single_example("创建 PR", div().child(pr_example).into_any_element()),
                     ],
                 )
                 .vertical(),

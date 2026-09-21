@@ -306,21 +306,13 @@ mod server {
                 let (status_code, body) = match &result {
                     Ok(_) => (
                         200,
-                        oauth_callback_page(
-                            "Authorization Successful",
-                            "You can close this tab and return to Zed.",
-                            false,
-                        ),
+                        oauth_callback_page("授权成功", "可以关闭此标签页并返回 Zed。", false),
                     ),
                     Err(err) => {
                         log::error!("OAuth callback error: {}", err);
                         (
                             400,
-                            oauth_callback_page(
-                                "Authorization Failed",
-                                "Something went wrong. Please try again from Zed.",
-                                true,
-                            ),
+                            oauth_callback_page("授权失败", "出错了。请回到 Zed 重试。", true),
                         )
                     }
                 };

@@ -120,7 +120,7 @@ impl InitialGraphCommitData {
         self.ref_names
             .iter()
             .filter_map(|ref_name| {
-                let tag_name = ref_name.strip_prefix("tag: ")?;
+                let tag_name = ref_name.strip_prefix("tag:")?;
 
                 if tag_name.is_empty() {
                     return None;
@@ -352,7 +352,7 @@ impl Worktree {
 
     pub fn directory_name(&self, name_anchor_path: Option<&Path>) -> String {
         if self.is_main {
-            return "main worktree".to_string();
+            return "主工作树".to_string();
         }
 
         let dir_name = self
@@ -398,11 +398,11 @@ pub fn parse_worktrees_from_str<T: AsRef<str>>(
             if line.is_empty() {
                 continue;
             }
-            if let Some(rest) = line.strip_prefix("worktree ") {
+            if let Some(rest) = line.strip_prefix("worktree") {
                 path = Some(rest.to_string());
-            } else if let Some(rest) = line.strip_prefix("HEAD ") {
+            } else if let Some(rest) = line.strip_prefix("HEAD") {
                 sha = Some(rest.to_string());
-            } else if let Some(rest) = line.strip_prefix("branch ") {
+            } else if let Some(rest) = line.strip_prefix("branch") {
                 ref_name = Some(rest.to_string());
             } else if line == "bare" {
                 is_bare = true;
@@ -690,8 +690,8 @@ impl FetchOptions {
 
     pub fn name(&self) -> SharedString {
         match self {
-            Self::All => "Fetch all remotes".into(),
-            Self::Unshallow => "Fetch missing history".into(),
+            Self::All => "抓取所有远程".into(),
+            Self::Unshallow => "抓取缺失的历史".into(),
             Self::Remote(remote) => remote.name.clone(),
         }
     }
@@ -3337,7 +3337,7 @@ impl GitRepository for RealGitRepository {
             if !help_output
                 .await
                 .lines()
-                .any(|line| line.trim().starts_with("hook "))
+                .any(|line| line.trim().starts_with("hook"))
             {
                 let hook_abs_path = git_dir.join("hooks").join(hook.as_str());
                 if hook_abs_path.is_file() && git_binary.is_trusted {

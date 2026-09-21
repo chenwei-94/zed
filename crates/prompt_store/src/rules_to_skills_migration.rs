@@ -577,8 +577,7 @@ async fn existing_skill_contents(fs: &dyn Fs, skills_dir: &Path) -> ExistingSkil
 /// Build the SKILL.md file contents for a migrated rule.
 fn format_skill_file(name: &str, body: &str) -> String {
     let mut output = format!(
-        "---\nname: {name}\ndescription: {PLACEHOLDER_DESCRIPTION}\n\
-         disable-model-invocation: true\n---\n"
+        "---\nname: {name}\ndescription: {PLACEHOLDER_DESCRIPTION}\ndisable-model-invocation: true\n---\n"
     );
     let trimmed_body = body.trim();
     if !trimmed_body.is_empty() {

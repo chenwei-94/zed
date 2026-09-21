@@ -410,6 +410,6 @@ fn truncate(mut s: String, max_bytes: usize) -> String {
         cut -= 1;
     }
     s.truncate(cut);
-    s.push_str("\n…(truncated)");
+    s.push_str("…(truncated)");
     s
 }

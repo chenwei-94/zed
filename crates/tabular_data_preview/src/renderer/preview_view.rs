@@ -51,10 +51,10 @@ impl Render for TabularDataPreviewPane {
                                         h_flex()
                                             .gap_2()
                                             .child(SpinnerLabel::new())
-                                            .child("Loading…"),
+                                            .child("加载中…"),
                                     )
                                 })
-                                .when(!is_parsing, |div| div.child("No data to display")),
+                                .when(!is_parsing, |div| div.child("无数据可显示")),
                         )
                         .into_any_element()
                 } else {

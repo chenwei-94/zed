@@ -63,9 +63,9 @@ impl AgentTool for ApplyCodeActionTool {
                     Some(pending.actions.get(index)?.lsp_action.title().to_string())
                 });
             if let Some(title) = title {
-                format!("Apply code action: {title}").into()
+                format!("应用代码操作：{title}").into()
             } else {
-                format!("Apply code action #{}", input.index).into()
+                format!("应用代码操作 #{}", input.index).into()
             }
         } else {
             "Apply code action".into()

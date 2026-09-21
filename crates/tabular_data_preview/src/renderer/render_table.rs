@@ -40,7 +40,7 @@ impl TabularDataPreviewPane {
                 .headers
                 .get(AnyColumn(i))
                 .and_then(|h| h.display_value().cloned())
-                .unwrap_or_else(|| format!("Col {}", i + 1).into());
+                .unwrap_or_else(|| format!("列 {}", i + 1).into());
 
             headers.push(self.create_header_element_with_sort_button(
                 header_text,
@@ -161,9 +161,9 @@ impl TabularDataPreviewPane {
                                     let so = pos.start.offset;
                                     let elv = pos.end.timestamp().value;
                                     let eo = pos.end.offset;
-                                    format!("Pos {so}(L{slv})-{eo}(L{elv})")
+                                    format!("位置 {so}(L{slv})-{eo}(L{elv})")
                                 }
-                                TableCell::Virtual => "Virtual cell".into(),
+                                TableCell::Virtual => "虚拟单元格".into(),
                             },
                         ))
                     })

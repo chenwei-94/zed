@@ -140,7 +140,7 @@ impl PickerDelegate for SidebarRecentProjectsDelegate {
     }
 
     fn placeholder_text(&self, _window: &mut Window, _cx: &mut App) -> Arc<str> {
-        "Search projects…".into()
+        "搜索项目…".into()
     }
 
     fn match_count(&self) -> usize {
@@ -268,7 +268,7 @@ impl PickerDelegate for SidebarRecentProjectsDelegate {
                             .await
                     })
                     .detach_and_prompt_err(
-                        "Failed to open project",
+                        "打开项目失败",
                         window,
                         cx,
                         |_, _, _| None,
@@ -283,9 +283,9 @@ impl PickerDelegate for SidebarRecentProjectsDelegate {
 
     fn no_matches_text(&self, _window: &mut Window, _cx: &mut App) -> Option<SharedString> {
         let text = if self.workspaces.is_empty() {
-            "Recently opened projects will show up here"
+            "最近打开的项目会显示在这里"
         } else {
-            "No matches"
+            "无匹配项"
         };
         Some(text.into())
     }
@@ -367,12 +367,7 @@ impl PickerDelegate for SidebarRecentProjectsDelegate {
                         .child(highlighted_match.render(window, cx)),
                 )
                 .tooltip(move |_, cx| {
-                    Tooltip::with_meta(
-                        "Open Project in This Window",
-                        None,
-                        tooltip_path.clone(),
-                        cx,
-                    )
+                    Tooltip::with_meta("在此窗口中打开项目", None, tooltip_path.clone(), cx)
                 })
                 .into_any_element(),
         )
@@ -399,7 +394,7 @@ impl PickerDelegate for SidebarRecentProjectsDelegate {
                                 .w_full()
                                 .gap_1()
                                 .justify_between()
-                                .child(Label::new("Open Local Folders"))
+                                .child(Label::new("打开本地文件夹"))
                                 .child(KeyBinding::for_action_in(&open_action, &focus_handle, cx)),
                         )
                         .on_click(cx.listener(move |_, _, window, cx| {
@@ -414,7 +409,7 @@ impl PickerDelegate for SidebarRecentProjectsDelegate {
                                 .w_full()
                                 .gap_1()
                                 .justify_between()
-                                .child(Label::new("Open Remote Folder"))
+                                .child(Label::new("打开远程文件夹"))
                                 .child(KeyBinding::for_action(
                                     &OpenRemote {
                                         from_existing_connection: false,

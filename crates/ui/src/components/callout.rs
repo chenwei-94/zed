@@ -232,80 +232,78 @@ impl Component for Callout {
     }
 
     fn preview(_window: &mut Window, _cx: &mut App) -> AnyElement {
-        let single_action = || Button::new("got-it", "Got it").label_size(LabelSize::Small);
+        let single_action = || Button::new("got-it", "知道了").label_size(LabelSize::Small);
         let multiple_actions = || {
             h_flex()
                 .gap_0p5()
-                .child(Button::new("update", "Backup & Update").label_size(LabelSize::Small))
-                .child(Button::new("dismiss", "Dismiss").label_size(LabelSize::Small))
+                .child(Button::new("update", "备份并更新").label_size(LabelSize::Small))
+                .child(Button::new("dismiss", "忽略").label_size(LabelSize::Small))
         };
 
         let basic_examples = vec![
             single_example(
-                "Simple with Title Only",
+                "仅带标题的简单样式",
                 Callout::new()
                     .icon(IconName::Info)
-                    .title("System maintenance scheduled for tonight")
+                    .title("系统维护已安排在今晚")
                     .actions_slot(single_action())
                     .into_any_element(),
             )
             .width(px(580.)),
             single_example(
-                "With Title and Description",
+                "带标题和说明",
                 Callout::new()
                     .icon(IconName::Warning)
-                    .title("Your settings contain deprecated values")
-                    .description(
-                        "We'll backup your current settings and update them to the new format.",
-                    )
+                    .title("设置中包含已弃用的值")
+                    .description("将备份当前设置并将其更新为新格式。")
                     .actions_slot(single_action())
                     .into_any_element(),
             )
             .width(px(580.)),
             single_example(
-                "Error with Multiple Actions",
+                "多操作错误",
                 Callout::new()
                     .icon(IconName::Close)
-                    .title("Thread reached the token limit")
-                    .description("Start a new thread from a summary to continue the conversation.")
+                    .title("会话已达 token 上限")
+                    .description("从摘要启动新会话以继续对话。")
                     .actions_slot(multiple_actions())
                     .into_any_element(),
             )
             .width(px(580.)),
             single_example(
-                "Multi-line Description",
+                "多行说明",
                 Callout::new()
                     .icon(IconName::Sparkle)
-                    .title("Upgrade to Pro")
-                    .description("• Unlimited threads\n• Priority support\n• Advanced analytics")
+                    .title("升级到 Pro")
+                    .description("• 无限会话\n• 优先支持\n• 高级分析")
                     .actions_slot(multiple_actions())
                     .into_any_element(),
             )
             .width(px(580.)),
             single_example(
-                "Scrollable Long Description",
+                "可滚动长说明",
                 Callout::new()
                     .severity(Severity::Error)
                     .icon(IconName::XCircle)
-                    .title("Very Long API Error Description")
+                    .title("超长 API 错误描述")
                     .description_slot(
                         v_flex().gap_1().children(
                             [
-                                "You exceeded your current quota.",
-                                "For more information, visit the docs.",
-                                "Error details:",
-                                "• Quota exceeded for metric",
-                                "• Limit: 0",
-                                "• Model: gemini-3.1-pro",
-                                "Please retry in 26.33s.",
-                                "Additional details:",
-                                "- Request ID: abc123def456",
-                                "- Timestamp: 2024-01-15T10:30:00Z",
-                                "- Region: us-central1",
-                                "- Service: generativelanguage.googleapis.com",
-                                "- Error Code: RESOURCE_EXHAUSTED",
-                                "- Retry After: 26s",
-                                "This error occurs when you have exceeded your API quota.",
+                                "你已超出当前配额。",
+                                "更多信息请参阅文档。",
+                                "错误详情：",
+                                "• 指标配额已超出",
+                                "• 限额：0",
+                                "• 模型：gemini-3.1-pro",
+                                "请在 26.33 秒后重试。",
+                                "附加详情：",
+                                "- 请求 ID：abc123def456",
+                                "- 时间戳：2024-01-15T10:30:00Z",
+                                "- 区域：us-central1",
+                                "- 服务：generativelanguage.googleapis.com",
+                                "- 错误代码：RESOURCE_EXHAUSTED",
+                                "- 重试等待：26 秒",
+                                "此错误在你超出 API 配额时出现。",
                             ]
                             .into_iter()
                             .map(|t| Label::new(t).size(LabelSize::Small).color(Color::Muted)),
@@ -319,37 +317,37 @@ impl Component for Callout {
 
         let severity_examples = vec![
             single_example(
-                "Info",
+                "信息",
                 Callout::new()
                     .icon(IconName::Info)
-                    .title("System maintenance scheduled for tonight")
+                    .title("系统维护已安排在今晚")
                     .actions_slot(single_action())
                     .into_any_element(),
             ),
             single_example(
-                "Warning",
+                "警告",
                 Callout::new()
                     .severity(Severity::Warning)
                     .icon(IconName::Triangle)
-                    .title("System maintenance scheduled for tonight")
+                    .title("系统维护已安排在今晚")
                     .actions_slot(single_action())
                     .into_any_element(),
             ),
             single_example(
-                "Error",
+                "错误",
                 Callout::new()
                     .severity(Severity::Error)
                     .icon(IconName::XCircle)
-                    .title("System maintenance scheduled for tonight")
+                    .title("系统维护已安排在今晚")
                     .actions_slot(single_action())
                     .into_any_element(),
             ),
             single_example(
-                "Success",
+                "成功",
                 Callout::new()
                     .severity(Severity::Success)
                     .icon(IconName::Check)
-                    .title("System maintenance scheduled for tonight")
+                    .title("系统维护已安排在今晚")
                     .actions_slot(single_action())
                     .into_any_element(),
             ),
@@ -358,7 +356,7 @@ impl Component for Callout {
         v_flex()
             .gap_4()
             .child(example_group(basic_examples).vertical())
-            .child(example_group_with_title("Severity", severity_examples).vertical())
+            .child(example_group_with_title("严重级别", severity_examples).vertical())
             .into_any_element()
     }
 }

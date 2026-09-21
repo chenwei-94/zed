@@ -65,10 +65,10 @@ impl Component for AgentSetupButton {
 
     fn preview(_window: &mut Window, _cx: &mut App) -> AnyElement {
         single_example(
-            "Default",
+            "默认",
             AgentSetupButton::new("preview")
                 .icon(Icon::new(IconName::ZedAgent))
-                .name("Zed Agent")
+                .name("Zed 智能体")
                 .into_any_element(),
         )
         .into_any_element()

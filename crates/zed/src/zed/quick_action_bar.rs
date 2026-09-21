@@ -148,7 +148,7 @@ impl Render for QuickActionBar {
                 !self.buffer_search_bar.read(cx).is_dismissed(),
                 Box::new(buffer_search::Deploy::find()),
                 focus_handle.clone(),
-                "Buffer Search",
+                "缓冲区搜索",
                 {
                     let buffer_search_bar = self.buffer_search_bar.clone();
                     move |_, window, cx| {
@@ -166,7 +166,7 @@ impl Render for QuickActionBar {
             false,
             Box::new(InlineAssist::default()),
             focus_handle,
-            "Inline Assist",
+            "行内辅助",
             move |_, window, cx| {
                 window.dispatch_action(Box::new(InlineAssist::default()), cx);
             },
@@ -199,7 +199,7 @@ impl Render for QuickActionBar {
                         .when(!is_deployed, |this| {
                             this.when(has_available_code_actions, |this| {
                                 this.tooltip(Tooltip::for_action_title(
-                                    "Code Actions",
+                                    "代码操作",
                                     &ToggleCodeActions::default(),
                                 ))
                             })
@@ -207,7 +207,7 @@ impl Render for QuickActionBar {
                                 !has_available_code_actions,
                                 |this| {
                                     this.tooltip(Tooltip::for_action_title(
-                                        "No Code Actions Available",
+                                        "无可用代码操作",
                                         &ToggleCodeActions::default(),
                                     ))
                                 },
@@ -261,7 +261,7 @@ impl Render for QuickActionBar {
                         .icon_size(IconSize::Small)
                         .style(ButtonStyle::Subtle)
                         .toggle_state(self.toggle_selections_handle.is_deployed()),
-                    Tooltip::text("Selection Controls"),
+                    Tooltip::text("选区控件"),
                 )
                 .with_handle(self.toggle_selections_handle.clone())
                 .anchor(Anchor::TopRight)
@@ -269,23 +269,23 @@ impl Render for QuickActionBar {
                     let focus = focus.clone();
                     let menu = ContextMenu::build(window, cx, move |menu, _, _| {
                         menu.context(focus.clone())
-                            .action("Select All", Box::new(SelectAll))
+                            .action("全选", Box::new(SelectAll))
                             .action(
-                                "Select Next Occurrence",
+                                "选择下一个匹配项",
                                 Box::new(SelectNext {
                                     replace_newest: false,
                                 }),
                             )
-                            .action("Expand Selection", Box::new(SelectLargerSyntaxNode))
-                            .action("Shrink Selection", Box::new(SelectSmallerSyntaxNode))
+                            .action("扩展选择", Box::new(SelectLargerSyntaxNode))
+                            .action("收缩选择", Box::new(SelectSmallerSyntaxNode))
                             .action(
-                                "Add Cursor Above",
+                                "在上方添加光标",
                                 Box::new(AddSelectionAbove {
                                     skip_soft_wrap: true,
                                 }),
                             )
                             .action(
-                                "Add Cursor Below",
+                                "在下方添加光标",
                                 Box::new(AddSelectionBelow {
                                     skip_soft_wrap: true,
                                 }),
@@ -293,30 +293,31 @@ impl Render for QuickActionBar {
                             .when(!disable_ai, |this| {
                                 this.separator().action_disabled_when(
                                     !has_selection,
-                                    "Add to Agent Thread",
+                                    "添加到智能体会话",
                                     Box::new(AddSelectionToThread),
                                 )
                             })
                             .separator()
-                            .action("Go to Symbol", Box::new(ToggleOutline))
-                            .action("Go to Line/Column", Box::new(ToggleGoToLine))
+                            .action("转到符号", Box::new(ToggleOutline))
+                            .action("转到行/列", Box::new(ToggleGoToLine))
                             .separator()
-                            .action("Next Problem", Box::new(GoToDiagnostic::default()))
-                            .action(
-                                "Previous Problem",
-                                Box::new(GoToPreviousDiagnostic::default()),
-                            )
+                            .action("下一个问题", Box::new(GoToDiagnostic::default()))
+                            .action("上一个问题", Box::new(GoToPreviousDiagnostic::default()))
                             .separator()
-                            .action_disabled_when(!has_diff_hunks, "Next Hunk", Box::new(GoToHunk))
                             .action_disabled_when(
                                 !has_diff_hunks,
-                                "Previous Hunk",
+                                "下一个差异块",
+                                Box::new(GoToHunk),
+                            )
+                            .action_disabled_when(
+                                !has_diff_hunks,
+                                "上一个差异块",
                                 Box::new(GoToPreviousHunk),
                             )
                             .separator()
-                            .action("Move Line Up", Box::new(MoveLineUp))
-                            .action("Move Line Down", Box::new(MoveLineDown))
-                            .action("Duplicate Selection", Box::new(DuplicateLineDown))
+                            .action("上移行", Box::new(MoveLineUp))
+                            .action("下移行", Box::new(MoveLineDown))
+                            .action("复制选中内容", Box::new(DuplicateLineDown))
                     });
                     Some(menu)
                 })
@@ -339,7 +340,7 @@ impl Render for QuickActionBar {
                     IconButton::new("toggle_editor_settings_icon", IconName::Filter)
                         .icon_size(IconSize::Small)
                         .toggle_state(self.toggle_settings_handle.is_deployed()),
-                    Tooltip::text("Editor Controls"),
+                    Tooltip::text("编辑器控件"),
                 )
                 .anchor(Anchor::TopRight)
                 .with_handle(self.toggle_settings_handle.clone())
@@ -351,7 +352,7 @@ impl Render for QuickActionBar {
 
                             if supports_inlay_hints {
                                 menu = menu.toggleable_entry(
-                                    "Inlay Hints",
+                                    "内联提示",
                                     inlay_hints_enabled,
                                     IconPosition::Start,
                                     Some(editor::actions::ToggleInlayHints.boxed_clone()),
@@ -372,7 +373,7 @@ impl Render for QuickActionBar {
                                 );
 
                                 menu = menu.toggleable_entry(
-                                    "Inline Values",
+                                    "内联值",
                                     inline_values_enabled,
                                     IconPosition::Start,
                                     Some(editor::actions::ToggleInlineValues.boxed_clone()),
@@ -389,13 +390,13 @@ impl Render for QuickActionBar {
                                                 })
                                                 .ok();
                                         }
-                                    }
+                                    },
                                 );
                             }
 
                             if supports_semantic_tokens {
                                 menu = menu.toggleable_entry(
-                                    "Semantic Highlights",
+                                    "语义高亮",
                                     semantic_highlights_enabled,
                                     IconPosition::Start,
                                     Some(editor::actions::ToggleSemanticHighlights.boxed_clone()),
@@ -418,7 +419,7 @@ impl Render for QuickActionBar {
 
                             if supports_code_lens {
                                 menu = menu.toggleable_entry(
-                                    "Code Lens",
+                                    "代码镜头",
                                     code_lens_enabled,
                                     IconPosition::Start,
                                     Some(editor::actions::ToggleCodeLens.boxed_clone()),
@@ -440,29 +441,37 @@ impl Render for QuickActionBar {
                             }
 
                             if supports_minimap {
-                                menu = menu.toggleable_entry("Minimap", minimap_enabled, IconPosition::Start, Some(editor::actions::ToggleMinimap.boxed_clone()), {
-                                    let editor = editor.clone();
-                                    move |window, cx| {
-                                        editor
-                                            .update(cx, |editor, cx| {
-                                                editor.toggle_minimap(
-                                                    &editor::actions::ToggleMinimap,
-                                                    window,
-                                                    cx,
-                                                );
-                                            })
-                                            .ok();
-                                    }
-                                },)
+                                menu = menu.toggleable_entry(
+                                    "Minimap",
+                                    minimap_enabled,
+                                    IconPosition::Start,
+                                    Some(editor::actions::ToggleMinimap.boxed_clone()),
+                                    {
+                                        let editor = editor.clone();
+                                        move |window, cx| {
+                                            editor
+                                                .update(cx, |editor, cx| {
+                                                    editor.toggle_minimap(
+                                                        &editor::actions::ToggleMinimap,
+                                                        window,
+                                                        cx,
+                                                    );
+                                                })
+                                                .ok();
+                                        }
+                                    },
+                                )
                             }
 
                             if has_edit_prediction_provider {
-                                let mut edit_prediction_entry = ContextMenuEntry::new("Edit Predictions")
-                                    .toggleable(IconPosition::Start, edit_predictions_enabled_at_cursor && show_edit_predictions)
+                                let mut edit_prediction_entry = ContextMenuEntry::new("编辑预测")
+                                    .toggleable(
+                                        IconPosition::Start,
+                                        edit_predictions_enabled_at_cursor && show_edit_predictions,
+                                    )
                                     .disabled(!edit_predictions_enabled_at_cursor)
-                                    .action(
-                                        editor::actions::ToggleEditPrediction.boxed_clone(),
-                                    ).handler({
+                                    .action(editor::actions::ToggleEditPrediction.boxed_clone())
+                                    .handler({
                                         let editor = editor.clone();
                                         move |window, cx| {
                                             editor
@@ -477,9 +486,11 @@ impl Render for QuickActionBar {
                                         }
                                     });
                                 if !edit_predictions_enabled_at_cursor {
-                                    edit_prediction_entry = edit_prediction_entry.documentation_aside(DocumentationSide::Left, |_| {
-                                        Label::new("You can't toggle edit predictions for this file as it is within the excluded files list.").into_any_element()
-                                    });
+                                    edit_prediction_entry = edit_prediction_entry
+                                        .documentation_aside(DocumentationSide::Left, |_| {
+                                            Label::new("此文件位于排除列表中，无法切换编辑预测。")
+                                                .into_any_element()
+                                        });
                                 }
 
                                 menu = menu.item(edit_prediction_entry);
@@ -510,25 +521,34 @@ impl Render for QuickActionBar {
                                 );
 
                                 if supports_inline_diagnostics {
-                                    let mut inline_diagnostics_item = ContextMenuEntry::new("Inline Diagnostics")
-                                        .toggleable(IconPosition::Start, diagnostics_enabled && inline_diagnostics_enabled)
-                                        .action(ToggleInlineDiagnostics.boxed_clone())
-                                        .handler({
-                                            let editor = editor.clone();
-                                            move |window, cx| {
-                                                editor
-                                                    .update(cx, |editor, cx| {
-                                                        editor.toggle_inline_diagnostics(
-                                                            &ToggleInlineDiagnostics,
-                                                            window,
-                                                            cx,
-                                                        );
-                                                    })
-                                                    .ok();
-                                            }
-                                        });
+                                    let mut inline_diagnostics_item =
+                                        ContextMenuEntry::new("行内诊断")
+                                            .toggleable(
+                                                IconPosition::Start,
+                                                diagnostics_enabled && inline_diagnostics_enabled,
+                                            )
+                                            .action(ToggleInlineDiagnostics.boxed_clone())
+                                            .handler({
+                                                let editor = editor.clone();
+                                                move |window, cx| {
+                                                    editor
+                                                        .update(cx, |editor, cx| {
+                                                            editor.toggle_inline_diagnostics(
+                                                                &ToggleInlineDiagnostics,
+                                                                window,
+                                                                cx,
+                                                            );
+                                                        })
+                                                        .ok();
+                                                }
+                                            });
                                     if !diagnostics_enabled {
-                                        inline_diagnostics_item = inline_diagnostics_item.disabled(true).documentation_aside(DocumentationSide::Left, |_|  Label::new("Inline diagnostics are not available until regular diagnostics are enabled.").into_any_element());
+                                        inline_diagnostics_item = inline_diagnostics_item
+                                            .disabled(true)
+                                            .documentation_aside(DocumentationSide::Left, |_| {
+                                                Label::new("启用常规诊断后才能使用行内诊断。")
+                                                    .into_any_element()
+                                            });
                                     }
                                     menu = menu.item(inline_diagnostics_item)
                                 }
@@ -537,7 +557,7 @@ impl Render for QuickActionBar {
                             }
 
                             menu = menu.toggleable_entry(
-                                "Line Numbers",
+                                "行号",
                                 show_line_numbers,
                                 IconPosition::Start,
                                 Some(editor::actions::ToggleLineNumbers.boxed_clone()),
@@ -558,7 +578,7 @@ impl Render for QuickActionBar {
                             );
 
                             menu = menu.toggleable_entry(
-                                "Selection Menu",
+                                "选择菜单",
                                 selection_menu_enabled,
                                 IconPosition::Start,
                                 Some(editor::actions::ToggleSelectionMenu.boxed_clone()),
@@ -579,7 +599,7 @@ impl Render for QuickActionBar {
                             );
 
                             menu = menu.toggleable_entry(
-                                "Auto Signature Help",
+                                "自动签名帮助",
                                 auto_signature_help_enabled,
                                 IconPosition::Start,
                                 Some(editor::actions::ToggleAutoSignatureHelp.boxed_clone()),
@@ -602,7 +622,7 @@ impl Render for QuickActionBar {
                             menu = menu.separator();
 
                             menu = menu.toggleable_entry(
-                                "Inline Git Blame",
+                                "行内 Git 追溯",
                                 git_blame_inline_enabled,
                                 IconPosition::Start,
                                 Some(editor::actions::ToggleGitBlameInline.boxed_clone()),
@@ -623,7 +643,7 @@ impl Render for QuickActionBar {
                             );
 
                             menu = menu.toggleable_entry(
-                                "Column Git Blame",
+                                "列内 Git 追溯",
                                 show_git_blame_gutter,
                                 IconPosition::Start,
                                 Some(git::Blame.boxed_clone()),
@@ -632,11 +652,7 @@ impl Render for QuickActionBar {
                                     move |window, cx| {
                                         editor
                                             .update(cx, |editor, cx| {
-                                                editor.toggle_git_blame(
-                                                    &git::Blame,
-                                                    window,
-                                                    cx,
-                                                )
+                                                editor.toggle_git_blame(&git::Blame, window, cx)
                                             })
                                             .ok();
                                     }
@@ -645,7 +661,7 @@ impl Render for QuickActionBar {
 
                             if let Some(fs) = fs.clone() {
                                 menu = menu.toggleable_entry(
-                                    "Diff Against Default Branch",
+                                    "与默认分支比较差异",
                                     diff_against_default_branch,
                                     IconPosition::Start,
                                     None,
@@ -656,10 +672,16 @@ impl Render for QuickActionBar {
                                             } else {
                                                 GitDiffBaseSetting::DefaultBranch
                                             };
-                                            update_settings_file(fs.clone(), cx, move |settings, _| {
-                                                settings.git.get_or_insert_default().diff_base =
-                                                    Some(diff_base);
-                                            });
+                                            update_settings_file(
+                                                fs.clone(),
+                                                cx,
+                                                move |settings, _| {
+                                                    settings
+                                                        .git
+                                                        .get_or_insert_default()
+                                                        .diff_base = Some(diff_base);
+                                                },
+                                            );
                                         }
                                     },
                                 );
@@ -668,32 +690,41 @@ impl Render for QuickActionBar {
                             menu = menu.separator();
 
                             menu = menu.toggleable_entry(
-                                "Vim Mode",
+                                "Vim 模式",
                                 vim_mode_enabled,
                                 IconPosition::Start,
                                 None,
                                 {
                                     move |window, cx| {
                                         let new_value = !vim_mode_enabled;
-                                        VimModeSetting::override_global(VimModeSetting(new_value), cx);
-                                        HelixModeSetting::override_global(HelixModeSetting(false), cx);
+                                        VimModeSetting::override_global(
+                                            VimModeSetting(new_value),
+                                            cx,
+                                        );
+                                        HelixModeSetting::override_global(
+                                            HelixModeSetting(false),
+                                            cx,
+                                        );
                                         window.refresh();
                                     }
                                 },
                             );
                             menu = menu.toggleable_entry(
-                                "Helix Mode",
+                                "Helix 模式",
                                 helix_mode_enabled,
                                 IconPosition::Start,
                                 None,
                                 {
                                     move |window, cx| {
                                         let new_value = !helix_mode_enabled;
-                                        HelixModeSetting::override_global(HelixModeSetting(new_value), cx);
+                                        HelixModeSetting::override_global(
+                                            HelixModeSetting(new_value),
+                                            cx,
+                                        );
                                         VimModeSetting::override_global(VimModeSetting(false), cx);
                                         window.refresh();
                                     }
-                                }
+                                },
                             );
 
                             menu

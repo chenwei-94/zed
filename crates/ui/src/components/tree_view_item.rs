@@ -254,51 +254,51 @@ impl Component for TreeViewItem {
 
         example_group(vec![
             single_example(
-                "Basic Tree View",
+                "基础树视图",
                 container()
                     .child(
-                        TreeViewItem::new("index-1", "Tree Item Root #1")
+                        TreeViewItem::new("index-1", "根树项 #1")
                             .root_item(true)
                             .toggle_state(true),
                     )
-                    .child(TreeViewItem::new("index-2", "Tree Item #2"))
-                    .child(TreeViewItem::new("index-3", "Tree Item #3"))
-                    .child(TreeViewItem::new("index-4", "Tree Item Root #2").root_item(true))
-                    .child(TreeViewItem::new("index-5", "Tree Item #5"))
-                    .child(TreeViewItem::new("index-6", "Tree Item #6"))
+                    .child(TreeViewItem::new("index-2", "树项 #2"))
+                    .child(TreeViewItem::new("index-3", "树项 #3"))
+                    .child(TreeViewItem::new("index-4", "根树项 #2").root_item(true))
+                    .child(TreeViewItem::new("index-5", "树项 #5"))
+                    .child(TreeViewItem::new("index-6", "树项 #6"))
                     .into_any_element(),
             ),
             single_example(
-                "Active Child",
+                "活动子项",
                 container()
-                    .child(TreeViewItem::new("index-1", "Tree Item Root #1").root_item(true))
-                    .child(TreeViewItem::new("index-2", "Tree Item #2").toggle_state(true))
-                    .child(TreeViewItem::new("index-3", "Tree Item #3"))
+                    .child(TreeViewItem::new("index-1", "根树项 #1").root_item(true))
+                    .child(TreeViewItem::new("index-2", "树项 #2").toggle_state(true))
+                    .child(TreeViewItem::new("index-3", "树项 #3"))
                     .into_any_element(),
             ),
             single_example(
-                "Focused Parent",
+                "聚焦父项",
                 container()
                     .child(
-                        TreeViewItem::new("index-1", "Tree Item Root #1")
+                        TreeViewItem::new("index-1", "根树项 #1")
                             .root_item(true)
                             .focused(true)
                             .toggle_state(true),
                     )
-                    .child(TreeViewItem::new("index-2", "Tree Item #2"))
-                    .child(TreeViewItem::new("index-3", "Tree Item #3"))
+                    .child(TreeViewItem::new("index-2", "树项 #2"))
+                    .child(TreeViewItem::new("index-3", "树项 #3"))
                     .into_any_element(),
             ),
             single_example(
-                "Focused Child",
+                "聚焦子项",
                 container()
                     .child(
-                        TreeViewItem::new("index-1", "Tree Item Root #1")
+                        TreeViewItem::new("index-1", "根树项 #1")
                             .root_item(true)
                             .toggle_state(true),
                     )
-                    .child(TreeViewItem::new("index-2", "Tree Item #2").focused(true))
-                    .child(TreeViewItem::new("index-3", "Tree Item #3"))
+                    .child(TreeViewItem::new("index-2", "树项 #2").focused(true))
+                    .child(TreeViewItem::new("index-3", "树项 #3"))
                     .into_any_element(),
             ),
         ])

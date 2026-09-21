@@ -365,23 +365,23 @@ impl Render for LanguageServerPrompt {
                                             "copy-description",
                                             request.message.clone(),
                                         )
-                                        .tooltip_label("Copy Description"),
+                                        .tooltip_label("复制描述"),
                                     )
                                     .child(
                                         IconButton::new(close_id, close_icon)
                                             .tooltip(move |_window, cx| {
                                                 if suppress {
                                                     Tooltip::with_meta(
-                                                        "Suppress",
+                                                        "不再提示",
                                                         Some(&SuppressNotification),
-                                                        "Click to close",
+                                                        "点击关闭",
                                                         cx,
                                                     )
                                                 } else {
                                                     Tooltip::with_meta(
-                                                        "Close",
+                                                        "关闭",
                                                         Some(&menu::Cancel),
-                                                        "Suppress with shift-click",
+                                                        "Shift 点击以不再提示",
                                                         cx,
                                                     )
                                                 }
@@ -1000,7 +1000,7 @@ pub mod simple_message_notification {
                 .when_some(copy_text, |el, text| {
                     el.child(
                         CopyButton::new("copy-notification-message", text)
-                            .tooltip_label("Copy Message"),
+                            .tooltip_label("复制消息"),
                     )
                 })
                 .when(show_close_button, |el| {
@@ -1009,20 +1009,20 @@ pub mod simple_message_notification {
                             .tooltip(move |_window, cx| {
                                 if suppress {
                                     Tooltip::with_meta(
-                                        "Suppress",
+                                        "不再提示",
                                         Some(&SuppressNotification),
-                                        "Click to Close",
+                                        "点击关闭",
                                         cx,
                                     )
                                 } else if show_suppress_button {
                                     Tooltip::with_meta(
-                                        "Close",
+                                        "关闭",
                                         Some(&menu::Cancel),
-                                        "Shift-click to Suppress",
+                                        "Shift 点击以不再提示",
                                         cx,
                                     )
                                 } else {
-                                    Tooltip::for_action("Close", &menu::Cancel, cx)
+                                    Tooltip::for_action("关闭", &menu::Cancel, cx)
                                 }
                             })
                             .on_click(cx.listener(move |_, _, _, cx| {
@@ -1201,25 +1201,24 @@ pub mod simple_message_notification {
         }
 
         fn preview(_window: &mut Window, cx: &mut App) -> AnyElement {
-            let normal =
-                cx.new(|cx| MessageNotification::new("A regular informational notification.", cx));
+            let normal = cx.new(|cx| MessageNotification::new("普通的信息通知。", cx));
 
             let with_title = cx.new(|cx| {
-                MessageNotification::new("Some informational content for the user.", cx)
+                MessageNotification::new("面向用户的信息内容。", cx)
                     .with_title("Notification Title")
             });
 
             let with_primary_action = cx.new(|cx| {
-                MessageNotification::new("A new version of Zed is available for download.", cx)
-                    .with_title("Update Available")
-                    .primary_message("Restart Now")
+                MessageNotification::new("有新版本的 Zed 可供下载。", cx)
+                    .with_title("有可用更新")
+                    .primary_message("立即重启")
                     .primary_icon(IconName::ArrowCircle)
             });
 
             let with_end_icon_action = cx.new(|cx| {
-                MessageNotification::new("Release notes for this version are available online.", cx)
-                    .with_title("What’s New")
-                    .primary_message("Read Release Notes")
+                MessageNotification::new("此版本的发行说明可在线查看。", cx)
+                    .with_title("新功能")
+                    .primary_message("阅读发行说明")
                     .primary_end_icon(IconName::ArrowUpRight)
             });
 
@@ -1233,14 +1232,14 @@ pub mod simple_message_notification {
                     found [\"editor::Apply\"].\n\
                     • In binding \"ctrl-shift-r\", action \"editor::Reload\" is not registered.";
                 MessageNotification::new(long_message, cx)
-                    .primary_message("Open Keymap File")
+                    .primary_message("打开键位映射文件")
                     .primary_icon(IconName::Settings)
             });
 
             struct PreviewError;
             impl WorkspaceError for PreviewError {
                 fn primary_message(&self) -> SharedString {
-                    "Something went wrong while loading your project.".into()
+                    "加载项目时出错。".into()
                 }
 
                 fn primary_action(&self) -> ErrorAction {
@@ -1248,7 +1247,7 @@ pub mod simple_message_notification {
                 }
 
                 fn secondary_message(&self) -> Option<SharedString> {
-                    Some("Check your network connection and try again.".into())
+                    Some("检查网络连接后重试。".into())
                 }
                 fn severity(&self) -> ErrorSeverity {
                     ErrorSeverity::Error
@@ -1257,17 +1256,16 @@ pub mod simple_message_notification {
             let error_state =
                 cx.new(|cx| MessageNotification::from_workspace_error(PreviewError, cx));
 
-            let close_only = cx
-                .new(|cx| MessageNotification::new("Default header with just a close button.", cx));
+            let close_only =
+                cx.new(|cx| MessageNotification::new("仅带关闭按钮的默认标题栏。", cx));
 
             let copy_and_close = cx.new(|cx| {
-                let msg: SharedString = "This message can be copied to the clipboard.".into();
+                let msg: SharedString = "此消息可复制到剪贴板。".into();
                 MessageNotification::new(msg.clone(), cx).copy_text(msg)
             });
 
             let no_close = cx.new(|cx| {
-                MessageNotification::new("This notification can't be closed manually.", cx)
-                    .show_close_button(false)
+                MessageNotification::new("此通知无法手动关闭。", cx).show_close_button(false)
             });
 
             // --- Workspace errors ---
@@ -1278,7 +1276,7 @@ pub mod simple_message_notification {
             struct BasicError;
             impl WorkspaceError for BasicError {
                 fn primary_message(&self) -> SharedString {
-                    "Failed to save the file.".into()
+                    "保存文件失败。".into()
                 }
                 fn primary_action(&self) -> ErrorAction {
                     ErrorAction::dismiss()
@@ -1291,8 +1289,7 @@ pub mod simple_message_notification {
             struct LanguageServerError;
             impl WorkspaceError for LanguageServerError {
                 fn primary_message(&self) -> SharedString {
-                    "Error: Prepare rename via rust-analyzer failed: No references found at position"
-                        .into()
+                    "错误：通过 rust-analyzer 准备重命名失败：在该位置未找到引用".into()
                 }
                 fn secondary_message(&self) -> Option<SharedString> {
                     None
@@ -1310,17 +1307,17 @@ pub mod simple_message_notification {
             struct PortalSetupError;
             impl WorkspaceError for PortalSetupError {
                 fn primary_message(&self) -> SharedString {
-                    "Linux desktop portal initialization failed.".into()
+                    "Linux 桌面门户初始化失败。".into()
                 }
                 fn secondary_message(&self) -> Option<SharedString> {
-                    Some("Zed needs an xdg-desktop-portal implementation to open files.".into())
+                    Some("Zed 需要 xdg-desktop-portal 实现才能打开文件。".into())
                 }
                 fn severity(&self) -> ErrorSeverity {
                     ErrorSeverity::Critical
                 }
                 fn primary_action(&self) -> ErrorAction {
                     ErrorAction::link(
-                        "See Docs",
+                        "查看文档",
                         "https://zed.dev/docs/linux#i-cant-open-any-files",
                     )
                 }
@@ -1331,13 +1328,13 @@ pub mod simple_message_notification {
             struct UpdateRequiredError;
             impl WorkspaceError for UpdateRequiredError {
                 fn primary_message(&self) -> SharedString {
-                    "An update is required to continue using Zed AI.".into()
+                    "需要更新才能继续使用 Zed AI。".into()
                 }
                 fn severity(&self) -> ErrorSeverity {
                     ErrorSeverity::Critical
                 }
                 fn primary_action(&self) -> ErrorAction {
-                    ErrorAction::link("Update Zed", "https://zed.dev/releases")
+                    ErrorAction::link("更新 Zed", "https://zed.dev/releases")
                 }
                 fn secondary_action(&self) -> Option<ErrorAction> {
                     Some(ErrorAction::dismiss())
@@ -1360,67 +1357,67 @@ pub mod simple_message_notification {
                 .p_4()
                 .children(vec![
                     example_group_with_title(
-                        "States",
+                        "状态",
                         vec![
-                            single_example("Normal", container().child(normal).into_any_element()),
+                            single_example("正常", container().child(normal).into_any_element()),
                             single_example(
-                                "With Title",
+                                "带标题",
                                 container().child(with_title).into_any_element(),
                             ),
                             single_example(
-                                "With Primary Action (start icon)",
+                                "带主要操作（起始图标）",
                                 container().child(with_primary_action).into_any_element(),
                             ),
                             single_example(
-                                "With Primary Action (end icon)",
+                                "带主要操作（尾部图标）",
                                 container().child(with_end_icon_action).into_any_element(),
                             ),
                             single_example(
-                                "Long Content + Primary Action",
+                                "长内容 + 主要操作",
                                 container()
                                     .child(with_long_content_and_action)
                                     .into_any_element(),
                             ),
                             single_example(
-                                "Error",
+                                "错误",
                                 container().child(error_state).into_any_element(),
                             ),
                         ],
                     ),
                     example_group_with_title(
-                        "Header Actions (top right)",
+                        "标头操作（右上角）",
                         vec![
                             single_example(
-                                "Close Only",
+                                "仅关闭",
                                 container().child(close_only).into_any_element(),
                             ),
                             single_example(
-                                "Copy + Close",
+                                "复制并关闭",
                                 container().child(copy_and_close).into_any_element(),
                             ),
                             single_example(
-                                "No Close",
+                                "无关闭按钮",
                                 container().child(no_close).into_any_element(),
                             ),
                         ],
                     ),
                     example_group_with_title(
-                        "Workspace Errors",
+                        "工作区错误",
                         vec![
                             single_example(
-                                "Basic",
+                                "基础",
                                 container().child(basic_error).into_any_element(),
                             ),
                             single_example(
-                                "With Secondary Message",
+                                "带次要消息",
                                 container().child(detailed_error).into_any_element(),
                             ),
                             single_example(
-                                "With Documentation Link",
+                                "带文档链接",
                                 container().child(docs_error).into_any_element(),
                             ),
                             single_example(
-                                "With Primary + Secondary Action",
+                                "带主要和次要操作",
                                 container().child(update_error).into_any_element(),
                             ),
                         ],
@@ -1569,7 +1566,7 @@ where
             Ok(value) => Some(value),
             Err(err) => {
                 log::error!("Showing error notification in workspace: {err:?}");
-                workspace.show_error(format!("Error: {err}"), cx);
+                workspace.show_error(format!("错误：{err}"), cx);
                 None
             }
         }
@@ -1584,7 +1581,7 @@ where
             Ok(value) => Some(value),
             Err(err) => {
                 log::error!("{err:?}");
-                let message = format!("Error: {err}");
+                let message = format!("错误：{err}");
                 workspace
                     .update(cx, |workspace, cx| workspace.show_error(message, cx))
                     .ok();
@@ -1597,7 +1594,7 @@ where
         match self {
             Ok(value) => Some(value),
             Err(err) => {
-                let message = format!("Error: {err}");
+                let message = format!("错误：{err}");
                 log::error!("Showing error notification in app: {message}");
                 show_app_notification(workspace_error_notification_id(), cx, {
                     move |cx| {

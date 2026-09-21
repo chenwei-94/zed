@@ -97,7 +97,7 @@ fn push_font_style(style: &mut String, font_family: &str) {
 }
 
 fn font_style(font_family: &str) -> String {
-    let mut style = String::with_capacity(font_family.len() + "font-family: ;".len());
+    let mut style = String::with_capacity(font_family.len() + " font-family: ;".len());
     push_font_style(&mut style, font_family);
     style
 }

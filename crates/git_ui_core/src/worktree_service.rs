@@ -88,7 +88,7 @@ impl WorktreeCreateTarget {
             WorktreeCreateTarget::DefaultBranch(default_branch) => default_branch.display_name(),
             WorktreeCreateTarget::CurrentBranch => {
                 if has_multiple_repositories {
-                    "current branches".to_string()
+                    "当前分支".to_string()
                 } else {
                     current_branch_name.unwrap_or("HEAD").to_string()
                 }
@@ -252,14 +252,11 @@ impl Render for WorktreeFetchFailedToast {
                     .size(IconSize::Small)
                     .color(Color::Error),
             )
-            .child(Label::new(format!(
-                "git fetch failed for {}",
-                self.remote_branch_name
-            )))
+            .child(Label::new(format!("{} 抓取失败", self.remote_branch_name)))
             .child(
                 Button::new(
                     "use-local-worktree-base",
-                    format!("Use local {}", self.remote_branch_name),
+                    format!("使用本地 {}", self.remote_branch_name),
                 )
                 .color(Color::Muted)
                 .on_click(cx.listener(move |_, _event, window, cx| {
@@ -285,7 +282,7 @@ impl Render for WorktreeFetchFailedToast {
                 })),
             )
             .child(
-                Button::new("view-worktree-fetch-log", "Show Error Logs")
+                Button::new("view-worktree-fetch-log", "显示错误日志")
                     .color(Color::Muted)
                     .on_click(cx.listener(move |_, _event, window, cx| {
                         cx.emit(DismissEvent);
@@ -618,7 +615,7 @@ pub async fn await_and_rollback_on_failure(
             }
         }
     }
-    let mut error_message = format!("Failed to create worktree: {err}");
+    let mut error_message = format!("创建工作树失败：{err}");
     if !rollback_failures.is_empty() {
         error_message.push_str("\n\nFailed to clean up: ");
         error_message.push_str(&rollback_failures.join(", "));
@@ -1270,8 +1267,7 @@ async fn open_worktree_workspace(
                     workspace.show_toast(
                         workspace::Toast::new(
                             toast_id,
-                            "Some project folders are not git repositories. \
-                             They were included as-is without creating a worktree.",
+                            "部分项目文件夹不是 Git 仓库。它们已按原样包含，未创建工作树。",
                         ),
                         cx,
                     );

@@ -2051,7 +2051,7 @@ mod tests {
         );
 
         // Loading an unknown language returns an error.
-        assert!(languages.language_for_name("Unknown").await.is_err());
+        assert!(languages.language_for_name("未知").await.is_err());
     }
 
     #[gpui::test]

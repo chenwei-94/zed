@@ -85,7 +85,7 @@ impl AgentTool for AskUserTool {
     ) -> SharedString {
         match input {
             Ok(input) if !input.question.is_empty() => SharedString::from(input.question),
-            _ => "Asking a question".into(),
+            _ => "正在提问".into(),
         }
     }
 
@@ -149,7 +149,7 @@ impl AgentTool for AskUserTool {
             };
 
             event_stream.update_fields(
-                acp::ToolCallUpdateFields::new().title(format!("Answered: {selected}")),
+                acp::ToolCallUpdateFields::new().title(format!("已答复：{selected}")),
             );
 
             Ok(AskUserToolOutput::Answered { selected })
@@ -174,7 +174,7 @@ fn build_schema(options: &[String], allow_free_text: bool) -> acp::ElicitationSc
         schema = schema.property(
             CHOICE_FIELD,
             acp::StringPropertySchema::new()
-                .title("Choose an option")
+                .title("选择一个选项")
                 .one_of(enum_options),
             !allow_free_text,
         );
@@ -182,9 +182,9 @@ fn build_schema(options: &[String], allow_free_text: bool) -> acp::ElicitationSc
 
     if allow_free_text {
         let title = if options.is_empty() {
-            "Your answer"
+            "你的回答"
         } else {
-            "Or type your own answer"
+            "或输入你自己的回答"
         };
         schema = schema.property(
             OTHER_FIELD,

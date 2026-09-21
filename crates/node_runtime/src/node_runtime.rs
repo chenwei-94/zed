@@ -119,7 +119,7 @@ impl NodeRuntime {
                     // failure case not cached, since it's cheap to check again
                     return Box::new(UnavailableNodeRuntime {
                         error_message: format!(
-                            "failure checking Node.js from `node.path` in settings ({}): {:?}",
+                            "从设置中的 `node.path` 检查 Node.js 失败（{}）：{:?}",
                             node.display(),
                             err
                         )
@@ -174,8 +174,7 @@ impl NodeRuntime {
                     // and/or have shared tracking of when internet is available.
                     Box::new(UnavailableNodeRuntime {
                         error_message: format!(
-                            "failure while downloading and/or installing Zed managed Node.js, \
-                            restart Zed to retry: {}",
+                            "下载或安装 Zed 托管的 Node.js 时失败，请重启 Zed 重试：{}",
                             err
                         )
                         .into(),
@@ -188,11 +187,8 @@ impl NodeRuntime {
             // TODO: When support is added for setting `options.allow_binary_download`, update this
             // error message.
             return Box::new(UnavailableNodeRuntime {
-                error_message: format!(
-                    "failure while checking system Node.js from PATH: {}",
-                    system_node_error
-                )
-                .into(),
+                error_message: format!("从 PATH 检查系统 Node.js 时失败：{}", system_node_error)
+                    .into(),
             });
         } else {
             // failure case is cached because it will always happen with these options

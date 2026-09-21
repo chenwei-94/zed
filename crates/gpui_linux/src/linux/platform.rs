@@ -53,8 +53,7 @@ pub(crate) const DOUBLE_CLICK_DISTANCE: Pixels = px(5.0);
 pub(crate) const KEYRING_LABEL: &str = "zed-github-account";
 
 #[cfg(any(feature = "wayland", feature = "x11"))]
-const FILE_PICKER_PORTAL_MISSING: &str =
-    "Couldn't open file picker due to missing xdg-desktop-portal implementation.";
+const FILE_PICKER_PORTAL_MISSING: &str = "由于缺少 xdg-desktop-portal 实现，无法打开文件选择器。";
 
 pub(crate) trait LinuxClient {
     fn compositor_name(&self) -> &'static str;
@@ -469,9 +468,9 @@ impl<P: LinuxClient + 'static> Platform for LinuxPlatform<P> {
         self.foreground_executor()
             .spawn(async move {
                 let title = if options.directories {
-                    "Open Folder"
+                    "打开文件夹"
                 } else {
-                    "Open File"
+                    "打开文件"
                 };
 
                 let request = match ashpd::desktop::file_chooser::OpenFileRequest::default()
@@ -537,7 +536,7 @@ impl<P: LinuxClient + 'static> Platform for LinuxPlatform<P> {
                         ashpd::desktop::file_chooser::SaveFileRequest::default()
                             .identifier(identifier.await)
                             .modal(true)
-                            .title("Save File")
+                            .title("保存文件")
                             .current_folder(directory)
                             .expect("pathbuf should not be nul terminated");
 

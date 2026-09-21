@@ -661,7 +661,7 @@ impl LspAdapter for RustLspAdapter {
             language::SymbolKind::Constant => ("const ", ":()=();"),
             language::SymbolKind::Module => ("mod ", ";"),
             language::SymbolKind::Package => ("extern crate ", ";"),
-            language::SymbolKind::TypeParameter => ("type ", "=();"),
+            language::SymbolKind::TypeParameter => ("type", "=();"),
             language::SymbolKind::EnumMember => {
                 let prefix = "enum E {";
                 return Some(CodeLabel::new(
@@ -1057,7 +1057,7 @@ impl ContextProvider for RustContextProvider {
         let mut task_templates = vec![
             TaskTemplate {
                 label: format!(
-                    "Check (package: {})",
+                    "检查（包：{}）",
                     RUST_PACKAGE_TASK_VARIABLE.template_value(),
                 ),
                 command: "cargo".into(),
@@ -1070,7 +1070,7 @@ impl ContextProvider for RustContextProvider {
                 ..TaskTemplate::default()
             },
             TaskTemplate {
-                label: "Check all targets (workspace)".into(),
+                label: "检查所有目标（工作区）".into(),
                 command: "cargo".into(),
                 args: vec!["check".into(), "--workspace".into(), "--all-targets".into()],
                 cwd: Some("$ZED_DIRNAME".to_owned()),
@@ -1078,7 +1078,7 @@ impl ContextProvider for RustContextProvider {
             },
             TaskTemplate {
                 label: format!(
-                    "Test '{}' (package: {})",
+                    "测试 '{}'（包：{}）",
                     RUST_TEST_NAME_TASK_VARIABLE.template_value(),
                     RUST_PACKAGE_TASK_VARIABLE.template_value(),
                 ),
@@ -1098,7 +1098,7 @@ impl ContextProvider for RustContextProvider {
             },
             TaskTemplate {
                 label: format!(
-                    "Doc test '{}' (package: {})",
+                    "文档测试 '{}'（包：{}）",
                     RUST_DOC_TEST_NAME_TASK_VARIABLE.template_value(),
                     RUST_PACKAGE_TASK_VARIABLE.template_value(),
                 ),
@@ -1137,7 +1137,7 @@ impl ContextProvider for RustContextProvider {
             },
             TaskTemplate {
                 label: format!(
-                    "Run {} {} (package: {})",
+                    "运行 {} {}（包：{}）",
                     RUST_BIN_KIND_TASK_VARIABLE.template_value(),
                     RUST_BIN_NAME_TASK_VARIABLE.template_value(),
                     RUST_PACKAGE_TASK_VARIABLE.template_value(),
@@ -1158,7 +1158,7 @@ impl ContextProvider for RustContextProvider {
             },
             TaskTemplate {
                 label: format!(
-                    "Test (package: {})",
+                    "测试（包：{}）",
                     RUST_PACKAGE_TASK_VARIABLE.template_value()
                 ),
                 command: "cargo".into(),
@@ -1171,14 +1171,14 @@ impl ContextProvider for RustContextProvider {
                 ..TaskTemplate::default()
             },
             TaskTemplate {
-                label: "Run".into(),
+                label: "运行".into(),
                 command: "cargo".into(),
                 args: run_task_args,
                 cwd: Some(RUST_MANIFEST_DIRNAME_TASK_VARIABLE.template_value()),
                 ..TaskTemplate::default()
             },
             TaskTemplate {
-                label: "Clean".into(),
+                label: "清理".into(),
                 command: "cargo".into(),
                 args: vec!["clean".into()],
                 cwd: Some(RUST_MANIFEST_DIRNAME_TASK_VARIABLE.template_value()),

@@ -723,10 +723,7 @@ fn connect_via_upstream(
     });
 
     let request = format!(
-        "CONNECT {host}:{port} HTTP/1.1\r\n\
-         Host: {host}:{port}\r\n\
-         {}\
-         \r\n",
+        "CONNECT {host}:{port} HTTP/1.1\r\nHost: {host}:{port}\r\n{}\r\n",
         auth_header.unwrap_or_default()
     );
     stream.write_all(request.as_bytes())?;
@@ -793,10 +790,7 @@ fn deny_request(
     );
 
     let body = format!(
-        "Request blocked by the Zed sandbox network policy.\n\n  \
-         Reason: {}\n\n  \
-         This is not a network or server failure — it's a policy decision.\n  \
-         To proceed, ask the user to approve the host on the next terminal call.\n",
+        "Request blocked by the Zed sandbox network policy.\n\n  Reason: {}\n\n  This is not a network or server failure — it's a policy decision.\n  To proceed, ask the user to approve the host on the next terminal call.\n",
         reason.human_explanation()
     );
     let response = format!(

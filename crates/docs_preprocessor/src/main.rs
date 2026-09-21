@@ -439,7 +439,7 @@ fn template_and_validate_json_snippets(
                         chapter,
                         loc,
                         chapter.content[loc..tag_start].to_string(),
-                        "Unclosed JSON block tag".to_string(),
+                        "未闭合的 JSON 块标签".to_string(),
                     ));
                     continue;
                 };
@@ -452,7 +452,7 @@ fn template_and_validate_json_snippets(
                         chapter,
                         loc,
                         chapter.content[loc..tag_start].to_string(),
-                        "Unclosed JSON block tag".to_string(),
+                        "未闭合的 JSON 块标签".to_string(),
                     ));
                     continue;
                 }
@@ -466,7 +466,7 @@ fn template_and_validate_json_snippets(
                         chapter,
                         loc,
                         chapter.content[loc..tag_end + 1].to_string(),
-                        "Missing closing code block".to_string(),
+                        "缺少结束代码块".to_string(),
                     ));
                     continue;
                 };

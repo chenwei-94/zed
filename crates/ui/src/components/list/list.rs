@@ -28,7 +28,7 @@ impl Default for List {
 impl List {
     pub fn new() -> Self {
         Self {
-            empty_message: EmptyMessage::Text("No items".into()),
+            empty_message: EmptyMessage::Text("没有条目".into()),
             header: None,
             toggle: None,
             children: SmallVec::new(),
@@ -108,28 +108,28 @@ impl Component for List {
         v_flex()
             .gap_6()
             .children(vec![example_group_with_title(
-                "Basic Lists",
+                "基础列表",
                 vec![
                     single_example(
-                        "Simple List",
+                        "简单列表",
                         List::new()
-                            .child(ListItem::new("item1").child(Label::new("Item 1")))
-                            .child(ListItem::new("item2").child(Label::new("Item 2")))
-                            .child(ListItem::new("item3").child(Label::new("Item 3")))
+                            .child(ListItem::new("item1").child(Label::new("条目 1")))
+                            .child(ListItem::new("item2").child(Label::new("条目 2")))
+                            .child(ListItem::new("item3").child(Label::new("条目 3")))
                             .into_any_element(),
                     ),
                     single_example(
-                        "With Header",
+                        "带标题",
                         List::new()
                             .header(ListHeader::new("Section Header"))
-                            .child(ListItem::new("item1").child(Label::new("Item 1")))
-                            .child(ListItem::new("item2").child(Label::new("Item 2")))
+                            .child(ListItem::new("item1").child(Label::new("条目 1")))
+                            .child(ListItem::new("item2").child(Label::new("条目 2")))
                             .into_any_element(),
                     ),
                     single_example(
-                        "Empty List",
+                        "空列表",
                         List::new()
-                            .empty_message("No items to display")
+                            .empty_message("没有可显示的项目")
                             .into_any_element(),
                     ),
                 ],

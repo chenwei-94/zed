@@ -412,7 +412,7 @@ impl GitRepository for FakeGitRepository {
             };
             Ok(CommitDetails {
                 sha: sha.into(),
-                message: "initial commit".into(),
+                message: "初始提交".into(),
                 ..Default::default()
             })
         })

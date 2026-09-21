@@ -183,7 +183,7 @@ pub(crate) fn open_abs_path_at_point(
         .detach_and_log_err(cx);
 }
 
-pub const DEFAULT_THREAD_TITLE: &str = "New Agent Thread";
+pub const DEFAULT_THREAD_TITLE: &str = "新智能体会话";
 const PARALLEL_AGENT_LAYOUT_BACKFILL_KEY: &str = "parallel_agent_layout_backfilled";
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -464,7 +464,7 @@ impl Agent {
 
     pub fn label(&self) -> SharedString {
         match self {
-            Self::NativeAgent => "Zed Agent".into(),
+            Self::NativeAgent => "Zed 智能体".into(),
             Self::Custom { id, .. } => id.0.clone(),
             #[cfg(any(test, feature = "test-support"))]
             Self::Stub => "Stub Agent".into(),
@@ -734,7 +734,7 @@ fn rerun_rules_to_skills_migration(
             cx.update(|_window, cx| {
                 show_rules_to_skills_migration_toast(
                     &workspace,
-                    "Rules-to-skills migration rerun. Please double-check AGENTS.md and Skills for missing or duplicated prompts.",
+                    "规则到技能的迁移已重新运行。请检查 AGENTS.md 和技能中是否有缺失或重复的提示词。",
                     cx,
                 );
             })?;

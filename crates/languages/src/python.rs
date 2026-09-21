@@ -941,7 +941,7 @@ impl ContextProvider for PythonContextProvider {
         let mut tasks = vec![
             // Execute a selection
             TaskTemplate {
-                label: "execute selection".to_owned(),
+                label: "执行选中内容".to_owned(),
                 command: PYTHON_ACTIVE_TOOLCHAIN_PATH.template_value(),
                 args: vec![
                     "-c".to_owned(),
@@ -1424,9 +1424,9 @@ impl ToolchainLister for PythonToolchainProvider {
     }
     fn meta(&self) -> ToolchainMetadata {
         ToolchainMetadata {
-            term: SharedString::new_static("Virtual Environment"),
+            term: SharedString::new_static("虚拟环境"),
             new_toolchain_placeholder: SharedString::new_static(
-                "A path to the python3 executable within a virtual environment, or path to virtual environment itself",
+                "虚拟环境中 python3 可执行文件的路径，或虚拟环境本身的路径",
             ),
             manifest_name: ManifestName::from(SharedString::new_static("pyproject.toml")),
         }

@@ -211,7 +211,7 @@ impl<S: ApiCompatibleProviderSettings> Render for ApiCompatibleProviderConfigura
             v_flex()
                 .on_action(cx.listener(Self::save_api_key))
                 .child(Label::new(format!(
-                    "To use Zed's agent with an {provider_name}-compatible provider, you need to add an API key."
+                    "要让 Zed 智能体使用兼容 {provider_name} 的提供商，需要添加 API 密钥。"
                 )))
                 .child(
                     div()
@@ -219,11 +219,9 @@ impl<S: ApiCompatibleProviderSettings> Render for ApiCompatibleProviderConfigura
                         .child(self.api_key_editor.clone()),
                 )
                 .child(
-                    Label::new(format!(
-                        "You can also set the {env_var_name} environment variable and restart Zed.",
-                    ))
-                    .size(LabelSize::Small)
-                    .color(Color::Muted),
+                    Label::new(format!("你也可以设置 {env_var_name} 环境变量并重启 Zed。",))
+                        .size(LabelSize::Small)
+                        .color(Color::Muted),
                 )
                 .into_any()
         } else {
@@ -241,37 +239,35 @@ impl<S: ApiCompatibleProviderSettings> Render for ApiCompatibleProviderConfigura
                         .min_w_0()
                         .gap_1()
                         .child(Icon::new(IconName::Check).color(Color::Success))
-                        .child(
-                            div().w_full().overflow_x_hidden().text_ellipsis().child(Label::new(
-                                if env_var_set {
-                                    format!("API key set in {env_var_name} environment variable")
-                                } else {
-                                    format!("API key configured for {}", state.settings.api_url())
-                                },
-                            )),
-                        ),
+                        .child(div().w_full().overflow_x_hidden().text_ellipsis().child(
+                            Label::new(if env_var_set {
+                                format!("API 密钥已通过 {env_var_name} 环境变量设置")
+                            } else {
+                                format!("已为 {} 配置 API 密钥", state.settings.api_url())
+                            }),
+                        )),
                 )
                 .child(
                     h_flex().flex_shrink_0().child(
-                        Button::new("reset-api-key", "Reset API Key")
+                        Button::new("reset-api-key", "重置 API 密钥")
                             .label_size(LabelSize::Small)
                             .start_icon(Icon::new(IconName::Undo).size(IconSize::Small))
                             .layer(ElevationIndex::ModalSurface)
                             .when(env_var_set, |this| {
                                 this.tooltip(Tooltip::text(format!(
-                                    "To reset your API key, unset the {env_var_name} environment variable.",
+                                    "要重置 API 密钥，取消设置 {env_var_name} 环境变量。",
                                 )))
                             })
-                            .on_click(cx.listener(|this, _, window, cx| {
-                                this.reset_api_key(window, cx)
-                            })),
+                            .on_click(
+                                cx.listener(|this, _, window, cx| this.reset_api_key(window, cx)),
+                            ),
                     ),
                 )
                 .into_any()
         };
 
         if self.load_credentials_task.is_some() {
-            div().child(Label::new("Loading credentials…")).into_any()
+            div().child(Label::new("正在加载凭证…")).into_any()
         } else {
             v_flex()
                 .size_full()
@@ -279,7 +275,7 @@ impl<S: ApiCompatibleProviderSettings> Render for ApiCompatibleProviderConfigura
                 .child(api_key_section)
                 .child(
                     h_flex().w_full().justify_end().child(
-                        Button::new("remove-compatible-provider", "Remove Provider")
+                        Button::new("remove-compatible-provider", "移除提供商")
                             .style(ButtonStyle::OutlinedGhost)
                             .label_size(LabelSize::Small)
                             .start_icon(

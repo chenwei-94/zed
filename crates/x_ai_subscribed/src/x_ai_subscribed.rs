@@ -194,8 +194,7 @@ impl State {
                             log::error!("SuperGrok sign-in failed to persist credentials: {err:?}");
                             this.update(cx, |state, cx| {
                                 state.sign_in_task = None;
-                                state.last_auth_error =
-                                    Some("Failed to save credentials. Please try again.".into());
+                                state.last_auth_error = Some("保存凭据失败。请重试。".into());
                                 cx.notify();
                             })
                             .log_err();
@@ -206,7 +205,7 @@ impl State {
                     log::error!("SuperGrok sign-in failed: {err:?}");
                     this.update(cx, |state, cx| {
                         state.sign_in_task = None;
-                        state.last_auth_error = Some("Sign-in failed. Please try again.".into());
+                        state.last_auth_error = Some("登录失败。请重试。".into());
                         cx.notify();
                     })
                     .log_err();
@@ -399,7 +398,7 @@ fn supported_thinking_effort_levels(model: &SuperGrokModel) -> Vec<LanguageModel
                 ReasoningEffort::Low => ("Low", "low"),
                 ReasoningEffort::Medium => ("Medium", "medium"),
                 ReasoningEffort::High => ("High", "high"),
-                ReasoningEffort::XHigh => ("Extra High", "xhigh"),
+                ReasoningEffort::XHigh => ("极高", "xhigh"),
                 ReasoningEffort::Max => return None,
             };
 
@@ -683,9 +682,8 @@ async fn get_fresh_credentials(
                             .update(cx, |s, cx| {
                                 s.refresh_task = None;
                                 s.credentials = None;
-                                s.last_auth_error = Some(
-                                    "Your SuperGrok session has expired. Sign in again.".into(),
-                                );
+                                s.last_auth_error =
+                                    Some("SuperGrok 会话已过期。请重新登录。".into());
                                 cx.notify();
                             })
                             .ok();

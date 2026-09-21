@@ -3394,7 +3394,7 @@ fi
     );
     for command in script_commands.into_values() {
         script.push_str(&command_to_shell_string(&command));
-        script.push_str("\ncommand_status=$?\n");
+        script.push_str("command_status=$?");
         script.push_str("[ \"$command_status\" -eq 0 ] || exit \"$command_status\"\n");
     }
     script.push_str(

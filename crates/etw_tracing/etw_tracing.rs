@@ -62,13 +62,13 @@ fn show_etw_notification(cx: &mut App, message: impl Into<gpui::SharedString>) {
 fn show_etw_status_notification(cx: &mut App, status: Result<StatusMessage>) {
     match status {
         Ok(StatusMessage::Stopped { output_path }) => {
-            let message = format!("ETW trace saved to {}", output_path.display());
+            let message = format!("ETW 跟踪已保存到 {}", output_path.display());
             show_app_notification(NotificationId::unique::<EtwNotification>(), cx, move |cx| {
                 let message = message.clone();
                 let output_path = output_path.clone();
                 cx.new(|cx| {
                     MessageNotification::new(message, cx)
-                        .primary_message("Show in File Manager")
+                        .primary_message("在文件管理器中显示")
                         .primary_on_click(move |_window, cx| {
                             cx.reveal_path(&output_path);
                             cx.emit(DismissEvent);
@@ -77,16 +77,16 @@ fn show_etw_status_notification(cx: &mut App, status: Result<StatusMessage>) {
             });
         }
         Ok(StatusMessage::Cancelled) => {
-            show_etw_notification(cx, "ETW recording cancelled");
+            show_etw_notification(cx, "ETW 录制已取消");
         }
         Ok(StatusMessage::Error { message }) => {
-            show_etw_notification(cx, format!("ETW recording failed: {message}"));
+            show_etw_notification(cx, format!("ETW 录制失败：{message}"));
         }
         Ok(StatusMessage::Started) => {
-            show_etw_notification(cx, "ETW recording ended unexpectedly");
+            show_etw_notification(cx, "ETW 录制意外结束");
         }
         Err(error) => {
-            show_etw_notification(cx, format!("Failed to complete ETW recording: {error:#}"));
+            show_etw_notification(cx, format!("完成 ETW 录制失败：{error:#}"));
         }
     }
 }
@@ -113,7 +113,7 @@ pub fn init(cx: &mut App) {
 
 fn prompt_for_etw_output_path(cx: &mut App) {
     let Some(session) = cx.global_mut::<GlobalEtwSession>().0.as_mut() else {
-        show_etw_notification(cx, "No active ETW recording to stop");
+        show_etw_notification(cx, "没有正在进行的 ETW 录制可停止");
         return;
     };
     match &session.state {
@@ -121,11 +121,11 @@ fn prompt_for_etw_output_path(cx: &mut App) {
             session.state = EtwSessionState::ChoosingOutputPath;
         }
         EtwSessionState::ChoosingOutputPath => {
-            show_etw_notification(cx, "ETW recording is already waiting for a save location");
+            show_etw_notification(cx, "ETW 录制已在等待保存位置");
             return;
         }
         EtwSessionState::Stopping => {
-            show_etw_notification(cx, "ETW recording is already stopping");
+            show_etw_notification(cx, "ETW 录制已在停止中");
             return;
         }
     }
@@ -138,7 +138,7 @@ fn prompt_for_etw_output_path(cx: &mut App) {
             Ok(None) => resume_etw_recording(cx),
             Err(error) => {
                 resume_etw_recording(cx);
-                show_etw_notification(cx, format!("Failed to pick save location: {error:#}"));
+                show_etw_notification(cx, format!("选择保存位置失败：{error:#}"));
             }
         });
     })
@@ -159,11 +159,11 @@ fn save_etw_recording(output_path: PathBuf, cx: &mut App) {
     match send_json(&mut session.writer, &command) {
         Ok(()) => {
             session.state = EtwSessionState::Stopping;
-            show_etw_notification(cx, "Stopping ETW recording...");
+            show_etw_notification(cx, "正在停止 ETW 录制…");
         }
         Err(error) => {
             session.state = EtwSessionState::Recording;
-            show_etw_notification(cx, format!("Failed to stop ETW recording: {error:#}"));
+            show_etw_notification(cx, format!("停止 ETW 录制失败：{error:#}"));
         }
     }
 }
@@ -179,29 +179,29 @@ fn resume_etw_recording(cx: &mut App) {
 
 fn cancel_etw_recording(cx: &mut App) {
     let Some(session) = cx.global_mut::<GlobalEtwSession>().0.as_mut() else {
-        show_etw_notification(cx, "No active ETW recording to cancel");
+        show_etw_notification(cx, "没有正在进行的 ETW 录制可取消");
         return;
     };
     if matches!(&session.state, EtwSessionState::Stopping) {
-        show_etw_notification(cx, "ETW recording is already stopping");
+        show_etw_notification(cx, "ETW 录制已在停止中");
         return;
     }
 
     match send_json(&mut session.writer, &Command::Cancel) {
         Ok(()) => {
             session.state = EtwSessionState::Stopping;
-            show_etw_notification(cx, "Cancelling ETW recording...");
+            show_etw_notification(cx, "正在取消 ETW 录制…");
         }
         Err(error) => {
             session.state = EtwSessionState::Recording;
-            show_etw_notification(cx, format!("Failed to cancel ETW recording: {error:#}"));
+            show_etw_notification(cx, format!("取消 ETW 录制失败：{error:#}"));
         }
     }
 }
 
 fn start_etw_recording(cx: &mut App, heap_pid: Option<u32>) {
     if cx.global::<GlobalEtwSession>().0.is_some() {
-        show_etw_notification(cx, "ETW recording is already in progress");
+        show_etw_notification(cx, "ETW 录制已在进行中");
         return;
     }
     cx.spawn(async move |cx| {
@@ -213,7 +213,7 @@ fn start_etw_recording(cx: &mut App, heap_pid: Option<u32>) {
             Ok(session) => session,
             Err(error) => {
                 cx.update(|cx| {
-                    show_etw_notification(cx, format!("Failed to start ETW recording: {error:#}"));
+                    show_etw_notification(cx, format!("启动 ETW 录制失败：{error:#}"));
                 });
                 return;
             }
@@ -221,7 +221,7 @@ fn start_etw_recording(cx: &mut App, heap_pid: Option<u32>) {
 
         cx.update(|cx| {
             cx.global_mut::<GlobalEtwSession>().0 = Some(handle);
-            show_etw_notification(cx, "ETW recording started");
+            show_etw_notification(cx, "ETW 录制已开始");
         });
 
         let status = cx
@@ -328,7 +328,7 @@ fn wpr_error_context(hresult: windows_core::HRESULT, source: &windows_core::IUnk
             }
             for (label, getter) in [
                 ("Element type", info.GetElementType()),
-                ("Element ID", info.GetElementId()),
+                ("元素 ID", info.GetElementId()),
                 ("Description", info.GetDescription()),
             ] {
                 if let Ok(value) = getter

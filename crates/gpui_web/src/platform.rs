@@ -822,9 +822,7 @@ fn show_graphics_unavailable_message(browser_window: &web_sys::Window, error: &a
     let Ok(message) = document.create_element("p") else {
         return;
     };
-    message.set_text_content(Some(&format!(
-        "Failed to initialize browser graphics: {error}"
-    )));
+    message.set_text_content(Some(&format!("初始化浏览器图形失败：{error}")));
     body.append_child(&message).ok();
 }
 

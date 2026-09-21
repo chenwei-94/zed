@@ -240,7 +240,7 @@ pub fn init(cx: &mut App) {
             open_bundled_file(
                 workspace,
                 asset_str::<Assets>("licenses.md"),
-                "Open Source License Attribution",
+                "开源许可证声明",
                 "Markdown",
                 window,
                 cx,
@@ -297,7 +297,7 @@ pub fn init(cx: &mut App) {
             open_bundled_file(
                 workspace,
                 settings::default_semantic_token_rules(),
-                "Default Semantic Token Rules",
+                "默认语义标记规则",
                 "JSONC",
                 window,
                 cx,
@@ -309,7 +309,7 @@ pub fn init(cx: &mut App) {
             open_bundled_file(
                 workspace,
                 settings::default_settings(),
-                "Default Settings",
+                "默认设置",
                 "JSON",
                 window,
                 cx,
@@ -321,7 +321,7 @@ pub fn init(cx: &mut App) {
             open_bundled_file(
                 workspace,
                 settings::default_keymap(),
-                "Default Key Bindings",
+                "默认快捷键",
                 "JSON",
                 window,
                 cx,
@@ -676,9 +676,9 @@ fn initialize_file_watcher(fs: &dyn Fs, window: &mut Window, cx: &mut Context<Wo
         );
         let prompt = window.prompt(
             PromptLevel::Critical,
-            "Could not start inotify",
+            "无法启动 inotify",
             Some(&message),
-            &["Troubleshoot and Quit"],
+            &["排查问题并退出"],
             cx,
         );
         cx.spawn(async move |_, cx| {
@@ -707,9 +707,9 @@ fn initialize_file_watcher(fs: &dyn Fs, window: &mut Window, cx: &mut Context<Wo
         );
         let prompt = window.prompt(
             PromptLevel::Critical,
-            "Could not start ReadDirectoryChangesW",
+            "无法启动 ReadDirectoryChangesW",
             Some(&message),
-            &["Troubleshoot and Quit"],
+            &["排查问题并退出"],
             cx,
         );
         cx.spawn(async move |_, cx| {
@@ -757,9 +757,9 @@ fn show_software_emulation_warning_if_needed(
         );
         let prompt = window.prompt(
             PromptLevel::Critical,
-            "Unsupported GPU",
+            "不支持的 GPU",
             Some(&message),
-            &["Skip", "Troubleshoot and Quit"],
+            &["Skip", "排查问题并退出"],
             cx,
         );
         cx.spawn(async move |_, cx| {
@@ -986,7 +986,7 @@ fn register_actions(
                         buffer.set_text(json, cx);
                     });
                     workspace.update_in(cx, |workspace, window, cx| {
-                        let title = "Accessibility Tree".to_string();
+                        let title = "无障碍树".to_string();
                         let buffer = cx.new(|cx| {
                             MultiBuffer::singleton(buffer, cx).with_title(title.clone())
                         });
@@ -1279,7 +1279,7 @@ fn register_actions(
                         Toast::new(
                             NotificationId::unique::<RegisterZedScheme>(),
                             format!(
-                                "zed:// links will now open in {}.",
+                                "zed:// 链接现在将在 {} 中打开。",
                                 ReleaseChannel::global(cx).display_name()
                             ),
                         ),
@@ -1289,7 +1289,7 @@ fn register_actions(
                 Ok(())
             })
             .detach_and_prompt_err(
-                "Error registering zed:// scheme",
+                "注册 zed:// 协议时出错",
                 window,
                 cx,
                 |_, _, _| None,
@@ -1422,7 +1422,7 @@ fn register_actions(
         impl WorkspaceError for DebugError {
             fn primary_message(&self) -> SharedString {
                 SharedString::new_static(
-                    "Error: Prepare rename via rust-analyzer failed: No references found at position",
+                    "错误：通过 rust-analyzer 准备重命名失败：在该位置未找到引用",
                 )
             }
 
@@ -1625,14 +1625,14 @@ fn open_about_window(cx: &mut App) {
                             .child(Headline::new(self.message.clone()))
                             .when_some(self.commit.clone(), |this, commit| {
                                 this.child(
-                                    Label::new("Commit")
+                                    Label::new("提交")
                                         .color(Color::Muted)
                                         .size(LabelSize::XSmall),
                                 )
                                 .child(Label::new(commit).size(LabelSize::Small))
                             })
                             .child(
-                                Label::new("Version")
+                                Label::new("版本")
                                     .color(Color::Muted)
                                     .size(LabelSize::XSmall),
                             )
@@ -1650,7 +1650,7 @@ fn open_about_window(cx: &mut App) {
                                         window.remove_window();
                                     }))
                                     .child(
-                                        Button::new("ok", "OK")
+                                        Button::new("ok", "确定")
                                             .full_width()
                                             .style(ButtonStyle::OutlinedGhost)
                                             .toggle_state(ok_is_focused)
@@ -1670,7 +1670,7 @@ fn open_about_window(cx: &mut App) {
                                         },
                                     ))
                                     .child(
-                                        Button::new("copy", "Copy")
+                                        Button::new("copy", "复制")
                                             .full_width()
                                             .style(ButtonStyle::Tinted(TintColor::Accent))
                                             .toggle_state(copy_is_focused)
@@ -1717,7 +1717,7 @@ fn open_about_window(cx: &mut App) {
     cx.open_window(
         WindowOptions {
             titlebar: Some(TitlebarOptions {
-                title: Some("About Zed".into()),
+                title: Some("关于 Zed".into()),
                 appears_transparent: true,
                 traffic_light_position: Some(point(px(12.), px(12.))),
             }),
@@ -1775,7 +1775,7 @@ fn quit(_: &Quit, cx: &mut App) {
                 .update(cx, |_, window, cx| {
                     window.prompt(
                         PromptLevel::Info,
-                        "Are you sure you want to quit?",
+                        "确定要退出吗？",
                         None,
                         &["Quit", "Cancel"],
                         cx,
@@ -1854,8 +1854,7 @@ fn open_log_file(workspace: &mut Workspace, window: &mut Window, cx: &mut Contex
                                 cx.new(|cx| {
                                     MessageNotification::new(
                                         format!(
-                                            "Unable to access/open log file at path \
-                                                    {}: {e:#}",
+                                            "无法访问或打开路径 {} 的日志文件：{e:#}",
                                             paths::log_file().display()
                                         ),
                                         cx,
@@ -1890,7 +1889,7 @@ fn open_log_file(workspace: &mut Workspace, window: &mut Window, cx: &mut Contex
                     let mut editor = Editor::for_multibuffer(buffer, Some(project), window, cx);
                     editor.set_read_only(true);
                     editor.set_breadcrumb_header(format!(
-                        "Last {} lines in {}",
+                        "最后 {} 行，位于 {}",
                         MAX_LINES,
                         paths::log_file().display()
                     ));
@@ -1936,8 +1935,8 @@ fn notify_settings_errors(result: settings::SettingsParseResult, is_user: bool, 
             } else {
                 show_app_notification(id, cx, move |cx| {
                     cx.new(|cx| {
-                        MessageNotification::new(format!("Invalid user settings file\n{error}"), cx)
-                            .primary_message("Open Settings File")
+                        MessageNotification::new(format!("用户设置文件无效\n{error}"), cx)
+                            .primary_message("打开设置文件")
                             .primary_icon(IconName::Settings)
                             .primary_on_click(|window, cx| {
                                 window.dispatch_action(
@@ -1966,19 +1965,16 @@ fn notify_settings_errors(result: settings::SettingsParseResult, is_user: bool, 
             if !showed_parse_error {
                 show_app_notification(id, cx, move |cx| {
                     cx.new(|cx| {
-                        MessageNotification::new(
-                            format!(
-                                "Failed to migrate settings\n\
-                                {err}"
-                            ),
-                            cx,
-                        )
-                        .primary_message("Open Settings File")
-                        .primary_icon(IconName::Settings)
-                        .primary_on_click(|window, cx| {
-                            window.dispatch_action(zed_actions::OpenSettingsFile.boxed_clone(), cx);
-                            cx.emit(DismissEvent);
-                        })
+                        MessageNotification::new(format!("迁移设置失败\n{err}"), cx)
+                            .primary_message("打开设置文件")
+                            .primary_icon(IconName::Settings)
+                            .primary_on_click(|window, cx| {
+                                window.dispatch_action(
+                                    zed_actions::OpenSettingsFile.boxed_clone(),
+                                    cx,
+                                );
+                                cx.emit(DismissEvent);
+                            })
                     })
                 });
             }
@@ -2006,11 +2002,11 @@ fn init_global_config_error_notifications(cx: &mut App) {
             match result {
                 Ok(_) => dismiss_app_notification(&id, cx),
                 Err(error) => {
-                    let message = format!("Invalid global {file_kind} file\n{error}");
+                    let message = format!("全局 {file_kind} 文件无效\n{error}");
                     show_app_notification(id, cx, move |cx| {
                         cx.new(|cx| {
                             MessageNotification::new(message.clone(), cx)
-                                .primary_message("Open File")
+                                .primary_message("打开文件")
                                 .primary_icon(IconName::Settings)
                                 .primary_on_click(move |window, cx| {
                                     on_click(window, cx);
@@ -2097,7 +2093,7 @@ pub fn watch_user_agents_md(fs: Arc<dyn fs::Fs>, cx: &mut App) {
         UserAgentsMdState::Error(message) => {
             let path = paths::agents_file().display().to_string();
             log::error!("Failed to load user AGENTS.md from {path}: {message}");
-            let body = format!("Failed to load {path}\n{message}");
+            let body = format!("加载 {path} 失败\n{message}");
             let notification_id = notification_id.clone();
             show_app_notification(notification_id, cx, move |cx| {
                 let body = body.clone();
@@ -2256,11 +2252,11 @@ fn show_keymap_file_json_error(
     cx: &mut App,
 ) {
     let message: SharedString =
-        format!("JSON parse error in keymap file. Bindings not reloaded.\n\n{error}").into();
+        format!("键位映射文件存在 JSON 解析错误。未重新加载键位绑定。\n\n{error}").into();
     show_app_notification(notification_id, cx, move |cx| {
         cx.new(|cx| {
             MessageNotification::new(message.clone(), cx)
-                .primary_message("Open Keymap File")
+                .primary_message("打开键位映射文件")
                 .primary_icon(IconName::Settings)
                 .primary_on_click(|window, cx| {
                     window.dispatch_action(zed_actions::OpenKeymapFile.boxed_clone(), cx);
@@ -2278,7 +2274,7 @@ fn show_keymap_file_load_error(
     show_markdown_app_notification(
         notification_id,
         error_message,
-        "Open Keymap File".into(),
+        "打开键位映射文件".into(),
         |window, cx| {
             window.dispatch_action(zed_actions::OpenKeymapFile.boxed_clone(), cx);
             cx.emit(DismissEvent);
@@ -2337,7 +2333,7 @@ fn reload_keymaps(cx: &mut App, mut user_key_bindings: Vec<KeyBinding>) {
     // On Windows, this is set in the `update_jump_list` method of the `HistoryManager`.
     #[cfg(not(target_os = "windows"))]
     cx.set_dock_menu(vec![gpui::MenuItem::action(
-        "New Window",
+        "新建窗口",
         workspace::NewWindow,
     )]);
     // todo: nicer api here?
@@ -2646,7 +2642,7 @@ fn open_local_file(
         struct NoOpenFolders;
 
         workspace.show_notification(NotificationId::unique::<NoOpenFolders>(), cx, |cx| {
-            cx.new(|cx| MessageNotification::new("This project has no folders open.", cx))
+            cx.new(|cx| MessageNotification::new("此项目没有打开的文件夹。", cx))
         });
         None
     }
@@ -8303,7 +8299,7 @@ mod tests {
         cx.get_menus()
             .expect("reload_keymaps should populate the menu bar")
             .iter()
-            .find(|menu| menu.name == "View")
+            .find(|menu| menu.name == "视图")
             .expect("expected a View menu")
             .items
             .iter()

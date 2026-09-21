@@ -49,7 +49,7 @@ pub fn init(app_state: Arc<AppState>, cx: &mut App) {
                 ..Default::default()
             },
             |window, cx| {
-                window.set_window_title("Debug Filesystem Watching");
+                window.set_window_title("调试文件系统监视");
                 let view = cx.new(|cx| WatcherDebug::new(app_state, window, cx));
                 window.activate_window();
                 view.focus_handle(cx).focus(window, cx);
@@ -76,7 +76,8 @@ struct Export {
     exclusion_scope: &'static str,
 }
 
-const EXCLUSION_SCOPE: &str = "Patterns Zed skips when scanning your open local projects. Excluded files may still produce watcher events.";
+const EXCLUSION_SCOPE: &str =
+    "Zed 扫描已打开的本地项目时跳过的模式。被排除的文件仍可能产生文件监视事件。";
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 enum WatcherTab {
@@ -90,27 +91,25 @@ impl WatcherTab {
 
     fn label(self) -> &'static str {
         match self {
-            Self::RawEvents => "Raw Events",
-            Self::WatchRoots => "Watch Roots",
-            Self::ScanExclusions => "Scan Exclusions",
+            Self::RawEvents => "原始事件",
+            Self::WatchRoots => "监视根目录",
+            Self::ScanExclusions => "扫描排除项",
         }
     }
 
     fn description(self) -> &'static str {
         match self {
-            Self::RawEvents => {
-                "Raw watcher notifications, oldest first. Times are shown in your local time zone."
-            }
-            Self::WatchRoots => "Live native and polling watch roots across the app.",
+            Self::RawEvents => "原始监视器通知，最早的在前。时间按你所在的本地时区显示。",
+            Self::WatchRoots => "应用中所有活动的原生与轮询监视根目录。",
             Self::ScanExclusions => EXCLUSION_SCOPE,
         }
     }
 
     fn empty_message(self) -> &'static str {
         match self {
-            Self::RawEvents => "Waiting for filesystem watcher events…",
-            Self::WatchRoots => "No watch roots.",
-            Self::ScanExclusions => "No local projects are open.",
+            Self::RawEvents => "正在等待文件系统监视器事件…",
+            Self::WatchRoots => "没有监视根目录。",
+            Self::ScanExclusions => "没有打开任何本地项目。",
         }
     }
 }
@@ -293,7 +292,7 @@ impl WatcherDebug {
             scan_exclusions.push_str(&worktree.root);
             scan_exclusions.push('\n');
             if worktree.file_scan_exclusions.is_empty() {
-                scan_exclusions.push_str("  (none)\n");
+                scan_exclusions.push_str("(none)");
             }
             for pattern in worktree.file_scan_exclusions {
                 scan_exclusions.push_str(&format!("  {pattern}\n"));
@@ -505,7 +504,7 @@ impl Render for WatcherDebug {
                     .bg(cx.theme().colors().elevated_surface_background)
                     .p(DynamicSpacing::Base04.rems(cx))
                     .child(
-                        Button::new("save-watcher-json", "Export as JSON")
+                        Button::new("save-watcher-json", "导出为 JSON")
                             .disabled(self.saving || self.recording.is_none())
                             .on_click(cx.listener(|this, _, _, cx| this.save(cx))),
                     ),

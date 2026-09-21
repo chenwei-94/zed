@@ -1301,7 +1301,7 @@ impl ApiError {
 pub fn parse_prompt_too_long(message: &str) -> Option<u64> {
     message
         .strip_prefix("prompt is too long: ")?
-        .split_once(" tokens")?
+        .split_once("tokens")?
         .0
         .parse()
         .ok()
@@ -1355,7 +1355,7 @@ pub fn completion_error_from_anthropic(
             status,
             retry_after,
         } => {
-            let message = format!("{provider}'s API rate limit exceeded");
+            let message = format!("{provider} 的 API 速率限制已超出");
             Error::from_provider_response(
                 provider,
                 Some(status),
@@ -1369,7 +1369,7 @@ pub fn completion_error_from_anthropic(
             status,
             retry_after,
         } => {
-            let message = format!("{provider}'s API servers are overloaded right now");
+            let message = format!("{provider} 的 API 服务器当前过载");
             Error::from_provider_response(
                 provider,
                 Some(status),

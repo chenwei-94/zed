@@ -2089,12 +2089,12 @@ impl Editor {
         cx: &mut Context<Workspace>,
     ) {
         Self::new_in_workspace(workspace, window, cx).detach_and_prompt_err(
-            "Failed to create buffer",
+            "创建缓冲区失败",
             window,
             cx,
             |e, _, _| match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
-                "The remote instance of Zed does not support this yet. It must be upgraded to {}",
+                "远程 Zed 实例尚不支持此功能。需要升级到 {}",
                 e.error_tag("required").unwrap_or("the latest version")
             )),
                 _ => None,
@@ -2162,10 +2162,10 @@ impl Editor {
             })?;
             anyhow::Ok(())
         })
-        .detach_and_prompt_err("Failed to create buffer", window, cx, |e, _, _| {
+        .detach_and_prompt_err("创建缓冲区失败", window, cx, |e, _, _| {
             match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
-                "The remote instance of Zed does not support this yet. It must be upgraded to {}",
+                "远程 Zed 实例尚不支持此功能。需要升级到 {}",
                 e.error_tag("required").unwrap_or("the latest version")
             )),
                 _ => None,
@@ -6702,7 +6702,7 @@ impl Editor {
                             let focus_handle = self.focus_handle.clone();
                             move |window, cx| {
                                 Tooltip::for_action_in(
-                                    "Toggle Code Actions",
+                                    "切换代码操作",
                                     &ToggleCodeActions {
                                         deployed_from_indicator: None,
                                         quick_launch: false,
@@ -6834,33 +6834,33 @@ impl Editor {
             .map(|(anchor, bp)| (anchor, Arc::from(bp)));
 
         let log_breakpoint_msg = if breakpoint.as_ref().is_some_and(|bp| bp.1.message.is_some()) {
-            "Edit Log Breakpoint"
+            "编辑日志断点"
         } else {
-            "Set Log Breakpoint"
+            "设置日志断点"
         };
 
         let condition_breakpoint_msg = if breakpoint
             .as_ref()
             .is_some_and(|bp| bp.1.condition.is_some())
         {
-            "Edit Condition Breakpoint"
+            "编辑条件断点"
         } else {
-            "Set Condition Breakpoint"
+            "设置条件断点"
         };
 
         let hit_condition_breakpoint_msg = if breakpoint
             .as_ref()
             .is_some_and(|bp| bp.1.hit_condition.is_some())
         {
-            "Edit Hit Condition Breakpoint"
+            "编辑命中条件断点"
         } else {
-            "Set Hit Condition Breakpoint"
+            "设置命中条件断点"
         };
 
         let set_breakpoint_msg = if breakpoint.as_ref().is_some() {
-            "Unset Breakpoint"
+            "取消断点"
         } else {
-            "Set Breakpoint"
+            "设置断点"
         };
 
         let run_to_cursor = command_palette_hooks::CommandPaletteFilter::try_global(cx)
@@ -6879,7 +6879,7 @@ impl Editor {
                 .context(focus_handle)
                 .when(run_to_cursor, |this| {
                     let weak_editor = weak_editor.clone();
-                    this.entry("Run to cursor", None, move |window, cx| {
+                    this.entry("运行到光标处", None, move |window, cx| {
                         weak_editor
                             .update(cx, |editor, cx| {
                                 editor.change_selections(None, window, cx, |s| {
@@ -7028,7 +7028,7 @@ impl Editor {
         } else {
             "unset"
         };
-        let mut primary_text = format!("Click to {primary_action_text}");
+        let mut primary_text = format!("点击以{primary_action_text}");
         if collides_with_existing && !breakpoint.is_disabled() {
             use std::fmt::Write;
             write!(primary_text, ", {alt_as_text}-click to disable").ok();
@@ -7072,7 +7072,7 @@ impl Editor {
                 Tooltip::with_meta_in(
                     primary_text.clone(),
                     None,
-                    "Right-click for more options",
+                    "右键单击查看更多选项",
                     &focus_handle,
                     window,
                     cx,
@@ -7521,7 +7521,7 @@ impl Editor {
         if target_display_point.row().as_f32() < scroll_top {
             let mut element = self
                 .render_edit_prediction_line_popover(
-                    "Jump to Edit",
+                    "跳转到编辑",
                     Some(IconName::ArrowUp),
                     window,
                     cx,
@@ -7540,7 +7540,7 @@ impl Editor {
         } else if (target_display_point.row().as_f32() + 1.) > scroll_bottom {
             let mut element = self
                 .render_edit_prediction_line_popover(
-                    "Jump to Edit",
+                    "跳转到编辑",
                     Some(IconName::ArrowDown),
                     window,
                     cx,
@@ -7558,7 +7558,7 @@ impl Editor {
             Some((element, origin))
         } else {
             self.render_edit_prediction_end_of_line_popover(
-                "Jump to Edit",
+                "跳转到编辑",
                 editor_snapshot,
                 visible_row_range,
                 target_display_point,
@@ -7975,7 +7975,7 @@ impl Editor {
                             .flex_1()
                             .gap_2()
                             .child(Icon::new(IconName::ZedPredict))
-                            .child(Label::new("Accept Terms of Service"))
+                            .child(Label::new("接受服务条款"))
                             .child(div().w_full())
                             .child(
                                 Icon::new(IconName::ArrowUpRight)
@@ -8163,7 +8163,7 @@ impl Editor {
                                         false,
                                     ))),
                             )
-                            .child(Label::new("Preview").into_any_element())
+                            .child(Label::new("预览").into_any_element())
                             .opacity(if has_completion { 1.0 } else { 0.4 }),
                     )
                 })
@@ -8215,7 +8215,7 @@ impl Editor {
                             Icon::new(IconName::ZedPredictUp)
                         },
                     )
-                    .child(Label::new("Jump to Edit")),
+                    .child(Label::new("跳转到编辑")),
             ),
 
             InlineCompletion::Edit {
@@ -16942,7 +16942,7 @@ impl Editor {
                 .ok();
             }
             Err(err) => {
-                let message = format!("Failed to copy permalink: {err}");
+                let message = format!("复制永久链接失败：{err}");
 
                 anyhow::Result::<()>::Err(err).log_err();
 
@@ -16997,7 +16997,7 @@ impl Editor {
                 .ok();
             }
             Err(err) => {
-                let message = format!("Failed to open permalink: {err}");
+                let message = format!("打开永久链接失败：{err}");
 
                 anyhow::Result::<()>::Err(err).log_err();
 
@@ -20965,9 +20965,9 @@ impl BreakpointPromptEditor {
             prompt.set_show_cursor_when_unfocused(false, cx);
             prompt.set_placeholder_text(
                 match edit_action {
-                    BreakpointPromptEditAction::Log => "Message to log when a breakpoint is hit. Expressions within {} are interpolated.",
-                    BreakpointPromptEditAction::Condition => "Condition when a breakpoint is hit. Expressions within {} are interpolated.",
-                    BreakpointPromptEditAction::HitCondition => "How many breakpoint hits to ignore",
+                    BreakpointPromptEditAction::Log => "断点命中时记录的消息。{} 内的表达式会被插值。",
+                    BreakpointPromptEditAction::Condition => "断点命中时的条件。{} 内的表达式会被插值。",
+                    BreakpointPromptEditAction::HitCondition => "忽略多少次断点命中",
                 },
                 cx,
             );
@@ -21129,8 +21129,8 @@ impl Render for MissingEditPredictionKeybindingTooltip {
                     v_flex()
                         .flex_1()
                         .text_ui_sm(cx)
-                        .child(Label::new("Conflict with Accept Keybinding"))
-                        .child("Your keymap currently overrides the default accept keybinding. To continue, assign one keybinding for the `editor::AcceptEditPrediction` action.")
+                        .child(Label::new("与接受快捷键冲突"))
+                        .child("你的键位映射当前覆盖了默认的接受快捷键。要继续，请为 `editor::AcceptEditPrediction` 动作指定一个快捷键。")
                 )
                 .child(
                     h_flex()
@@ -21138,10 +21138,10 @@ impl Render for MissingEditPredictionKeybindingTooltip {
                         .gap_1()
                         .items_end()
                         .w_full()
-                        .child(Button::new("open-keymap", "Assign Keybinding").size(ButtonSize::Compact).on_click(|_ev, window, cx| {
+                        .child(Button::new("open-keymap", "指定快捷键").size(ButtonSize::Compact).on_click(|_ev, window, cx| {
                             window.dispatch_action(zed_actions::OpenKeymap.boxed_clone(), cx)
                         }))
-                        .child(Button::new("see-docs", "See Docs").size(ButtonSize::Compact).on_click(|_ev, _window, cx| {
+                        .child(Button::new("see-docs", "查看文档").size(ButtonSize::Compact).on_click(|_ev, _window, cx| {
                             cx.open_url("https://zed.dev/docs/completions#edit-predictions-missing-keybinding");
                         })),
                 )
@@ -21182,13 +21182,13 @@ fn render_diff_hunk_controls(
         .occlude()
         .shadow_md()
         .child(if status.has_secondary_hunk() {
-            Button::new(("stage", row as u64), "Stage")
+            Button::new(("stage", row as u64), "暂存")
                 .alpha(if status.is_pending() { 0.66 } else { 1.0 })
                 .tooltip({
                     let focus_handle = editor.focus_handle(cx);
                     move |window, cx| {
                         Tooltip::for_action_in(
-                            "Stage Hunk",
+                            "暂存差异块",
                             &::git::ToggleStaged,
                             &focus_handle,
                             window,
@@ -21209,13 +21209,13 @@ fn render_diff_hunk_controls(
                     }
                 })
         } else {
-            Button::new(("unstage", row as u64), "Unstage")
+            Button::new(("unstage", row as u64), "取消暂存")
                 .alpha(if status.is_pending() { 0.66 } else { 1.0 })
                 .tooltip({
                     let focus_handle = editor.focus_handle(cx);
                     move |window, cx| {
                         Tooltip::for_action_in(
-                            "Unstage Hunk",
+                            "取消暂存差异块",
                             &::git::ToggleStaged,
                             &focus_handle,
                             window,
@@ -21237,12 +21237,12 @@ fn render_diff_hunk_controls(
                 })
         })
         .child(
-            Button::new(("restore", row as u64), "Restore")
+            Button::new(("restore", row as u64), "恢复")
                 .tooltip({
                     let focus_handle = editor.focus_handle(cx);
                     move |window, cx| {
                         Tooltip::for_action_in(
-                            "Restore Hunk",
+                            "恢复差异块",
                             &::git::Restore,
                             &focus_handle,
                             window,
@@ -21274,7 +21274,7 @@ fn render_diff_hunk_controls(
                             let focus_handle = editor.focus_handle(cx);
                             move |window, cx| {
                                 Tooltip::for_action_in(
-                                    "Next Hunk",
+                                    "下一个差异块",
                                     &GoToHunk,
                                     &focus_handle,
                                     window,
@@ -21310,7 +21310,7 @@ fn render_diff_hunk_controls(
                             let focus_handle = editor.focus_handle(cx);
                             move |window, cx| {
                                 Tooltip::for_action_in(
-                                    "Previous Hunk",
+                                    "上一个差异块",
                                     &GoToPreviousHunk,
                                     &focus_handle,
                                     window,

@@ -551,8 +551,8 @@ fn run() -> Result<()> {
     if args.system_specs {
         let path = app.path();
         let msg = [
-            "The `--system-specs` argument is not supported in the Zed CLI, only on Zed binary.",
-            "To retrieve the system specs on the command line, run the following command:",
+            "Zed CLI 不支持 `--system-specs` 参数，该参数仅在 Zed 二进制中支持。",
+            "要在命令行中获取系统信息，请运行以下命令：",
             &format!("{} --system-specs", path.display()),
         ];
         anyhow::bail!(msg.join("\n"));
@@ -850,17 +850,14 @@ fn prompt_open_behavior() -> Option<cli::CliBehaviorSetting> {
 
     let blue = console::Style::new().blue();
     let items = [
-        format!(
-            "Add to existing Zed window ({})",
-            blue.apply_to("zed --existing")
-        ),
-        format!("Open a new window ({})", blue.apply_to("zed --classic")),
+        format!("添加到现有 Zed 窗口（{}）", blue.apply_to("zed --existing")),
+        format!("打开新窗口（{}）", blue.apply_to("zed --classic")),
     ];
 
     let prompt = format!(
-        "Configure default behavior for {}\n{}",
+        "配置 {} 的默认行为\n{}",
         blue.apply_to("zed <path>"),
-        console::style("You can change this later in Zed settings"),
+        console::style("稍后可在 Zed 设置中更改"),
     );
 
     let selection = dialoguer::Select::new()

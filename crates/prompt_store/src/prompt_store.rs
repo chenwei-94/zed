@@ -66,7 +66,7 @@ pub enum BuiltInPrompt {
 impl BuiltInPrompt {
     pub fn title(&self) -> &'static str {
         match self {
-            Self::CommitMessage => "Commit message",
+            Self::CommitMessage => "提交信息",
         }
     }
 
@@ -81,7 +81,7 @@ impl BuiltInPrompt {
 impl std::fmt::Display for BuiltInPrompt {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::CommitMessage => write!(f, "Commit message"),
+            Self::CommitMessage => write!(f, "提交信息"),
         }
     }
 }

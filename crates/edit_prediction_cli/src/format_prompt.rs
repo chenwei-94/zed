@@ -68,7 +68,7 @@ pub async fn run_format_prompt(
     match args.provider {
         PredictionProvider::Teacher(_, zeta_format)
         | PredictionProvider::TeacherNonBatching(_, zeta_format) => {
-            step_progress.set_substatus("formatting teacher prompt");
+            step_progress.set_substatus("格式化教师提示词");
 
             let (editable_range, context_range) =
                 resolved_excerpt_ranges_for_format(prompt_inputs, zeta_format);
@@ -90,7 +90,7 @@ pub async fn run_format_prompt(
             });
         }
         PredictionProvider::TeacherJumps(_) | PredictionProvider::TeacherJumpsNonBatching(_) => {
-            step_progress.set_substatus("formatting teacher jumps prompt");
+            step_progress.set_substatus("格式化教师跳转提示词");
 
             let prompt = TeacherJumpsPrompt::format_prompt(example, args.related_files_budget)?;
             example.prompt = Some(ExamplePrompt {
@@ -102,7 +102,7 @@ pub async fn run_format_prompt(
             });
         }
         PredictionProvider::Zeta2(zeta_format) => {
-            step_progress.set_substatus("formatting zeta2 prompt");
+            step_progress.set_substatus("格式化 zeta2 提示词");
 
             let prompt = format_zeta_prompt(prompt_inputs, zeta_format);
             let prefill = zeta_prompt::get_prefill(prompt_inputs, zeta_format);
@@ -144,7 +144,7 @@ pub struct TeacherPrompt;
 
 impl TeacherPrompt {
     pub(crate) const EDITABLE_REGION_START: &str = "<|editable_region_start|>\n";
-    pub(crate) const EDITABLE_REGION_END: &str = "\n<|editable_region_end|>";
+    pub(crate) const EDITABLE_REGION_END: &str = "<|editable_region_end|>";
     pub(crate) const USER_CURSOR_MARKER: &str = "<|user_cursor|>";
     pub(crate) const NO_EDITS: &str = "NO_EDITS";
 

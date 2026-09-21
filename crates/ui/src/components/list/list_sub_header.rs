@@ -101,20 +101,17 @@ impl Component for ListSubHeader {
             .gap_6()
             .children(vec![
                 example_group_with_title(
-                    "Basic Sub-headers",
+                    "基础子标题",
                     vec![
+                        single_example("简单", ListSubHeader::new("Subsection").into_any_element()),
                         single_example(
-                            "Simple",
-                            ListSubHeader::new("Subsection").into_any_element(),
-                        ),
-                        single_example(
-                            "With Icon",
+                            "带图标",
                             ListSubHeader::new("Documents")
                                 .left_icon(Some(IconName::File))
                                 .into_any_element(),
                         ),
                         single_example(
-                            "With End Slot",
+                            "带末尾槽位",
                             ListSubHeader::new("Recent")
                                 .end_slot(Label::new("3").color(Color::Muted).into_any_element())
                                 .into_any_element(),
@@ -122,16 +119,16 @@ impl Component for ListSubHeader {
                     ],
                 ),
                 example_group_with_title(
-                    "States",
+                    "状态",
                     vec![
                         single_example(
-                            "Selected",
+                            "已选中",
                             ListSubHeader::new("Selected")
                                 .toggle_state(true)
                                 .into_any_element(),
                         ),
                         single_example(
-                            "Inset",
+                            "内嵌",
                             ListSubHeader::new("Inset Sub-header")
                                 .inset(true)
                                 .into_any_element(),

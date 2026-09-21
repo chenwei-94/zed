@@ -1426,7 +1426,7 @@ impl Render for PanelButtons {
                     let action = dock.toggle_action();
 
                     let tooltip: SharedString =
-                        format!("Close {} Dock", dock.position.label()).into();
+                        format!("关闭{}停靠面板", dock.position.label()).into();
 
                     (action, tooltip)
                 } else {
@@ -1455,7 +1455,7 @@ impl Render for PanelButtons {
                                         let is_current = position == dock_position;
                                         let panel = panel.clone();
                                         menu = menu.toggleable_entry(
-                                            format!("Dock {}", position.label()),
+                                            format!("停靠 {}", position.label()),
                                             is_current,
                                             IconPosition::Start,
                                             None,
@@ -1476,7 +1476,7 @@ impl Render for PanelButtons {
                                     let dock_for_flex = dock_for_menu.clone();
                                     let workspace_for_flex = workspace_for_menu.clone();
                                     menu = menu.toggleable_entry(
-                                        "Flex Width",
+                                        "弹性宽度",
                                         currently_flexible,
                                         IconPosition::Start,
                                         None,
@@ -1499,7 +1499,7 @@ impl Render for PanelButtons {
                                     let dock_for_fixed = dock_for_menu.clone();
                                     let workspace_for_fixed = workspace_for_menu.clone();
                                     menu = menu.toggleable_entry(
-                                        "Fixed Width",
+                                        "固定宽度",
                                         !currently_flexible,
                                         IconPosition::Start,
                                         None,

@@ -851,7 +851,7 @@ impl Sidebar {
 
         let filter_editor = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Search threads…", window, cx);
+            editor.set_placeholder_text("搜索会话…", window, cx);
             editor
         });
         let rename_editor = cx.new(|cx| Editor::single_line(window, cx));
@@ -2298,7 +2298,7 @@ impl Sidebar {
                         .size(IconSize::XSmall)
                         .color(Color::Muted),
                 )
-                .tooltip(Tooltip::text("Remote Project"))
+                .tooltip(Tooltip::text("远程项目"))
                 .into_any_element(),
         )
     }
@@ -2417,11 +2417,9 @@ impl Sidebar {
                         })
                         .when(waiting_thread_count > 0, |this| {
                             let tooltip_text = if waiting_thread_count == 1 {
-                                "1 thread is waiting for confirmation".to_string()
+                                "1 个会话正在等待确认".to_string()
                             } else {
-                                format!(
-                                    "{waiting_thread_count} threads are waiting for confirmation",
-                                )
+                                format!("{waiting_thread_count} 个会话正在等待确认",)
                             };
                             this.child(
                                 div()
@@ -2513,7 +2511,7 @@ impl Sidebar {
                             Color::Custom(cx.theme().colors().icon_placeholder.opacity(0.1)),
                         ))
                         .child(
-                            Label::new("No threads yet")
+                            Label::new("暂无会话")
                                 .size(LabelSize::Small)
                                 .color(Color::Placeholder),
                         ),
@@ -2559,7 +2557,7 @@ impl Sidebar {
             let key = key.clone();
             return button
                 .tooltip(move |_, cx| {
-                    Tooltip::for_action_in("Start New Agent Thread", &NewThread, &focus_handle, cx)
+                    Tooltip::for_action_in("新建智能体会话", &NewThread, &focus_handle, cx)
                 })
                 .on_click(cx.listener(move |this, _, window, cx| {
                     this.set_group_expanded(&key, true, cx);
@@ -2586,7 +2584,7 @@ impl Sidebar {
         )))
         .with_handle(menu_handle)
         .trigger_with_tooltip(button, move |_, cx| {
-            Tooltip::for_action_in("Start New Agent Thread", &NewThread, &focus_handle, cx)
+            Tooltip::for_action_in("新建智能体会话", &NewThread, &focus_handle, cx)
         })
         .anchor(gpui::Anchor::TopLeft)
         .on_open(Rc::new({
@@ -2617,7 +2615,7 @@ impl Sidebar {
                 window,
                 cx,
                 move |mut menu, _window, cx| {
-                    menu = menu.header("New Thread In…");
+                    menu = menu.header("在…中新建会话");
 
                     for (workspace, labels) in open_workspaces
                         .iter()
@@ -2682,7 +2680,7 @@ impl Sidebar {
                     });
 
                     if let Some(base_workspace) = base_workspace.filter(|_| !creation_blocked) {
-                        menu = menu.separator().submenu("Create New Worktree…", {
+                        menu = menu.separator().submenu("新建工作树…", {
                             let this = this.clone();
                             move |mut submenu, _window, submenu_cx| {
                                 let project = base_workspace.read(submenu_cx).project().clone();
@@ -2715,7 +2713,7 @@ impl Sidebar {
                                 );
                                 for target in targets {
                                     let label = format!(
-                                        "Based on {}",
+                                        "基于 {}",
                                         target.branch_label(
                                             has_multiple_repositories,
                                             current_branch.as_deref(),
@@ -2908,7 +2906,7 @@ impl Sidebar {
 
                         let menu = menu.when(show_multi_project_entries, |this| {
                             this.entry(
-                                "Open Project in New Window",
+                                "在新窗口中打开项目",
                                 Some(Box::new(workspace::MoveProjectToNewWindow)),
                                 {
                                     let project_group_key = project_group_key.clone();
@@ -2946,9 +2944,9 @@ impl Sidebar {
                                             .child(Label::new("-click").color(Color::Muted));
 
                                         let label = if has_threads {
-                                            "Focus Last Project"
+                                            "聚焦上一个项目"
                                         } else {
-                                            "Focus Project"
+                                            "聚焦项目"
                                         };
 
                                         h_flex()
@@ -2994,7 +2992,7 @@ impl Sidebar {
                         let menu = if open_workspaces.is_empty() {
                             menu
                         } else {
-                            let mut menu = menu.separator().header("Open Worktrees");
+                            let mut menu = menu.separator().header("已打开的工作树");
 
                             for (
                                 workspace_index,
@@ -3062,7 +3060,7 @@ impl Sidebar {
                                                     )
                                                     .icon_size(IconSize::Small)
                                                     .visible_on_hover(&row_group_name)
-                                                    .tooltip(Tooltip::text("Close Worktree"))
+                                                    .tooltip(Tooltip::text("关闭工作树"))
                                                     .on_click(move |_, window, cx| {
                                                         cx.stop_propagation();
                                                         window.prevent_default();
@@ -3119,7 +3117,7 @@ impl Sidebar {
 
                             this.separator()
                                 .item(
-                                    ContextMenuEntry::new("Move Up")
+                                    ContextMenuEntry::new("上移")
                                         .action(Box::new(MoveProjectUp))
                                         .disabled(!can_move_up)
                                         .handler(move |_window, cx| {
@@ -3134,7 +3132,7 @@ impl Sidebar {
                                         }),
                                 )
                                 .item(
-                                    ContextMenuEntry::new("Move Down")
+                                    ContextMenuEntry::new("下移")
                                         .action(Box::new(MoveProjectDown))
                                         .disabled(!can_move_down)
                                         .handler(move |_window, cx| {
@@ -3804,11 +3802,7 @@ impl Sidebar {
     }
 
     fn show_no_thread_summary_model_toast(workspace: Entity<Workspace>, cx: &mut App) {
-        Self::show_thread_title_toast(
-            workspace,
-            "No model is configured for summarizing thread titles.",
-            cx,
-        );
+        Self::show_thread_title_toast(workspace, "未配置用于汇总会话标题的模型。", cx);
     }
 
     fn regenerate_thread_title(
@@ -3901,11 +3895,7 @@ impl Sidebar {
                     }
                     Err(_) => {
                         if let Some(workspace) = this.active_workspace(cx) {
-                            Self::show_thread_title_toast(
-                                workspace,
-                                "Failed to regenerate thread title.",
-                                cx,
-                            );
+                            Self::show_thread_title_toast(workspace, "重新生成会话标题失败。", cx);
                         }
                     }
                 }
@@ -4276,7 +4266,7 @@ impl Sidebar {
                                             Toast::new(
                                                 NotificationId::unique::<RestoreWorktreeErrorToast>(
                                                 ),
-                                                format!("Failed to restore worktree: {error:#}"),
+                                                format!("恢复工作树失败：{error:#}"),
                                             )
                                             .autohide(),
                                             cx,
@@ -6319,7 +6309,7 @@ impl Sidebar {
                         let focus_handle = focus_handle.clone();
                         move |_window, cx| {
                             Tooltip::for_action_in(
-                                "Rename Thread",
+                                "重命名会话",
                                 &RenameSelectedThread,
                                 &focus_handle,
                                 cx,
@@ -6345,7 +6335,7 @@ impl Sidebar {
                             .icon_size(IconSize::Small)
                             .icon_color(Color::Error)
                             .style(ButtonStyle::Tinted(TintColor::Error))
-                            .tooltip(Tooltip::text("Stop Generation"))
+                            .tooltip(Tooltip::text("停止生成"))
                             .on_click(cx.listener(move |this, _, _window, cx| {
                                 this.stop_thread(&thread_id_for_actions, cx);
                             }))
@@ -6357,7 +6347,7 @@ impl Sidebar {
                         Some(DraftKind::WithContent) => Some(
                             IconButton::new("discard_thread", IconName::Close)
                                 .icon_size(IconSize::Small)
-                                .tooltip(Tooltip::text("Discard Draft"))
+                                .tooltip(Tooltip::text("放弃草稿"))
                                 .on_click({
                                     let thread_workspace = thread_workspace.clone();
                                     cx.listener(move |this, _, window, cx| {
@@ -6378,7 +6368,7 @@ impl Sidebar {
                                     let focus_handle = focus_handle.clone();
                                     move |_window, cx| {
                                         Tooltip::for_action_in(
-                                            "Archive Thread",
+                                            "归档会话",
                                             &ArchiveSelectedThread,
                                             &focus_handle,
                                             cx,
@@ -6465,7 +6455,7 @@ impl Sidebar {
                     let rename_title = rename_title.clone();
                     let folder_paths = folder_paths.clone();
                     ContextMenu::build(_window, cx, move |mut menu, _window, _cx| {
-                        menu = menu.entry("Rename Title", None, {
+                        menu = menu.entry("重命名标题", None, {
                             let sidebar = sidebar.clone();
                             let rename_title = rename_title.clone();
                             move |window, cx| {
@@ -6484,7 +6474,7 @@ impl Sidebar {
                         });
 
                         if is_zed_thread {
-                            menu = menu.entry("Regenerate Thread Title", None, {
+                            menu = menu.entry("重新生成会话标题", None, {
                                 let session_id = session_id.clone();
                                 let sidebar = sidebar.clone();
                                 let thread_workspace = thread_workspace.clone();
@@ -6506,7 +6496,7 @@ impl Sidebar {
                         }
 
                         if can_open_as_markdown {
-                            menu = menu.entry("Open Thread as Markdown", None, {
+                            menu = menu.entry("以 Markdown 打开会话", None, {
                                 let session_id = session_id.clone();
                                 let markdown_title = markdown_title.clone();
                                 let thread_workspace = thread_workspace.clone();
@@ -6543,7 +6533,7 @@ impl Sidebar {
                             });
                         }
 
-                        menu.separator().entry("Archive Thread", None, {
+                        menu.separator().entry("归档会话", None, {
                             let session_id = session_id.clone();
                             move |window, cx| {
                                 sidebar
@@ -6625,7 +6615,7 @@ impl Sidebar {
                             let focus_handle = focus_handle.clone();
                             move |_window, cx| {
                                 Tooltip::for_action_in(
-                                    "Close Terminal",
+                                    "关闭终端",
                                     &ArchiveSelectedThread,
                                     &focus_handle,
                                     cx,
@@ -6663,7 +6653,7 @@ impl Sidebar {
                 let sidebar = sidebar.clone();
                 let rename_title = rename_title.clone();
                 ContextMenu::build(window, cx, move |menu, _window, _cx| {
-                    menu.entry("Rename Title", None, move |window, cx| {
+                    menu.entry("重命名标题", None, move |window, cx| {
                         sidebar
                             .update(cx, |sidebar, cx| {
                                 sidebar.start_renaming_entry(
@@ -6730,7 +6720,7 @@ impl Sidebar {
                 IconButton::new("open-project", IconName::FolderAdd)
                     .icon_size(IconSize::Small)
                     .selected_style(ButtonStyle::Tinted(TintColor::Accent)),
-                |_window, cx| Tooltip::for_action("Add Project", &OpenRecent::default(), cx),
+                |_window, cx| Tooltip::for_action("添加项目", &OpenRecent::default(), cx),
             )
             .offset(gpui::Point {
                 x: px(-2.0),
@@ -7282,9 +7272,9 @@ impl Sidebar {
     fn render_no_results(&self, cx: &mut Context<Self>) -> impl IntoElement {
         let has_query = self.has_filter_query(cx);
         let message = if has_query {
-            "No threads match your search."
+            "没有符合搜索条件的会话。"
         } else {
-            "No threads yet"
+            "暂无会话"
         };
 
         v_flex()
@@ -7302,7 +7292,7 @@ impl Sidebar {
 
     fn render_empty_state(&self, cx: &mut Context<Self>) -> impl IntoElement {
         ProjectEmptyState::new(
-            "Threads Sidebar",
+            "会话侧边栏",
             self.focus_handle(cx),
             KeyBinding::for_action(&workspace::Open::default(), cx),
         )
@@ -7387,7 +7377,7 @@ impl Sidebar {
                                 this.child(
                                     IconButton::new("clear_filter", IconName::Close)
                                         .icon_size(IconSize::Small)
-                                        .tooltip(Tooltip::text("Clear Search"))
+                                        .tooltip(Tooltip::text("清除搜索"))
                                         .on_click(cx.listener(|this, _, window, cx| {
                                             this.reset_filter_editor_text(window, cx);
                                             this.update_entries(cx);
@@ -7446,7 +7436,7 @@ impl Sidebar {
                                 h_flex()
                                     .gap_2()
                                     .justify_between()
-                                    .child(Label::new("Toggle Sidebar"))
+                                    .child(Label::new("切换侧边栏"))
                                     .child(KeyBinding::for_action(&ToggleWorkspaceSidebar, cx)),
                             )
                             .child(
@@ -7456,7 +7446,7 @@ impl Sidebar {
                                     .border_t_1()
                                     .border_color(cx.theme().colors().border_variant)
                                     .justify_between()
-                                    .child(Label::new("Focus Sidebar"))
+                                    .child(Label::new("聚焦侧边栏"))
                                     .child(KeyBinding::for_action(&FocusWorkspaceSidebar, cx)),
                             )
                             .into_any_element()
@@ -7488,9 +7478,9 @@ impl Sidebar {
                     .toggle_state(is_archive)
                     .tooltip(move |_, cx| {
                         let label = if is_archive {
-                            "Hide Thread History"
+                            "隐藏会话历史"
                         } else {
-                            "Show Thread History"
+                            "显示会话历史"
                         };
                         Tooltip::for_action(label, &ToggleThreadHistory, cx)
                     })
@@ -7582,12 +7572,12 @@ impl Sidebar {
         });
         render_import_onboarding_banner(
             "acp",
-            "Looking for threads from external agents?",
-            "Import threads from agents like Claude Agent, Codex, and more, whether started in Zed or another client.",
+            "在寻找来自外部智能体的会话？",
+            "从 Claude Agent、Codex 等智能体导入会话，无论其是在 Zed 还是其他客户端中启动的。",
             if verbose_labels {
-                "Import Threads from External Agents"
+                "从外部智能体导入会话"
             } else {
-                "Import Threads"
+                "导入会话"
             },
             |_, _window, cx| AcpThreadImportOnboarding::dismiss(cx),
             on_import,
@@ -7611,10 +7601,7 @@ impl Sidebar {
             .map(SharedString::as_str)
             .join(" and ");
 
-        let description = format!(
-            "Import threads from {} to continue where you left off.",
-            channel_names
-        );
+        let description = format!("从 {} 导入会话，从中断处继续。", channel_names);
 
         let on_import = cx.listener(|this, _, _window, cx| {
             telemetry::event!(
@@ -7634,12 +7621,12 @@ impl Sidebar {
         });
         render_import_onboarding_banner(
             "channel",
-            "Threads found from other channels",
+            "从其他频道发现的会话",
             description,
             if verbose_labels {
-                "Import Threads from Other Channels"
+                "从其他频道导入会话"
             } else {
-                "Import Threads"
+                "导入会话"
             },
             |_, _window, cx| CrossChannelImportOnboarding::dismiss(cx),
             on_import,
@@ -8195,9 +8182,8 @@ pub fn dump_workspace_info(
             buffer.set_text(output, cx);
         });
 
-        let buffer = cx.new(|cx| {
-            editor::MultiBuffer::singleton(buffer, cx).with_title("Workspace Info".into())
-        });
+        let buffer =
+            cx.new(|cx| editor::MultiBuffer::singleton(buffer, cx).with_title("工作区信息".into()));
 
         _this.update_in(cx, |workspace, window, cx| {
             workspace.add_item_to_active_pane(
@@ -8206,7 +8192,7 @@ pub fn dump_workspace_info(
                         editor::Editor::for_multibuffer(buffer, Some(project.clone()), window, cx);
                     editor.set_read_only(true);
                     editor.set_should_serialize(false, cx);
-                    editor.set_breadcrumb_header("Workspace Info".into());
+                    editor.set_breadcrumb_header("工作区信息".into());
                     editor
                 })),
                 None,
@@ -8279,7 +8265,7 @@ fn dump_single_workspace(workspace: &Workspace, output: &mut String, cx: &gpui::
         if panel_workspace_id != workspace_db_id {
             writeln!(
                 output,
-                "  \u{26a0} workspace ID mismatch! panel has {panel_workspace_id:?}, workspace has {workspace_db_id:?}"
+                "  ⚠ workspace ID mismatch! panel has {panel_workspace_id:?}, workspace has {workspace_db_id:?}"
             )
             .ok();
         }

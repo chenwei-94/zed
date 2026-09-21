@@ -171,14 +171,11 @@ impl Component for TabBar {
             .gap_6()
             .children(vec![
                 example_group_with_title(
-                    "Basic Usage",
+                    "基础用法",
                     vec![
+                        single_example("空标签栏", TabBar::new("empty_tab_bar").into_any_element()),
                         single_example(
-                            "Empty TabBar",
-                            TabBar::new("empty_tab_bar").into_any_element(),
-                        ),
-                        single_example(
-                            "With Tabs",
+                            "带标签页",
                             TabBar::new("tab_bar_with_tabs")
                                 .child(Tab::new("tab1"))
                                 .child(Tab::new("tab2"))
@@ -188,15 +185,15 @@ impl Component for TabBar {
                     ],
                 ),
                 example_group_with_title(
-                    "With Start and End Children",
+                    "带起始和末尾子项",
                     vec![single_example(
-                        "Full TabBar",
+                        "完整标签栏",
                         TabBar::new("full_tab_bar")
-                            .start_child(Button::new("start_button", "Start"))
+                            .start_child(Button::new("start_button", "开始"))
                             .child(Tab::new("tab1"))
                             .child(Tab::new("tab2"))
                             .child(Tab::new("tab3"))
-                            .end_child(Button::new("end_button", "End"))
+                            .end_child(Button::new("end_button", "结束"))
                             .into_any_element(),
                     )],
                 ),

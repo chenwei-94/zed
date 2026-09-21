@@ -473,7 +473,7 @@ impl RemoteConnection for SshRemoteConnection {
         cx: &mut AsyncApp,
     ) -> Task<Result<i32>> {
         const VARS: [&str; 3] = ["RUST_LOG", "RUST_BACKTRACE", "ZED_GENERATE_MINIDUMPS"];
-        delegate.set_status(Some("Starting proxy"), cx);
+        delegate.set_status(Some("正在启动代理"), cx);
 
         let Some(remote_binary_path) = self.remote_binary_path.clone() else {
             return Task::ready(Err(anyhow!("Remote binary path not set")));
@@ -652,7 +652,7 @@ impl SshRemoteConnection {
 
         #[cfg(not(windows))]
         let (socket, master_process_option) = if let Some(reused_path) = reused_socket {
-            delegate.set_status(Some("Connecting (reusing session)"), cx);
+            delegate.set_status(Some("正在连接（复用会话）"), cx);
             log::info!("reusing existing ControlMaster, skipping authentication");
             let socket = SshSocket::new(connection_options, reused_path).await?;
             (socket, None)
@@ -986,7 +986,7 @@ impl SshRemoteConnection {
             }
         }
 
-        delegate.set_status(Some("Downloading remote development server on host"), cx);
+        delegate.set_status(Some("正在主机上下载远程开发服务器"), cx);
 
         let connection_timeout = self
             .socket
@@ -1092,7 +1092,7 @@ impl SshRemoteConnection {
         let size = src_stat.len();
 
         let t0 = Instant::now();
-        delegate.set_status(Some("Uploading remote development server"), cx);
+        delegate.set_status(Some("正在上传远程开发服务器"), cx);
         log::info!(
             "uploading remote development server to {:?} ({}kb)",
             tmp_path,
@@ -1112,7 +1112,7 @@ impl SshRemoteConnection {
         delegate: &Arc<dyn RemoteClientDelegate>,
         cx: &mut AsyncApp,
     ) -> Result<()> {
-        delegate.set_status(Some("Extracting remote development server"), cx);
+        delegate.set_status(Some("正在解压远程开发服务器"), cx);
 
         if self.ssh_platform.os.is_windows() {
             self.extract_server_binary_windows(dst_path, tmp_path).await
@@ -1653,7 +1653,7 @@ fn parse_port_forward_spec(spec: &str) -> Result<SshPortForwardOption> {
 
 impl SshConnectionOptions {
     pub fn parse_command_line(input: &str) -> Result<Self> {
-        let input = input.trim_start_matches("ssh ");
+        let input = input.trim_start_matches("ssh");
         let mut hostname: Option<String> = None;
         let mut username: Option<String> = None;
         let mut port: Option<u16> = None;

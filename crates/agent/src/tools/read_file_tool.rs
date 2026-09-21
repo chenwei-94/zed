@@ -229,12 +229,12 @@ impl AgentTool for ReadFileTool {
         {
             match (input.start_line, input.end_line) {
                 (Some(start), Some(end)) => {
-                    format!("Read file `{path}` (lines {}-{})", start, end,)
+                    format!("读取文件 `{path}`（第 {}-{} 行）", start, end,)
                 }
                 (Some(start), None) => {
-                    format!("Read file `{path}` (from line {})", start)
+                    format!("读取文件 `{path}`（从第 {} 行起）", start)
                 }
-                _ => format!("Read file `{path}`"),
+                _ => format!("读取文件 `{path}`"),
             }
             .into()
         } else {

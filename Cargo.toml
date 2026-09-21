@@ -1105,10 +1105,17 @@ time_format = { codegen-units = 1 }
 ui_input = { codegen-units = 1 }
 zed_actions = { codegen-units = 1 }
 
+# 发布构建配置（汉化分支调整）：**性能优先、体积可控、多线程**。
+#
+# 原配置 `debug = "limited"` 是体积主因 —— 实测 2.1 GB 产物里
+# `.debug_str` 813 MB + `.debug_info` 483 MB + `.debug_ranges` 171 MB + `.debug_line` 152 MB
+# 合计约 1.65 GB 全是调试信息，真正代码（`.text`）只有 219 MB。
 [profile.release]
-debug = "limited"
-lto = "thin"
-codegen-units = 1
+debug = false          # 不生成调试信息，体积主因
+strip = "symbols"      # 链接后剥离符号表
+opt-level = 3          # 性能优先（改 "s" 更小但编辑器会变慢）
+lto = "thin"           # thin LTO 可并行；fat LTO 更小却是单线程、编译慢数倍
+codegen-units = 16     # 多线程 codegen（原为 1，全量构建被拖到很久）
 
 [profile.release.package]
 zed = { codegen-units = 16 }

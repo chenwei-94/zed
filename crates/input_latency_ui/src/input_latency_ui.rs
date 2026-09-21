@@ -368,7 +368,7 @@ fn format_report(data: &InputLatencyReportData) -> String {
         }
 
         report.push('\n');
-        report.push_str("Distribution:\n");
+        report.push_str("Distribution:");
         let bar_width = 30usize;
         let max_count = coalesce.max();
         for n in 1..=max_count {

@@ -60,13 +60,8 @@ pub fn init(cx: &mut App) {
                     })
                     .log_err();
 
-                    cx.prompt(
-                        PromptLevel::Info,
-                        "Copied into clipboard",
-                        Some(&specs),
-                        &["OK"],
-                    )
-                    .await
+                    cx.prompt(PromptLevel::Info, "已复制到剪贴板", Some(&specs), &["OK"])
+                        .await
                 })
                 .detach();
             })
@@ -75,7 +70,7 @@ pub fn init(cx: &mut App) {
                 cx.write_to_clipboard(ClipboardItem::new_string(clipboard_text.clone()));
                 drop(window.prompt(
                     PromptLevel::Info,
-                    "Copied into clipboard",
+                    "已复制到剪贴板",
                     Some(&clipboard_text),
                     &["OK"],
                     cx,
@@ -134,7 +129,7 @@ fn format_installed_extensions_for_clipboard(cx: &mut App) -> String {
     lines.sort();
 
     if lines.is_empty() {
-        return "No extensions installed.".to_string();
+        return "未安装扩展。".to_string();
     }
 
     format!(

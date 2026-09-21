@@ -259,30 +259,27 @@ impl Component for Headline {
             .gap_1()
             .children(vec![
                 single_example(
-                    "XLarge",
-                    Headline::new("XLarge Headline")
+                    "超大",
+                    Headline::new("超大标题")
                         .size(HeadlineSize::XLarge)
                         .into_any_element(),
                 ),
                 single_example(
-                    "Large",
-                    Headline::new("Large Headline")
+                    "大",
+                    Headline::new("大标题")
                         .size(HeadlineSize::Large)
                         .into_any_element(),
                 ),
+                single_example("中（默认）", Headline::new("中标题").into_any_element()),
                 single_example(
-                    "Medium (Default)",
-                    Headline::new("Medium Headline").into_any_element(),
-                ),
-                single_example(
-                    "Small",
-                    Headline::new("Small Headline")
+                    "小",
+                    Headline::new("小标题")
                         .size(HeadlineSize::Small)
                         .into_any_element(),
                 ),
                 single_example(
-                    "XSmall",
-                    Headline::new("XSmall Headline")
+                    "超小",
+                    Headline::new("超小标题")
                         .size(HeadlineSize::XSmall)
                         .into_any_element(),
                 ),

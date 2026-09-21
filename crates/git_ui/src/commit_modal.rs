@@ -327,7 +327,7 @@ impl CommitModal {
                                 },
                             )
                             .item(
-                                ContextMenuEntry::new("Skip Hooks")
+                                ContextMenuEntry::new("跳过钩子")
                                     .toggleable(IconPosition::Start, skip_hooks_enabled)
                                     .action(Box::new(SkipHooks))
                                     .handler(move |window, cx| {
@@ -409,7 +409,7 @@ impl CommitModal {
             .with_handle(self.branch_list_handle.clone())
             .trigger_with_tooltip(
                 branch_picker_button,
-                Tooltip::for_action_title("Switch Branch", &zed_actions::git::Branch),
+                Tooltip::for_action_title("切换分支", &zed_actions::git::Branch),
             )
             .anchor(Anchor::BottomLeft)
             .offset(gpui::Point {
@@ -689,7 +689,7 @@ impl Render for CommitModal {
                                 )
                                 .child(
                                     Label::new(format!(
-                                        "Commit message title exceeds {max_title_length}-character limit."
+                                        "提交信息标题超出 {max_title_length} 个字符的限制。"
                                     ))
                                     .size(LabelSize::Small),
                                 ),

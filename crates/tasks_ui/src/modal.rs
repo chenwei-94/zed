@@ -55,9 +55,9 @@ impl TasksModalDelegate {
             reveal_target: Some(RevealTarget::Center),
         }) = &task_overrides
         {
-            Arc::from("Find a task, or run a command in the central pane")
+            Arc::from("在中央窗格中查找任务或运行命令")
         } else {
-            Arc::from("Find a task, or run a command")
+            Arc::from("查找任务或运行命令")
         };
         Self {
             task_store,
@@ -569,7 +569,7 @@ impl PickerDelegate for TasksModalDelegate {
                                         .checked_sub(1);
                                     picker.refresh(window, cx);
                                 }))
-                                .tooltip(|_, cx| Tooltip::simple("Delete from Recent Tasks", cx)),
+                                .tooltip(|_, cx| Tooltip::simple("从最近任务中删除", cx)),
                         );
                         item.end_slot_on_hover(delete_button)
                     } else {
@@ -646,7 +646,7 @@ impl PickerDelegate for TasksModalDelegate {
             .last_scheduled_task(None)
             .is_some()
         {
-            Some(("Rerun Last Task", Rerun::default().boxed_clone()))
+            Some(("重新运行上次任务", Rerun::default().boxed_clone()))
         } else {
             None
         };
@@ -680,9 +680,9 @@ impl PickerDelegate for TasksModalDelegate {
                         .boxed_clone();
                         this.child({
                             let spawn_oneshot_label = if current_modifiers.secondary() {
-                                "Spawn Oneshot Without History"
+                                "运行一次性任务（不带历史）"
                             } else {
-                                "Spawn Oneshot"
+                                "运行一次性任务"
                             };
 
                             Button::new("spawn-onehshot", spawn_oneshot_label)
@@ -694,9 +694,9 @@ impl PickerDelegate for TasksModalDelegate {
                     } else if current_modifiers.secondary() {
                         this.child({
                             let label = if is_recent_selected {
-                                "Rerun Without History"
+                                "重新运行（不带历史）"
                             } else {
-                                "Spawn Without History"
+                                "运行（不带历史）"
                             };
                             Button::new("spawn", label)
                                 .key_binding(KeyBinding::for_action(&menu::SecondaryConfirm, cx))

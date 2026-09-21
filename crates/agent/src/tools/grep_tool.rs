@@ -103,12 +103,12 @@ impl AgentTool for GrepTool {
                 };
 
                 if page > 1 {
-                    format!("Get page {page} of search results for regex {regex_str}{case_info}")
+                    format!("获取第 {page} 页搜索结果，正则 {regex_str}{case_info}")
                 } else {
-                    format!("Search files for regex {regex_str}{case_info}")
+                    format!("搜索匹配正则 {regex_str}{case_info} 的文件")
                 }
             }
-            Err(_) => "Search with regex".into(),
+            Err(_) => "使用正则搜索".into(),
         }
         .into()
     }

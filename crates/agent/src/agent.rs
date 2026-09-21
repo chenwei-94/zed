@@ -1157,7 +1157,7 @@ impl NativeAgent {
                     if let Err(error) = expand_project_skills_directories(&worktree, cx).await {
                         project_skills_results.push(vec![Err(SkillLoadError {
                             path: PathBuf::from(project_skills_relative_path()),
-                            message: format!("Failed to scan project skills: {}", error),
+                            message: format!("扫描项目技能失败：{}", error),
                         })]);
                         continue;
                     }
@@ -1176,7 +1176,7 @@ impl NativeAgent {
                             worktree_results.push(Err(SkillLoadError {
                                 path: skill_file.display_path.clone(),
                                 message: format!(
-                                    "SKILL.md file exceeds maximum size of {}KB",
+                                    "SKILL.md 文件超过 {}KB 的大小上限",
                                     MAX_SKILL_FILE_SIZE / 1024
                                 ),
                             }));
@@ -1196,7 +1196,7 @@ impl NativeAgent {
                             Err(error) => {
                                 worktree_results.push(Err(SkillLoadError {
                                     path: skill_file.display_path.clone(),
-                                    message: format!("Failed to read file: {}", error),
+                                    message: format!("读取文件失败：{}", error),
                                 }));
                                 continue;
                             }
@@ -1577,13 +1577,10 @@ impl NativeAgent {
         let Some(state) = project_state else {
             return Vec::new();
         };
-        let compact_command = acp::AvailableCommand::new(
-            COMPACT_COMMAND_NAME,
-            "Summarize the conversation so far to free up context",
-        )
-        .meta(acp_thread::meta_with_command_category(
-            acp_thread::CommandCategory::Native,
-        ));
+        let compact_command =
+            acp::AvailableCommand::new(COMPACT_COMMAND_NAME, "总结当前对话以释放上下文空间").meta(
+                acp_thread::meta_with_command_category(acp_thread::CommandCategory::Native),
+            );
 
         let registry = state.context_server_registry.read(cx);
 
@@ -2721,7 +2718,7 @@ fn model_id_to_selection(model_id: &AgentModelId, cx: &App) -> LanguageModelSele
     agent_settings::language_model_to_selection(&resolved, current_user_selection.as_ref())
 }
 
-pub static ZED_AGENT_ID: LazyLock<AgentId> = LazyLock::new(|| AgentId::new("Zed Agent"));
+pub static ZED_AGENT_ID: LazyLock<AgentId> = LazyLock::new(|| AgentId::new("Zed 智能体"));
 
 impl acp_thread::AgentConnection for NativeAgentConnection {
     fn agent_id(&self) -> AgentId {
@@ -3518,9 +3515,7 @@ impl SubagentHandle for NativeSubagentHandle {
                     } else {
                         thread.update(cx, |thread, cx| thread.cancel(cx)).await;
                         Err(anyhow!(
-                            "The agent is nearing the end of its context window and has been \
-                             stopped. You can prompt the thread again to have the agent wrap up \
-                             or hand off its work."
+                            "智能体即将用尽上下文窗口，已停止。你可以再次向该会话发送提示，让智能体收尾或交接工作。"
                         ))
                     }
                 }

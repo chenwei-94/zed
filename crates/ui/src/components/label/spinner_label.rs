@@ -197,12 +197,9 @@ impl Component for SpinnerLabel {
 
     fn preview(_window: &mut Window, _cx: &mut App) -> AnyElement {
         let examples = vec![
-            single_example("Default", SpinnerLabel::new().into_any_element()),
-            single_example(
-                "Dots Variant",
-                SpinnerLabel::dots_variant().into_any_element(),
-            ),
-            single_example("Sand Variant", SpinnerLabel::sand().into_any_element()),
+            single_example("默认", SpinnerLabel::new().into_any_element()),
+            single_example("圆点变体", SpinnerLabel::dots_variant().into_any_element()),
+            single_example("沙色变体", SpinnerLabel::sand().into_any_element()),
         ];
 
         example_group(examples).vertical().into_any_element()
