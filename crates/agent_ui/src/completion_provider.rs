@@ -2710,7 +2710,7 @@ fn completion_text_for_editor_selections(
     workspace: WeakEntity<Workspace>,
     editor_selections: Vec<(Entity<Buffer>, Range<text::Anchor>)>,
 ) -> (String, ConfirmCallback) {
-    const EDITOR_PLACEHOLDER: &str = "selection";
+    const EDITOR_PLACEHOLDER: &str = "selection ";
 
     let selections = editor_selections
         .into_iter()

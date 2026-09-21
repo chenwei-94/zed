@@ -661,7 +661,7 @@ impl LspAdapter for RustLspAdapter {
             language::SymbolKind::Constant => ("const ", ":()=();"),
             language::SymbolKind::Module => ("mod ", ";"),
             language::SymbolKind::Package => ("extern crate ", ";"),
-            language::SymbolKind::TypeParameter => ("type", "=();"),
+            language::SymbolKind::TypeParameter => ("type ", "=();"),
             language::SymbolKind::EnumMember => {
                 let prefix = "enum E {";
                 return Some(CodeLabel::new(

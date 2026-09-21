@@ -5021,7 +5021,7 @@ impl GitPanel {
     }
 
     fn fill_co_authors(&mut self, message: &mut String, cx: &mut Context<Self>) {
-        const CO_AUTHOR_PREFIX: &str = "Co-authored-by:";
+        const CO_AUTHOR_PREFIX: &str = "Co-authored-by: ";
 
         let existing_text = message.to_ascii_lowercase();
         let lowercase_co_author_prefix = CO_AUTHOR_PREFIX.to_lowercase();
@@ -6720,9 +6720,9 @@ impl GitPanel {
                                     Some(&git::Commit),
                                     format!(
                                         "git commit{}{}{}",
-                                        if amend { "--amend" } else { "" },
-                                        if signoff { "--signoff" } else { "" },
-                                        if no_verify { "--no-verify" } else { "" }
+                                        if amend { " --amend" } else { "" },
+                                        if signoff { " --signoff" } else { "" },
+                                        if no_verify { " --no-verify" } else { "" }
                                     ),
                                     &handle.clone(),
                                     cx,

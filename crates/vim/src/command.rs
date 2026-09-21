@@ -1878,7 +1878,7 @@ pub fn command_interceptor(
             }
             .boxed_clone(),
         )
-    } else if query.starts_with("se") || query.starts_with("set") {
+    } else if query.starts_with("se ") || query.starts_with("set ") {
         let (prefix, option) = query.split_once(' ').unwrap();
         let mut commands = VimOption::possible_commands(option);
         if !commands.is_empty() {

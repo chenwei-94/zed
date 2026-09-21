@@ -1301,7 +1301,7 @@ impl ApiError {
 pub fn parse_prompt_too_long(message: &str) -> Option<u64> {
     message
         .strip_prefix("prompt is too long: ")?
-        .split_once("tokens")?
+        .split_once(" tokens")?
         .0
         .parse()
         .ok()

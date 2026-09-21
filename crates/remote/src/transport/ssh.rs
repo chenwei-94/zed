@@ -1653,7 +1653,7 @@ fn parse_port_forward_spec(spec: &str) -> Result<SshPortForwardOption> {
 
 impl SshConnectionOptions {
     pub fn parse_command_line(input: &str) -> Result<Self> {
-        let input = input.trim_start_matches("ssh");
+        let input = input.trim_start_matches("ssh ");
         let mut hostname: Option<String> = None;
         let mut username: Option<String> = None;
         let mut port: Option<u16> = None;
