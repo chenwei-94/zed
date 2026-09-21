@@ -42,3 +42,9 @@ ignored = ["log"]
 
 [features]
 default = []
+# ── RLT 分支改动（保留项）────────────────────────────────────────────────────
+# 【为什么加】`StyledExt` 经 `gpui_macros::derive_inspector_reflection` 生成的反射模块
+#   （`styled_ext_reflection`）是 release 版元素检查器列出元素样式的依据；上游只在
+#   `debug_assertions` 下生成它（见 `src/traits/styled_ext.rs` 的门控）。
+# 【影响面】默认**关闭**；只有显式 `--features inspector` 才在 release 中生成反射模块。
+inspector = ["gpui_macros/inspector"]

@@ -12,6 +12,17 @@ default-run = "zed"
 workspace = true
 
 [features]
+# ── RLT 分支改动（保留项）────────────────────────────────────────────────────
+# 【用途】`cargo build --release --features inspector` ⇒ release 版 zed 可开元素检查器
+#   （`ctrl-alt-i` 开始拾取）。rlt-dev 的元素检查器（FR-APP-022）复用的正是这套机制。
+# 【为什么需要】上游把 inspector 全链路锁在 `debug_assertions` 下，release 拿不到；
+#   三个子 feature 缺一不可：
+#     · `gpui/inspector`         —— 采集元素 ID 与构造源码位置（元素信息的上游来源）
+#     · `ui/inspector`           —— 生成 `StyledExt` 反射模块（列出元素样式的依据）
+#     · `inspector_ui/inspector` —— 编译检查器界面本体
+#   ⚠️ 三者必须同步：只开其一会出现 `styled_ext_reflection` 不存在之类的编译失败（实测踩过）。
+# 【影响面】默认**关闭** ⇒ 不开 feature 时与上游构建完全一致。
+inspector = ["inspector_ui/inspector", "gpui/inspector", "ui/inspector"]
 tracy = ["ztracing/tracy"]
 # LEAK_BACKTRACE=1 cargo run --features zed/track-project-leak --profile release-fast
 track-project-leak = ["gpui/leak-detection"]
