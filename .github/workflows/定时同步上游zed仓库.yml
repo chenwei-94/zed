@@ -1,5 +1,14 @@
 name: Scheduled sync from upstream
 
+# ⚠ 本文件是**未配置的模板**：env.UPSTREAM_REPO 仍是占位值 'UPSTREAM_OWNER/UPSTREAM_REPO'，
+#   因此 `git remote add upstream` 必然失败、任务不会真正同步。启用前必须先填真实上游。
+#   真正的同步由同目录 `sync-upstream.yml` 承担（已按抓取规则配置）。
+#
+# ── 抓取规则（2026-09-22 由项目所有者确立：只浅抓最新源码，不拉全部 git 历史）──
+#   ① 只抓需要的分支  ② 一律 --no-tags  ③ 用 --shallow-since 只抓增量
+#   ④ 禁止 --depth=1（会把上游尖标记为无父提交 ⇒ 算不出合并基点、合并失败）
+# 本地同口径脚本：rlt-dev 仓 `生态/中文本地化/脚本/同步上游.sh`
+
 # 自动计划与手动触发
 on:
   schedule:
@@ -21,11 +30,11 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout target repo
+      - name: Checkout target repo（浅克隆，只要最新源码）
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Configure git
         run: |
@@ -36,8 +45,10 @@ jobs:
         run: |
           # 使用 GITHUB_TOKEN 以便能访问私有上游（若需要）。如果上游是公共仓库，也可以直接用 https://github.com/... 不带 token。
           git remote add upstream "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.UPSTREAM_REPO }}.git"
-          git fetch --no-tags --prune upstream
-          git fetch --no-tags --prune origin
+          # 按抓取规则：只抓目标分支、不抓标签、只抓「本仓该分支尖」之后的提交
+          SINCE="$(git show -s --format=%cI origin/${{ env.DESTINATION_BRANCH }})"
+          git fetch --no-tags --prune --shallow-since="$SINCE" upstream "${{ env.UPSTREAM_BRANCH }}"
+          git fetch --no-tags --prune origin "${{ env.DESTINATION_BRANCH }}"
 
       - name: Try fast-forward merge and push to destination branch
         id: try_ff
@@ -70,7 +81,7 @@ jobs:
           DEST_BRANCH=${{ env.DESTINATION_BRANCH }}
 
           # 基于上游分支新建本地分支（不会影响目标分支）
-          git fetch upstream "$UPSTREAM_BRANCH"
+          git fetch --no-tags upstream "$UPSTREAM_BRANCH"
           git checkout -B "$BRANCH" "upstream/$UPSTREAM_BRANCH"
 
           # 推到 origin
