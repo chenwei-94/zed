@@ -3253,10 +3253,10 @@ fn task_summary(task: &TaskState, exit_status: Option<ExitStatus>) -> (bool, Str
                 (Some(0), _) => (true, task_label("已成功完成")),
                 (Some(code), _) => (false, task_label(&format!("已完成，退出代码：{code}"))),
                 (None, Some(signal)) => (false, task_label(&format!("被信号终止：{signal}"))),
-                (None, None) => (false, task_label("finished")),
+                (None, None) => (false, task_label("已完成")),
             }
         }
-        None => (false, task_label("finished")),
+        None => (false, task_label("已完成")),
     };
     let escaped_command_label = task
         .spawned_task

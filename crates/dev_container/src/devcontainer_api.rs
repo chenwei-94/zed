@@ -117,10 +117,7 @@ impl Display for DevContainerError {
                 DevContainerError::DevContainerValidationFailed(failure) => failure.to_string(),
                 DevContainerError::MultipleMatchingContainers(ids) => format!(
                     "有多个容器匹配此项目的开发容器标签（{}），Zed 无法确定要连接哪一个。请用 `docker stop <id>` 和 `docker rm <id>` 停止并移除过期的容器，然后重试。",
-                    ids.join(
-                        ",
-                    "
-                    )
+                    ids.join(", ")
                 ),
             }
         )
