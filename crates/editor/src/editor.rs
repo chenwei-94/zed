@@ -2978,7 +2978,7 @@ impl Editor {
             |e, _, _| match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
                     "远程 Zed 实例尚不支持此功能。需要升级到 {}",
-                    e.error_tag("required").unwrap_or("the latest version")
+                    e.error_tag("required").unwrap_or("最新版本")
                 )),
                 _ => None,
             },
@@ -3064,7 +3064,7 @@ impl Editor {
             match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
                     "远程 Zed 实例尚不支持此功能。需要升级到 {}",
-                    e.error_tag("required").unwrap_or("the latest version")
+                    e.error_tag("required").unwrap_or("最新版本")
                 )),
                 _ => None,
             }
