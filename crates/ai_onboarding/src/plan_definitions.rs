@@ -7,8 +7,9 @@ pub struct PlanDefinitions;
 impl PlanDefinitions {
     pub fn free_plan(&self) -> impl IntoElement {
         List::new()
-            .child(ListBulletItem::new("2,000 次已接受的编辑预测"))
-            .child(ListBulletItem::new("使用你的 AI API 密钥的无限提示词"))
+            .child(ListBulletItem::new(
+                "Unlimited prompts with your AI API keys",
+            ))
             .child(ListBulletItem::new("Unlimited use of external agents"))
     }
 
@@ -24,7 +25,9 @@ impl PlanDefinitions {
             .child(ListBulletItem::new("$5 of GPT Luna"))
             .child(ListBulletItem::new("无限制的编辑预测"))
             .when(period, |this| {
-                this.child(ListBulletItem::new("自试用开始起 14 天，无需信用卡"))
+                this.child(ListBulletItem::new(
+                    "14 days from trial start, no credit card required",
+                ))
             })
     }
 
@@ -51,6 +54,8 @@ impl PlanDefinitions {
         List::new()
             .child(ListBulletItem::new("无限制的编辑预测"))
             .child(ListBulletItem::new("$10 of tokens in Zed agent"))
-            .child(ListBulletItem::new("可选的额度包，用于额外用量"))
+            .child(ListBulletItem::new(
+                "Optional credit packs for additional usage",
+            ))
     }
 }
