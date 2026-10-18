@@ -537,6 +537,15 @@ impl<E: Element> Drawable<E> {
                 }
 
                 window.next_frame.dispatch_tree.set_active_node(node_id);
+                // Frame-wide paint observation (see `crate::paint_observer`): emitted in
+                // nesting order so downstream tools can rebuild the real element tree.
+                // Read-only; when no observer is installed this is a single atomic load.
+                crate::paint_observer::notify_enter(crate::PaintEvent {
+                    element_type: std::any::type_name::<E>(),
+                    source: self.element.source_location(),
+                    global_id: global_id.as_ref(),
+                    bounds,
+                });
                 self.element.paint(
                     global_id.as_ref(),
                     inspector_id.as_ref(),
@@ -546,6 +555,7 @@ impl<E: Element> Drawable<E> {
                     window,
                     cx,
                 );
+                crate::paint_observer::notify_exit();
 
                 if global_id.is_some() {
                     window.element_id_stack.pop();
