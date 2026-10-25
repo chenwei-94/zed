@@ -5,6 +5,17 @@ publish.workspace = true
 edition.workspace = true
 license = "GPL-3.0-or-later"
 
+[features]
+# ── RLT 分支改动（保留项）────────────────────────────────────────────────────
+# 【为什么加】rlt-dev 自研的元素检查器（需求 FR-APP-022）复用本 crate 的拾取/高亮
+#   机制，而发布档（release）也需要可用的检查器；上游只在 `debug_assertions` 下
+#   编译本 crate（见 `src/inspector_ui.rs` 顶部说明）。
+# 【影响面】默认**关闭** ⇒ 不开 feature 时编译产物与上游一致；显式
+#   `--features inspector` 才在 release 中启用。
+# 【为何依赖 gpui/inspector】元素的 ID 与构造源码位置由 gpui 侧同名 feature 采集，
+#   本 crate 只负责把这些信息渲染成检查器界面。
+inspector = ["gpui/inspector"]
+
 [lints]
 workspace = true
 
