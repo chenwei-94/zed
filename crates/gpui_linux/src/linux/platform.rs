@@ -57,7 +57,8 @@ pub(crate) const DOUBLE_CLICK_DISTANCE: Pixels = px(5.0);
 pub(crate) const KEYRING_LABEL: &str = "zed-github-account";
 
 #[cfg(any(feature = "wayland", feature = "x11"))]
-const FILE_PICKER_PORTAL_MISSING: &str = "由于缺少 xdg-desktop-portal 实现，无法打开文件选择器。";
+const FILE_PICKER_PORTAL_MISSING: &str =
+    "Couldn't open file picker due to missing xdg-desktop-portal implementation.";
 
 #[derive(Default)]
 pub(crate) struct PlatformHandlers {

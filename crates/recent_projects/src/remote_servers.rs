@@ -1025,7 +1025,7 @@ impl RemoteServerPickerDelegate {
                         .text_ellipsis()
                         .when(is_wsl, |this| {
                             this.child(
-                                Label::new("WSL：")
+                                Label::new("WSL:")
                                     .size(LabelSize::Small)
                                     .color(Color::Muted),
                             )
@@ -1275,9 +1275,12 @@ impl PickerDelegate for RemoteServerPickerDelegate {
             RemoteMatch::OpenFolder { .. } => {
                 Some(self.render_action_item(ix, IconName::Plus, "打开文件夹", selected))
             }
-            RemoteMatch::ViewServerOptions { .. } => {
-                Some(self.render_action_item(ix, IconName::Settings, "查看服务器选项", selected))
-            }
+            RemoteMatch::ViewServerOptions { .. } => Some(self.render_action_item(
+                ix,
+                IconName::Settings,
+                "View Server Options",
+                selected,
+            )),
             RemoteMatch::Project {
                 server,
                 project,
@@ -2521,9 +2524,11 @@ impl RemoteServerProjects {
                                     .w_full()
                                     .gap_1()
                                     .child(
-                                        Label::new("输入用于 SSH 登录此服务器的命令。")
-                                            .color(Color::Muted)
-                                            .size(LabelSize::Small),
+                                        Label::new(
+                                            "Enter the command you use to SSH into this server.",
+                                        )
+                                        .color(Color::Muted)
+                                        .size(LabelSize::Small),
                                     )
                                     .child(
                                         Button::new("learn-more", "了解更多")
@@ -2785,8 +2790,10 @@ impl RemoteServerProjects {
                     workspace
                         .update(cx, |this, cx| {
                             struct SshServerAddressCopiedToClipboard;
-                            let notification =
-                                format!("已将服务器地址（{}）复制到剪贴板", connection_string);
+                            let notification = format!(
+                                "Copied server address ({}) to clipboard",
+                                connection_string
+                            );
 
                             this.show_toast(
                                 Toast::new(

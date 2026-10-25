@@ -289,7 +289,10 @@ fn render_telemetry_section(tab_index: &mut isize, cx: &App) -> impl IntoElement
             SwitchField::new(
                 "onboarding-telemetry-crash-reports",
                 None::<&str>,
-                Some("通过发送崩溃报告帮助我们修复 Zed，以便快速解决关键问题".into()),
+                Some(
+                    "Help fix Zed by sending crash reports so we can fix critical issues fast"
+                        .into(),
+                ),
                 if TelemetrySettings::get_global(cx).diagnostics {
                     ui::ToggleState::Selected
                 } else {
@@ -436,8 +439,7 @@ fn render_worktree_auto_trust_switch(tab_index: &mut isize, cx: &mut App) -> imp
         ui::ToggleState::Unselected
     };
 
-    let tooltip_description =
-        "只有在将新项目标记为受信任后，Zed 才会允许语言服务器、项目设置和 MCP 服务器等服务运行。";
+    let tooltip_description = "Zed can only allow services like language servers, project settings, and MCP servers to run after you mark a new project as trusted.";
 
     SwitchField::new(
         "onboarding-auto-trust-worktrees",
@@ -525,8 +527,11 @@ fn render_import_settings_section(tab_index: &mut isize, cx: &mut App) -> impl I
             v_flex()
                 .gap_0p5()
                 .max_w_5_6()
-                .child(Label::new("导入设置"))
-                .child(Label::new("自动从其他编辑器拉取设置").color(Color::Muted)),
+                .child(Label::new("Import Settings"))
+                .child(
+                    Label::new("Automatically pull your settings from other editors")
+                        .color(Color::Muted),
+                ),
         )
         .child(h_flex().gap_1().child(vscode).child(cursor))
 }
@@ -699,8 +704,11 @@ fn render_ai_section(user_store: &Entity<UserStore>, cx: &mut App) -> impl IntoE
 
     v_flex()
         .gap_0p5()
-        .child(Label::new("智能体设置"))
-        .child(Label::new("安装常用的智能体并开始第一个会话。").color(Color::Muted))
+        .child(Label::new("Agent Setup"))
+        .child(
+            Label::new("Install your favorite agents and start your first thread.")
+                .color(Color::Muted),
+        )
         .child(grid)
 }
 

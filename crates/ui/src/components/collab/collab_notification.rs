@@ -170,7 +170,9 @@ impl Component for CollabNotification {
                             Button::new("accept", "接受"),
                             Button::new("decline", "谢绝"),
                         )
-                        .child(Label::new("maxbrunsfeld 邀请你加入 #zed 频道")),
+                        .child(Label::new(
+                            "maxbrunsfeld invited you to join the #zed channel",
+                        )),
                     )
                     .into_any_element(),
             ),

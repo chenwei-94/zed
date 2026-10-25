@@ -1427,7 +1427,7 @@ impl PickerDelegate for ProjectPickerDelegate {
         };
 
         if has_siblings_to_show {
-            entries.push(ProjectPickerEntry::Header("此窗口".into()));
+            entries.push(ProjectPickerEntry::Header("当前窗口".into()));
 
             if is_empty_query {
                 for (id, workspace) in self.workspaces.iter().enumerate() {

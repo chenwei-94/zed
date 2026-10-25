@@ -603,7 +603,11 @@ impl<T: 'static> PromptEditor<T> {
                 return;
             }
             CompletionState::Rated => {
-                self.toast("已评价过此补全", Some(self.session_state.session_id), cx);
+                self.toast(
+                    "Already rated this completion",
+                    Some(self.session_state.session_id),
+                    cx,
+                );
                 return;
             }
             CompletionState::Generated { completion_text } => {
@@ -659,7 +663,11 @@ impl<T: 'static> PromptEditor<T> {
                 return;
             }
             CompletionState::Rated => {
-                self.toast("已评价过此补全", Some(self.session_state.session_id), cx);
+                self.toast(
+                    "Already rated this completion",
+                    Some(self.session_state.session_id),
+                    cx,
+                );
                 return;
             }
             CompletionState::Generated { completion_text } => {
@@ -995,7 +1003,12 @@ impl<T: 'static> PromptEditor<T> {
             .shape(IconButtonShape::Square)
             .tooltip({
                 move |_window, cx| {
-                    Tooltip::for_action_in("关闭助手", &editor::actions::Cancel, &focus_handle, cx)
+                    Tooltip::for_action_in(
+                        "Close Assistant",
+                        &editor::actions::Cancel,
+                        &focus_handle,
+                        cx,
+                    )
                 }
             })
             .on_click(cx.listener(|_, _, _, cx| cx.emit(PromptEditorEvent::CancelRequested)))

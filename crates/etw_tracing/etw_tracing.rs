@@ -307,7 +307,7 @@ fn wpr_error_context(hresult: windows_core::HRESULT, source: &windows_core::IUnk
         .is_ok()
         {
             for (label, value) in [
-                ("Message", &message),
+                ("消息", &message),
                 ("描述", &description),
                 ("Detail", &detail),
             ] {

@@ -1241,49 +1241,46 @@ impl SettingsPageItem {
                                 ),
                         )
                         .child(
-                            Button::new(("sub-page".into(), sub_page_link.title.clone()), "配置")
-                                .aria_label(format!("配置 {}", sub_page_link.title))
-                                .tab_index(0_isize)
-                                .end_icon(
-                                    Icon::new(IconName::ChevronRight)
-                                        .size(IconSize::Small)
-                                        .color(Color::Muted),
-                                )
-                                .style(ButtonStyle::OutlinedGhost)
-                                .size(ButtonSize::Medium)
-                                .on_click({
-                                    let sub_page_link = sub_page_link.clone();
-                                    cx.listener(move |this, _, window, cx| {
-                                        let header_text = this
-                                            .sub_page_stack
-                                            .last()
-                                            .map(|sub_page| sub_page.link.title.clone())
-                                            .or_else(|| {
-                                                this.current_page()
-                                                    .items
-                                                    .iter()
-                                                    .take(item_index)
-                                                    .rev()
-                                                    .find_map(|item| {
-                                                        item.header_text()
-                                                            .map(SharedString::new_static)
-                                                    })
-                                            });
+                            Button::new(
+                                ("sub-page".into(), sub_page_link.title.clone()),
+                                "配置",
+                            )
+                            .aria_label(format!("配置 {}", sub_page_link.title))
+                            .tab_index(0_isize)
+                            .end_icon(
+                                Icon::new(IconName::ChevronRight)
+                                    .size(IconSize::Small)
+                                    .color(Color::Muted),
+                            )
+                            .style(ButtonStyle::OutlinedGhost)
+                            .size(ButtonSize::Medium)
+                            .on_click({
+                                let sub_page_link = sub_page_link.clone();
+                                cx.listener(move |this, _, window, cx| {
+                                    let header_text = this
+                                        .sub_page_stack
+                                        .last()
+                                        .map(|sub_page| sub_page.link.title.clone())
+                                        .or_else(|| {
+                                            this.current_page()
+                                                .items
+                                                .iter()
+                                                .take(item_index)
+                                                .rev()
+                                                .find_map(|item| {
+                                                    item.header_text().map(SharedString::new_static)
+                                                })
+                                        });
 
-                                        let Some(header) = header_text else {
-                                            unreachable!(
-                                                "All items always have a section header above them"
-                                            )
-                                        };
-
-                                        this.push_sub_page(
-                                            sub_page_link.clone(),
-                                            header,
-                                            window,
-                                            cx,
+                                    let Some(header) = header_text else {
+                                        unreachable!(
+                                            "All items always have a section header above them"
                                         )
-                                    })
-                                }),
+                                    };
+
+                                    this.push_sub_page(sub_page_link.clone(), header, window, cx)
+                                })
+                            }),
                         )
                         .child(render_settings_item_link(
                             sub_page_link.title.clone(),
@@ -1454,7 +1451,7 @@ fn render_settings_item_layout(
                         })
                         .when_some(modified_in, |this, modified_in| {
                             this.child(
-                                Label::new(format!("—  修改于 {modified_in}"))
+                                Label::new(format!("\u{2014}  Modified in {modified_in}"))
                                     .color(Color::Muted)
                                     .size(LabelSize::Small),
                             )
@@ -1517,7 +1514,12 @@ fn render_settings_item(
                             .color(Color::Warning),
                     )
                     .tooltip(|_, cx| {
-                        Tooltip::with_meta("已被组织覆盖", None, "请联系组织管理员调整此设置。", cx)
+                        Tooltip::with_meta(
+                            "Overridden by Organization",
+                            None,
+                            "Contact your organization admins to adjust this setting.",
+                            cx,
+                        )
                     }),
             )
             .child(control)
@@ -3951,12 +3953,9 @@ impl SettingsWindow {
                     settings::MigrationStatus::Succeeded => this.child(banner(
                         "设置已过期，需要更新。",
                         match &self.current_file {
-                            SettingsUiFile::User => "它们可以自动迁移到最新版本。",
-                            SettingsUiFile::Server(_) | SettingsUiFile::Project(_) => {
-                                "它们必须手动迁移到最新版本。"
-                            }
-                        }
-                        .to_string(),
+                            SettingsUiFile::User => "They can be automatically migrated to the latest version.",
+                            SettingsUiFile::Server(_) | SettingsUiFile::Project(_)  => "They must be manually migrated to the latest version."
+                        }.to_string(),
                         &mut self.shown_errors,
                         cx,
                     )),
@@ -3996,9 +3995,11 @@ impl SettingsWindow {
                             .gap_0p5()
                             .child(Label::new("受限模式"))
                             .child(
-                                Label::new("此项目处于受限模式。部分项目设置可能不会生效。")
-                                    .size(LabelSize::Small)
-                                    .color(Color::Muted),
+                                Label::new(
+                                    "This project is in restricted mode. Some project settings may not apply.",
+                                )
+                                .size(LabelSize::Small)
+                                .color(Color::Muted),
                             ),
                     )
                     .action_slot(
@@ -4009,15 +4010,14 @@ impl SettingsWindow {
                                     if let Some(original_window) = original_window {
                                         original_window
                                             .update(cx, |multi_workspace, window, cx| {
-                                                multi_workspace.workspace().update(
-                                                    cx,
-                                                    |workspace, cx| {
+                                                multi_workspace
+                                                    .workspace()
+                                                    .update(cx, |workspace, cx| {
                                                         workspace
                                                             .show_worktree_trust_security_modal(
                                                                 true, window, cx,
                                                             );
-                                                    },
-                                                );
+                                                    });
                                             })
                                             .log_err();
                                     }

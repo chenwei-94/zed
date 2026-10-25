@@ -1806,7 +1806,7 @@ impl Editor {
                         if target.is_empty() {
                             tab_kind.to_owned()
                         } else {
-                            format!("{tab_kind}：{target}")
+                            format!("{tab_kind} for {target}")
                         }
                     })
                     .context("buffer title")?;

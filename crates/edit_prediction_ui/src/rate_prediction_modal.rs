@@ -362,7 +362,7 @@ impl RatePredictionsModal {
                         start_anchor,
                         &InlayHint {
                             position: start_hint_position,
-                            label: InlayHintLabel::String("╭─ 可编辑区域开始".into()),
+                            label: InlayHintLabel::String("╭─ editable region start\n".into()),
                             kind: Some(InlayHintKind::Parameter),
                             padding_left: false,
                             padding_right: false,
@@ -376,7 +376,7 @@ impl RatePredictionsModal {
                         end_anchor,
                         &InlayHint {
                             position: end_hint_position,
-                            label: InlayHintLabel::String("╰─ 可编辑区域结束".into()),
+                            label: InlayHintLabel::String("\n╰─ editable region end".into()),
                             kind: Some(InlayHintKind::Parameter),
                             padding_left: false,
                             padding_right: false,
@@ -441,7 +441,7 @@ impl RatePredictionsModal {
         write!(formatted_inputs, "## Events\n\n").unwrap();
 
         for event in events {
-            formatted_inputs.push_str("```diff");
+            formatted_inputs.push_str("```diff\n");
             zeta_prompt::write_event(formatted_inputs, event.as_ref());
             formatted_inputs.push_str("```\n\n");
         }
@@ -997,7 +997,9 @@ impl RatePredictionsModal {
                             )
                             .into_any_element()
                         } else {
-                            div().child("无活动补全".to_string()).into_any_element()
+                            div()
+                                .child("No active completion".to_string())
+                                .into_any_element()
                         }),
                 )
                 .id("raw-input-view"),

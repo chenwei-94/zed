@@ -189,7 +189,8 @@ impl RenderOnce for TerminalToolHeader {
                                         Tooltip::with_meta(
                                             "停止此命令",
                                             None,
-                                            "也可以将光标置于终端内，使用常规终端快捷键。",
+                                            "Also possible by placing your cursor inside the \
+                                             terminal and using regular terminal bindings.",
                                             cx,
                                         )
                                     })
@@ -374,7 +375,8 @@ impl Component for TerminalToolHeader {
                             true,
                         )
                         .truncated(
-                            "输出长达 2.5 MB，为避免意外的 token 消耗，仅向智能体返回了 16 KB。",
+                            "Output is 2.5 MB long, and to avoid unexpected token \
+                                     usage, only 16 KB was sent back to the agent.",
                         ),
                     ),
                 ),

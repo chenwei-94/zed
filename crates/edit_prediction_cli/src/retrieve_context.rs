@@ -377,7 +377,10 @@ async fn wait_for_language_servers_to_start(
         });
     });
 
-    step_progress.set_substatus(format!("等待 {} 个 LSP", servers_pending_diagnostics.len()));
+    step_progress.set_substatus(format!(
+        "waiting for {} LSPs",
+        servers_pending_diagnostics.len()
+    ));
 
     let timeout_duration = if servers_pending_start.is_empty() {
         Duration::from_secs(30)

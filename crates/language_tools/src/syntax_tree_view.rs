@@ -531,16 +531,18 @@ impl Render for SyntaxTreeView {
                         .max_w_3_5()
                         .map(|this| {
                             if editor_state.is_some_and(|state| !state.has_language()) {
-                                this.child(Label::new("当前编辑器没有关联语言")).child(
-                                    Label::new(concat!(
-                                        "Try assigning a language or",
-                                        "switching to a different buffer"
-                                    ))
-                                    .size(LabelSize::Small),
-                                )
+                                this.child(Label::new("Current editor has no associated language"))
+                                    .child(
+                                        Label::new(concat!(
+                                            "Try assigning a language or",
+                                            "switching to a different buffer"
+                                        ))
+                                        .size(LabelSize::Small),
+                                    )
                             } else {
-                                this.child(Label::new("未附加到编辑器")).child(
-                                    Label::new("聚焦编辑器以显示新的树视图").size(LabelSize::Small),
+                                this.child(Label::new("Not attached to an editor")).child(
+                                    Label::new("Focus an editor to show a new tree view")
+                                        .size(LabelSize::Small),
                                 )
                             }
                         });

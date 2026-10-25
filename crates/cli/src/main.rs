@@ -850,12 +850,15 @@ fn prompt_open_behavior() -> Option<cli::CliBehaviorSetting> {
 
     let blue = console::Style::new().blue();
     let items = [
-        format!("添加到现有 Zed 窗口（{}）", blue.apply_to("zed --existing")),
-        format!("打开新窗口（{}）", blue.apply_to("zed --classic")),
+        format!(
+            "Add to existing Zed window ({})",
+            blue.apply_to("zed --existing")
+        ),
+        format!("Open a new window ({})", blue.apply_to("zed --classic")),
     ];
 
     let prompt = format!(
-        "配置 {} 的默认行为\n{}",
+        "Configure default behavior for {}\n{}",
         blue.apply_to("zed <path>"),
         console::style("稍后可在 Zed 设置中更改"),
     );

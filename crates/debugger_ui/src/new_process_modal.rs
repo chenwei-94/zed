@@ -69,7 +69,7 @@ fn suggested_label(request: &DebugRequest, debugger: &str) -> SharedString {
             format!("{} ({debugger})", last_path_component).into()
         }
         DebugRequest::Attach(config) => format!(
-            "PID：{}（{debugger}）",
+            "pid: {} ({debugger})",
             config.process_id.unwrap_or(u32::MAX)
         )
         .into(),
@@ -1083,7 +1083,7 @@ impl DebugDelegate {
                 Some(abs_path.to_string_lossy().into_owned())
             }
             Some(TaskSourceKind::Lsp { language_name, .. }) => {
-                Some(format!("LSP：{language_name}"))
+                Some(format!("LSP: {language_name}"))
             }
             Some(TaskSourceKind::Language { name }) => Some(format!("语言：{name}")),
             _ => context.clone().and_then(|ctx| {

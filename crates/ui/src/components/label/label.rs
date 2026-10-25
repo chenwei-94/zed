@@ -427,14 +427,14 @@ impl Component for Label {
                     example_group_with_title(
                         "行高样式",
                         vec![
-                            single_example("默认", Label::new("多行\n文本\n示例").into_any_element()),
-                            single_example("界面标签", Label::new("紧凑\n界面\n标签").line_height_style(LineHeightStyle::UiLabel).into_any_element()),
+                            single_example("默认", Label::new("Multi-line\nText\nExample").into_any_element()),
+                            single_example("界面标签", Label::new("Compact\nUI\nLabel").line_height_style(LineHeightStyle::UiLabel).into_any_element()),
                         ],
                     ),
                     example_group_with_title(
                         "特殊情况",
                         vec![
-                            single_example("单行", Label::new("第 1 行\n第 2 行\n第 3 行").single_line().into_any_element()),
+                            single_example("单行", Label::new("Line 1\nLine 2\nLine 3").single_line().into_any_element()),
                             single_example("常规截断", div().max_w_24().child(Label::new("这是一个应当被截断的超长文件名：very_long_file_name_with_many_words.rs").truncate()).into_any_element()),
                             single_example("从开头截断", div().max_w_24().child(Label::new("zed/crates/ui/src/components/label/truncate/label/label.rs").truncate_start()).into_any_element()),
                         ],

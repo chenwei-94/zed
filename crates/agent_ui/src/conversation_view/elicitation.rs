@@ -322,12 +322,18 @@ impl ElicitationFormSubmission {
                         .min_items
                         .is_some_and(|min_items| values.len() < min_items as usize)
                     {
-                        Err(format!("{} 需要选择更多项", property_title(name, property)).into())
+                        Err(
+                            format!("{} needs more selections", property_title(name, property))
+                                .into(),
+                        )
                     } else if schema
                         .max_items
                         .is_some_and(|max_items| values.len() > max_items as usize)
                     {
-                        Err(format!("{} 选择的项过多", property_title(name, property)).into())
+                        Err(
+                            format!("{} has too many selections", property_title(name, property))
+                                .into(),
+                        )
                     } else {
                         Ok(Some(values.into()))
                     }
@@ -1728,7 +1734,7 @@ fn string_format_json_name(format: &acp::StringFormat) -> Option<&'static str> {
 fn string_format_label(format: &acp::StringFormat) -> Option<&'static str> {
     match format {
         acp::StringFormat::Email => Some("电子邮件地址"),
-        acp::StringFormat::Uri => Some("URI"),
+        acp::StringFormat::Uri => Some("a URI"),
         acp::StringFormat::Date => Some("日期"),
         acp::StringFormat::DateTime => Some("日期和时间"),
         _ => None,

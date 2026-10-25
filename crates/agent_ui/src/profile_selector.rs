@@ -752,7 +752,8 @@ impl PickerDelegate for ProfilePickerDelegate {
                                                 .color(Color::Warning),
                                         )
                                         .child(
-                                            Label::new("在受限模式下已禁用").size(LabelSize::Small),
+                                            Label::new("Disabled in Restricted Mode")
+                                                .size(LabelSize::Small),
                                         ),
                                 )
                                 .children(forbidden_tools.iter().map(|tool| {
@@ -825,7 +826,9 @@ impl PickerDelegate for ProfilePickerDelegate {
                                             .size(IconSize::Small)
                                             .color(Color::Warning),
                                     )
-                                    .tooltip(Tooltip::text("部分工具已禁用。点击查看信任设置。"))
+                                    .tooltip(Tooltip::text(
+                                        "Some tools are disabled. Click to review trust settings.",
+                                    ))
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(
                                             ToggleWorktreeSecurity.boxed_clone(),

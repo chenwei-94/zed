@@ -473,24 +473,17 @@ impl MemoryView {
                         // We cannot write memory with this adapter.
                         _ = self.workspace.update(cx, |this, cx| {
                             this.toggle_status_toast(
-                                StatusToast::new(
-                                    format!("调试适配器 `{adapter_name}` 不支持写入内存"),
-                                    cx,
-                                    |this, cx| {
-                                        cx.spawn(async move |this, cx| {
-                                            cx.background_executor()
-                                                .timer(Duration::from_secs(2))
-                                                .await;
-                                            _ = this.update(cx, |_, cx| cx.emit(DismissEvent));
-                                        })
-                                        .detach();
-                                        this.icon(
-                                            Icon::new(IconName::XCircle)
-                                                .size(IconSize::Small)
-                                                .color(Color::Error),
-                                        )
-                                    },
-                                ),
+                                StatusToast::new(format!(
+                                    "Debug Adapter `{adapter_name}` does not support writing to memory"
+                                ), cx, |this, cx| {
+                                    cx.spawn(async move |this, cx| {
+                                        cx.background_executor().timer(Duration::from_secs(2)).await;
+                                        _ = this.update(cx, |_, cx| {
+                                            cx.emit(DismissEvent)
+                                        });
+                                    }).detach();
+                                    this.icon(Icon::new(IconName::XCircle).size(IconSize::Small).color(Color::Error))
+                                }),
                                 cx,
                             );
                         });
@@ -859,7 +852,10 @@ impl Render for MemoryView {
         let (icon, tooltip_text) = if self.is_writing_memory {
             (IconName::Pencil, "编辑所选地址处的内存")
         } else {
-            (IconName::LocationEdit, "更改当前查看内存的地址")
+            (
+                IconName::LocationEdit,
+                "Change Address of Currently Viewed Memory",
+            )
         };
 
         v_flex()

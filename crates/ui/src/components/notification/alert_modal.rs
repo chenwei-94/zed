@@ -215,7 +215,8 @@ impl Component for AlertModal {
                                     )
                             )
                             .child(
-                                "为保护系统，不受信任的工作区会以受限模式打开。\n请检查 .zed/settings.json 中此项目配置的扩展或命令。",
+                                "Untrusted workspaces are opened in Restricted Mode to protect your system.
+Review .zed/settings.json for any extensions or commands configured by this project.",
                             )
                             .child(
                                 v_flex()

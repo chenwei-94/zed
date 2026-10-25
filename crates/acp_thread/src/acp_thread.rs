@@ -1961,7 +1961,7 @@ pub enum AuthorizationKind {
     /// This is the default for tool authorization prompts.
     PermissionGrant,
     /// The user is choosing between actions for the tool to take next
-    /// (for example, "保存" vs "Discard" before editing a dirty buffer).
+    /// (for example, "保存" vs "丢弃" before editing a dirty buffer).
     /// The tool call always transitions to `InProgress` regardless of the
     /// selected `PermissionOptionKind`; the caller interprets the chosen
     /// `option_id` to decide what to do.
@@ -3812,7 +3812,7 @@ impl Display for LoadError {
                 )
             }
             LoadError::FailedToInstall(msg) => write!(f, "Failed to install: {msg}"),
-            LoadError::Exited { status, .. } => write!(f, "Server exited with status {status}"),
+            LoadError::Exited { status, .. } => write!(f, "服务器退出，状态为 {status}"),
             LoadError::Other(msg) => write!(f, "{msg}"),
         }
     }

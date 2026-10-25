@@ -176,8 +176,12 @@ impl Component for AnnouncementToast {
                         .bullet_item(ListBulletItem::new(
                             "将 Zed 智能体与任何兼容 ACP 的智能体混搭使用",
                         ))
-                        .bullet_item(ListBulletItem::new("可选的隔离工作树，避免智能体互相干扰"))
-                        .bullet_item(ListBulletItem::new("为智能体工作流全新设计的工作区布局"))
+                        .bullet_item(ListBulletItem::new(
+                            "Optional worktree isolation keeps agents from conflicting",
+                        ))
+                        .bullet_item(ListBulletItem::new(
+                            "Updated workspace layout designed for agentic workflows",
+                        ))
                         .primary_action_label("立即试用")
                         .secondary_action_label("了解更多"),
                 )

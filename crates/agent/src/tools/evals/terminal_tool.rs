@@ -99,7 +99,8 @@ impl CommandAssertion {
                     return EvalAssertionOutcome {
                         score: 0,
                         message: Some(format!(
-                            "`git {subcmd}` 缺少分页器防护（应为 {PAGER_GUARDS:?} 之一）。命令：{cmd}"
+                            "`git {subcmd}` is missing a pager guard \
+                             (one of {PAGER_GUARDS:?}). Command: {cmd}"
                         )),
                     };
                 }
@@ -110,7 +111,8 @@ impl CommandAssertion {
                     return EvalAssertionOutcome {
                         score: 0,
                         message: Some(format!(
-                            "`git {subcmd}` 缺少编辑器防护（应为 {EDITOR_GUARDS:?} 之一）。命令：{cmd}"
+                            "`git {subcmd}` is missing an editor guard \
+                             (one of {EDITOR_GUARDS:?}). Command: {cmd}"
                         )),
                     };
                 }

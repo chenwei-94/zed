@@ -575,9 +575,11 @@ fn render_verification_section(
                             )
                         } else {
                             this.child(
-                                Label::new("模式预览与引擎结果不一致，正在显示权威结果。")
-                                    .size(LabelSize::XSmall)
-                                    .color(Color::Warning),
+                                Label::new(
+                                    "Pattern preview differs from engine — showing authoritative result.",
+                                )
+                                .size(LabelSize::XSmall)
+                                .color(Color::Warning),
                             )
                         }
                     })
@@ -769,7 +771,7 @@ fn implied_mode_from_patterns(
 fn mode_display_label(mode: ToolPermissionMode) -> &'static str {
     match mode {
         ToolPermissionMode::Allow => "允许",
-        ToolPermissionMode::Deny => "Deny",
+        ToolPermissionMode::Deny => "拒绝",
         ToolPermissionMode::Confirm => "确认",
     }
 }
@@ -819,9 +821,12 @@ fn render_invalid_patterns_section(
                 .child(Label::new("无效模式").color(Color::Error)),
         )
         .child(
-            Label::new("这些模式未能编译为正则表达式。在修复或移除之前，该工具将被阻止。")
-                .size(LabelSize::Small)
-                .color(Color::Muted),
+            Label::new(
+                "These patterns failed to compile as regular expressions. \
+                 The tool will be blocked until they are fixed or removed.",
+            )
+            .size(LabelSize::Small)
+            .color(Color::Muted),
         )
         .child(
             v_flex()
@@ -1077,9 +1082,11 @@ fn render_global_default_mode_section(current_mode: ToolPermissionMode) -> AnyEl
                 .min_w_0()
                 .child(Label::new("默认权限"))
                 .child(
-                    Label::new("控制所有工具操作的默认行为。单个工具的规则和模式可覆盖此项。")
-                        .size(LabelSize::Small)
-                        .color(Color::Muted),
+                    Label::new(
+                        "Controls the default behavior for all tool actions. Per-tool rules and patterns can override this.",
+                    )
+                    .size(LabelSize::Small)
+                    .color(Color::Muted),
                 ),
         )
         .child(
@@ -1099,7 +1106,7 @@ fn render_global_default_mode_section(current_mode: ToolPermissionMode) -> AnyEl
                         .entry("允许", None, move |_, cx| {
                             set_global_default_permission(ToolPermissionMode::Allow, cx);
                         })
-                        .entry("Deny", None, move |_, cx| {
+                        .entry("拒绝", None, move |_, cx| {
                             set_global_default_permission(ToolPermissionMode::Deny, cx);
                         })
                     }))
@@ -1116,7 +1123,7 @@ fn render_default_mode_section(
 ) -> AnyElement {
     let mode_label = match current_mode {
         ToolPermissionMode::Allow => "允许",
-        ToolPermissionMode::Deny => "Deny",
+        ToolPermissionMode::Deny => "拒绝",
         ToolPermissionMode::Confirm => "确认",
     };
 
@@ -1158,7 +1165,7 @@ fn render_default_mode_section(
                         .entry("允许", None, move |_, cx| {
                             set_default_mode(&tool_id_allow, ToolPermissionMode::Allow, cx);
                         })
-                        .entry("Deny", None, move |_, cx| {
+                        .entry("拒绝", None, move |_, cx| {
                             set_default_mode(&tool_id_deny, ToolPermissionMode::Deny, cx);
                         })
                     }))

@@ -280,10 +280,13 @@ fn render_api_key_providers_item(
                                         .color(Color::Muted),
                                 )
                                 .child(
-                                    ButtonLink::new(format!("{provider_name} 仪表板"), api_key_url)
-                                        .no_icon(true)
-                                        .label_size(LabelSize::Small)
-                                        .label_color(Color::Muted),
+                                    ButtonLink::new(
+                                        format!("{provider_name} dashboard"),
+                                        api_key_url,
+                                    )
+                                    .no_icon(true)
+                                    .label_size(LabelSize::Small)
+                                    .label_color(Color::Muted),
                                 )
                                 .child(
                                     Label::new("以生成 API 密钥。")
@@ -662,7 +665,9 @@ fn render_llm_provider_form_page(
                 .gap_4()
                 .overflow_y_scroll()
                 .child(Label::new(match form.kind {
-                    CompatibleProviderKind::OpenAi => "此提供商将使用兼容 OpenAI 的 API。",
+                    CompatibleProviderKind::OpenAi => {
+                        "This provider will use an OpenAI-compatible API."
+                    }
                     CompatibleProviderKind::Anthropic => {
                         "此提供商将使用兼容 Anthropic Messages 的 API。"
                     }
@@ -675,7 +680,7 @@ fn render_llm_provider_form_page(
                     cx,
                 ))
                 .child(render_form_field(
-                    "API URL",
+                    "API 地址",
                     "兼容 API 的基础 URL。",
                     &form.api_url,
                     cx,
@@ -757,22 +762,25 @@ fn render_models_section(
         .mt_1()
         .gap_2()
         .child(
-            h_flex().justify_between().child(Label::new("模型")).child(
-                Button::new("add-model", "添加模型")
-                    .start_icon(
-                        Icon::new(IconName::Plus)
-                            .size(IconSize::XSmall)
-                            .color(Color::Muted),
-                    )
-                    .label_size(LabelSize::Small)
-                    .on_click(cx.listener(|this, _, window, cx| {
-                        if let Some(form) = this.llm_provider_form.as_mut() {
-                            let index = form.models.len();
-                            form.models.push(ModelInput::new(index, window, cx));
-                        }
-                        cx.notify();
-                    })),
-            ),
+            h_flex()
+                .justify_between()
+                .child(Label::new("Models"))
+                .child(
+                    Button::new("add-model", "Add Model")
+                        .start_icon(
+                            Icon::new(IconName::Plus)
+                                .size(IconSize::XSmall)
+                                .color(Color::Muted),
+                        )
+                        .label_size(LabelSize::Small)
+                        .on_click(cx.listener(|this, _, window, cx| {
+                            if let Some(form) = this.llm_provider_form.as_mut() {
+                                let index = form.models.len();
+                                form.models.push(ModelInput::new(index, window, cx));
+                            }
+                            cx.notify();
+                        })),
+                ),
         )
         .children(form.models.iter().enumerate().map(|(index, model)| {
             render_model(form.kind, model, index, form.models.len(), window, cx)

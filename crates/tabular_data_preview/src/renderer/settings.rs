@@ -96,7 +96,8 @@ pub(crate) fn settings_popover_menu(view_entity: Entity<TableView>) -> PopoverMe
                         menu.separator(),
                         "显示多行行",
                         Some(
-                            "启用后，行高会增大以显示全部内容。禁用时仅显示第一行——将鼠标悬停在单元格上可查看其余内容。",
+                            "When enabled, row height grows to show all content. \
+                             When disabled, only the first line is visible — hover a cell to see the rest.",
                         ),
                         settings.multiline_cells_enabled,
                         &view_entity,
@@ -123,8 +124,11 @@ fn append_dev_only_entries(
     let menu = menu.separator().header("仅开发：渲染模式");
     let menu = toggle_entry(
         menu,
-        "可变高度",
-        Some("仅供开发使用的区块，用于调试目的。\n表格数据预览功能正式发布后将移除"),
+        "Variable Height",
+        Some(
+            "Dev-only section used for debugging purposes.\n\
+             Will be removed on public release of the tabular data preview feature",
+        ),
         settings.rendering_with == RowRenderMechanism::VariableList,
         view_entity,
         |settings| settings.rendering_with = RowRenderMechanism::VariableList,

@@ -552,7 +552,7 @@ impl CreateTagModal {
     ) -> Self {
         let editor = cx.new(|cx| {
             let mut editor = Editor::single_line(window, cx);
-            editor.set_placeholder_text("Tag name", window, cx);
+            editor.set_placeholder_text("标签名", window, cx);
             editor
         });
         Self {
@@ -588,7 +588,7 @@ impl CreateTagModal {
         let commit = self.commit.to_string();
         let workspace = self.workspace.clone();
         let success_message = format!(
-            "Created tag \"{tag_name}\" at {}",
+            "已在 {} 创建标签“{tag_name}”",
             self.tag_target_commit_label()
         );
         cx.spawn(async move |_, cx| {
@@ -603,7 +603,7 @@ impl CreateTagModal {
                 .log_err();
             Ok(())
         })
-        .detach_and_prompt_err("Failed to create tag", window, cx, |error, _, _| {
+        .detach_and_prompt_err("创建标签失败", window, cx, |error, _, _| {
             Some(error.to_string())
         });
         cx.emit(DismissEvent);
@@ -620,7 +620,7 @@ impl Focusable for CreateTagModal {
 
 impl Render for CreateTagModal {
     fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
-        let title = format!("Create Tag at {}", self.tag_target_commit_label());
+        let title = format!("在 {} 创建标签", self.tag_target_commit_label());
         v_flex()
             .key_context("CreateTagModal")
             .on_action(cx.listener(Self::cancel))
@@ -1399,9 +1399,12 @@ impl Component for GitStatusIcon {
             .gap_6()
             .children(vec![example_group(vec![
                 single_example("已修改", GitStatusIcon::new(modified).into_any_element()),
-                single_example("已添加", GitStatusIcon::new(added).into_any_element()),
+                single_example("Added", GitStatusIcon::new(added).into_any_element()),
                 single_example("已删除", GitStatusIcon::new(deleted).into_any_element()),
-                single_example("有冲突", GitStatusIcon::new(conflict).into_any_element()),
+                single_example(
+                    "Conflicted",
+                    GitStatusIcon::new(conflict).into_any_element(),
+                ),
             ])])
             .into_any_element()
     }

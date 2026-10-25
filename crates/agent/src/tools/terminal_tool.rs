@@ -3360,7 +3360,7 @@ mod tests {
                     "Allow always",
                     acp_v2::PermissionOptionKind::AllowAlways,
                 ),
-                ("deny", "Deny", acp_v2::PermissionOptionKind::RejectOnce),
+                ("deny", "拒绝", acp_v2::PermissionOptionKind::RejectOnce),
             ]
         );
 
@@ -3462,7 +3462,7 @@ mod tests {
                     "Allow always",
                     acp_v2::PermissionOptionKind::AllowAlways,
                 ),
-                ("deny", "Deny", acp_v2::PermissionOptionKind::RejectOnce),
+                ("deny", "拒绝", acp_v2::PermissionOptionKind::RejectOnce),
             ]
         );
 

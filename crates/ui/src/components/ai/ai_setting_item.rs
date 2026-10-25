@@ -393,12 +393,16 @@ impl Component for AiSettingItem {
                             AiSettingItemSource::Extension,
                         )
                         .details(
-                            details_row(IconName::XCircle, Color::Error, "连接失败：连接被拒绝")
-                                .child(
-                                    Button::new("logout", "退出登录")
-                                        .style(ButtonStyle::Outlined)
-                                        .label_size(LabelSize::Small),
-                                ),
+                            details_row(
+                                IconName::XCircle,
+                                Color::Error,
+                                "Failed to connect: connection refused",
+                            )
+                            .child(
+                                Button::new("logout", "退出登录")
+                                    .style(ButtonStyle::Outlined)
+                                    .label_size(LabelSize::Small),
+                            ),
                         ),
                     )
                     .into_any_element(),

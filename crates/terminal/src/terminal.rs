@@ -3317,9 +3317,15 @@ fn task_summary(task: &TaskState, exit_status: Option<ExitStatus>) -> (bool, Str
             let signal: Option<i32> = None;
 
             match (code, signal) {
-                (Some(0), _) => (true, task_label("已成功完成")),
-                (Some(code), _) => (false, task_label(&format!("已完成，退出代码：{code}"))),
-                (None, Some(signal)) => (false, task_label(&format!("被信号终止：{signal}"))),
+                (Some(0), _) => (true, task_label("finished successfully")),
+                (Some(code), _) => (
+                    false,
+                    task_label(&format!("finished with exit code: {code}")),
+                ),
+                (None, Some(signal)) => (
+                    false,
+                    task_label(&format!("terminated by signal: {signal}")),
+                ),
                 (None, None) => (false, task_label("已完成")),
             }
         }

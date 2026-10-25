@@ -252,7 +252,10 @@ impl Render for WorktreeFetchFailedToast {
                     .size(IconSize::Small)
                     .color(Color::Error),
             )
-            .child(Label::new(format!("{} 抓取失败", self.remote_branch_name)))
+            .child(Label::new(format!(
+                "git fetch failed for {}",
+                self.remote_branch_name
+            )))
             .child(
                 Button::new(
                     "use-local-worktree-base",
@@ -1267,7 +1270,8 @@ async fn open_worktree_workspace(
                     workspace.show_toast(
                         workspace::Toast::new(
                             toast_id,
-                            "部分项目文件夹不是 Git 仓库。它们已按原样包含，未创建工作树。",
+                            "Some project folders are not git repositories. \
+                             They were included as-is without creating a worktree.",
                         ),
                         cx,
                     );

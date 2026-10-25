@@ -335,7 +335,7 @@ impl RpcLogHeaderState {
                 "Send"
             };
             match elapsed {
-                Some(elapsed) => format!("// {direction} (took {}):", format_duration(elapsed)),
+                Some(elapsed) => format!("\n// {direction} (took {}):", format_duration(elapsed)),
                 None => format!("\n// {direction}:"),
             }
         })

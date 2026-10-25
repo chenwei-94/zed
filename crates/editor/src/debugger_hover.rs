@@ -134,8 +134,8 @@ impl DebuggerHoverView {
                                 .shape(IconButtonShape::Square)
                                 .icon_size(IconSize::Small)
                                 .icon_color(Color::Muted)
-                                .aria_label("Add to Watch")
-                                .tooltip(Tooltip::text("Add to Watch"))
+                                .aria_label("添加到监视")
+                                .tooltip(Tooltip::text("添加到监视"))
                                 .on_click(cx.listener(move |view, _, _, cx| {
                                     view.add_watch(expression.clone(), cx);
                                 })),
@@ -146,8 +146,8 @@ impl DebuggerHoverView {
                             .shape(IconButtonShape::Square)
                             .icon_size(IconSize::Small)
                             .icon_color(Color::Muted)
-                            .aria_label("Value Actions")
-                            .tooltip(Tooltip::text("Value Actions"))
+                            .aria_label("值操作")
+                            .tooltip(Tooltip::text("值操作"))
                             .on_click(cx.listener(move |view, _, window, cx| {
                                 view.variable_menu(variable.clone(), window, cx);
                             })),
@@ -300,7 +300,7 @@ impl DebuggerHoverView {
                     menu.entry("Copy as Expression", None, move |_, cx| {
                         cx.write_to_clipboard(gpui::ClipboardItem::new_string(expression.clone()));
                     })
-                    .entry("Add to Watch", None, move |_, cx| {
+                    .entry("添加到监视", None, move |_, cx| {
                         view.update(cx, |view, cx| view.add_watch(watch_expression.clone(), cx))
                             .log_err();
                     })

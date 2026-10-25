@@ -295,7 +295,7 @@ impl ThreadFeedbackState {
                 cx,
             );
             editor.set_placeholder_text(
-                "What went wrong? Share your feedback so we can improve.",
+                "哪里出了问题？请分享你的反馈，帮助我们改进。",
                 window,
                 cx,
             );
@@ -1928,7 +1928,7 @@ impl ThreadView {
                             true,
                         ),
                         SubmissionState::Cancelled => ("Message cancelled".into(), true),
-                        _ => ("Message".into(), false),
+                        _ => ("消息".into(), false),
                     };
                     (
                         submission_id,
@@ -1994,7 +1994,7 @@ impl ThreadView {
                                         .child(
                                             Button::new(("restore-submission", row_id), "恢复")
                                                 .label_size(LabelSize::Small)
-                                                .tooltip(Tooltip::text("Copy into an empty composer. The saved submission is kept until discarded."))
+                                                .tooltip(Tooltip::text("复制到空的输入框。已保存的提交会保留，直到被丢弃。"))
                                                 .on_click(cx.listener(
                                                     move |this, _, window, cx| {
                                                         this.restore_submission(
@@ -2009,7 +2009,7 @@ impl ThreadView {
                             })
                             .when(settled, |this| {
                                 this.child(
-                                    Button::new(("discard-submission", row_id), "Discard")
+                                    Button::new(("discard-submission", row_id), "丢弃")
                                         .label_size(LabelSize::Small)
                                         .on_click(cx.listener(move |this, _, _, cx| {
                                             this.thread.update(cx, |thread, cx| {
@@ -3022,7 +3022,7 @@ impl ThreadView {
     }
 
     /// The shared "actually send this entry" path, used by fast-track,
-    /// auto-processing on Stopped, and "Send Now". The entry must already have
+    /// auto-processing on Stopped, and "立即发送". The entry must already have
     /// been removed from the queue.
     fn dispatch_queued_entry(
         &mut self,
@@ -4416,15 +4416,15 @@ impl ThreadView {
                             })
                             .child(command.command.clone()),
                     )
-                    .child(format!("Working directory: {}", command.cwd.0.display())),
+                    .child(format!("工作目录：{}", command.cwd.0.display())),
             ),
             Some(acp_v2::RequestPermissionSubject::ToolCall(_)) => None,
             Some(acp_v2::RequestPermissionSubject::Other(subject)) => Some(
                 v_flex()
                     .debug_selector(|| format!("generic-permission-unknown-{}", subject.type_))
-                    .child(format!("Unknown permission subject: {}", subject.type_)),
+                    .child(format!("未知的权限主体：{}", subject.type_)),
             ),
-            Some(_) => Some(v_flex().child("Unknown permission subject")),
+            Some(_) => Some(v_flex().child("未知的权限主体")),
             None => None,
         };
         v_flex()
@@ -5404,7 +5404,7 @@ impl ThreadView {
             div()
                 .debug_selector(|| "discard-protected-draft".into())
                 .child(
-                    Button::new("discard-protected-draft", "Discard draft")
+                    Button::new("discard-protected-draft", "丢弃草稿")
                         .label_size(LabelSize::Small)
                         .on_click(cx.listener(|this, _, window, cx| {
                             this._draft_resolve_task.take();
@@ -5669,7 +5669,7 @@ impl ThreadView {
                                 ))
                             })
                             .child(
-                                Button::new(("send_now_focused", index), "Send Now")
+                                Button::new(("send_now_focused", index), "立即发送")
                                     .label_size(LabelSize::Small)
                                     .style(ButtonStyle::Outlined)
                                     .key_binding(
@@ -5743,7 +5743,7 @@ impl ThreadView {
                                 ))
                             })
                             .child(
-                                Button::new(("send_now", index), "Send Now")
+                                Button::new(("send_now", index), "立即发送")
                                     .label_size(LabelSize::Small)
                                     .when(is_next, |this| this.style(ButtonStyle::Outlined))
                                     .when(is_next && message_editor.is_empty(cx), |this| {
@@ -6265,7 +6265,7 @@ impl ThreadView {
             (None, IconName::ThinkingMode, Color::Accent)
         } else if thinking {
             (
-                Some("Disable Thinking Mode"),
+                Some("关闭思考模式"),
                 IconName::ThinkingMode,
                 Color::Accent,
             )
@@ -6294,7 +6294,7 @@ impl ThreadView {
                     })
                 } else {
                     this.tooltip(Tooltip::text(
-                        "Thinking is always on at this effort level. Select a lower effort level to make it optional.",
+                        "此推理强度下思考始终开启。选择更低的推理强度即可改为可选。",
                     ))
                 }
             });
@@ -6905,7 +6905,7 @@ impl Render for TokenUsageTooltip {
                             .child(
                                 h_flex()
                                     .gap_0p5()
-                                    .child(Label::new("Output:").color(Color::Muted).mr_0p5())
+                                    .child(Label::new("输出：").color(Color::Muted).mr_0p5())
                                     .child(Label::new(output_tokens))
                                     .child(Label::new("/").color(separator_color))
                                     .child(Label::new(output_max).color(Color::Muted)),
@@ -7443,11 +7443,11 @@ impl ThreadView {
                                                                 div().max_w_64().child(
                                                                     Label::new(if source_is_representable {
                                                                         format!(
-                                                                            "Editing previous messages is not available for {} yet.",
+                                                                            "{} 暂不支持编辑此前的消息。",
                                                                             agent_name
                                                                         )
                                                                     } else {
-                                                                        "This message contains unsupported content and cannot be edited or resent.".to_string()
+                                                                        "此消息包含不支持的内容，无法编辑或重新发送。".to_string()
                                                                     })
                                                                     .size(LabelSize::Small)
                                                                     .color(Color::Muted),
@@ -7645,7 +7645,7 @@ impl ThreadView {
                                 ),
                         )
                         .child(Divider::horizontal())
-                        .tooltip(Tooltip::text("Everything below this line was sent as output from this subagent to the main agent.")),
+                        .tooltip(Tooltip::text("此行以下的内容均为该子智能体发送给主智能体的输出。")),
                 )
                 .child(primary)
                 .into_any_element()
@@ -8016,7 +8016,7 @@ impl ThreadView {
                 (self.is_subagent() && self.is_thread_feedback_enabled(cx)).then(|| {
                     let feedback = self.thread_feedback.feedback;
                     let tooltip_meta =
-                        "Rating the thread sends all of your current conversation to the Zed team.";
+                        "评价会话会将你当前的全部对话发送给 Zed 团队。";
 
                     h_flex()
                         .child(
@@ -8031,7 +8031,7 @@ impl ThreadView {
                                         Tooltip::text("感谢反馈！")(window, cx)
                                     }
                                     _ => Tooltip::with_meta(
-                                        "Helpful Response",
+                                        "回答有帮助",
                                         None,
                                         tooltip_meta,
                                         cx,
@@ -8050,12 +8050,12 @@ impl ThreadView {
                                 })
                                 .tooltip(move |window, cx| match feedback {
                                     Some(ThreadFeedback::Negative) => Tooltip::text(
-                                        "We appreciate your feedback and will use it to improve in the future.",
+                                        "感谢你的反馈，我们会据此在未来改进。",
                                     )(
                                         window, cx
                                     ),
                                     _ => Tooltip::with_meta(
-                                        "Not Helpful Response",
+                                        "回答没帮助",
                                         None,
                                         tooltip_meta,
                                         cx,
@@ -8950,7 +8950,7 @@ impl ThreadView {
         let (icon, direction, participant) = match session_message_side(message, &own_session_id) {
             SessionMessageSide::Outgoing { recipient } => (IconName::Send, "To", recipient),
             SessionMessageSide::Incoming { sender } => (IconName::Envelope, "From", sender),
-            SessionMessageSide::Unknown => (IconName::Envelope, "Message between sessions", None),
+            SessionMessageSide::Unknown => (IconName::Envelope, "会话间消息", None),
         };
         let participant = participant.map(|session_id| {
             match self.session_participant_label(session_id, cx) {
@@ -8959,7 +8959,7 @@ impl ThreadView {
                     .child(
                         Button::new(("session-message-participant", entry_ix), label)
                             .label_size(LabelSize::Small)
-                            .tooltip(Tooltip::text("Open Session"))
+                            .tooltip(Tooltip::text("打开会话"))
                             .on_click(cx.listener({
                                 let session_id = session_id.clone();
                                 move |this, _, window, cx| {
@@ -8973,7 +8973,7 @@ impl ThreadView {
                     )
                     .into_any_element(),
                 // The RFD allows messages naming a session this conversation never learned about.
-                None => Label::new("Unavailable Session")
+                None => Label::new("会话不可用")
                     .size(LabelSize::Small)
                     .color(Color::Muted)
                     .into_any_element(),
@@ -9699,7 +9699,7 @@ impl ThreadView {
                                         ),
                                     )
                                 }))
-                                .child(input_output_header("Output:".into())),
+                                .child(input_output_header("输出：".into())),
                         )
                     })
                     .children(tool_call.content().iter().enumerate().map(
@@ -9865,7 +9865,7 @@ impl ThreadView {
                                                             div()
                                                                 .id(entry_ix)
                                                                 .tooltip(Tooltip::text(
-                                                                    "Interrupted Edit",
+                                                                    "被中断的编辑",
                                                                 ))
                                                                 .child(
                                                                     Icon::new(IconName::XCircle)
@@ -10683,7 +10683,7 @@ impl ThreadView {
         entry_ix: usize,
         focus_handle: &FocusHandle,
         // When true, the "allow" choices are disabled (e.g. an unacknowledged
-        // surprising-Unicode warning is showing). "Deny"/"重试" stay enabled.
+        // surprising-Unicode warning is showing). "拒绝"/"重试" stay enabled.
         allow_disabled: bool,
         cx: &Context<Self>,
     ) -> Div {
@@ -10843,7 +10843,7 @@ impl ThreadView {
                             })),
                     )
                     .child(
-                        Button::new(("deny-btn", entry_ix), "Deny")
+                        Button::new(("deny-btn", entry_ix), "拒绝")
                             .start_icon(
                                 Icon::new(IconName::Close)
                                     .size(IconSize::XSmall)
@@ -11297,7 +11297,7 @@ impl ThreadView {
         match (tool_name, interrupted_edit) {
             (Some(name), true) => Some(format!("Interrupted Edit\nTool: {name}").into()),
             (Some(name), false) => Some(format!("工具：{name}").into()),
-            (None, true) => Some("Interrupted Edit".into()),
+            (None, true) => Some("被中断的编辑".into()),
             (None, false) => None,
         }
     }
@@ -11585,7 +11585,7 @@ impl ThreadView {
                             )
                             .when(file.hunks.is_empty(), |this| {
                                 this.child(
-                                    Label::new("No text preview available")
+                                    Label::new("暂无文本预览")
                                         .size(LabelSize::XSmall)
                                         .color(Color::Muted),
                                 )
@@ -11612,7 +11612,7 @@ impl ThreadView {
                         render.files.is_empty() && render.fallback.is_none(),
                         |this| {
                             this.p_2().child(
-                                Label::new("No text preview available")
+                                Label::new("暂无文本预览")
                                     .size(LabelSize::XSmall)
                                     .color(Color::Muted),
                             )
@@ -12083,7 +12083,7 @@ impl ThreadView {
                             .size(IconSize::Small)
                             .color(Color::Muted),
                     )
-                    .tooltip(Tooltip::text("Subagent Status Unknown"))
+                    .tooltip(Tooltip::text("子智能体状态未知"))
                     .into_any_element(),
             });
 
@@ -13260,9 +13260,9 @@ impl ThreadView {
             Callout::new()
                 .severity(Severity::Warning)
                 .icon(IconName::Warning)
-                .title("This agent doesn't currently support multi-root workspaces")
+                .title("此智能体目前不支持多根工作区")
                 .description(format!(
-                    "It currently only operates by default on \"{}\".",
+                    "它目前默认仅作用于“{}”。",
                     active_dir
                 ))
                 .border_position(self.callout_border_position())
@@ -14401,8 +14401,8 @@ mod tests {
                 false,
                 Some("Tool:   mcp__server__**read_file**<raw>  "),
             ),
-            (None, true, Some("Interrupted Edit")),
-            (Some(" \t\n"), true, Some("Interrupted Edit")),
+            (None, true, Some("被中断的编辑")),
+            (Some(" \t\n"), true, Some("被中断的编辑")),
             (
                 Some("edit_file"),
                 true,

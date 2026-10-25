@@ -80,7 +80,7 @@ async fn install_script(cx: &AsyncApp) -> Result<Option<PathBuf>> {
 }
 
 pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
-    const LINUX_PROMPT_DETAIL: &str = "如果你从官方发布版安装 Zed，请将 ~/.local/bin 添加到 PATH。\n\n如果你是通过包管理器等其他来源安装 Zed，则可能需要手动创建别名或符号链接。\n\n取决于你的包管理器，CLI 的名称可能是 zeditor、zedit、zed-editor 或其他名称。";
+    const LINUX_PROMPT_DETAIL: &str = "If you installed Zed from our official release add ~/.local/bin to your PATH.\n\nIf you installed Zed from a different source like your package manager, then you may need to create an alias/symlink manually.\n\nDepending on your package manager, the CLI might be named zeditor, zedit, zed-editor or something else.";
 
     cx.spawn_in(window, async move |workspace, cx| {
         if cfg!(any(target_os = "linux", target_os = "freebsd")) {
@@ -107,10 +107,13 @@ pub fn install_cli_binary(window: &mut Window, cx: &mut Context<Workspace>) {
                         cx,
                         |cx| {
                             cx.new(|cx| {
-                                MessageNotification::new("可以手动将 `zed` 添加到 PATH。", cx)
-                                    .with_title("无法安装 Zed CLI")
-                                    .more_info_message("看看怎么做")
-                                    .more_info_url(CANT_INSTALL_DOCS_URL)
+                                MessageNotification::new(
+                                    "You can add `zed` to your PATH manually.",
+                                    cx,
+                                )
+                                .with_title("Couldn't install the Zed CLI")
+                                .more_info_message("Show me how")
+                                .more_info_url(CANT_INSTALL_DOCS_URL)
                             })
                         },
                     );

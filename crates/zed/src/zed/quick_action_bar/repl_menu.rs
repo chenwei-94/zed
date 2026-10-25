@@ -428,12 +428,23 @@ fn session_state(session: Entity<Session>, cx: &mut App) -> ReplMenuState {
             ..fill_fields()
         };
 
-    let starting = || transitional(format!("{} 正在启动", kernel_name).into(), true, true);
-    let restarting = || transitional(format!("正在重启 {}", kernel_name).into(), true, true);
-    let shutting_down = || transitional(format!("{} 正在关闭", kernel_name).into(), false, true);
-    let auto_restarting =
-        || transitional(format!("正在自动重启 {}", kernel_name).into(), true, true);
-    let unknown = || transitional(format!("{} 状态未知", kernel_name).into(), false, true);
+    let starting = || transitional(format!("{} is starting", kernel_name).into(), true, true);
+    let restarting = || transitional(format!("Restarting {}", kernel_name).into(), true, true);
+    let shutting_down = || {
+        transitional(
+            format!("{} is shutting down", kernel_name).into(),
+            false,
+            true,
+        )
+    };
+    let auto_restarting = || {
+        transitional(
+            format!("Auto-restarting {}", kernel_name).into(),
+            true,
+            true,
+        )
+    };
+    let unknown = || transitional(format!("{} state unknown", kernel_name).into(), false, true);
     let other = |state: &str| {
         transitional(
             format!("{} 状态：{}", kernel_name, state).into(),

@@ -456,9 +456,9 @@ impl EditorTestContext {
         };
 
         let expected_excerpts = marked_text
-            .strip_prefix("[EXCERPT]")
+            .strip_prefix("[EXCERPT]\n")
             .unwrap()
-            .split("[EXCERPT]")
+            .split("[EXCERPT]\n")
             .collect::<Vec<_>>();
 
         let (multibuffer_snapshot, selections, excerpts) = self.update_editor(|editor, _, cx| {
@@ -500,7 +500,7 @@ impl EditorTestContext {
                 .update_editor(|editor, _, cx| editor.is_buffer_folded(snapshot.remote_id(), cx));
             let (expected_text, expected_selections) =
                 marked_text_ranges(expected_excerpts[ix], true);
-            if expected_text == "[FOLDED]" {
+            if expected_text == "[FOLDED]\n" {
                 assert!(is_folded, "excerpt {} should be folded", ix);
                 let is_selected = selections.iter().any(|s| {
                     multibuffer_range
@@ -725,9 +725,9 @@ impl std::fmt::Display for FormatMultiBufferAsMarkedText {
         } = self;
 
         for (_snapshot, range, is_folded) in excerpts.into_iter() {
-            write!(f, "[EXCERPT]")?;
+            write!(f, "[EXCERPT]\n")?;
             if *is_folded {
-                write!(f, "[FOLDED]")?;
+                write!(f, "[FOLDED]\n")?;
             }
 
             let multibuffer_range = multibuffer_snapshot

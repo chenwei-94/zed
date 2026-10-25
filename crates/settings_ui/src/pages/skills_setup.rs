@@ -233,7 +233,9 @@ fn render_skill_row(
                             let prompt_message =
                                 format!("删除 {skill_scope} 技能“{skill_name}”？");
                             let prompt_detail = format!(
-                                "这会将 {} 移到回收站。该技能与其他智能体工具共享 {shared_scope}，因此它们也将无法使用。",
+                                "This will move {} to the trash. This skill is shared with other \
+                                 agent tools {shared_scope}, so it will no longer be available to \
+                                 them either.",
                                 directory_path.compact().display(),
                             );
                             let answer = window.prompt(

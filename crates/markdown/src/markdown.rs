@@ -3536,7 +3536,9 @@ fn image_fallback_element(
         .id("image-fallback")
         .min_w_0()
         .child(Label::new(label).color(Color::Warning).underline())
-        .tooltip(Tooltip::text("图片加载失败。打开 `zed: log` 查看详情。"))
+        .tooltip(Tooltip::text(
+            "Image failed to load. Open `zed: log` for more details.",
+        ))
         .when(open_image_url_on_click, |this| {
             this.cursor_pointer()
                 .on_click(move |_, _, cx| cx.open_url(&dest_url))

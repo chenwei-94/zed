@@ -108,7 +108,8 @@ impl LauncherStatus {
                 "唯一可用的 `bwrap` 是 setuid-root 的，Zed 拒绝运行它"
             }
             LauncherStatus::SandboxProbeFailed => {
-                "`bwrap` 存在，但创建沙箱失败（可能禁用了非特权用户命名空间）"
+                "`bwrap` is present but failed to create a sandbox (unprivileged user \
+                 namespaces may be disabled)"
             }
         }
     }

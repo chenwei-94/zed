@@ -838,7 +838,7 @@ impl PickerDelegate for WorktreePickerDelegate {
                 matches.push(WorktreeEntry::Separator);
 
                 if open_here.len() > 1 {
-                    matches.push(WorktreeEntry::SectionHeader("此窗口".into()));
+                    matches.push(WorktreeEntry::SectionHeader("当前窗口".into()));
                     for worktree in open_here {
                         matches.push(WorktreeEntry::Worktree {
                             worktree,
@@ -2165,7 +2165,7 @@ mod tests {
                 let header_index = matches
                     .iter()
                     .position(|entry| {
-                        matches!(entry, WorktreeEntry::SectionHeader(label) if label.as_ref() == "此窗口")
+                        matches!(entry, WorktreeEntry::SectionHeader(label) if label.as_ref() == "当前窗口")
                     })
                     .expect("section header should be present when multiple worktrees are open");
 

@@ -377,7 +377,7 @@ fn render_ollama_provider(
 fn ollama_settings() -> Box<[SettingsPageItem]> {
     Box::new([
         SettingsPageItem::SettingItem(SettingItem {
-            title: "API URL",
+            title: "API 地址",
             description: "Ollama 服务器的基础 URL。",
             field: Box::new(SettingField {
                 organization_override: None,
@@ -543,7 +543,7 @@ fn ollama_settings() -> Box<[SettingsPageItem]> {
 fn open_ai_compatible_settings() -> Box<[SettingsPageItem]> {
     Box::new([
         SettingsPageItem::SettingItem(SettingItem {
-            title: "API URL",
+            title: "API 地址",
             description: "OpenAI 兼容服务器的补全 API 的 URL。",
             field: Box::new(SettingField {
                 organization_override: None,
@@ -709,7 +709,7 @@ fn open_ai_compatible_settings() -> Box<[SettingsPageItem]> {
 fn codestral_settings() -> Box<[SettingsPageItem]> {
     Box::new([
         SettingsPageItem::SettingItem(SettingItem {
-            title: "API URL",
+            title: "API 地址",
             description: "Codestral 使用的 API 地址。",
             field: Box::new(SettingField {
                 organization_override: None,

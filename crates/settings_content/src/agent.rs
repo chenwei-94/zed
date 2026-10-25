@@ -1147,7 +1147,7 @@ impl std::fmt::Display for ToolPermissionMode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ToolPermissionMode::Allow => write!(f, "允许"),
-            ToolPermissionMode::Deny => write!(f, "Deny"),
+            ToolPermissionMode::Deny => write!(f, "拒绝"),
             ToolPermissionMode::Confirm => write!(f, "确认"),
         }
     }

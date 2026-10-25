@@ -127,7 +127,10 @@ impl DivInspector {
                     Err(err) => {
                         this.update(cx, |this, _cx| {
                             this.state = State::LoadError {
-                                message: format!("为样式编辑创建缓冲区失败：{err}").into(),
+                                message: format!(
+                                    "Failed to create buffers for style editing: {err}"
+                                )
+                                .into(),
                             };
                         })
                         .ok();
@@ -526,7 +529,9 @@ impl Render for DivInspector {
                 )
             })
             .map(|this| match &self.state {
-                State::Loading | State::BuffersLoaded { .. } => this.child(Label::new("加载中…")),
+                State::Loading | State::BuffersLoaded { .. } => {
+                    this.child(Label::new("Loading..."))
+                }
                 State::LoadError { message } => this.child(
                     div()
                         .w_full()

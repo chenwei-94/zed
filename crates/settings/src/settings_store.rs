@@ -1085,7 +1085,8 @@ impl SettingsStore {
             }
             (LocalSettingsPath::InWorktree(directory_path), LocalSettingsKind::Debug, _) => {
                 return Err(InvalidSettingsError::Debug {
-                    message: "尝试将调试器配置提交到设置存储".to_string(),
+                    message: "Attempted to submit debugger config into the settings store"
+                        .to_string(),
                     path: directory_path
                         .join(RelPath::from_unix_str(task_file_name()).unwrap())
                         .as_std_path()

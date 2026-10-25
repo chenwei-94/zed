@@ -407,13 +407,17 @@ impl LanguageModelProvider for CloudLanguageModelProvider {
     }
 
     fn missing_credentials_error_message(&self) -> SharedString {
-        "尚未登录 Zed 账号。请登录以继续。".into()
+        "You are not signed in to your Zed account. \
+        Sign in to continue."
+            .into()
     }
 
     fn fast_mode_confirmation(&self, _cx: &App) -> Option<FastModeConfirmation> {
         Some(FastModeConfirmation {
-            title: "为 Zed 启用快速模式？".into(),
-            message: "快速模式通过上游提供商的快速模式或优先层级转发请求。将适用上游提供商的单 token 溢价，并计入 Zed 账单。"
+            title: "Enable Fast Mode for Zed?".into(),
+            message: "Fast mode routes requests through the upstream provider's fast mode or priority tier. The \
+                upstream provider's premium per-token pricing applies and is passed through to \
+                your Zed billing."
                 .into(),
         })
     }
@@ -507,11 +511,15 @@ fn zed_ai_description(
     }
 
     match plan {
-        Some(Plan::ZedPro) => "你可以通过 Pro 订阅使用 Zed 托管模型。",
-        Some(Plan::ZedProTrial) => {
-            "Pro 试用包含 $5 的 GPT Luna 额度与不限量编辑预测，自试用开始起 14 天。"
+        Some(Plan::ZedPro) => {
+            "You have access to Zed's hosted models through your Pro subscription."
         }
-        Some(Plan::ZedStudent) => "你可以通过学生订阅使用 Zed 托管模型。",
+        Some(Plan::ZedProTrial) => {
+            "Your Pro trial includes $5 of GPT Luna and unlimited edit predictions for 14 days from trial start."
+        }
+        Some(Plan::ZedStudent) => {
+            "You have access to Zed's hosted models through your Student subscription."
+        }
         Some(Plan::ZedBusiness) => {
             if is_zed_model_provider_enabled {
                 "你可以通过所在组织使用 Zed 托管模型。"
@@ -519,7 +527,9 @@ fn zed_ai_description(
                 "Zed 托管模型已被你所在组织的配置禁用。"
             }
         }
-        Some(Plan::ZedVip) => "你可以通过 VIP 订阅使用 Zed 托管模型。",
+        Some(Plan::ZedVip) => {
+            "You have access to Zed's hosted models through your VIP subscription."
+        }
         Some(Plan::ZedFree) | None => {
             if eligible_for_trial {
                 "开始免费试用，即可获得 $5 的 GPT Luna 额度与不限量编辑预测，自试用开始起 14 天。"

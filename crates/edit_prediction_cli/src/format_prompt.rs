@@ -144,7 +144,7 @@ pub struct TeacherPrompt;
 
 impl TeacherPrompt {
     pub(crate) const EDITABLE_REGION_START: &str = "<|editable_region_start|>\n";
-    pub(crate) const EDITABLE_REGION_END: &str = "<|editable_region_end|>";
+    pub(crate) const EDITABLE_REGION_END: &str = "\n<|editable_region_end|>";
     pub(crate) const USER_CURSOR_MARKER: &str = "<|user_cursor|>";
     pub(crate) const NO_EDITS: &str = "NO_EDITS";
 

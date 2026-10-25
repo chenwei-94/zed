@@ -246,7 +246,8 @@ impl Component for InputField {
     }
 
     fn preview(window: &mut Window, cx: &mut App) -> AnyElement {
-        let input_small = cx.new(|cx| InputField::new(window, cx, "placeholder").label("小标签"));
+        let input_small =
+            cx.new(|cx| InputField::new(window, cx, "placeholder").label("Small Label"));
 
         let input_regular = cx.new(|cx| {
             InputField::new(window, cx, "placeholder")
@@ -261,7 +262,10 @@ impl Component for InputField {
                     "小标签（默认）",
                     div().child(input_small).into_any_element(),
                 ),
-                single_example("常规标签", div().child(input_regular).into_any_element()),
+                single_example(
+                    "常规标签",
+                    div().child(input_regular).into_any_element(),
+                ),
             ])])
             .into_any_element()
     }

@@ -3995,7 +3995,7 @@ impl Project {
         match event {
             SettingsObserverEvent::LocalSettingsUpdated(result) => match result {
                 Err(InvalidSettingsError::LocalSettings { message, path }) => {
-                    let message = format!("设置本地设置失败（{path:?}）：\n{message}");
+                    let message = format!("Failed to set local settings in {path:?}:\n{message}");
                     cx.emit(Event::Toast {
                         notification_id: format!("local-settings-{path:?}").into(),
                         link: None,
@@ -4009,7 +4009,7 @@ impl Project {
             },
             SettingsObserverEvent::LocalTasksUpdated(result) => match result {
                 Err(InvalidSettingsError::Tasks { message, path }) => {
-                    let message = format!("设置本地任务失败（{path:?}）：\n{message}");
+                    let message = format!("Failed to set local tasks in {path:?}:\n{message}");
                     cx.emit(Event::Toast {
                         notification_id: format!("local-tasks-{path:?}").into(),
                         link: Some(ToastLink {
@@ -4026,7 +4026,8 @@ impl Project {
             },
             SettingsObserverEvent::LocalDebugScenariosUpdated(result) => match result {
                 Err(InvalidSettingsError::Debug { message, path }) => {
-                    let message = format!("设置本地调试场景失败（{path:?}）：\n{message}");
+                    let message =
+                        format!("Failed to set local debug scenarios in {path:?}:\n{message}");
                     cx.emit(Event::Toast {
                         notification_id: format!("local-debug-scenarios-{path:?}").into(),
                         link: None,

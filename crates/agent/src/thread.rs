@@ -1014,7 +1014,7 @@ impl ToolPermissionContext {
                 ),
                 acp_v2::PermissionOption::new(
                     acp_v2::PermissionOptionId::new("deny"),
-                    "Deny",
+                    "拒绝",
                     acp_v2::PermissionOptionKind::RejectOnce,
                 ),
             ]);
@@ -6190,7 +6190,7 @@ impl ToolCallEventStream {
             ),
             acp_v2::PermissionOption::new(
                 acp_v2::PermissionOptionId::new(acp_thread::SandboxPermission::Deny.as_id()),
-                "Deny",
+                "拒绝",
                 acp_v2::PermissionOptionKind::RejectOnce,
             ),
         ]);
@@ -6570,7 +6570,7 @@ impl ToolCallEventStream {
             ),
             acp_v2::PermissionOption::new(
                 acp_v2::PermissionOptionId::new(acp_thread::SandboxPermission::Deny.as_id()),
-                "Deny",
+                "拒绝",
                 acp_v2::PermissionOptionKind::RejectOnce,
             ),
         ]);
@@ -6671,7 +6671,7 @@ impl ToolCallEventStream {
     /// does not interpret the user's choice as a permission grant — callers
     /// are responsible for handling each `option_id` explicitly. Use this
     /// when a tool needs the user to pick between several side-effecting
-    /// actions (for example, "保存" vs "Discard" for a dirty buffer).
+    /// actions (for example, "保存" vs "丢弃" for a dirty buffer).
     pub fn prompt_for_decision(
         &self,
         title: Option<String>,
@@ -7397,7 +7397,7 @@ mod tests {
                     Some("Choose an action".into()),
                     vec![acp_v2::PermissionOption::new(
                         acp_v2::PermissionOptionId::new("discard"),
-                        "Discard",
+                        "丢弃",
                         acp_v2::PermissionOptionKind::RejectOnce,
                     )],
                     cx,
@@ -8963,7 +8963,7 @@ mod tests {
                     "Allow always",
                     acp_v2::PermissionOptionKind::AllowAlways,
                 ),
-                ("deny", "Deny", acp_v2::PermissionOptionKind::RejectOnce),
+                ("deny", "拒绝", acp_v2::PermissionOptionKind::RejectOnce),
             ]
         );
 
@@ -9035,7 +9035,7 @@ mod tests {
                 ("allow", "Run without sandbox once"),
                 ("allow_thread", "Run without sandbox for this thread"),
                 ("allow_always", "Always run without sandbox"),
-                ("deny", "Deny"),
+                ("deny", "拒绝"),
             ]
         );
 

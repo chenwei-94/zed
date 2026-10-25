@@ -1328,7 +1328,9 @@ impl ConversationView {
             && agent.clone().downcast::<NativeAgentServer>().is_none()
         {
             return ServerState::LoadError {
-                error: LoadError::Other("共享项目中尚不支持外部智能体。".into()),
+                error: LoadError::Other(
+                    "External agents are not yet supported in shared projects.".into(),
+                ),
             };
         }
         let session_work_dirs = work_dirs.unwrap_or_else(|| project.read(cx).default_path_list(cx));
@@ -1885,7 +1887,9 @@ impl ConversationView {
                 .clone()
                 .unwrap_or_else(|| "加载中…".into()),
             ServerState::LoadError { error, .. } => match error {
-                LoadError::Unsupported { .. } => format!("升级 {}", self.agent.agent_id()).into(),
+                LoadError::Unsupported { .. } => {
+                    format!("Upgrade {}", self.agent.agent_id()).into()
+                }
                 LoadError::FailedToInstall(_) => {
                     format!("安装 {} 失败", self.agent.agent_id()).into()
                 }
@@ -2199,7 +2203,8 @@ impl ConversationView {
                 }
                 if !is_subagent {
                     let model_or_agent_name = self.current_model_name(cx);
-                    let notification_message = format!("{} 拒绝响应此请求", model_or_agent_name);
+                    let notification_message =
+                        format!("{} refused to respond to this request", model_or_agent_name);
                     self.notify_with_sound(&notification_message, IconName::Warning, window, cx);
                 }
             }
@@ -2218,7 +2223,12 @@ impl ConversationView {
                     });
                 }
                 if !is_subagent {
-                    self.notify_with_sound("智能体因错误停止", IconName::Warning, window, cx);
+                    self.notify_with_sound(
+                        "Agent stopped due to an error",
+                        IconName::Warning,
+                        window,
+                        cx,
+                    );
                 }
             }
             AcpThreadEvent::ConnectionLost => {
@@ -3242,9 +3252,9 @@ impl ConversationView {
         div()
             .debug_selector(|| "copy-saved-agent-input".into())
             .child(
-                Button::new("copy-saved-agent-input", "Copy Saved Input")
+                Button::new("copy-saved-agent-input", "复制已保存的输入")
                     .tooltip(Tooltip::text(
-                        "Copy the original content and receipt evidence as JSON",
+                        "以 JSON 形式复制原始内容与回执证据",
                     ))
                     .on_click(cx.listener(|this, _, window, cx| {
                         match ThreadRecovery::to_json(
@@ -3257,7 +3267,7 @@ impl ConversationView {
                             }
                             Err(error) => this.handle_load_error(
                                 LoadError::Other(
-                                    format!("Failed to copy saved input: {error}").into(),
+                                    format!("复制已保存的输入失败：{error}").into(),
                                 ),
                                 window,
                                 cx,
@@ -3283,7 +3293,7 @@ impl ConversationView {
             }
             LoadError::FailedToInstall(msg) => ("安装失败", msg.to_string()),
             LoadError::Exited { status, stderr } => {
-                let mut message = format!("Server exited with status {status}");
+                let mut message = format!("服务器退出，状态为 {status}");
                 if let Some(stderr) = stderr {
                     message.push_str("\n");
                     message.push_str(stderr);
@@ -3325,7 +3335,10 @@ impl ConversationView {
         let (heading_label, description_label) = (
             format!("升级 {} 以配合 Zed 使用", self.agent.agent_id()),
             if version.is_empty() {
-                format!("当前使用的 {} 未报告有效的 --version", path,)
+                format!(
+                    "Currently using {}, which does not report a valid --version",
+                    path,
+                )
             } else {
                 format!(
                     "当前使用的 {} 版本仅为 {}（至少需要 {minimum_version}）",
@@ -3885,9 +3898,15 @@ fn native_available_skills(
 
 fn placeholder_text(agent_name: &str, has_commands: bool) -> String {
     if agent_name == agent::ZED_AGENT_ID.as_ref() {
-        format!("向 {} 发送消息，@ 添加上下文，/ 使用命令", agent_name)
+        format!(
+            "Message the {}, @ to include context, / for commands",
+            agent_name
+        )
     } else if has_commands {
-        format!("向 {} 发送消息 — @ 添加上下文，/ 使用命令", agent_name)
+        format!(
+            "Message {} — @ to include context, / for commands",
+            agent_name
+        )
     } else {
         format!("向 {} 发送消息 — @ 添加上下文", agent_name)
     }
@@ -4022,8 +4041,8 @@ impl Render for ConversationView {
                                     div()
                                         .debug_selector(|| "discard-saved-agent-submissions".into())
                                         .child(
-                                            Button::new("discard-saved-agent-submissions", "Discard Saved Submissions")
-                                                .tooltip(Tooltip::text("Discard local copies only; does not cancel agent work"))
+                                            Button::new("discard-saved-agent-submissions", "丢弃已保存的提交")
+                                                .tooltip(Tooltip::text("仅丢弃本地副本；不会取消智能体正在执行的工作"))
                                                 .on_click(cx.listener(|this, _, _, cx| {
                                                     this.saved_submissions.clear();
                                                     if let Some(recovery) = &mut this.recovery {
@@ -16883,7 +16902,7 @@ pub(crate) mod tests {
             ),
             acp_v2::PermissionOption::new(
                 acp_v2::PermissionOptionId::new("deny"),
-                "Deny",
+                "拒绝",
                 acp_v2::PermissionOptionKind::RejectOnce,
             ),
         ])

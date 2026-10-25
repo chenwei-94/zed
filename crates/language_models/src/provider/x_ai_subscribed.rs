@@ -149,11 +149,15 @@ impl LanguageModelProvider for XAiSubscribedProvider {
     }
 
     fn authentication_error_message(&self) -> SharedString {
-        "SuperGrok 会话无效或已过期。请通过 设置 > AI > LLM Providers 重新登录以继续。".into()
+        "Your SuperGrok session is invalid or has expired. \
+        Sign in again via Settings > AI > LLM Providers to continue."
+            .into()
     }
 
     fn missing_credentials_error_message(&self) -> SharedString {
-        "尚未登录 SuperGrok。请通过 设置 > AI > LLM Providers 登录以继续。".into()
+        "You are not signed in to SuperGrok. \
+        Sign in via Settings > AI > LLM Providers to continue."
+            .into()
     }
 }
 

@@ -310,11 +310,11 @@ impl Component for ChoiceCard {
                         "Radio",
                         Self::radio(
                             "choice-radio-long-text",
-                            "Allow the agent to read and modify every file in this project, including files ignored by version control",
+                            "允许智能体读取并修改此项目中的每个文件，包括被版本控制忽略的文件",
                             true,
                         )
                         .description(
-                            "The agent will be able to create, edit, and delete files without asking for confirmation each time. You can revoke this permission at any point from the agent settings.",
+                            "智能体将能够创建、编辑和删除文件，且每次操作都无需确认。你可以随时在智能体设置中撤销此权限。",
                         )
                         .into_any_element(),
                     ),
@@ -322,11 +322,11 @@ impl Component for ChoiceCard {
                         "Checkbox",
                         Self::checkbox(
                             "choice-checkbox-long-text",
-                            "Include terminal output, diagnostics, and recently opened buffers as additional context",
+                            "将终端输出、诊断信息和最近打开的缓冲区作为附加上下文",
                             false,
                         )
                         .description(
-                            "Additional context can improve results for larger tasks, but it increases the size of each request and may take longer to process.",
+                            "附加上下文可以提升大型任务的处理效果，但会增加每次请求的体积，处理时间也可能更长。",
                         )
                         .into_any_element(),
                     )

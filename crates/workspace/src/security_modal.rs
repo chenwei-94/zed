@@ -191,7 +191,7 @@ impl Render for SecurityModal {
                         v_flex()
                             .child(
                                 Label::new(
-                                    "Untrusted projects are opened in Restricted Mode to protect your system.",
+                                    "不受信任的项目会在受限模式下打开，以保护你的系统。",
                                 )
                                 .color(Color::Muted),
                             )
@@ -230,7 +230,7 @@ impl Render for SecurityModal {
                                             "trust-parents",
                                             ToggleState::from(self.trust_parents),
                                         )
-                                        .label("Trust all projects in")
+                                        .label("信任以下位置的所有项目")
                                         .on_click(cx.listener(
                                             |security_modal, state: &ToggleState, _, cx| {
                                                 let trust_parents = state.selected();
@@ -317,8 +317,7 @@ impl SecurityModal {
         window: &mut Window,
         cx: &mut Context<Self>,
     ) -> Self {
-        let trust_path_input =
-            cx.new(|cx| InputField::new(window, cx, "要信任的文件夹"));
+        let trust_path_input = cx.new(|cx| InputField::new(window, cx, "Folder to trust"));
         let task = cx.spawn(async |this, cx| {
             let home_dir = home_dir_task.await;
             this.update(cx, |this, cx| {

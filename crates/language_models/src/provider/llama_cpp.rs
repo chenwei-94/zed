@@ -1022,7 +1022,7 @@ impl ConfigurationView {
         let api_key_editor = cx.new(|cx| InputField::new(window, cx, "sk-...").label("API 密钥"));
 
         let api_url_editor = cx.new(|cx| {
-            let input = InputField::new(window, cx, LLAMA_CPP_API_URL).label("API URL");
+            let input = InputField::new(window, cx, LLAMA_CPP_API_URL).label("API 地址");
             input.set_text(&LlamaCppLanguageModelProvider::api_url(cx), window, cx);
             input
         });
@@ -1187,7 +1187,8 @@ impl ConfigurationView {
             .gap_2()
             .child(
                 Label::new(
-                    "使用 llama.cpp 内置服务器在本地运行开放模型，或连接到远程 llama.cpp 服务器。",
+                    "Run open models locally with llama.cpp's built-in server, or connect to a \
+                remote llama.cpp server.",
                 )
                 .color(Color::Muted),
             )
@@ -1215,7 +1216,8 @@ impl ConfigurationView {
             )
             .child(
                 Label::new(
-                    "也可以指定 URL 和 API 密钥（通过 --api-key 设置，可能非必需）来连接到远程 llama.cpp 服务器：",
+                    "Alternatively, you can connect to a remote llama.cpp server by specifying its \
+                URL and API key (set with --api-key, may not be required):",
                 )
                 .color(Color::Muted),
             )

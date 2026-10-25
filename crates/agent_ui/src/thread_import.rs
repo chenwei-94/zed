@@ -120,10 +120,8 @@ impl AgentImportStatus {
         match self {
             Self::Loading => Some("正在获取会话…".into()),
             Self::Ready { .. } => None,
-            Self::Unsupported => {
-                Some("无法从此智能体导入会话，因为它不支持 ACP 的 session/list 能力。".into())
-            }
-            Self::Error(error) => Some(format!("获取会话失败：{error}").into()),
+            Self::Unsupported => Some("Importing threads from this agent is not possible as it doesn't support ACP's session/list capability.".into()),
+            Self::Error(error) => Some(format!("Failed to fetch sessions: {error}").into()),
         }
     }
 }
@@ -574,7 +572,8 @@ impl Render for ThreadImportModal {
                         ModalHeader::new()
                             .headline("导入外部智能体会话")
                             .description(
-                                "从 Claude Agent、Codex 等智能体导入会话，无论是在 Zed 还是其他客户端中启动的。选择要包含的智能体，其会话将出现在会话历史中。"
+                                "Import threads from agents like Claude Agent, Codex, and more, whether started in Zed or another client. \
+                                Choose which agents to include, and their threads will appear in your thread history."
                             )
                             .show_dismiss_button(true),
 

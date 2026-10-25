@@ -5693,7 +5693,7 @@ impl AgentPanel {
                     .icon_size(IconSize::Small),
                 move |_window, cx| {
                     Tooltip::for_action_in(
-                        "Toggle Agent Menu",
+                        "切换智能体菜单",
                         &ToggleOptionsMenu,
                         &focus_handle,
                         cx,
@@ -6194,7 +6194,7 @@ impl AgentPanel {
                     {
                         move |_window, cx| {
                             Tooltip::for_action_in(
-                                "新建会话…",
+                                "New Thread\u{2026}",
                                 &ToggleNewThreadMenu,
                                 &focus_handle,
                                 cx,

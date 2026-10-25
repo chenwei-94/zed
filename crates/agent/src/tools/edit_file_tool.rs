@@ -2586,7 +2586,7 @@ mod tests {
         assert_eq!(on_disk, "replaced content");
     }
 
-    /// When the buffer has unsaved changes and the user picks "Discard", the
+    /// When the buffer has unsaved changes and the user picks "丢弃", the
     /// pending edits are reverted to match disk and the agent's edit then
     /// proceeds against the on-disk content.
     #[gpui::test]

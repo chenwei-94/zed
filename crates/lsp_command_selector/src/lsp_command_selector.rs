@@ -240,7 +240,10 @@ impl PickerDelegate for LspCommandSelectorDelegate {
                     Execution::Idle
                 }
                 Err(error) => {
-                    let error = format!("执行 LSP 命令 {} 失败：{error:#}", command.command);
+                    let error = format!(
+                        "Failed to execute LSP command {}: {error:#}",
+                        command.command
+                    );
                     log::error!("{error}");
                     Execution::Failed(SharedString::from(error))
                 }

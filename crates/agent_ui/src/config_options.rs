@@ -537,11 +537,11 @@ impl Render for ConfigOptionSelector {
                             acp::SessionConfigOptionCategory::Model => {
                                 content = content
                                     .child(action_tooltip_container(
-                                        "更改模型",
+                                        "更换模型",
                                         KeyBinding::for_action(&ToggleModelSelector, cx),
                                     ))
                                     .child(action_tooltip_container(
-                                        "循环切换收藏的模型",
+                                        "循环切换收藏模型",
                                         KeyBinding::for_action(&CycleFavoriteModels, cx),
                                     ));
                             }

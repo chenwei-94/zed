@@ -256,13 +256,28 @@ pub fn deploy_context_menu(
                     run_to_cursor || (evaluate_selection && has_selections),
                     |builder| builder.separator(),
                 )
-                .action("转到定义", Box::new(GoToDefinition::default()))
-                .action("转到声明", Box::new(GoToDeclaration::default()))
-                .action("转到类型定义", Box::new(GoToTypeDefinition::default()))
-                .action("转到实现", Box::new(GoToImplementation::default()))
-                .action("查找所有引用", Box::new(FindAllReferences::default()))
-                .action("显示传入调用", Box::new(zed_actions::ShowIncomingCalls))
-                .action("显示传出调用", Box::new(zed_actions::ShowOutgoingCalls))
+                .action("Go to Definition", Box::new(GoToDefinition::default()))
+                .action("Go to Declaration", Box::new(GoToDeclaration::default()))
+                .action(
+                    "Go to Type Definition",
+                    Box::new(GoToTypeDefinition::default()),
+                )
+                .action(
+                    "Go to Implementation",
+                    Box::new(GoToImplementation::default()),
+                )
+                .action(
+                    "查找所有引用",
+                    Box::new(FindAllReferences::default()),
+                )
+                .action(
+                    "显示传入调用",
+                    Box::new(zed_actions::ShowIncomingCalls),
+                )
+                .action(
+                    "显示传出调用",
+                    Box::new(zed_actions::ShowOutgoingCalls),
+                )
                 .separator()
                 .action("重命名符号", Box::new(Rename))
                 .action("格式化缓冲区", Box::new(Format))
@@ -296,13 +311,21 @@ pub fn deploy_context_menu(
                 .when(is_svg, |builder| {
                     builder.action("打开 SVG 预览", Box::new(OpenSvgPreview))
                 })
-                .action_disabled_when(!has_reveal_target, "在终端中打开", Box::new(OpenInTerminal))
+                .action_disabled_when(
+                    !has_reveal_target,
+                    "在终端中打开",
+                    Box::new(OpenInTerminal),
+                )
                 .action_disabled_when(
                     !has_git_repo,
                     "复制行永久链接",
                     Box::new(CopyPermalinkToLine),
                 )
-                .action_disabled_when(!has_git_repo, "查看文件历史", Box::new(git::FileHistory));
+                .action_disabled_when(
+                    !has_git_repo,
+                    "View File History",
+                    Box::new(git::FileHistory),
+                );
             match focus {
                 Some(focus) => builder.context(focus),
                 None => builder,

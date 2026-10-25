@@ -4272,7 +4272,7 @@ impl GitGraph {
                         )),
                     )
                     .child(
-                        Label::new("Message")
+                        Label::new("消息")
                             .size(LabelSize::Small)
                             .color(Color::Muted),
                     ),

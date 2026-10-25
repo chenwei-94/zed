@@ -572,7 +572,8 @@ pub trait LanguageModelProvider: LanguageModelClient {
     /// this so users aren't told to check an API key they don't have.
     fn authentication_error_message(&self) -> SharedString {
         format!(
-            "{} 的 API 密钥无效或已过期。请在 设置 > AI > LLM Providers 中更新密钥以继续。",
+            "The API key for {} is invalid or has expired. \
+            Update your key in Settings > AI > LLM Providers to continue.",
             self.name().0
         )
         .into()
@@ -584,7 +585,8 @@ pub trait LanguageModelProvider: LanguageModelClient {
     /// should override this.
     fn missing_credentials_error_message(&self) -> SharedString {
         format!(
-            "未为 {} 配置 API 密钥。请在 设置 > AI > LLM Providers 中添加密钥以继续。",
+            "No API key is configured for {}. \
+            Add your key in Settings > AI > LLM Providers to continue.",
             self.name().0
         )
         .into()

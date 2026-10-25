@@ -132,7 +132,7 @@ pub fn start_kernel_tasks<S: KernelSession + 'static>(
                         ref err @ (runtimelib::RuntimeError::ParseError { .. }
                         | runtimelib::RuntimeError::SerdeError(_)),
                     ) => {
-                        let error_detail = format!("内核在 {channel} 通道上出现问题\n\n{err}");
+                        let error_detail = format!("Kernel issue on {channel} channel\n\n{err}");
                         log::warn!("kernel: {error_detail}");
                         session
                             .update_in(cx, |session, _window, cx| {

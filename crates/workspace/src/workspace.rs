@@ -10858,8 +10858,10 @@ pub fn join_channel(
                                 "Please ask someone to add you and try again."
                             )
                             .into(),
-                            ErrorCode::Disconnected => "请检查网络连接后重试。".into(),
-                            _ => format!("{}\n\n请重试。", err).into(),
+                            ErrorCode::Disconnected => {
+                                "Please check your internet connection and try again.".into()
+                            }
+                            _ => format!("{}\n\nPlease try again.", err).into(),
                         };
                         window.prompt(
                             PromptLevel::Critical,

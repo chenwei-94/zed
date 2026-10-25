@@ -192,7 +192,9 @@ impl ColumnFilterDelegate {
         let mut header_inserted = false;
         for (row_index, positions) in matches {
             if rows[row_index].hidden_by.is_some() && !header_inserted {
-                entries.push(ColumnFilterListEntry::Header("被其他筛选条件隐藏".into()));
+                entries.push(ColumnFilterListEntry::Header(
+                    "Hidden by other filters".into(),
+                ));
                 header_inserted = true;
             }
             entries.push(ColumnFilterListEntry::Row {
@@ -586,8 +588,12 @@ impl TableView {
                     Cow::Borrowed(_) => header_text.clone(),
                     Cow::Owned(replaced) => SharedString::from(replaced),
                 };
-                with_copy_on_right_click(header_text_cell, header_text, "右键单击复制列名")
-                    .child(displayed_header)
+                with_copy_on_right_click(
+                    header_text_cell,
+                    header_text,
+                    "Right click to copy column name",
+                )
+                .child(displayed_header)
             })
             .child(
                 GradientFade::new(base_bg, base_bg, base_bg)

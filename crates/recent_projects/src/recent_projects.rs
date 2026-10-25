@@ -1067,7 +1067,7 @@ impl PickerDelegate for RecentProjectsDelegate {
         };
 
         if has_projects_to_show {
-            entries.push(ProjectPickerEntry::Header("此窗口".into()));
+            entries.push(ProjectPickerEntry::Header("当前窗口".into()));
 
             if is_empty_query {
                 for id in 0..self.window_project_groups.len() {
@@ -2180,9 +2180,12 @@ impl RecentProjectsDelegate {
                     } else {
                         workspace
                             .open_workspace_for_paths(OpenMode::NewWindow, paths, window, cx)
-                            .detach_and_prompt_err("打开项目失败", window, cx, |_, _, _| {
-                                None
-                            });
+                            .detach_and_prompt_err(
+                                "打开项目失败",
+                                window,
+                                cx,
+                                |_, _, _| None,
+                            );
                     }
                 }
                 SerializedWorkspaceLocation::Remote(mut connection) => {

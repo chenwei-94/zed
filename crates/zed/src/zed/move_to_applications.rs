@@ -73,8 +73,10 @@ impl MoveToApplicationsRequest {
         let response = cx
             .prompt(
                 PromptLevel::Info,
-                "将 Zed 移动到 Applications？",
-                Some("Zed 正从临时位置运行。将其移动到 Applications 以完成安装。"),
+                "Move Zed to Applications?",
+                Some(
+                    "Zed is running from a temporary location. Move it to Applications to finish installing it.",
+                ),
                 &[
                     PromptButton::ok("Yes"),
                     PromptButton::cancel("No"),

@@ -870,9 +870,9 @@ impl Render for DeleteBranchTooltip {
         // merged check), so there is no separate force delete to offer for them.
         if self.is_remote {
             return Tooltip::with_meta_in(
-                "Delete Local Tracking Branch",
+                "删除本地跟踪分支",
                 Some(&branch_picker::DeleteBranch),
-                "Does not delete the branch on the remote",
+                "不会删除远端的该分支",
                 &self.focus_handle,
                 cx,
             )
@@ -1589,7 +1589,7 @@ impl PickerDelegate for BranchListDelegate {
                     anyhow::Ok(())
                 })
                 .detach_and_prompt_err(
-                    "Failed to change branch",
+                    "切换分支失败",
                     window,
                     cx,
                     |_, _, _| None,
@@ -2036,7 +2036,7 @@ impl PickerDelegate for BranchListDelegate {
 
                 let selected_branch = selected_entry.and_then(|entry| entry.as_branch());
                 let delete_label = if selected_branch.is_some_and(|branch| branch.is_remote()) {
-                    "Delete Local Tracking Branch"
+                    "删除本地跟踪分支"
                 } else {
                     "删除"
                 };

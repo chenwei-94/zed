@@ -178,8 +178,10 @@ fn fail_to_open_window(e: anyhow::Error, _cx: &mut App) {
                     notification_id,
                     Notification::new("Zed 启动失败")
                         .body(Some(
-                            format!("{e:?}。有关故障排除步骤，参见 https://zed.dev/docs/linux。")
-                                .as_str(),
+                            format!(
+                                "{e:?}. See https://zed.dev/docs/linux for troubleshooting steps."
+                            )
+                            .as_str(),
                         ))
                         .priority(Priority::High)
                         .icon(ashpd::desktop::Icon::with_names(&[
@@ -1480,7 +1482,10 @@ pub(crate) async fn restore_or_create_workspace(
             let message = if error_count == 1 {
                 "恢复 1 个工作区失败。详情请查看日志。".to_string()
             } else {
-                format!("恢复 {} 个工作区失败。详情请查看日志。", error_count)
+                format!(
+                    "Failed to restore {} workspaces. Check logs for details.",
+                    error_count
+                )
             };
 
             // Try to find an active workspace to show the toast

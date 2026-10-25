@@ -1855,7 +1855,8 @@ fn open_log_file(workspace: &mut Workspace, window: &mut Window, cx: &mut Contex
                                 cx.new(|cx| {
                                     MessageNotification::new(
                                         format!(
-                                            "无法访问或打开路径 {} 的日志文件：{e:#}",
+                                            "Unable to access/open log file at path \
+                                                    {}: {e:#}",
                                             paths::log_file().display()
                                         ),
                                         cx,
@@ -1936,7 +1937,7 @@ fn notify_settings_errors(result: settings::SettingsParseResult, is_user: bool, 
             } else {
                 show_app_notification(id, cx, move |cx| {
                     cx.new(|cx| {
-                        MessageNotification::new(format!("用户设置文件无效\n{error}"), cx)
+                        MessageNotification::new(format!("Invalid user settings file\n{error}"), cx)
                             .primary_message("打开设置文件")
                             .primary_icon(IconName::Settings)
                             .primary_on_click(|window, cx| {
@@ -1966,16 +1967,19 @@ fn notify_settings_errors(result: settings::SettingsParseResult, is_user: bool, 
             if !showed_parse_error {
                 show_app_notification(id, cx, move |cx| {
                     cx.new(|cx| {
-                        MessageNotification::new(format!("迁移设置失败\n{err}"), cx)
-                            .primary_message("打开设置文件")
-                            .primary_icon(IconName::Settings)
-                            .primary_on_click(|window, cx| {
-                                window.dispatch_action(
-                                    zed_actions::OpenSettingsFile.boxed_clone(),
-                                    cx,
-                                );
-                                cx.emit(DismissEvent);
-                            })
+                        MessageNotification::new(
+                            format!(
+                                "Failed to migrate settings\n\
+                                {err}"
+                            ),
+                            cx,
+                        )
+                        .primary_message("打开设置文件")
+                        .primary_icon(IconName::Settings)
+                        .primary_on_click(|window, cx| {
+                            window.dispatch_action(zed_actions::OpenSettingsFile.boxed_clone(), cx);
+                            cx.emit(DismissEvent);
+                        })
                     })
                 });
             }
@@ -2003,7 +2007,7 @@ fn init_global_config_error_notifications(cx: &mut App) {
             match result {
                 Ok(_) => dismiss_app_notification(&id, cx),
                 Err(error) => {
-                    let message = format!("全局 {file_kind} 文件无效\n{error}");
+                    let message = format!("Invalid global {file_kind} file\n{error}");
                     show_app_notification(id, cx, move |cx| {
                         cx.new(|cx| {
                             MessageNotification::new(message.clone(), cx)
@@ -2094,7 +2098,7 @@ pub fn watch_user_agents_md(fs: Arc<dyn fs::Fs>, cx: &mut App) {
         UserAgentsMdState::Error(message) => {
             let path = paths::agents_file().display().to_string();
             log::error!("Failed to load user AGENTS.md from {path}: {message}");
-            let body = format!("加载 {path} 失败\n{message}");
+            let body = format!("Failed to load {path}\n{message}");
             let notification_id = notification_id.clone();
             show_app_notification(notification_id, cx, move |cx| {
                 let body = body.clone();
@@ -2253,7 +2257,7 @@ fn show_keymap_file_json_error(
     cx: &mut App,
 ) {
     let message: SharedString =
-        format!("键位映射文件存在 JSON 解析错误。未重新加载键位绑定。\n\n{error}").into();
+        format!("JSON parse error in keymap file. Bindings not reloaded.\n\n{error}").into();
     show_app_notification(notification_id, cx, move |cx| {
         cx.new(|cx| {
             MessageNotification::new(message.clone(), cx)

@@ -115,7 +115,7 @@ impl Render for EditPredictionButton {
                                             Toast::new(
                                                 NotificationId::unique::<CopilotErrorToast>(),
                                                 format!(
-                                                    "Copilot Edit Predictions can't be started: {}",
+                                                    "Copilot 编辑预测无法启动：{}",
                                                     e
                                                 ),
                                             )
@@ -136,7 +136,7 @@ impl Render for EditPredictionButton {
                             }))
                             .tooltip(|_window, cx| {
                                 Tooltip::for_action(
-                                    "GitHub Copilot Edit Predictions",
+                                    "GitHub Copilot 编辑预测",
                                     &ToggleMenu,
                                     cx,
                                 )
@@ -183,7 +183,7 @@ impl Render for EditPredictionButton {
                                 .aria_label("GitHub Copilot"),
                             |_window, cx| {
                                 Tooltip::for_action(
-                                    "GitHub Copilot Edit Predictions",
+                                    "GitHub Copilot 编辑预测",
                                     &ToggleMenu,
                                     cx,
                                 )
@@ -485,7 +485,7 @@ impl Render for EditPredictionButton {
                             } else if zed_cloud_needs_sign_in {
                                 "登录或配置提供商"
                             } else if zed_cloud_has_no_active_subscription {
-                                "This organization has no active subscription"
+                                "此组织没有生效中的订阅"
                             } else if excluded_from_plan {
                                 "配置提供商"
                             } else if provider_unavailable || show_editor_predictions {
@@ -658,7 +658,7 @@ impl EditPredictionButton {
                         .disabled(is_disabled_zed_provider)
                         .when(is_disabled_zed_provider, |item| {
                             item.documentation_aside(DocumentationSide::Left, move |_cx| {
-                                Label::new("Edit predictions are disabled for this organization.")
+                                Label::new("此组织已禁用编辑预测。")
                                     .into_any_element()
                             })
                         })
@@ -779,7 +779,7 @@ impl EditPredictionButton {
                         DocumentationSide::Left,
                         move |_cx| {
                             Label::new(format!(
-                                "Edit predictions are disabled for {}",
+                                "已对 {} 禁用编辑预测。",
                                 language.name()
                             ))
                             .into_any_element()
@@ -829,12 +829,12 @@ impl EditPredictionButton {
 
         menu = menu
                 .separator()
-                .header("Display Modes")
+                .header("显示模式")
                 .item(
-                    ContextMenuEntry::new("Eager")
+                    ContextMenuEntry::new("即时")
                         .toggleable(IconPosition::Start, eager_mode)
                         .documentation_aside(DocumentationSide::Left, move |_| {
-                            Label::new("Display predictions inline when there are no language server completions available.").into_any_element()
+                            Label::new("在没有语言服务器补全可用时内联显示预测。").into_any_element()
                         })
                         .handler({
                             let fs = fs.clone();
@@ -1041,7 +1041,7 @@ impl EditPredictionButton {
                 .separator()
                 .header("操作")
                 .item(
-                    ContextMenuEntry::new("Predict Edit at Cursor")
+                    ContextMenuEntry::new("在光标处预测编辑")
                         .action(Box::new(ShowEditPrediction))
                         .disabled(zed_cloud_has_no_active_subscription)
                         .handler({
@@ -1222,7 +1222,7 @@ impl EditPredictionButton {
                         .item(ContextMenuEntry::new("已达免费版上限").disabled(true))
                         .item(
                             ContextMenuEntry::new(
-                                "Upgrade to a paid plan to continue using the service",
+                                "升级到付费套餐以继续使用该服务",
                             )
                             .disabled(true),
                         )
@@ -1241,13 +1241,13 @@ impl EditPredictionButton {
                         .header("Zed AI")
                         .item(
                             ContextMenuEntry::new(
-                                "This organization has no active subscription",
+                                "此组织没有生效中的订阅",
                             )
                             .disabled(true),
                         )
                         .item(
                             ContextMenuEntry::new(
-                                "Switch organizations or configure another provider to use edit predictions",
+                                "切换组织或配置其他提供商以使用编辑预测",
                             )
                             .disabled(true),
                         )
@@ -1259,7 +1259,7 @@ impl EditPredictionButton {
                     menu = menu
                         .custom_entry(
                             |_window, _cx| {
-                                Label::new("Zed's edit predictions not included in the Free plan.")
+                                Label::new("Zed 的编辑预测不包含在免费套餐中。")
                                     .size(LabelSize::Small)
                                     .color(Color::Muted)
                                     .into_any_element()

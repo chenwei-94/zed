@@ -632,14 +632,16 @@ impl TitleBar {
         let nickname = nickname.unwrap_or_else(|| host.clone());
 
         let (indicator_color, meta) = match self.project.read(cx).remote_connection_state(cx)? {
-            remote::ConnectionState::Connecting => (Color::Info, format!("正在连接到：{host}")),
-            remote::ConnectionState::Connected => (Color::Success, format!("已连接到：{host}")),
-            remote::ConnectionState::HeartbeatMissed => {
-                (Color::Warning, format!("连接 {host} 的尝试超时。正在重试…"))
-            }
-            remote::ConnectionState::Reconnecting => {
-                (Color::Warning, format!("与 {host} 的连接已断开。正在重连…"))
-            }
+            remote::ConnectionState::Connecting => (Color::Info, format!("Connecting to: {host}")),
+            remote::ConnectionState::Connected => (Color::Success, format!("Connected to: {host}")),
+            remote::ConnectionState::HeartbeatMissed => (
+                Color::Warning,
+                format!("Connection attempt to {host} missed. Retrying..."),
+            ),
+            remote::ConnectionState::Reconnecting => (
+                Color::Warning,
+                format!("Lost connection to {host}. Reconnecting..."),
+            ),
             remote::ConnectionState::Disconnected => {
                 (Color::Error, format!("已断开与 {host} 的连接"))
             }
@@ -772,8 +774,10 @@ impl TitleBar {
                 .label_size(LabelSize::Small)
                 .tab_index(0isize)
                 .tooltip(move |_, cx| {
-                    let tooltip_title =
-                        format!("{} 正在共享此项目。点击以跟随。", host_user.username);
+                    let tooltip_title = format!(
+                        "{} is sharing this project. Click to follow.",
+                        host_user.username
+                    );
 
                     Tooltip::with_meta(tooltip_title, None, "点击跟随", cx)
                 })
@@ -1076,7 +1080,12 @@ impl TitleBar {
                         } else {
                             format!("当前检出：{}", branch_tooltip_label)
                         };
-                        Tooltip::with_meta("分支与贮藏", Some(&zed_actions::git::Branch), meta, cx)
+                        Tooltip::with_meta(
+                            "Branch & Stash",
+                            Some(&zed_actions::git::Branch),
+                            meta,
+                            cx,
+                        )
                     })
                     .anchor(gpui::Anchor::TopLeft)
             })
@@ -1387,7 +1396,10 @@ impl TitleBar {
                         "图标主题…",
                         zed_actions::icon_theme_selector::Toggle::default().boxed_clone(),
                     )
-                    .action("扩展", zed_actions::Extensions::default().boxed_clone())
+                    .action(
+                        "扩展",
+                        zed_actions::Extensions::default().boxed_clone(),
+                    )
                     .when(ai_enabled, |menu| {
                         menu.separator()
                             .submenu("面板布局", move |menu, _window, _cx| {

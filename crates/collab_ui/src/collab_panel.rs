@@ -1430,7 +1430,12 @@ impl CollabPanel {
                                     )
                                 })
                             })
-                            .detach_and_prompt_err("授予麦克风权限失败", window, cx, |_, _, _| None)
+                            .detach_and_prompt_err(
+                                "Failed to grant mic access",
+                                window,
+                                cx,
+                                |_, _, _| None,
+                            )
                     }),
                 );
             }
@@ -1452,17 +1457,12 @@ impl CollabPanel {
                                     )
                                 })
                             })
-                            .detach_and_prompt_err(
-                                "授予写入权限失败",
-                                window,
-                                cx,
-                                |e, _, _| match e.error_code() {
-                                    ErrorCode::NeedsCla => {
-                                        Some("该用户尚未在 https://zed.dev/cla 签署 CLA。".into())
-                                    }
+                            .detach_and_prompt_err("Failed to grant write access", window, cx, |e, _, _| {
+                                match e.error_code() {
+                                    ErrorCode::NeedsCla => Some("This user has not yet signed the CLA at https://zed.dev/cla.".into()),
                                     _ => None,
-                                },
-                            )
+                                }
+                            })
                     }),
                 );
             }
@@ -1489,7 +1489,12 @@ impl CollabPanel {
                                     )
                                 })
                             })
-                            .detach_and_prompt_err("撤销访问权限失败", window, cx, |_, _, _| None)
+                            .detach_and_prompt_err(
+                                "Failed to revoke access",
+                                window,
+                                cx,
+                                |_, _, _| None,
+                            )
                     }),
                 );
             }
@@ -1964,7 +1969,12 @@ impl CollabPanel {
                             |_, _, _| None,
                         );
                     } else {
-                        create.detach_and_prompt_err("创建频道失败", window, cx, |_, _, _| None);
+                        create.detach_and_prompt_err(
+                            "创建频道失败",
+                            window,
+                            cx,
+                            |_, _, _| None,
+                        );
                     }
                     cx.notify();
                 }
@@ -2248,17 +2258,14 @@ impl CollabPanel {
             .update(cx, |channel_store, cx| {
                 channel_store.set_channel_visibility(channel_id, visibility, cx)
             })
-            .detach_and_prompt_err("设置频道可见性失败", window, cx, |e, _, _| match e
-                .error_code()
-            {
-                ErrorCode::BadPublicNesting => {
+            .detach_and_prompt_err("Failed to set channel visibility", window, cx, |e, _, _| match e.error_code() {
+                ErrorCode::BadPublicNesting =>
                     if e.error_tag("direction") == Some("parent") {
                         Some("要将频道设为公开，其父频道必须是公开的。".to_string())
                     } else {
-                        Some("要将频道设为私有，其所有子频道都必须是私有的。".to_string())
-                    }
-                }
-                _ => None,
+                        Some("To make a channel private, all of its subchannels must be private.".to_string())
+                    },
+                _ => None
             });
     }
 
@@ -2306,9 +2313,15 @@ impl CollabPanel {
             })
             .detach_and_prompt_err("移动频道失败", window, cx, |e, _, _| {
                 match e.error_code() {
-                    ErrorCode::BadPublicNesting => Some("公开频道的父频道必须是公开的".into()),
-                    ErrorCode::CircularNesting => Some("不能将频道移动到其自身".into()),
-                    ErrorCode::WrongMoveTarget => Some("不能将频道移动到其他根频道".into()),
+                    ErrorCode::BadPublicNesting => {
+                        Some("Public channels must have public parents".into())
+                    }
+                    ErrorCode::CircularNesting => {
+                        Some("You cannot move a channel into itself".into())
+                    }
+                    ErrorCode::WrongMoveTarget => {
+                        Some("You cannot move a channel into a different root channel".into())
+                    }
                     _ => None,
                 }
             })
@@ -2540,7 +2553,10 @@ impl CollabPanel {
     ) {
         let channel_store = self.channel_store.clone();
         if let Some(channel) = channel_store.read(cx).channel_for_id(channel_id) {
-            let prompt_message = format!("确定要移除频道“{}”吗？", channel.name);
+            let prompt_message = format!(
+                "Are you sure you want to remove the channel \"{}\"?",
+                channel.name
+            );
             let answer = window.prompt(
                 PromptLevel::Warning,
                 &prompt_message,
@@ -2574,7 +2590,10 @@ impl CollabPanel {
         cx: &mut Context<Self>,
     ) {
         let user_store = self.user_store.clone();
-        let prompt_message = format!("确定要将“{}”从联系人中移除吗？", github_login);
+        let prompt_message = format!(
+            "Are you sure you want to remove \"{}\" from your contacts?",
+            github_login
+        );
         let answer = window.prompt(
             PromptLevel::Warning,
             &prompt_message,
@@ -2606,7 +2625,12 @@ impl CollabPanel {
             .update(cx, |store, cx| {
                 store.respond_to_contact_request(user_id, accept, cx)
             })
-            .detach_and_prompt_err("回应联系人请求失败", window, cx, |_, _, _| None);
+            .detach_and_prompt_err(
+                "Failed to respond to contact request",
+                window,
+                cx,
+                |_, _, _| None,
+            );
     }
 
     fn respond_to_channel_invite(
@@ -2673,7 +2697,9 @@ impl CollabPanel {
             .size_full()
             .text_center()
             .justify_center()
-            .child(Label::new("此组织已禁用协作。"))
+            .child(Label::new(
+                "Collaboration is disabled for this organization.",
+            ))
     }
 
     fn render_signed_out(&mut self, cx: &mut Context<Self>) -> Div {
@@ -3687,7 +3713,10 @@ impl CollabPanel {
                 let inviter = user_store.get_cached_user(*inviter_id)?;
                 Some((
                     Some(inviter.clone()),
-                    format!("{} 邀请你加入 #{channel_name} 频道", inviter.username),
+                    format!(
+                        "{} invited you to join the #{channel_name} channel",
+                        inviter.username
+                    ),
                 ))
             }
         }

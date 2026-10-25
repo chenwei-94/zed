@@ -941,8 +941,11 @@ impl Render for DiffMultibuffer {
                         .child(h_flex().justify_around().child(Label::new(empty_label)))
                         .map(|el| match remote_button {
                             Some(button) => el.child(h_flex().justify_around().child(button)),
-                            None => el
-                                .child(h_flex().justify_around().child(Label::new("远程已是最新"))),
+                            None => el.child(
+                                h_flex()
+                                    .justify_around()
+                                    .child(Label::new("Remote up to date")),
+                            ),
                         })
                         .child(
                             h_flex().justify_around().mt_1().child(

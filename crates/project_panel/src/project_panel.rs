@@ -1300,7 +1300,10 @@ impl ProjectPanel {
                             .when(is_dir && !is_root, |menu| {
                                 menu.separator()
                                     .action("全部展开", Box::new(ExpandSelectedEntryAndChildren))
-                                    .action("全部折叠", Box::new(CollapseSelectedEntryAndChildren))
+                                    .action(
+                                        "全部折叠",
+                                        Box::new(CollapseSelectedEntryAndChildren),
+                                    )
                             })
                             .when(is_dir && is_root, |menu| {
                                 menu.separator()
@@ -2079,16 +2082,18 @@ impl ProjectPanel {
 
             let trimmed_filename = filename.trim();
             if trimmed_filename != filename {
-                edit_state.validation_state =
-                    ValidationState::Warning("文件或目录名包含开头或结尾的空白字符。".to_string());
+                edit_state.validation_state = ValidationState::Warning(
+                    "File or directory name contains leading or trailing whitespace.".to_string(),
+                );
                 cx.notify();
                 return;
             }
             let trimmed_filename = trimmed_filename.trim_start_matches('/');
 
             let Ok(filename) = RelPath::from_unix_str(trimmed_filename) else {
-                edit_state.validation_state =
-                    ValidationState::Warning("文件或目录名包含开头或结尾的空白字符。".to_string());
+                edit_state.validation_state = ValidationState::Warning(
+                    "File or directory name contains leading or trailing whitespace.".to_string(),
+                );
                 cx.notify();
                 return;
             };
@@ -2837,8 +2842,12 @@ impl ProjectPanel {
         S: AsRef<str>,
     {
         let (message_start, confirmation_label, detail) = match kind {
-            RemovalKind::Trash => ("是否将以下内容移到回收站", "移入回收站", None),
-            RemovalKind::Delete => ("确定要永久删除", "删除", Some("此操作无法撤销。")),
+            RemovalKind::Trash => ("Do you want to trash", "移入回收站", None),
+            RemovalKind::Delete => (
+                "Are you sure you want to permanently delete",
+                "删除",
+                Some("This cannot be undone."),
+            ),
         };
 
         let mut message = match names {
@@ -2858,7 +2867,7 @@ impl ProjectPanel {
                 }
 
                 format!(
-                    "{message_start}以下 {} 个文件？\n{}",
+                    "{message_start} the following {} files?\n{}",
                     names.len(),
                     listed_names.join("\n")
                 )
@@ -2867,14 +2876,14 @@ impl ProjectPanel {
         match dirty_buffers {
             0 => {}
             1 if names.len() == 1 => {
-                message.push_str("它有未保存的更改，这些更改将丢失。");
+                message.push_str("\n\nIt has unsaved changes, which will be lost.");
             }
             1 => {
-                message.push_str("其中 1 个有未保存的更改，这些更改将丢失。");
+                message.push_str("\n\n1 of these has unsaved changes, which will be lost.");
             }
             dirty_buffers => {
                 message.push_str(&format!(
-                    "其中有 {dirty_buffers} 个存在未保存的更改，这些更改将丢失。"
+                    "\n\n{dirty_buffers} of these have unsaved changes, which will be lost."
                 ));
             }
         }
@@ -3952,7 +3961,11 @@ impl ProjectPanel {
                                 workspace.show_toast(
                                     workspace::Toast::new(
                                         notification_id.clone(),
-                                        format!("正在下载 {}/{} 个文件…", index + 1, total_files),
+                                        format!(
+                                            "Downloading {}/{} files...",
+                                            index + 1,
+                                            total_files
+                                        ),
                                     ),
                                     cx,
                                 );

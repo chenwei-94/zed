@@ -3104,7 +3104,7 @@ impl GitPanel {
                     (0, 0) => return Some(()),
                     (tracked_count, 0) => (
                         format!("Discard {changes} to {tracked_count} files?"),
-                        "Discard",
+                        "丢弃",
                     ),
                     (0, untracked_count) => (format!("Trash {untracked_count} files?"), "移入回收站"),
                     (tracked_count, untracked_count) => (
@@ -3168,7 +3168,7 @@ impl GitPanel {
                 Ok(())
             })
             .detach_and_prompt_err(
-                "Failed to revert changes",
+                "还原更改失败",
                 window,
                 cx,
                 |e, _, _| Some(format!("{e}")),
@@ -8163,10 +8163,10 @@ impl GitPanel {
             v_flex()
                 .gap_1()
                 .items_center()
-                .child(Label::new("No Git Repositories").color(Color::Muted))
+                .child(Label::new("没有 Git 仓库").color(Color::Muted))
                 .when(has_directory_worktree, |this| {
                     this.child(
-                        Button::new("initialize_repository", "Initialize Repository")
+                        Button::new("initialize_repository", "初始化仓库")
                             .label_size(LabelSize::Small)
                             .style(ButtonStyle::Outlined)
                             .tooltip(Tooltip::for_action_title_in(
@@ -9478,7 +9478,7 @@ impl Render for GenerateCommitMessageConfigurationTooltip {
             container
                 .gap_1p5()
                 .child(Label::new(
-                    "Configure an LLM provider to generate commit messages.",
+                    "配置 LLM 提供商以生成提交信息。",
                 ))
                 .child(
                     h_flex()

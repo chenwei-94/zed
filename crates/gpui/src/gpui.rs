@@ -34,10 +34,8 @@ mod interactive;
 mod key_dispatch;
 mod keymap;
 mod path_builder;
-mod paint_observer;
 mod platform;
 pub mod prelude;
-pub use paint_observer::{PaintEvent, PaintObservation, PaintObserver, has_paint_observer, set_paint_observer};
 /// Profiling utilities for task, frame, and thread performance tracking.
 pub mod profiler;
 #[cfg(any(

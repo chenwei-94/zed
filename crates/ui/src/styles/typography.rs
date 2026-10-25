@@ -270,7 +270,10 @@ impl Component for Headline {
                         .size(HeadlineSize::Large)
                         .into_any_element(),
                 ),
-                single_example("中（默认）", Headline::new("中标题").into_any_element()),
+                single_example(
+                    "Medium (Default)",
+                    Headline::new("中标题").into_any_element(),
+                ),
                 single_example(
                     "小",
                     Headline::new("小标题")

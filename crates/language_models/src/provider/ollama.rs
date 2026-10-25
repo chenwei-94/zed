@@ -683,11 +683,10 @@ struct ConfigurationView {
 
 impl ConfigurationView {
     pub fn new(state: Entity<State>, window: &mut Window, cx: &mut Context<Self>) -> Self {
-        let api_key_editor =
-            cx.new(|cx| InputField::new(window, cx, "63e02e...").label("API 密钥"));
+        let api_key_editor = cx.new(|cx| InputField::new(window, cx, "63e02e...").label("API 密钥"));
 
         let api_url_editor = cx.new(|cx| {
-            let input = InputField::new(window, cx, OLLAMA_API_URL).label("API URL");
+            let input = InputField::new(window, cx, OLLAMA_API_URL).label("API 地址");
             input.set_text(&OllamaLanguageModelProvider::api_url(cx), window, cx);
             input
         });
@@ -851,7 +850,8 @@ impl ConfigurationView {
             .gap_2()
             .child(
                 Label::new(
-                    "使用 Ollama 在本机本地运行 LLM，或连接到 Ollama 服务器。可访问 Llama、Mistral、Gemma 等数百个模型。",
+                    "Run LLMs locally on your machine with Ollama, or connect to an Ollama server. \
+                Can provide access to Llama, Mistral, Gemma, and hundreds of other models.",
                 )
                 .color(Color::Muted),
             )
@@ -880,7 +880,8 @@ impl ConfigurationView {
             )
             .child(
                 Label::new(
-                    "也可以指定 URL 和 API 密钥（可能非必需）来连接到 Ollama 服务器：",
+                    "Alternatively, you can connect to an Ollama server by specifying its \
+                URL and API key (may not be required):",
                 )
                 .color(Color::Muted),
             )
@@ -902,25 +903,23 @@ impl ConfigurationView {
                 .disabled(env_var_set)
                 .on_click(cx.listener(|this, _, window, cx| this.reset_api_key(window, cx)))
                 .when(env_var_set, |this| {
-                    this.tooltip_label(format!(
-                        "要重置 API 密钥，请取消设置 {API_KEY_ENV_VAR_NAME} 环境变量。"
-                    ))
+                    this.tooltip_label(format!("要重置 API 密钥，请取消设置 {API_KEY_ENV_VAR_NAME} 环境变量。"))
                 })
                 .into_any_element()
         };
 
         v_flex()
-            .on_action(cx.listener(Self::save_api_key))
-            .child(api_key_control)
-            .gap_1p5()
-            .mb_2()
-            .child(
-                Label::new(format!(
-                    "你也可以设置 {API_KEY_ENV_VAR_NAME} 环境变量并重启 Zed。"
-                ))
-                .size(LabelSize::Small)
-                .color(Color::Muted),
-            )
+          .on_action(cx.listener(Self::save_api_key))
+          .child(api_key_control)
+          .gap_1p5()
+          .mb_2()
+          .child(
+              Label::new(
+                  format!("你也可以设置 {API_KEY_ENV_VAR_NAME} 环境变量并重启 Zed。")
+              )
+              .size(LabelSize::Small)
+              .color(Color::Muted),
+          )
     }
 
     fn render_context_window_editor(&self, cx: &Context<Self>) -> Div {

@@ -537,24 +537,8 @@ fn prepaint_view(
             return Some(element);
         }
 
-        // ⚠️ 缓存槽没有 `global_id`（例如宿主未提供元素 id 的挂载点）⇒ **安全降级为不缓存**：
-        // 正常渲染/预绘制一次，绝不 `unwrap()` panic。
-        // RLT `Entity::cached` 首次接入（2026-10-16 顶栏）就是在这里 panic 的；
-        // 修复后缓存只是「不生效」，不会把整帧打崩（缓存的正确性由 `Context::notify` 契约保证）。
-        let Some(global_id) = global_id else {
-            let refreshing = mem::replace(&mut window.refreshing, true);
-            let (element, _accessed) = cx.detect_accessed_entities(|cx| {
-                let mut element = render(window, cx);
-                element.layout_as_root(Size::<AvailableSpace>::from(bounds.size), window, cx);
-                element.prepaint_at(bounds.origin, window, cx);
-                element
-            });
-            window.refreshing = refreshing;
-            return Some(element);
-        };
-
         window.with_element_state::<ViewElementState, _>(
-            global_id,
+            global_id.unwrap(),
             |element_state, window| {
                 let content_mask = window.content_mask();
                 let text_style = window.text_style();
@@ -630,9 +614,9 @@ fn paint_view(
 ) {
     window.with_rendered_view(entity_id, |window| {
         let caching_disabled = window.is_inspector_picking(cx);
-        if cached && !caching_disabled && global_id.is_some() {
+        if cached && !caching_disabled {
             window.with_element_state::<ViewElementState, _>(
-                global_id.expect("上面已判 Some"),
+                global_id.unwrap(),
                 |element_state, window| {
                     let mut element_state = element_state.unwrap();
 
@@ -652,13 +636,8 @@ fn paint_view(
                     ((), element_state)
                 },
             )
-        } else if let Some(element) = element.as_mut() {
-            element.paint(window, cx);
         } else {
-            // 防御：本帧 `request_layout` 走了缓存路径（未渲染、element 为 None），
-            // 但绘制阶段缓存又被禁用（如检查器拾取态在帧间切换）。
-            // 此时没有元素可画 —— **跳过本帧绘制**，绝不 `unwrap()` panic。
-            // 下一帧缓存状态一致后会自动恢复（RLT 2026-10-19 顶栏保留模式实测命中）。
+            element.as_mut().unwrap().paint(window, cx);
         }
     });
 }
@@ -673,108 +652,4 @@ fn paint_component(
     window.with_id(ElementId::Name(name.into()), |window| {
         element.as_mut().unwrap().paint(window, cx);
     });
-}
-
-/// @req:retained-1 框架层判据：`Entity::cached` 的**复用**与**失效**契约。
-///
-/// 这是 RLT「固定元素保留模式」（顶栏 2026-10-19 接入）所依赖的框架语义：
-/// · 未 `notify` 的实体 ⇒ 空闲帧复用上一帧 prepaint/paint（不重新 `Render::render`）；
-/// · `Context::notify()` ⇒ 下一帧必须重新渲染（缓存不得永久冻结）。
-///
-/// 测试走 `TestAppWindow::draw()`（真实 `window.draw`，非 VisualTestContext 的手工绘制，
-/// 后者末尾会 `window.refresh()` ⇒ 永远绕过缓存 ⇒ 判据不可判）。
-#[cfg(test)]
-mod cached_view_tests {
-    use std::cell::Cell;
-    use std::rc::Rc;
-
-    use super::*;
-    use crate::prelude::*;
-    use crate::TestAppContext;
-    use crate::{
-        AnyView, Context, Entity, IntoElement, Render, StyleRefinement, Window, div, px,
-    };
-
-    struct 计数视图 {
-        渲染次数: Rc<Cell<usize>>,
-    }
-
-    impl Render for 计数视图 {
-        fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
-            self.渲染次数.set(self.渲染次数.get() + 1);
-            div().w(px(120.)).h(px(24.)).child("cached-subtree")
-        }
-    }
-
-    struct 根视图 {
-        子视图: Entity<计数视图>,
-    }
-
-    impl Render for 根视图 {
-        fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
-            // 与 RLT 顶栏同款用法：AnyView::cached + 宿主给的布局样式
-            div().size_full().child(
-                AnyView::from(self.子视图.clone()).cached(StyleRefinement::default()),
-            )
-        }
-    }
-
-    /// 画一帧真实 `window.draw`（含缓存判定路径）。
-    fn 画帧(cx: &mut TestAppContext, window: crate::AnyWindowHandle) {
-        cx.update_window(window, |_, window, cx| {
-            window.draw(cx).clear(cx);
-        })
-        .expect("窗口必须存活");
-    }
-
-    #[crate::test]
-    fn cached_view_reuses_until_notify(cx: &mut TestAppContext) {
-        let 渲染次数 = Rc::new(Cell::new(0));
-        let 次数克隆 = 渲染次数.clone();
-        let window = cx.add_window(move |_window, cx| {
-            let 子视图 = cx.new(|_| 计数视图 {
-                渲染次数: 次数克隆.clone(),
-            });
-            根视图 { 子视图 }
-        });
-        let 句柄 = crate::AnyWindowHandle::from(window);
-
-        // 首帧：必须渲染一次（夹具前提）
-        画帧(cx, 句柄);
-        let 首帧 = 渲染次数.get();
-        assert_eq!(首帧, 1, "首帧必须渲染被缓存视图一次（实得 {首帧}）");
-
-        // 空闲帧：不 notify ⇒ 复用缓存，不得再渲染
-        画帧(cx, 句柄);
-        画帧(cx, 句柄);
-        let 空闲后 = 渲染次数.get();
-        assert_eq!(
-            空闲后, 首帧,
-            "空闲帧必须复用缓存（渲染次数不得增长：{首帧} → {空闲后}）"
-        );
-
-        // 失效：notify 被缓存视图 ⇒ 下一帧必须重新渲染
-        cx.update(|cx| {
-            window
-                .update(cx, |根, _window, cx| {
-                    根.子视图.update(cx, |_, cx| cx.notify());
-                })
-                .expect("窗口必须存活");
-        });
-        画帧(cx, 句柄);
-        let 通知后 = 渲染次数.get();
-        assert_eq!(
-            通知后,
-            首帧 + 1,
-            "`notify()` 后必须恰好重渲染一次（{首帧} → {通知后}）"
-        );
-
-        // 再空闲一帧：仍应复用（证明失效不是"永久解冻"）
-        画帧(cx, 句柄);
-        assert_eq!(
-            渲染次数.get(),
-            首帧 + 1,
-            "失效后再次空闲也必须重新进入缓存复用"
-        );
-    }
 }

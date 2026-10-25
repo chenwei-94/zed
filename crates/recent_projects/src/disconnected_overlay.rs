@@ -147,13 +147,15 @@ impl Render for DisconnectedOverlay {
         let can_reconnect = matches!(self.host, Host::RemoteServerProject(..));
 
         let message = match &self.host {
-            Host::CollabGuestProject => "与远程项目的连接已断开。".to_string(),
+            Host::CollabGuestProject => {
+                "Your connection to the remote project has been lost.".to_string()
+            }
             Host::RemoteServerProject(options, server_not_running) => {
                 let autosave = if ProjectSettings::get_global(cx)
                     .session
                     .restore_unsaved_buffers
                 {
-                    "未保存的更改已存储在本地。"
+                    "\nUnsaved changes are stored locally."
                 } else {
                     ""
                 };

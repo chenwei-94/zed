@@ -76,8 +76,7 @@ struct Export {
     exclusion_scope: &'static str,
 }
 
-const EXCLUSION_SCOPE: &str =
-    "Zed 扫描已打开的本地项目时跳过的模式。被排除的文件仍可能产生文件监视事件。";
+const EXCLUSION_SCOPE: &str = "Patterns Zed skips when scanning your open local projects. Excluded files may still produce watcher events.";
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 enum WatcherTab {
@@ -99,8 +98,10 @@ impl WatcherTab {
 
     fn description(self) -> &'static str {
         match self {
-            Self::RawEvents => "原始监视器通知，最早的在前。时间按你所在的本地时区显示。",
-            Self::WatchRoots => "应用中所有活动的原生与轮询监视根目录。",
+            Self::RawEvents => {
+                "Raw watcher notifications, oldest first. Times are shown in your local time zone."
+            }
+            Self::WatchRoots => "Live native and polling watch roots across the app.",
             Self::ScanExclusions => EXCLUSION_SCOPE,
         }
     }
@@ -292,7 +293,7 @@ impl WatcherDebug {
             scan_exclusions.push_str(&worktree.root);
             scan_exclusions.push('\n');
             if worktree.file_scan_exclusions.is_empty() {
-                scan_exclusions.push_str("(none)");
+                scan_exclusions.push_str("  (none)\n");
             }
             for pattern in worktree.file_scan_exclusions {
                 scan_exclusions.push_str(&format!("  {pattern}\n"));

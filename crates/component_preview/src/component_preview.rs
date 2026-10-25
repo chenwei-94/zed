@@ -554,10 +554,8 @@ impl ComponentPreview {
     fn test_status_toast(&self, cx: &mut Context<Self>) {
         if let Some(workspace) = self.workspace.upgrade() {
             workspace.update(cx, |workspace, cx| {
-                let status_toast = StatusToast::new(
-                    "已创建 `zed/new-notification-system`！",
-                    cx,
-                    |this, _cx| {
+                let status_toast =
+                    StatusToast::new("`zed/new-notification-system` created!", cx, |this, _cx| {
                         this.icon(
                             Icon::new(IconName::GitBranch)
                                 .size(IconSize::Small)
@@ -566,8 +564,7 @@ impl ComponentPreview {
                         .action("打开拉取请求", |_, cx| {
                             cx.open_url("https://github.com/")
                         })
-                    },
-                );
+                    });
                 workspace.toggle_status_toast(status_toast, cx)
             });
         }
@@ -646,14 +643,16 @@ impl Render for ComponentPreview {
                             .p_2p5()
                             .border_t_1()
                             .border_color(cx.theme().colors().border)
-                            .child(Button::new("toast-test", "启动提示").full_width().on_click(
-                                cx.listener({
-                                    move |this, _, _window, cx| {
-                                        this.test_status_toast(cx);
-                                        cx.notify();
-                                    }
-                                }),
-                            )),
+                            .child(
+                                Button::new("toast-test", "Launch Toast")
+                                    .full_width()
+                                    .on_click(cx.listener({
+                                        move |this, _, _window, cx| {
+                                            this.test_status_toast(cx);
+                                            cx.notify();
+                                        }
+                                    })),
+                            ),
                     ),
             )
             .child(

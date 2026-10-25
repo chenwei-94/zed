@@ -521,8 +521,8 @@ fn general_page(cx: &App) -> SettingsPage {
         [
             SettingsPageItem::SectionHeader("扩展"),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Suggest Extensions",
-                description: "Whether to suggest installing extensions based on the files you open.",
+                title: "推荐扩展",
+                description: "是否根据你打开的文件推荐安装扩展。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("suggest_extensions"),
@@ -1342,8 +1342,8 @@ fn appearance_page() -> SettingsPage {
                 files: USER,
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Heading Font Weight",
-                description: "Font weight for headings in the markdown preview, in CSS units from 100 to 900.",
+                title: "标题字重",
+                description: "Markdown 预览中标题的字重，使用 100 到 900 的 CSS 单位。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("markdown_preview.heading_font_weight"),
@@ -1369,10 +1369,10 @@ fn appearance_page() -> SettingsPage {
 
     fn mermaid_font_section() -> [SettingsPageItem; 2] {
         [
-            SettingsPageItem::SectionHeader("Mermaid Font"),
+            SettingsPageItem::SectionHeader("Mermaid 字体"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "字体族",
-                description: "Font family for Mermaid diagrams in the agent panel and markdown preview. Falls back to the UI font family.",
+                description: "智能体面板与 Markdown 预览中 Mermaid 图表使用的字体族。未设置时回退到界面字体族。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("mermaid_font_family"),
@@ -1414,7 +1414,7 @@ fn appearance_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "Display P3",
-                description: "(macOS only) render windows using the Display P3 color space.",
+                description: "（仅 macOS）使用 Display P3 色彩空间渲染窗口。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("use_display_p3"),
@@ -4018,7 +4018,7 @@ fn search_and_files_page() -> SettingsPage {
                 files: USER,
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Prefill Query From Selection",
+                title: "用选中内容预填查询",
                 description: "Whether to pre-fill the file finder's query with the text selected in the focused item (e.g. an editor or a terminal).",
                 field: Box::new(SettingField {
                     organization_override: None,
@@ -4597,9 +4597,9 @@ fn window_and_layout_page() -> SettingsPage {
             SettingsPageItem::DynamicItem(DynamicItem {
                 discriminant: SettingItem {
                     files: USER,
-                    title: "Button Layout",
+                    title: "按钮布局",
                     description:
-                        "(Linux only) choose how window control buttons are laid out in the titlebar.",
+                        "（仅 Linux）选择标题栏中窗口控制按钮的布局方式。",
                     field: Box::new(SettingField {
                         organization_override: None,
                         json_path: Some("title_bar.button_layout$"),
@@ -4713,8 +4713,8 @@ fn window_and_layout_page() -> SettingsPage {
                     .collect(),
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Open Menus on Hover",
-                description: "Automatically open menus in the titlebar on hover.",
+                title: "悬停时展开菜单",
+                description: "悬停时自动展开标题栏中的菜单。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("title_bar.open_menus_on_hover"),
@@ -6790,8 +6790,8 @@ fn panels_page() -> SettingsPage {
                 files: USER,
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Commit Editor",
-                description: "Whether the commit message editor is shown in the Git panel by default.",
+                title: "提交编辑器",
+                description: "Git 面板是否默认显示提交信息编辑器。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("git_panel.commit_editor"),
@@ -6810,7 +6810,7 @@ fn panels_page() -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示计数徽标",
-                description: "Whether to show a badge on the git panel icon with the count of uncommitted changes.",
+                description: "是否在 Git 面板图标上显示未提交更改数量的徽标。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("git_panel.show_count_badge"),
@@ -7256,7 +7256,7 @@ fn terminal_page() -> SettingsPage {
                     discriminant: SettingItem {
                         files: USER | PROJECT,
                         title: "Shell",
-                        description: "What shell to use when opening a terminal.",
+                        description: "打开终端时使用哪个 shell。",
                         field: Box::new(SettingField {
                             organization_override: None,
                             json_path: Some("terminal.shell$"),
@@ -7338,7 +7338,7 @@ fn terminal_page() -> SettingsPage {
                             settings::ShellDiscriminants::Program => vec![SettingItem {
                                 files: USER | PROJECT,
                                 title: "程序",
-                                description: "The shell program to use.",
+                                description: "要使用的 shell 程序。",
                                 field: Box::new(SettingField {
                                     organization_override: None,
                                     json_path: Some("terminal.shell"),
@@ -7369,7 +7369,7 @@ fn terminal_page() -> SettingsPage {
                                 SettingItem {
                                     files: USER | PROJECT,
                                     title: "程序",
-                                    description: "The shell program to run.",
+                                    description: "要运行的 shell 程序。",
                                     field: Box::new(SettingField {
                                         organization_override: None,
                                         json_path: Some("terminal.shell.program"),
@@ -7402,7 +7402,7 @@ fn terminal_page() -> SettingsPage {
                                 SettingItem {
                                     files: USER | PROJECT,
                                     title: "参数",
-                                    description: "The arguments to pass to the shell program.",
+                                    description: "传递给 shell 程序的参数。",
                                     field: Box::new(
                                         SettingField {
                                             organization_override: None,
@@ -7435,8 +7435,8 @@ fn terminal_page() -> SettingsPage {
                                 },
                                 SettingItem {
                                     files: USER | PROJECT,
-                                    title: "Title Override",
-                                    description: "An optional string to override the title of the terminal tab.",
+                                    title: "标题覆盖",
+                                    description: "可选字符串，用于覆盖终端标签页的标题。",
                                     field: Box::new(SettingField {
                                         organization_override: None,
                                         json_path: Some("terminal.shell.title_override"),
@@ -7473,7 +7473,7 @@ fn terminal_page() -> SettingsPage {
                     discriminant: SettingItem {
                         files: USER | PROJECT,
                         title: "工作目录",
-                        description: "What working directory to use when launching the terminal.",
+                        description: "启动终端时使用哪个工作目录。",
                         field: Box::new(SettingField {
                             organization_override: None,
                             json_path: Some("terminal.working_directory$"),
@@ -7546,8 +7546,8 @@ fn terminal_page() -> SettingsPage {
                             settings::WorkingDirectoryDiscriminants::AlwaysHome => vec![],
                             settings::WorkingDirectoryDiscriminants::Always => vec![SettingItem {
                                 files: USER | PROJECT,
-                                title: "Directory",
-                                description: "The directory path to use (will be shell expanded).",
+                                title: "目录",
+                                description: "要使用的目录路径（会进行 shell 展开）。",
                                 field: Box::new(SettingField {
                                     organization_override: None,
                                     json_path: Some("terminal.working_directory.always"),
@@ -7578,7 +7578,7 @@ fn terminal_page() -> SettingsPage {
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
                     title: "环境变量",
-                    description: "Key-value pairs to add to the terminal's environment.",
+                    description: "添加到终端环境变量的键值对。",
                     field: Box::new(
                         SettingField {
                             organization_override: None,
@@ -7594,8 +7594,8 @@ fn terminal_page() -> SettingsPage {
                     files: USER | PROJECT,
                 }),
                 SettingsPageItem::SettingItem(SettingItem {
-                    title: "Detect Virtual Environment",
-                    description: "Activates the Python virtual environment, if one is found, in the terminal's working directory.",
+                    title: "检测虚拟环境",
+                    description: "若在终端工作目录中找到 Python 虚拟环境，则自动激活它。",
                     field: Box::new(
                         SettingField {
                             organization_override: None,
@@ -8875,7 +8875,7 @@ fn ai_page(cx: &App) -> SettingsPage {
                 r#type: Default::default(),
                 json_path: Some("agent_servers"),
                 description: Some(
-                    "View, add, and remove agents connected through the Agent Client Protocol."
+                    "查看、添加和移除通过智能体客户端协议连接的智能体。"
                         .into(),
                 ),
                 search_aliases: &[
@@ -8903,7 +8903,7 @@ fn ai_page(cx: &App) -> SettingsPage {
                 r#type: Default::default(),
                 json_path: Some("context_servers"),
                 description: Some(
-                    "View, add, configure, and remove Model Context Protocol servers.".into(),
+                    "查看、添加、配置和移除模型上下文协议服务器。".into(),
                 ),
                 search_aliases: &["context server", "mcp", "model context protocol"],
                 in_json: false,
@@ -8921,7 +8921,7 @@ fn ai_page(cx: &App) -> SettingsPage {
                 title: "技能".into(),
                 r#type: Default::default(),
                 json_path: Some(zed_actions::AGENT_SKILLS_SETTINGS_PATH),
-                description: Some("View and manage agent skills installed globally or in project worktrees.".into()),
+                description: Some("查看并管理全局或项目工作树中已安装的智能体技能。".into()),
                 search_aliases: &["agent skill", "agent skills", "custom instructions", "skill", "skills"],
                 in_json: false,
                 files: USER | PROJECT,
@@ -8932,7 +8932,7 @@ fn ai_page(cx: &App) -> SettingsPage {
                 r#type: Default::default(),
                 json_path: Some(zed_actions::AGENT_SANDBOX_SETTINGS_PATH),
                 description: Some(
-                    "Review and change the elevated terminal sandbox permissions that are always allowed without prompting."
+                    "查看并修改终端提权沙箱中始终无需确认即可允许的权限。"
                         .into(),
                 ),
                 search_aliases: &[
@@ -8952,7 +8952,7 @@ fn ai_page(cx: &App) -> SettingsPage {
                 title: "工具权限".into(),
                 r#type: Default::default(),
                 json_path: Some("agent.tool_permissions"),
-                description: Some("Set up regex patterns to auto-allow, auto-deny, or always request confirmation, for specific tool inputs.".into()),
+                description: Some("为特定工具输入设置正则表达式，以自动允许、自动拒绝或始终请求确认。".into()),
                 search_aliases: &[],
                 in_json: true,
                 files: USER,
@@ -9069,8 +9069,8 @@ fn ai_page(cx: &App) -> SettingsPage {
                 files: USER,
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Max Idle Threads",
-                description: "Maximum number of idle agent threads with loadable sessions to keep loaded. When the limit is exceeded, the least recently updated threads are unloaded.",
+                title: "最大空闲线程数",
+                description: "最多保留多少个可加载会话的空闲智能体线程。超过上限时，会卸载最久未更新的线程。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("agent.max_idle_retained_threads"),
@@ -9092,8 +9092,8 @@ fn ai_page(cx: &App) -> SettingsPage {
                 files: USER,
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Expand Edit Card",
-                description: "Whether to have edit cards in the agent panel expanded, showing a Preview of the diff.",
+                title: "展开编辑卡片",
+                description: "智能体面板中的编辑卡片是否展开，并显示差异预览。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("agent.expand_edit_card"),
@@ -9594,8 +9594,8 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
                 files: USER | PROJECT,
             }),
             SettingsPageItem::SettingItem(SettingItem {
-                title: "Soft Wrap Indent",
-                description: "How to indent soft-wrapped lines.",
+                title: "软换行缩进",
+                description: "软换行行的缩进方式。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("languages.$(language).soft_wrap_indent"),
@@ -9615,7 +9615,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示自动换行参考线",
-                description: "Show wrap guides in the editor.",
+                description: "在编辑器中显示换行参考线。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("languages.$(language).show_wrap_guides"),
