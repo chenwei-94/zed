@@ -789,9 +789,9 @@ impl Platform for LinuxPlatform {
         self.foreground_executor()
             .spawn(async move {
                 let title = if options.directories {
-                    "打开文件夹"
+                    "Open Folder"
                 } else {
-                    "打开文件"
+                    "Open File"
                 };
 
                 let request = match ashpd::desktop::file_chooser::OpenFileRequest::default()
@@ -857,7 +857,7 @@ impl Platform for LinuxPlatform {
                         ashpd::desktop::file_chooser::SaveFileRequest::default()
                             .identifier(identifier.await)
                             .modal(true)
-                            .title("保存文件")
+                            .title("Save File")
                             .current_folder(directory)
                             .expect("pathbuf should not be nul terminated");
 
