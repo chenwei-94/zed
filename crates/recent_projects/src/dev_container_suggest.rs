@@ -31,7 +31,7 @@ fn project_devcontainer_key(project_path: &str) -> String {
     format!("{}_{}", DEV_CONTAINER_SUGGEST_KEY, project_path)
 }
 
-/// Returns the path used to remember the user's "Don't Show Again" choice for a
+/// Returns the path used to remember the user's "不再显示" choice for a
 /// worktree's dev container suggestion. This is keyed on the repository's common
 /// Git directory rather than the worktree's own path, so that dismissing the
 /// suggestion in one git worktree also suppresses it in sibling worktrees of the

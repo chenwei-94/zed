@@ -732,7 +732,7 @@ impl Render for InputExample {
                             .border_color(black())
                             .px_2()
                             .bg(yellow())
-                            .child("Reset")
+                            .child("重置")
                             .hover(|style| {
                                 style
                                     .bg(yellow().blend(opaque_grey(0.5, 0.5)))
@@ -745,7 +745,7 @@ impl Render for InputExample {
             .children(self.recent_keystrokes.iter().rev().map(|ks| {
                 format!(
                     "{:} {}",
-                    ks.unparse(),
+                    ks.unparse(cx.platform_info().os),
                     if let Some(key_char) = ks.key_char.as_ref() {
                         format!("-> {:?}", key_char)
                     } else {

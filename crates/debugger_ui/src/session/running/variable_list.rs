@@ -1156,7 +1156,7 @@ impl VariableList {
         }
         match trimmed {
             "true" | "false" | "True" | "False" | "TRUE" | "FALSE" => "boolean",
-            "nil" | "null" | "None" | "NULL" | "nullptr" | "undefined" | "NoneType" => "comment",
+            "nil" | "null" | "无" | "NULL" | "nullptr" | "undefined" | "NoneType" => "comment",
             _ if !trimmed.is_empty() && trimmed.parse::<f64>().is_ok() => "number",
             _ => "variable.special",
         }

@@ -817,7 +817,7 @@ mod tests {
                     "assistant": {
                         "profiles": {
                             "custom": {
-                                "name": "Custom",
+                                "name": "自定义",
                                 "tools": {
                                     "bash": true,
                                     "diagnostics": true
@@ -833,7 +833,7 @@ mod tests {
                     "agent": {
                         "profiles": {
                             "custom": {
-                                "name": "Custom",
+                                "name": "自定义",
                                 "tools": {
                                     "terminal": true,
                                     "diagnostics": true
@@ -855,7 +855,7 @@ mod tests {
                     "assistant": {
                         "profiles": {
                             "custom": {
-                                "name": "Custom",
+                                "name": "自定义",
                                 "tools": {
                                     "bash": false,
                                     "diagnostics": true
@@ -871,7 +871,7 @@ mod tests {
                     "agent": {
                         "profiles": {
                             "custom": {
-                                "name": "Custom",
+                                "name": "自定义",
                                 "tools": {
                                     "terminal": false,
                                     "diagnostics": true
@@ -893,7 +893,7 @@ mod tests {
                     "assistant": {
                         "profiles": {
                             "custom": {
-                                "name": "Custom",
+                                "name": "自定义",
                                 "tools": {
                                     "diagnostics": true,
                                     "find_path": true,
@@ -910,7 +910,7 @@ mod tests {
                     "agent": {
                         "profiles": {
                             "custom": {
-                                "name": "Custom",
+                                "name": "自定义",
                                 "tools": {
                                     "diagnostics": true,
                                     "find_path": true,

@@ -345,11 +345,11 @@ impl Render for PaintingViewer {
                             .flex()
                             .gap_x_2()
                             .child(button(
-                                if dashed { "Solid" } else { "Dashed" },
+                                if dashed { "Solid" } else { "虚线" },
                                 cx,
                                 move |this, _| this.dashed = !dashed,
                             ))
-                            .child(button("Clear", cx, |this, cx| this.clear(cx))),
+                            .child(button("清除", cx, |this, cx| this.clear(cx))),
                     ),
             )
             .child(

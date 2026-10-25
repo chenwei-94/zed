@@ -44,7 +44,7 @@ pub fn language_model(model: &CopilotChatModel) -> LanguageModel {
             .map(|level| {
                 let name = match level.as_str() {
                     "low" => "Low".into(),
-                    "medium" => "Medium".into(),
+                    "medium" => "中".into(),
                     "high" => "High".into(),
                     "xhigh" => "极高".into(),
                     _ => language_model::SharedString::from(level.clone()),
@@ -1591,7 +1591,7 @@ mod tests {
                 role: Role::Assistant,
                 content: vec![
                     MessageContent::RedactedThinking("legacy-redacted".into()),
-                    MessageContent::Text("Done".into()),
+                    MessageContent::Text("完成".into()),
                 ],
                 cache: false,
                 reasoning_details: Some(Arc::new(json!({
@@ -1633,7 +1633,7 @@ mod tests {
                 "content": [
                     {
                         "type": "output_text",
-                        "text": "Done"
+                        "text": "完成"
                     }
                 ],
                 "status": "completed"

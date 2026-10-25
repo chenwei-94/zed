@@ -570,7 +570,7 @@ pub fn cursor_settings_file_paths() -> Vec<PathBuf> {
 fn vscode_user_data_paths() -> Vec<PathBuf> {
     // https://github.com/microsoft/vscode/blob/23e7148cdb6d8a27f0109ff77e5b1e019f8da051/src/vs/platform/environment/node/userDataPath.ts#L45
     const VSCODE_PRODUCT_NAMES: &[&str] = &[
-        "Code",
+        "代码",
         "Code - Insiders",
         "Code - OSS",
         "VSCodium",
@@ -596,7 +596,7 @@ fn vscode_user_data_paths() -> Vec<PathBuf> {
 
 fn cursor_user_data_paths() -> Vec<PathBuf> {
     let mut paths = Vec::new();
-    add_vscode_user_data_paths(&mut paths, "Cursor");
+    add_vscode_user_data_paths(&mut paths, "光标");
     paths
 }
 

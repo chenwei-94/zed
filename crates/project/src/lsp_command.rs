@@ -1141,7 +1141,7 @@ impl LspCommand for PerformRename {
     type ProtoRequest = proto::PerformRename;
 
     fn display_name(&self) -> &str {
-        "Rename"
+        "重命名"
     }
 
     fn check_capabilities(&self, capabilities: AdapterServerCapabilities<'_>) -> bool {

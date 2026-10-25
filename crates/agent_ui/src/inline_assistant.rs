@@ -278,7 +278,7 @@ impl InlineAssistant {
                             gpui::PromptLevel::Warning,
                             &error.to_string(),
                             None,
-                            &["Configure", "Cancel"],
+                            &["配置", "取消"],
                         )
                         .await
                         .ok();
@@ -1719,7 +1719,7 @@ impl InlineAssist {
                                 if let Some(sender) = &mut this._inline_assistant_completions {
                                     sender
                                         .unbounded_send(Err(anyhow::anyhow!(
-                                            "Inline assistant error: {}",
+                                            "内联助手错误：{}",
                                             error
                                         )))
                                         .ok();

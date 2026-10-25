@@ -72,7 +72,7 @@ impl std::fmt::Debug for AnchorSeekTarget<'_> {
                 .field("path_key", path_key)
                 .field("buffer_id", buffer_id)
                 .finish(),
-            Self::Empty => f.debug_struct("Empty").finish(),
+            Self::Empty => f.debug_struct("空").finish(),
         }
     }
 }

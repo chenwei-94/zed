@@ -103,7 +103,7 @@ impl MoveToApplicationsRequest {
                         PromptLevel::Critical,
                         "将 Zed 移动到 Applications 失败",
                         Some(&error.to_string()),
-                        &["OK"],
+                        &["确定"],
                     )
                     .await
                     .log_err();

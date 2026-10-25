@@ -961,7 +961,7 @@ impl Render for BufferDiagnosticsEditor {
         };
 
         div()
-            .key_context("Diagnostics")
+            .key_context("诊断")
             .track_focus(&self.focus_handle(cx))
             .size_full()
             .child(child)

@@ -1715,7 +1715,7 @@ impl pet_core::os_environment::Environment for EnvironmentApi<'_> {
             let mut paths = std::env::split_paths(
                 &self
                     .get_env_var("PATH".to_string())
-                    .or_else(|| self.get_env_var("Path".to_string()))
+                    .or_else(|| self.get_env_var("路径".to_string()))
                     .unwrap_or_default(),
             )
             .collect::<Vec<PathBuf>>();
@@ -1754,7 +1754,7 @@ impl PyLspAdapter {
             .with_context(|| {
                 let mut message = "Could not find Python installation for PyLSP".to_owned();
                 if cfg!(windows){
-                    message.push_str(". Install Python from the Microsoft Store, or manually from https://www.python.org/downloads/windows.")
+                    message.push_str("。请从 Microsoft Store 安装 Python，或访问 https://www.python.org/downloads/windows 手动安装。")
                 }
                 message
             })?;

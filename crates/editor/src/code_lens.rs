@@ -71,12 +71,17 @@ pub(super) fn try_handle_client_command(
 
     let arguments = command.arguments.as_deref().unwrap_or_default();
     let project = workspace.read(cx).project().clone();
+    let path_style = workspace.read(cx).path_style(cx);
     let client_command = project
         .read(cx)
         .lsp_store()
         .read(cx)
         .language_server_adapter_for_id(action.server_id)
-        .and_then(|adapter| adapter.adapter.client_command(&command.command, arguments))
+        .and_then(|adapter| {
+            adapter
+                .adapter
+                .client_command(&command.command, arguments, path_style)
+        })
         .or_else(|| match command.command.as_str() {
             "editor.action.showReferences"
             | "editor.action.goToLocations"
@@ -292,7 +297,7 @@ impl Editor {
     /// Lenses without a command cannot be rendered, as it's the only textual data in the [`lsp::CodeLens`].
     /// Worst case, we can know it only after asynchronously issuing a resolve request to the server.
     /// To avoid flickering during typing, keep a placeholder block for each lens and replace it with a resolved command's block when available,
-    /// or with a synthetic "0 references" title if the server resolve did not return a command.
+    /// or with a synthetic "0 个引用" title if the server resolve did not return a command.
     ///
     /// Also keep the old block until the fresh resolve lands, to avoid flickering during typing.
     fn apply_lens_actions_for_buffer(
@@ -771,7 +776,7 @@ mod tests {
                     lsp::CodeLens {
                         range: lsp::Range::new(lsp::Position::new(1, 0), lsp::Position::new(1, 19)),
                         command: Some(lsp::Command {
-                            title: "0 references".to_owned(),
+                            title: "0 个引用".to_owned(),
                             command: "lens_cmd".to_owned(),
                             arguments: None,
                         }),

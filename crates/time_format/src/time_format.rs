@@ -11,7 +11,7 @@ pub enum TimestampFormat {
     EnhancedAbsolute,
     /// Formats the timestamp as an absolute time, using month name, day of month, year. e.g. "Feb. 24, 2024".
     MediumAbsolute,
-    /// Formats the timestamp as a relative time, e.g. "just now", "1 minute ago", "2 hours ago", "2 months ago".
+    /// Formats the timestamp as a relative time, e.g. "just now", "1 分钟前", "2 hours ago", "2 months ago".
     Relative,
 }
 
@@ -862,24 +862,24 @@ mod tests {
 
         assert_eq!(
             format_relative_time(reference, reference),
-            Some("Just now".to_string())
+            Some("刚刚".to_string())
         );
 
         assert_eq!(
             format_relative_time(next_minute(), reference),
-            Some("1 minute ago".to_string())
+            Some("1 分钟前".to_string())
         );
 
         for i in 2..=59 {
             assert_eq!(
                 format_relative_time(next_minute(), reference),
-                Some(format!("{} minutes ago", i))
+                Some(format!("{} 分钟前", i))
             );
         }
 
         assert_eq!(
             format_relative_time(next_minute(), reference),
-            Some("1 hour ago".to_string())
+            Some("1 小时前".to_string())
         );
     }
 
@@ -902,13 +902,13 @@ mod tests {
 
         assert_eq!(
             format_relative_time(next_hour(), reference),
-            Some("1 hour ago".to_string())
+            Some("1 小时前".to_string())
         );
 
         for i in 2..=23 {
             assert_eq!(
                 format_relative_time(next_hour(), reference),
-                Some(format!("{} hours ago", i))
+                Some(format!("{} 小时前", i))
             );
         }
 
@@ -939,11 +939,11 @@ mod tests {
         for i in 2..=6 {
             assert_eq!(
                 format_relative_date(next_day(), reference),
-                format!("{} days ago", i)
+                format!("{} 天前", i)
             );
         }
 
-        assert_eq!(format_relative_date(next_day(), reference), "1 week ago");
+        assert_eq!(format_relative_date(next_day(), reference), "1 周前");
     }
 
     #[test]
@@ -961,13 +961,13 @@ mod tests {
 
         assert_eq!(
             format_relative_date(next_week(), reference),
-            "1 week ago".to_string()
+            "1 周前".to_string()
         );
 
         for i in 2..=4 {
             assert_eq!(
                 format_relative_date(next_week(), reference),
-                format!("{} weeks ago", i)
+                format!("{} 周前", i)
             );
         }
 
@@ -1002,7 +1002,7 @@ mod tests {
         for i in 2..=11 {
             assert_eq!(
                 format_relative_date(next_month(), reference),
-                format!("{} months ago", i)
+                format!("{} 个月前", i)
             );
         }
 

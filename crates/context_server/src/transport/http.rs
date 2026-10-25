@@ -109,7 +109,7 @@ impl HttpTransport {
             .uri(&self.endpoint)
             .header("Content-Type", JSON_MIME_TYPE)
             .header(
-                "Accept",
+                "接受",
                 format!("{}, {}", JSON_MIME_TYPE, EVENT_STREAM_MIME_TYPE),
             );
 

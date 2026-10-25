@@ -1925,8 +1925,8 @@ mod tests {
 
         cx.update(|_, cx| {
             cx.bind_keys([
-                gpui::KeyBinding::new("right", editor::actions::MoveRight, Some("Editor")),
-                gpui::KeyBinding::new("left", editor::actions::MoveLeft, Some("Editor")),
+                gpui::KeyBinding::new("right", editor::actions::MoveRight, Some("编辑器")),
+                gpui::KeyBinding::new("left", editor::actions::MoveLeft, Some("编辑器")),
                 gpui::KeyBinding::new("down", menu::SelectNext, Some("Picker > Editor")),
                 gpui::KeyBinding::new(
                     "cmd-k right",

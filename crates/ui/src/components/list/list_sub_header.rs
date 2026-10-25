@@ -123,7 +123,7 @@ impl Component for ListSubHeader {
                     vec![
                         single_example(
                             "已选中",
-                            ListSubHeader::new("Selected")
+                            ListSubHeader::new("已选中")
                                 .toggle_state(true)
                                 .into_any_element(),
                         ),

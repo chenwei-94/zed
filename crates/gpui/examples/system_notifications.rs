@@ -49,7 +49,7 @@ impl Render for SystemNotificationExample {
                                 actions: vec![
                                     SystemNotificationAction {
                                         id: "open".into(),
-                                        label: "Open".into(),
+                                        label: "打开".into(),
                                     },
                                     SystemNotificationAction {
                                         id: "snooze".into(),
@@ -62,7 +62,7 @@ impl Render for SystemNotificationExample {
                         },
                     )))
                     .child(
-                        button("dismiss", "Dismiss").on_click(cx.listener(|this, _, _, cx| {
+                        button("dismiss", "忽略").on_click(cx.listener(|this, _, _, cx| {
                             cx.dismiss_system_notification(NOTIFICATION_TAG);
                             this.status = "Dismissed the notification".into();
                             cx.notify();

@@ -653,7 +653,7 @@ impl ManageProfilesModal {
                 .profiles
                 .get(base_profile_id)
                 .map(|profile| profile.name.clone())
-                .unwrap_or_else(|| "Unknown".into())
+                .unwrap_or_else(|| "未知".into())
         });
 
         v_flex()
@@ -685,7 +685,7 @@ impl ManageProfilesModal {
             .profiles
             .get(&mode.profile_id)
             .map(|profile| profile.name.clone())
-            .unwrap_or_else(|| "Unknown".into());
+            .unwrap_or_else(|| "未知".into());
 
         let icon = match mode.profile_id.as_str() {
             "write" => IconName::Pencil,
@@ -1011,7 +1011,7 @@ impl Render for ManageProfilesModal {
                         .profiles
                         .get(profile_id)
                         .map(|profile| profile.name.clone())
-                        .unwrap_or_else(|| "Unknown".into());
+                        .unwrap_or_else(|| "未知".into());
 
                     v_flex()
                         .pb_1()
@@ -1034,7 +1034,7 @@ impl Render for ManageProfilesModal {
                         .profiles
                         .get(profile_id)
                         .map(|profile| profile.name.clone())
-                        .unwrap_or_else(|| "Unknown".into());
+                        .unwrap_or_else(|| "未知".into());
 
                     v_flex()
                         .pb_1()
@@ -1057,7 +1057,7 @@ impl Render for ManageProfilesModal {
                         .profiles
                         .get(profile_id)
                         .map(|profile| profile.name.clone())
-                        .unwrap_or_else(|| "Unknown".into());
+                        .unwrap_or_else(|| "未知".into());
 
                     v_flex()
                         .pb_1()

@@ -786,7 +786,7 @@ impl ActionLog {
                         // from edits made by the AI at this point.
                         // For now, preserve both to avoid data loss.
                         //
-                        // TODO: Better solution (disable "Reject" after user makes some
+                        // TODO: Better solution (disable "拒绝" after user makes some
                         // edit or find a way to differentiate between AI and user edits)
                         Task::ready(Ok(()))
                     }
@@ -2473,7 +2473,7 @@ mod tests {
         cx.run_until_parked();
         assert_ne!(unreviewed_hunks(&action_log, cx), vec![]);
 
-        // User clicks "Reject All"
+        // User clicks "全部拒绝"
         action_log
             .update(cx, |log, cx| log.reject_all_edits(None, cx))
             .await;

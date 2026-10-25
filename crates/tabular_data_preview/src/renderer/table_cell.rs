@@ -6,7 +6,7 @@ use ui::{Color, Divider, Label, LabelSize, SharedString, Tooltip, div, prelude::
 use crate::{TableView, settings::VerticalAlignment, types::DisplayCellId};
 
 /// Adds a right-click-to-copy handler and a tooltip showing `text` plus `hint`
-/// (e.g. "Right click to copy content") to a `Stateful` element.
+/// (e.g. "右键单击复制内容") to a `Stateful` element.
 pub(crate) fn with_copy_on_right_click<E: StatefulInteractiveElement>(
     element: E,
     text: SharedString,

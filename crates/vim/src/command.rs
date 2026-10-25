@@ -342,7 +342,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
             gpui::PromptLevel::Critical,
             "需要参数",
             None,
-            &["Cancel"],
+            &["取消"],
             cx,
         );
     });
@@ -381,7 +381,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                             gpui::PromptLevel::Warning,
                             "无文件名",
                             Some("部分写入缓冲区需要文件名。"),
-                            &["Cancel"],
+                            &["取消"],
                             cx,
                         );
                         return;
@@ -411,7 +411,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                             gpui::PromptLevel::Warning,
                             "使用 ! 写入部分缓冲区",
                             Some("用所选缓冲区内容覆盖当前文件需要 '!'。"),
-                            &["Cancel"],
+                            &["取消"],
                             cx,
                         );
                         return;
@@ -439,7 +439,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                                     gpui::PromptLevel::Warning,
                                     &format!("{path:?} 已存在。是否替换？"),
                                     Some("已存在同名文件或文件夹。替换将覆盖其当前内容。"),
-                                    &["Replace", "Cancel"],
+                                    &["Replace", "取消"],
                                     cx,
                                 )
                             });
@@ -526,7 +526,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                         project_path.path.display(path_style)
                     ),
                     Some("已存在同名文件或文件夹。替换将覆盖其当前内容。"),
-                    &["Replace", "Cancel"],
+                    &["Replace", "取消"],
                     cx,
                 );
                 cx.spawn_in(window, async move |editor, cx| {
@@ -586,7 +586,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                 gpui::PromptLevel::Critical,
                 &format!("无效参数：{}", s),
                 None,
-                &["Cancel"],
+                &["取消"],
                 cx,
             );
         }
@@ -777,7 +777,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
         let keystrokes = action
             .command
             .chars()
-            .filter_map(|c| Keystroke::parse(&c.to_string()).ok())
+            .filter_map(|c| Keystroke::parse_with_os(&c.to_string(), cx.platform_info().os).ok())
             .collect();
         vim.switch_mode(Mode::Normal, true, window, cx);
         if let Some(override_rows) = &action.override_rows {
@@ -2769,7 +2769,7 @@ mod test {
         // conflict!
         cx.simulate_keystrokes("i @ escape");
         cx.simulate_keystrokes(": w enter");
-        cx.simulate_prompt_answer("Cancel");
+        cx.simulate_prompt_answer("取消");
 
         assert_eq!(fs.load(path).await.unwrap().replace("\r\n", "\n"), "oops\n");
         assert!(!cx.has_pending_prompt());

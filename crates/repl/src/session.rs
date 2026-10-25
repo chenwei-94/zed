@@ -938,7 +938,7 @@ impl Render for Session {
             Kernel::StartingKernel(_) => (Some("Starting".into()), None),
             Kernel::ErroredLaunch(err) => (Some(format!("错误：{err}")), None),
             Kernel::ShuttingDown => (Some("Shutting Down".into()), None),
-            Kernel::Shutdown => (Some("Shutdown".into()), None),
+            Kernel::Shutdown => (Some("关闭".into()), None),
             Kernel::Restarting => (Some("Restarting".into()), None),
         };
 

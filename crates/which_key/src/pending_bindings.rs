@@ -330,7 +330,8 @@ mod tests {
             .split_whitespace()
             .map(|keystroke| {
                 KeybindingKeystroke::from_keystroke(
-                    Keystroke::parse(keystroke).expect("valid test keystroke"),
+                    Keystroke::parse_with_os(keystroke, gpui::OperatingSystem::Mac)
+                        .expect("valid test keystroke"),
                 )
             })
             .collect()
@@ -355,7 +356,7 @@ mod tests {
         binding
             .keystrokes
             .iter()
-            .map(|keystroke| keystroke.inner().unparse())
+            .map(|keystroke| keystroke.inner().unparse(gpui::OperatingSystem::Mac))
             .collect()
     }
 
@@ -368,7 +369,7 @@ mod tests {
                 ui::KeyBinding::set_vim_mode(cx, vim_mode);
                 for sequence in ["g", "h", "ctrl-w", "shift-h"] {
                     let keystrokes: Rc<[KeybindingKeystroke]> =
-                        binding(sequence, "Action").remaining_keystrokes.into();
+                        binding(sequence, "操作").remaining_keystrokes.into();
                     let expected = text_for_keybinding_keystrokes(&keystrokes, cx);
                     let keybinding = PendingBindings::keybinding(keystrokes, cx);
                     assert_eq!(
@@ -414,7 +415,7 @@ mod tests {
             } else {
                 vec![PendingBinding {
                     remaining_keystrokes: vec![keystroke.clone()],
-                    action_name: "Action".into(),
+                    action_name: "操作".into(),
                 }]
             };
             let rows = prepare_pending_bindings(bindings, cx);
@@ -451,7 +452,7 @@ mod tests {
     fn test_duplicate_selection_preserves_candidate_order(cx: &mut App) {
         let contexts = [
             KeyContext::parse("Workspace").expect("valid context"),
-            KeyContext::parse("Editor").expect("valid context"),
+            KeyContext::parse("编辑器").expect("valid context"),
         ];
         let input = [
             Keystroke::parse("cmd-k").expect("valid keystroke"),
@@ -465,7 +466,7 @@ mod tests {
                     .with_meta(KeybindSource::User.meta()),
             ],
             vec![
-                KeyBinding::new("cmd-k cmd-s", zed_actions::OpenSettings, Some("Editor"))
+                KeyBinding::new("cmd-k cmd-s", zed_actions::OpenSettings, Some("编辑器"))
                     .with_meta(KeybindSource::Default.meta()),
                 KeyBinding::new("cmd-k cmd-s", zed_actions::OpenKeymap, Some("Workspace"))
                     .with_meta(KeybindSource::User.meta()),
@@ -483,7 +484,7 @@ mod tests {
                     ),
                     true,
                     None,
-                    cx.keyboard_mapper().as_ref(),
+                    cx,
                 )
                 .expect("user binding with key equivalents")
                 .with_meta(KeybindSource::User.meta()),
@@ -707,7 +708,7 @@ mod tests {
     fn test_completing_row_matches_dispatch_with_continuation(cx: &mut App) {
         let contexts = [
             KeyContext::parse("Workspace").expect("valid context"),
-            KeyContext::parse("Editor").expect("valid context"),
+            KeyContext::parse("编辑器").expect("valid context"),
         ];
         let keymap = Keymap::new(vec![
             KeyBinding::new("cmd-k cmd-s", zed_actions::OpenKeymap, Some("Workspace")),
@@ -716,7 +717,7 @@ mod tests {
                 zed_actions::OpenKeymapFile,
                 Some("Workspace"),
             ),
-            KeyBinding::new("cmd-k cmd-s", zed_actions::OpenSettings, Some("Editor")),
+            KeyBinding::new("cmd-k cmd-s", zed_actions::OpenSettings, Some("编辑器")),
         ]);
         let input = [
             Keystroke::parse("cmd-k").expect("valid keystroke"),

@@ -627,7 +627,7 @@ mod tests {
         );
 
         // Test case-insensitive type field
-        let json = serde_json::json!({"Type": "Text", "Text": "hello"});
+        let json = serde_json::json!({"Type": "文本", "文本": "hello"});
         let content: LanguageModelToolResultContent = serde_json::from_value(json).unwrap();
         assert_eq!(
             content,

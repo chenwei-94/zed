@@ -1365,10 +1365,10 @@ impl PickerDelegate for RemoteServerPickerDelegate {
                             window.dispatch_action(menu::SecondaryConfirm.boxed_clone(), cx)
                         }),
                 )
-                .child(confirm_button("Open".into()))
+                .child(confirm_button("打开".into()))
                 .into_any_element()
         } else {
-            confirm_button("Select".into()).into_any_element()
+            confirm_button("选择".into()).into_any_element()
         };
 
         Some(
@@ -2021,7 +2021,7 @@ impl RemoteServerProjects {
                     gpui::PromptLevel::Critical,
                     "连接失败",
                     Some(&e.to_string()),
-                    &["OK"],
+                    &["确定"],
                 )
                 .await
                 .ok();
@@ -2254,7 +2254,7 @@ impl RemoteServerProjects {
                             gpui::PromptLevel::Critical,
                             "启动 Dev Container 失败。详见日志",
                             Some(&format!("{e}")),
-                            &["OK"],
+                            &["确定"],
                         )
                         .await
                         .ok();
@@ -2309,7 +2309,7 @@ impl RemoteServerProjects {
                     gpui::PromptLevel::Critical,
                     "连接失败",
                     Some(&e.to_string()),
-                    &["OK"],
+                    &["确定"],
                 )
                 .await
                 .ok();
@@ -2331,7 +2331,7 @@ impl RemoteServerProjects {
                         .child(
                             div().track_focus(&self.focus_handle(cx)).size_full().child(
                                 v_flex().py_1().child(
-                                    ListItem::new("Error")
+                                    ListItem::new("错误")
                                         .inset(true)
                                         .selectable(false)
                                         .spacing(ui::ListItemSpacing::Sparse)

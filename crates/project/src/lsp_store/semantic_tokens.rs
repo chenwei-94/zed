@@ -27,8 +27,8 @@ use crate::{
         SemanticTokensResponse,
     },
     lsp_store::{
-        LanguageServerState, document_selector_context_for_language, document_selector_matches,
-        missing_servers_to_query,
+        DocumentSelectorPath, LanguageServerState, document_selector_context_for_language,
+        document_selector_matches, missing_servers_to_query,
     },
     project_settings::ProjectSettings,
 };
@@ -576,7 +576,11 @@ impl LspStore {
         }
 
         if let Some(initial_capabilities) = self.lsp_server_initial_capabilities.get(&server_id) {
-            let context = self.remote_document_selector_context(server_id, language);
+            let context = self.remote_document_selector_context(
+                server_id,
+                language,
+                DocumentSelectorPath::Unknown,
+            );
             if let Some(registrations) = self
                 .lsp_server_text_document_registrations
                 .get(&server_id)
@@ -1035,7 +1039,7 @@ mod tests {
             }
 
             let parsed: serde_json::Value =
-                serde_json::from_str(line).expect("Failed to parse JSON");
+                serde_json::from_str(line).expect("解析 JSON 失败");
 
             // Try to extract data from various JSON shapes
             let (data, edits, new_result_id) = extract_semantic_tokens(&parsed);

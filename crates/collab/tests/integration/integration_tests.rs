@@ -6026,7 +6026,7 @@ async fn test_references(
         assert_eq!(status.name.0, "my-fake-lsp-adapter");
         assert_eq!(
             status.pending_work.values().next().unwrap().message,
-            Some("Finding references...".into())
+            Some("正在查找引用…".into())
         );
     });
 
@@ -6084,7 +6084,7 @@ async fn test_references(
         assert_eq!(status.name.0, "my-fake-lsp-adapter");
         assert_eq!(
             status.pending_work.values().next().unwrap().message,
-            Some("Finding references...".into())
+            Some("正在查找引用…".into())
         );
     });
 

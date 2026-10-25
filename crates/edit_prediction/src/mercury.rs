@@ -59,7 +59,12 @@ impl Mercury {
         cx: &mut Context<EditPredictionStore>,
     ) -> Task<Result<Option<EditPredictionResult>>> {
         self.api_token.update(cx, |key_state, cx| {
-            _ = key_state.load_if_needed(MERCURY_CREDENTIALS_URL, |s| s, credentials_provider, cx);
+            _ = key_state.load_cached(
+                MERCURY_CREDENTIALS_URL,
+                |key_state| key_state,
+                credentials_provider,
+                cx,
+            );
         });
         let Some(api_token) = self.api_token.read(cx).key(&MERCURY_CREDENTIALS_URL) else {
             return Task::ready(Ok(None));
@@ -214,7 +219,7 @@ impl Mercury {
             let response_str = response_str.strip_suffix("\n```").unwrap_or(&response_str);
 
             let mut edits = Vec::new();
-            const NO_PREDICTION_OUTPUT: &str = "None";
+            const NO_PREDICTION_OUTPUT: &str = "无";
 
             if response_str != NO_PREDICTION_OUTPUT {
                 let old_text = snapshot
@@ -399,7 +404,12 @@ pub fn mercury_api_token(cx: &mut App) -> Entity<ApiKeyState> {
 pub fn load_mercury_api_token(cx: &mut App) -> Task<Result<(), language_model::AuthenticateError>> {
     let credentials_provider = zed_credentials_provider::global(cx);
     mercury_api_token(cx).update(cx, |key_state, cx| {
-        key_state.load_if_needed(MERCURY_CREDENTIALS_URL, |s| s, credentials_provider, cx)
+        key_state.load_cached(
+            MERCURY_CREDENTIALS_URL,
+            |key_state| key_state,
+            credentials_provider,
+            cx,
+        )
     })
 }
 

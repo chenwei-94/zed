@@ -1594,7 +1594,7 @@ impl CollabPanel {
                         }),
                     )
                     .entry(
-                        "Rename",
+                        "重命名",
                         Some(Box::new(SecondaryConfirm)),
                         window.handler_for(&this, move |this, window, cx| {
                             this.rename_channel(channel_id, window, cx)
@@ -1657,7 +1657,7 @@ impl CollabPanel {
                 }
 
                 context_menu = context_menu.entry(
-                    "Delete",
+                    "删除",
                     None,
                     window.handler_for(&this, move |this, window, cx| {
                         this.remove_channel(channel_id, window, cx)
@@ -2427,7 +2427,7 @@ impl CollabPanel {
     }
 
     fn dispatch_context(&self, window: &Window, cx: &Context<Self>) -> KeyContext {
-        let mut dispatch_context = KeyContext::new_with_defaults();
+        let mut dispatch_context = KeyContext::new_with_defaults(cx.platform_info().os);
         dispatch_context.add("CollabPanel");
         dispatch_context.add("menu");
 
@@ -2515,7 +2515,7 @@ impl CollabPanel {
             PromptLevel::Warning,
             &prompt_message,
             None,
-            &["Leave", "Cancel"],
+            &["Leave", "取消"],
             cx,
         );
         cx.spawn_in(window, async move |this, cx| {
@@ -2545,7 +2545,7 @@ impl CollabPanel {
                 PromptLevel::Warning,
                 &prompt_message,
                 None,
-                &["Remove", "Cancel"],
+                &["移除", "取消"],
                 cx,
             );
             let workspace = self.workspace.clone();
@@ -2579,7 +2579,7 @@ impl CollabPanel {
             PromptLevel::Warning,
             &prompt_message,
             None,
-            &["Remove", "Cancel"],
+            &["移除", "取消"],
             cx,
         );
         let workspace = self.workspace.clone();
@@ -2689,7 +2689,7 @@ impl CollabPanel {
         let (button_id, button_label, button_icon) = if is_authenticated {
             (
                 "connect",
-                if is_busy { "Connecting…" } else { "Connect" },
+                if is_busy { "Connecting…" } else { "连接" },
                 IconName::Public,
             )
         } else {
@@ -2965,7 +2965,7 @@ impl CollabPanel {
             }
             Section::FavoriteChannels => SharedString::from("Favorites"),
             Section::ContactRequests => SharedString::from("Requests"),
-            Section::Contacts => SharedString::from("Contacts"),
+            Section::Contacts => SharedString::from("联系人"),
             Section::Channels => SharedString::from("Channels"),
             Section::ChannelInvites => SharedString::from("Invites"),
             Section::Online => SharedString::from("Online"),
@@ -4258,7 +4258,7 @@ impl CollabPanel {
                         Section::Channels => "Channels",
                         Section::ChannelInvites => "频道邀请",
                         Section::ContactRequests => "联系人请求",
-                        Section::Contacts => "Contacts",
+                        Section::Contacts => "联系人",
                         Section::Online => "Online",
                         Section::Offline => "Offline",
                     };

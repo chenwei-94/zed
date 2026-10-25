@@ -414,7 +414,7 @@ impl Render for BufferSearchBar {
                 .child(replace_actions)
         });
 
-        let mut key_context = KeyContext::new_with_defaults();
+        let mut key_context = KeyContext::new_with_defaults(cx.platform_info().os);
         key_context.add("BufferSearchBar");
         if in_replace {
             key_context.add("in_replace");
@@ -2070,7 +2070,7 @@ mod tests {
         // within other words. By default, all results are found.
         search_bar
             .update_in(cx, |search_bar, window, cx| {
-                search_bar.search("or", None, true, window, cx)
+                search_bar.search("或", None, true, window, cx)
             })
             .await
             .unwrap();
@@ -2937,7 +2937,7 @@ mod tests {
         // Search for word boundaries and replace just a single one.
         search_bar
             .update_in(cx, |search_bar, window, cx| {
-                search_bar.search("or", Some(SearchOptions::WHOLE_WORD), true, window, cx)
+                search_bar.search("或", Some(SearchOptions::WHOLE_WORD), true, window, cx)
             })
             .await
             .unwrap();
@@ -3050,7 +3050,7 @@ mod tests {
         });
 
         // Focus on the editor instead of the search bar, as we want to ensure
-        // that pressing the "Replace Next Match" button will work, even if the
+        // that pressing the "替换下一个匹配项" button will work, even if the
         // search bar is not focused.
         cx.focus(&editor);
 
@@ -3145,7 +3145,7 @@ mod tests {
             editor: &editor,
             search_bar: &search_bar,
             cx,
-            search_text: "or",
+            search_text: "或",
             search_options: Some(SearchOptions::WHOLE_WORD | SearchOptions::REGEX),
             replacement_text: r"\\\n\\\\",
             replace_all: false,
@@ -4437,7 +4437,7 @@ mod tests {
             );
         });
 
-        // Toggle the "Whole Word" search option, so we can later check that
+        // Toggle the "全字匹配" search option, so we can later check that
         // only the last line is now going to be selected.
         search_bar.update_in(cx, |search_bar, window, cx| {
             search_bar.toggle_whole_word(&Default::default(), window, cx)

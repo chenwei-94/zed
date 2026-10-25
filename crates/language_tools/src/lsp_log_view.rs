@@ -356,12 +356,12 @@ impl LspLogView {
                 .server_version
                 .as_ref()
                 .map(|version| version.as_ref())
-                .unwrap_or("Unknown"),
+                .unwrap_or("未知"),
             BINARY = info
                 .status
                 .binary
                 .as_ref()
-                .map_or_else(|| "Unknown".to_string(), |binary| format!("{:#?}", binary)),
+                .map_or_else(|| "未知".to_string(), |binary| format!("{:#?}", binary)),
             WORKSPACE_FOLDERS = info
                 .status
                 .workspace_folders
@@ -377,7 +377,7 @@ impl LspLogView {
                 .map(|configuration| serde_json::to_string_pretty(&configuration))
                 .transpose()
                 .unwrap_or_else(|e| Some(format!("Failed to serialize configuration: {e}")))
-                .unwrap_or_else(|| "Unknown".to_string()),
+                .unwrap_or_else(|| "未知".to_string()),
         );
         let editor = initialize_new_editor(server_info, false, window, cx);
         let editor_subscription = cx.subscribe(
@@ -1291,7 +1291,7 @@ impl Render for LspLogToolbarItemView {
                                                         let log_view = log_view.clone();
 
                                                         for (option, label) in [
-                                                            (TraceValue::Off, "Off"),
+                                                            (TraceValue::Off, "关"),
                                                             (TraceValue::Messages, "Messages"),
                                                             (TraceValue::Verbose, "Verbose"),
                                                         ] {
@@ -1366,9 +1366,9 @@ impl Render for LspLogToolbarItemView {
 
                                                         for (option, label) in [
                                                             (MessageType::LOG, "Log"),
-                                                            (MessageType::INFO, "Info"),
-                                                            (MessageType::WARNING, "Warning"),
-                                                            (MessageType::ERROR, "Error"),
+                                                            (MessageType::INFO, "信息"),
+                                                            (MessageType::WARNING, "警告"),
+                                                            (MessageType::ERROR, "错误"),
                                                         ] {
                                                             menu = menu.entry(label, None, {
                                                                 let log_view = log_view.clone();

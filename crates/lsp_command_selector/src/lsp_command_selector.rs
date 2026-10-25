@@ -919,7 +919,7 @@ mod tests {
         cx.update(|_, cx| {
             cx.bind_keys([
                 KeyBinding::new("tab", menu::SelectNext, None),
-                KeyBinding::new("tab", editor::actions::Tab, Some("Editor")),
+                KeyBinding::new("tab", editor::actions::Tab, Some("编辑器")),
                 KeyBinding::new("tab", picker::ConfirmCompletion, Some("Picker > Editor")),
                 KeyBinding::new(
                     "tab",

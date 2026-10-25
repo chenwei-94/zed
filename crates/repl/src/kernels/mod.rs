@@ -697,9 +697,9 @@ impl ToString for KernelStatus {
             KernelStatus::Idle => "Idle".to_string(),
             KernelStatus::Busy => "Busy".to_string(),
             KernelStatus::Starting => "Starting".to_string(),
-            KernelStatus::Error => "Error".to_string(),
+            KernelStatus::Error => "错误".to_string(),
             KernelStatus::ShuttingDown => "Shutting Down".to_string(),
-            KernelStatus::Shutdown => "Shutdown".to_string(),
+            KernelStatus::Shutdown => "关闭".to_string(),
             KernelStatus::Restarting => "Restarting".to_string(),
         }
     }

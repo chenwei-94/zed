@@ -1355,7 +1355,7 @@ mod tests {
 
     #[test]
     fn always_allow_button_works_end_to_end() {
-        // This test verifies that the "Always Allow" button behavior works correctly:
+        // This test verifies that the "始终允许" button behavior works correctly:
         // 1. User runs a command like "cargo build --release"
         // 2. They click "Always Allow for `cargo build` commands"
         // 3. The pattern extracted should match future "cargo build" commands

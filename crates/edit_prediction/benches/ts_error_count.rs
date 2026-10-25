@@ -334,7 +334,7 @@ fn parsed_cases() -> Vec<ParsedCase> {
         build_case(
             &mut context,
             &languages,
-            "Go",
+            "转到",
             "valid",
             go_source(1000),
             false,
@@ -342,7 +342,7 @@ fn parsed_cases() -> Vec<ParsedCase> {
         build_case(
             &mut context,
             &languages,
-            "Go",
+            "转到",
             "error_heavy",
             go_source_with_errors(1000),
             true,

@@ -230,7 +230,7 @@ fn run_visual_tests(project_path: PathBuf, update_baseline: bool) -> Result<()> 
         cx.bind_keys([KeyBinding::new(
             "f9",
             editor::actions::ToggleBreakpoint,
-            Some("Editor"),
+            Some("编辑器"),
         )]);
 
         // Disable agent notifications during visual tests to avoid popup windows
@@ -1398,7 +1398,7 @@ fn run_settings_ui_subpage_visual_tests(
     cx.run_until_parked();
 
     // Test 2: Open settings with a path that maps to a single SubPageLink
-    // "edit_predictions.providers" maps to the "Configure Providers" SubPageLink
+    // "edit_predictions.providers" maps to the "配置提供商" SubPageLink
     // This should auto-open the sub-page
     workspace_window
         .update(cx, |_workspace, window, cx| {
@@ -2440,7 +2440,7 @@ fn run_tool_permissions_visual_tests(
     settings_window_handle
         .update(cx, |settings_window, window, cx| {
             settings_window.push_dynamic_sub_page(
-                "Terminal",
+                "终端",
                 "Configure Tool Rules",
                 None,
                 true,
@@ -2459,7 +2459,7 @@ fn run_tool_permissions_visual_tests(
         cx.run_until_parked();
     }
 
-    // Refresh and redraw so the "Test Your Rules" input is present
+    // Refresh and redraw so the "测试规则" input is present
     cx.update_window(settings_window, |_, window, cx| {
         window.draw(cx).clear(cx);
     })
@@ -2472,7 +2472,7 @@ fn run_tool_permissions_visual_tests(
     .log_err();
     cx.run_until_parked();
 
-    // Focus the first tab stop in the window (the "Test Your Rules" editor
+    // Focus the first tab stop in the window (the "测试规则" editor
     // has tab_index(0) and tab_stop(true)) and type "hi" into it.
     cx.update_window(settings_window, |_, window, cx| {
         window.focus_next(cx);
@@ -2716,7 +2716,7 @@ fn run_multi_workspace_sidebar_visual_tests(
                     ),
                     1 => (
                         "visual-test-thread-1",
-                        "Add line numbers option to FileEditBlock",
+                        "为 FileEditBlock 添加行号选项",
                         chrono::TimeZone::with_ymd_and_hms(&chrono::Utc, 2024, 6, 15, 11, 0, 0)
                             .unwrap(),
                     ),
@@ -2862,16 +2862,16 @@ impl gpui::Render for ErrorWrappingTestView {
                 Callout::new()
                     .severity(Severity::Error)
                     .icon(IconName::XCircle)
-                    .title("An Error Happened")
+                    .title("发生错误")
                     .description(long_error_message)
-                    .actions_slot(Button::new("dismiss", "Dismiss").label_size(LabelSize::Small)),
+                    .actions_slot(Button::new("dismiss", "忽略").label_size(LabelSize::Small)),
             )
             .child(
                 Callout::new()
                     .severity(Severity::Error)
                     .icon(IconName::XCircle)
                     .title(long_error_message)
-                    .actions_slot(Button::new("retry", "Retry").label_size(LabelSize::Small)),
+                    .actions_slot(Button::new("retry", "重试").label_size(LabelSize::Small)),
             )
     }
 }

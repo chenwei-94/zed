@@ -1879,7 +1879,7 @@ impl ProjectSearchView {
             let should_prompt_to_save = !skip_save_on_close && !will_autosave && is_dirty;
 
             let should_search = if should_prompt_to_save {
-                let options = &["Save", "不保存", "Cancel"];
+                let options = &["保存", "不保存", "取消"];
                 let result_channel = this.update_in(cx, |_, window, cx| {
                     window.prompt(
                         gpui::PromptLevel::Warning,

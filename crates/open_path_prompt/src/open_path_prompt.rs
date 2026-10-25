@@ -719,7 +719,7 @@ impl PickerDelegate for OpenPathDelegate {
                             gpui::PromptLevel::Critical,
                             &format!("{prompted_path:?} 已存在。是否替换？"),
                             Some("已存在同名文件或文件夹。替换将覆盖其当前内容。"),
-                            &["Replace", "Cancel"],
+                            &["Replace", "取消"],
                             cx,
                         );
                         self.replace_prompt = cx.spawn_in(window, async move |picker, cx| {

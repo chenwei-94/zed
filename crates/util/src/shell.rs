@@ -1190,7 +1190,7 @@ mod tests {
                     ShellBuilder::new(&Shell::Program(shell.display().to_string()), false)
                         .non_interactive()
                         .literal_args()
-                        .build(Some(program.to_owned()), &[String::from("OK")]);
+                        .build(Some(program.to_owned()), &[String::from("确定")]);
                 let script = shell_arguments.last().unwrap();
                 assert_eq!(
                     script,
@@ -1212,7 +1212,7 @@ mod tests {
                         String::from_utf8_lossy(&output.stdout).into_owned(),
                         String::from_utf8_lossy(&output.stderr).into_owned(),
                     ),
-                    (true, String::from("OK"), String::new()),
+                    (true, String::from("确定"), String::new()),
                     "{shell_program} {shell_arguments:?}"
                 );
             }

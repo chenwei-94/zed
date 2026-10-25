@@ -2491,7 +2491,7 @@ mod tests {
         assert_eq!(input_path, Some(PathBuf::from("root/test.txt")));
     }
 
-    /// When the buffer has unsaved changes and the user picks "Save", the
+    /// When the buffer has unsaved changes and the user picks "保存", the
     /// pending edits are flushed to disk and the agent's edit then proceeds
     /// against the just-saved content.
     #[gpui::test]

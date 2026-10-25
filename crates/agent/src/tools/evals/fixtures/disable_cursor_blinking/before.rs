@@ -1206,7 +1206,7 @@ impl std::fmt::Debug for SelectNextState {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct(std::any::type_name::<Self>())
             .field("wordwise", &self.wordwise)
-            .field("done", &self.done)
+            .field("完成", &self.done)
             .finish()
     }
 }
@@ -1954,7 +1954,7 @@ impl Editor {
         cx: &App,
     ) -> KeyContext {
         let mut key_context = KeyContext::new_with_defaults();
-        key_context.add("Editor");
+        key_context.add("编辑器");
         let mode = match self.mode {
             EditorMode::SingleLine { .. } => "single_line",
             EditorMode::AutoHeight { .. } => "auto_height",
@@ -2095,7 +2095,7 @@ impl Editor {
             |e, _, _| match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
                 "远程 Zed 实例尚不支持此功能。需要升级到 {}",
-                e.error_tag("required").unwrap_or("the latest version")
+                e.error_tag("required").unwrap_or("最新版本")
             )),
                 _ => None,
             },
@@ -2166,7 +2166,7 @@ impl Editor {
             match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
                 "远程 Zed 实例尚不支持此功能。需要升级到 {}",
-                e.error_tag("required").unwrap_or("the latest version")
+                e.error_tag("required").unwrap_or("最新版本")
             )),
                 _ => None,
             }
@@ -7341,7 +7341,7 @@ impl Editor {
                 let target_display_point = range.end.to_display_point(editor_snapshot);
 
                 self.render_edit_prediction_end_of_line_popover(
-                    "Accept",
+                    "接受",
                     editor_snapshot,
                     visible_row_range,
                     target_display_point,
@@ -7485,7 +7485,7 @@ impl Editor {
         cx: &mut App,
     ) -> Option<(AnyElement, gpui::Point<Pixels>)> {
         let mut element = self
-            .render_edit_prediction_line_popover("Scroll", Some(scroll_icon), window, cx)?
+            .render_edit_prediction_line_popover("滚动", Some(scroll_icon), window, cx)?
             .into_any();
 
         let size = element.layout_as_root(AvailableSpace::min_size(), window, cx);
@@ -21068,7 +21068,7 @@ impl Render for BreakpointPromptEditor {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let gutter_dimensions = *self.gutter_dimensions.lock();
         h_flex()
-            .key_context("Editor")
+            .key_context("编辑器")
             .bg(cx.theme().colors().editor_background)
             .border_y_1()
             .border_color(cx.theme().status().info_border)

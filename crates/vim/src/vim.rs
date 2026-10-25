@@ -551,7 +551,7 @@ pub(crate) struct HelixAppendState {
 
 // Hack: Vim intercepts events dispatched to a window and updates the view in response.
 // This means it needs a VisualContext. The easiest way to satisfy that constraint is
-// to make Vim a "View" that is just never actually rendered.
+// to make Vim a "视图" that is just never actually rendered.
 impl Render for Vim {
     fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
         gpui::Empty
@@ -987,6 +987,9 @@ impl Vim {
                     }
                     _ => {
                         vim.update_editor(cx, |_, editor, cx| editor.paste(&Paste, window, cx));
+                        if vim.mode == Mode::HelixSelect {
+                            vim.switch_mode(Mode::HelixNormal, true, window, cx);
+                        }
                     }
                 },
             );

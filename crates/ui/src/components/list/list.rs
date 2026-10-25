@@ -12,7 +12,7 @@ pub enum EmptyMessage {
 #[derive(IntoElement, RegisterComponent)]
 pub struct List {
     /// Message to display when the list is empty
-    /// Defaults to "No items"
+    /// Defaults to "没有条目"
     empty_message: EmptyMessage,
     header: Option<ListHeader>,
     toggle: Option<bool>,

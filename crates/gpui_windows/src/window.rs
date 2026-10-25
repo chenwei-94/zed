@@ -742,11 +742,11 @@ impl PlatformWindow for WindowsWindow {
                     let main_icon;
                     match level {
                         PromptLevel::Info => {
-                            title = windows::core::w!("Info");
+                            title = windows::core::w!("信息");
                             main_icon = TD_INFORMATION_ICON;
                         }
                         PromptLevel::Warning => {
-                            title = windows::core::w!("Warning");
+                            title = windows::core::w!("警告");
                             main_icon = TD_WARNING_ICON;
                         }
                         PromptLevel::Critical => {

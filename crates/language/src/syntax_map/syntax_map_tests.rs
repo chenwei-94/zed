@@ -1407,7 +1407,7 @@ fn test_syntax_map_languages_loading_with_erb(cx: &mut App) {
 
     let language = Arc::new(erb_lang());
 
-    log::info!("parsing");
+    log::info!("解析中");
     registry.add(language.clone());
     syntax_map.reparse(language.clone(), &buffer);
 

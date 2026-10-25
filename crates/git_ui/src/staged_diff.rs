@@ -116,7 +116,7 @@ impl StagedDiff {
             source = if entry.is_some() {
                 "Git 面板"
             } else {
-                "Action"
+                "操作"
             }
         );
         let intended_repo = workspace.project().read(cx).active_repository(cx);

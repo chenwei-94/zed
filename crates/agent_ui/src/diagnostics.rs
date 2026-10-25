@@ -137,7 +137,7 @@ pub fn collect_diagnostics(
         }
 
         let mut label = String::new();
-        label.push_str("Diagnostics");
+        label.push_str("诊断");
         if let Some(source) = error_source {
             write!(label, " ({})", source).unwrap();
         }

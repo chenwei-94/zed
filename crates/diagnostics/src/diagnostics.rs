@@ -141,7 +141,7 @@ impl Render for ProjectDiagnosticsEditor {
             };
 
         div()
-            .key_context("Diagnostics")
+            .key_context("诊断")
             .track_focus(&self.focus_handle(cx))
             .size_full()
             .on_action(cx.listener(Self::toggle_warnings))
@@ -756,7 +756,7 @@ impl Item for ProjectDiagnosticsEditor {
     }
 
     fn tab_content_text(&self, _detail: usize, _: &App) -> SharedString {
-        "Diagnostics".into()
+        "诊断".into()
     }
 
     fn tab_content(&self, params: TabContentParams, _window: &Window, _: &App) -> AnyElement {

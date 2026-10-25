@@ -105,7 +105,7 @@ impl Render for Shadow {
                         .flex_row()
                         .children(vec![
                             example(
-                                "Square",
+                                "方形",
                                 Shadow::square().shadow(vec![
                                     BoxShadow::new(px(0.), px(8.), hsla(0.0, 0.5, 0.5, 0.3))
                                         .blur_radius(px(8.)),
@@ -146,17 +146,17 @@ impl Render for Shadow {
                         .flex()
                         .w_full()
                         .children(vec![
-                            example("None", Shadow::base()),
+                            example("无", Shadow::base()),
                             // 2Xsmall shadow
                             example("2X Small", Shadow::base().shadow_2xs()),
                             // Xsmall shadow
                             example("Extra Small", Shadow::base().shadow_xs()),
                             // Small shadow
-                            example("Small", Shadow::base().shadow_sm()),
+                            example("小", Shadow::base().shadow_sm()),
                             // Medium shadow
-                            example("Medium", Shadow::base().shadow_md()),
+                            example("中", Shadow::base().shadow_md()),
                             // Large shadow
-                            example("Large", Shadow::base().shadow_lg()),
+                            example("大", Shadow::base().shadow_lg()),
                             example("Extra Large", Shadow::base().shadow_xl()),
                             example("2X Large", Shadow::base().shadow_2xl()),
                         ]),
@@ -316,14 +316,14 @@ impl Render for Shadow {
                         .flex()
                         .children(vec![
                             example(
-                                "Left",
+                                "左",
                                 Shadow::base().shadow(vec![
                                     BoxShadow::new(px(-8.), px(0.), hsla(0.0, 0.5, 0.5, 0.3))
                                         .blur_radius(px(8.)),
                                 ]),
                             ),
                             example(
-                                "Right",
+                                "右",
                                 Shadow::base().shadow(vec![
                                     BoxShadow::new(px(8.), px(0.), hsla(0.0, 0.5, 0.5, 0.3))
                                         .blur_radius(px(8.)),

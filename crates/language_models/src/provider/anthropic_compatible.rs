@@ -215,7 +215,7 @@ impl AnthropicCompatibleLanguageModelProvider {
                     let is_default = matches!(effort, anthropic::Effort::High);
                     let (name, value) = match effort {
                         anthropic::Effort::Low => ("Low".into(), "low".into()),
-                        anthropic::Effort::Medium => ("Medium".into(), "medium".into()),
+                        anthropic::Effort::Medium => ("中".into(), "medium".into()),
                         anthropic::Effort::High => ("High".into(), "high".into()),
                         anthropic::Effort::XHigh => ("XHigh".into(), "xhigh".into()),
                         anthropic::Effort::Max => ("Max".into(), "max".into()),

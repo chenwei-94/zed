@@ -2840,7 +2840,7 @@ mod tests {
             cx.bind_keys([gpui::KeyBinding::new(
                 "ctrl-enter",
                 InlineAssist::default(),
-                Some("Terminal"),
+                Some("终端"),
             )])
         });
 

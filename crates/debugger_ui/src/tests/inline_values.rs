@@ -1849,7 +1849,7 @@ fn go_lang() -> Arc<Language> {
     Arc::new(
         Language::new(
             LanguageConfig {
-                name: "Go".into(),
+                name: "转到".into(),
                 matcher: (LanguageMatcher {
                     path_suffixes: vec!["go".into()],
                     ..Default::default()

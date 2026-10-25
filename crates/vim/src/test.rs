@@ -102,7 +102,7 @@ async fn test_bound_standalone_modifier_updates_operator(cx: &mut TestAppContext
         cx.bind_keys([KeyBinding::new(
             "shift",
             editor::actions::MoveRight,
-            Some("Editor"),
+            Some("编辑器"),
         )]);
     });
     cx.run_until_parked();

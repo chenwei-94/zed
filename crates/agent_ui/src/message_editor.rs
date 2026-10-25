@@ -327,7 +327,7 @@ async fn resolve_pasted_context_items(
 ) -> (Vec<ResolvedPastedContextItem>, Vec<Entity<Worktree>>) {
     let mut items = Vec::new();
     let mut added_worktrees = Vec::new();
-    let default_image_name: SharedString = "Image".into();
+    let default_image_name: SharedString = "图像".into();
     // A bitmap and image files in the clipboard are usually the same image (e.g. a
     // screenshot saved to a temporary file), so skip image files when there's a bitmap.
     let has_clipboard_image = entries
@@ -507,7 +507,7 @@ impl MessageEditor {
                     menu.action("剪切", Box::new(editor::actions::Cut))
                         .action_disabled_when(
                             !has_selection,
-                            "Copy",
+                            "复制",
                             Box::new(editor::actions::Copy),
                         )
                         .action("粘贴", Box::new(editor::actions::Paste))
@@ -1658,7 +1658,7 @@ impl MessageEditor {
                     _ => return Ok::<(), anyhow::Error>(()),
                 };
 
-                let default_image_name: SharedString = "Image".into();
+                let default_image_name: SharedString = "图像".into();
                 let images = cx
                     .background_spawn(async move {
                         paths
@@ -1831,7 +1831,7 @@ impl MessageEditor {
                         MentionUri::parse(&uri, path_style)
                     } else {
                         Ok(MentionUri::PastedImage {
-                            name: "Image".to_string(),
+                            name: "图像".to_string(),
                         })
                     };
                     let Some(mention_uri) = mention_uri.log_err() else {
@@ -3339,8 +3339,8 @@ mod tests {
                     format!("seven.txt b{slash}"),
                     format!("six.txt b{slash}"),
                     format!("five.txt b{slash}"),
-                    "Files & Directories".into(),
-                    "Symbols".into()
+                    "文件与目录".into(),
+                    "符号".into()
                 ]
             );
             editor.set_text("", window, cx);
@@ -3374,15 +3374,15 @@ mod tests {
                     format!("seven.txt b{slash}"),
                     format!("six.txt b{slash}"),
                     format!("five.txt b{slash}"),
-                    "Files & Directories".into(),
-                    "Symbols".into(),
-                    "Threads".into(),
-                    "Fetch".into()
+                    "文件与目录".into(),
+                    "符号".into(),
+                    "会话".into(),
+                    "抓取".into()
                 ]
             );
         });
 
-        // Select and confirm "File"
+        // Select and confirm "文件"
         editor.update_in(&mut cx, |editor, window, cx| {
             assert!(editor.has_visible_completions_menu());
             editor.context_menu_next(&editor::actions::ContextMenuNext, window, cx);
@@ -5428,7 +5428,7 @@ mod tests {
         let image_name = temporary_image_path
             .file_name()
             .and_then(|n| n.to_str())
-            .unwrap_or("Image")
+            .unwrap_or("图像")
             .to_string();
         std::fs::remove_file(&temporary_image_path).expect("remove temp png");
 
@@ -5497,7 +5497,7 @@ mod tests {
                     paste_image_context(&message_editor, entries, inline, &mut cx);
 
                     let image_uri = MentionUri::PastedImage {
-                        name: "Image".into(),
+                        name: "图像".into(),
                     };
                     editor.update(&mut cx, |editor, cx| {
                         assert_eq!(editor.text(cx), format!("{} ", image_uri.as_link()));
@@ -5551,7 +5551,7 @@ mod tests {
             );
 
             let image_uri = MentionUri::PastedImage {
-                name: "Image".into(),
+                name: "图像".into(),
             };
             let contents = mention_contents(&message_editor, &mut cx).await;
             let Some((_, Mention::Image(pasted_image))) =

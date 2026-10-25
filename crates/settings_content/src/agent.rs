@@ -1146,9 +1146,9 @@ pub enum ToolPermissionMode {
 impl std::fmt::Display for ToolPermissionMode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ToolPermissionMode::Allow => write!(f, "Allow"),
+            ToolPermissionMode::Allow => write!(f, "允许"),
             ToolPermissionMode::Deny => write!(f, "Deny"),
-            ToolPermissionMode::Confirm => write!(f, "Confirm"),
+            ToolPermissionMode::Confirm => write!(f, "确认"),
         }
     }
 }

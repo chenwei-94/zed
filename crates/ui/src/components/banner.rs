@@ -14,7 +14,7 @@ use gpui::{AnyElement, IntoElement, ParentElement, Styled};
 ///     .severity(Severity::Success)
 ///     .children([Label::new("This is a success message")])
 ///     .action_slot(
-///         Button::new("learn-more", "Learn More")
+///         Button::new("learn-more", "了解更多")
 ///             .end_icon(Icon::new(IconName::ArrowUpRight).size(IconSize::Small)),
 ///     );
 /// ```

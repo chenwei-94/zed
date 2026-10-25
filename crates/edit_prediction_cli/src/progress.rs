@@ -66,14 +66,14 @@ impl Step {
     pub fn label(&self) -> &'static str {
         match self {
             Step::LoadProject => "Load",
-            Step::Context => "Context",
+            Step::Context => "上下文",
             Step::FormatPrompt => "Format",
             Step::Predict => "Predict",
             Step::Score => "Score",
             Step::Qa => "QA",
             Step::Repair => "Repair",
             Step::Synthesize => "Synthesize",
-            Step::PullExamples => "Pull",
+            Step::PullExamples => "拉取",
         }
     }
 
@@ -547,9 +547,9 @@ impl Log for ProgressLogger {
         let bold = "\x1b[1m";
 
         let level_label = match record.level() {
-            Level::Error => "Error",
+            Level::Error => "错误",
             Level::Warn => "Warn",
-            Level::Info => "Info",
+            Level::Info => "信息",
             Level::Debug => "Debug",
             Level::Trace => "Trace",
         };

@@ -51,10 +51,11 @@ fn criterion_benchmark(c: &mut Criterion) {
         ("FilesFirst", ProjectPanelSortMode::FilesFirst),
     ];
     let orders = [
-        ("Default", ProjectPanelSortOrder::Default),
+        ("默认", ProjectPanelSortOrder::Default),
         ("Upper", ProjectPanelSortOrder::Upper),
         ("Lower", ProjectPanelSortOrder::Lower),
         ("Unicode", ProjectPanelSortOrder::Unicode),
+        ("Extension", ProjectPanelSortOrder::Extension),
     ];
 
     for (mode_name, mode) in &modes {

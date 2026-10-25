@@ -909,7 +909,6 @@ pub enum ThreadEvent {
         outcome: acp_thread::SelectedPermissionOutcome,
     },
     Elicitation(ElicitationRequest),
-    SubagentSpawned(acp_v2::SessionId),
     Retry(acp_thread::RetryStatus),
     ContextCompaction(acp_thread::ContextCompaction),
     ContextCompactionUpdate(acp_thread::ContextCompactionUpdate),
@@ -1010,7 +1009,7 @@ impl ToolPermissionContext {
             return acp_thread::PermissionOptions::Flat(vec![
                 acp_v2::PermissionOption::new(
                     acp_v2::PermissionOptionId::new("allow"),
-                    "Allow",
+                    "允许",
                     acp_v2::PermissionOptionKind::AllowOnce,
                 ),
                 acp_v2::PermissionOption::new(
@@ -1052,12 +1051,12 @@ impl ToolPermissionContext {
                     choices.push(acp_thread::PermissionOptionChoice {
                         allow: acp_v2::PermissionOption::new(
                             acp_v2::PermissionOptionId::new("allow"),
-                            "Only this time",
+                            "仅此一次",
                             acp_v2::PermissionOptionKind::AllowOnce,
                         ),
                         deny: acp_v2::PermissionOption::new(
                             acp_v2::PermissionOptionId::new("deny"),
-                            "Only this time",
+                            "仅此一次",
                             acp_v2::PermissionOptionKind::RejectOnce,
                         ),
                         sub_patterns: vec![],
@@ -1164,7 +1163,7 @@ impl ToolPermissionContext {
         }
 
         push_choice(
-            "Only this time".to_string(),
+            "仅此一次".to_string(),
             "allow".to_string(),
             "deny".to_string(),
             acp_v2::PermissionOptionKind::AllowOnce,
@@ -6014,13 +6013,6 @@ impl ToolCallEventStream {
             .ok();
     }
 
-    pub fn subagent_spawned(&self, id: acp_v2::SessionId) {
-        self.stream
-            .sender
-            .unbounded_send(Ok(ThreadEvent::SubagentSpawned(id)))
-            .ok();
-    }
-
     /// Authorize a third-party tool (e.g., MCP tool from a context server).
     ///
     /// Unlike built-in tools, third-party tools don't support pattern-based permissions.
@@ -6028,7 +6020,7 @@ impl ToolCallEventStream {
     ///
     /// Uses the dropdown authorization flow with two granularities:
     /// - "Always for <display_name> MCP tool" → sets `tools.<tool_id>.default = "allow"` or "deny"
-    /// - "Only this time" → allow/deny once
+    /// - "仅此一次" → allow/deny once
     pub fn authorize_third_party_tool(
         &self,
         title: impl Into<String>,
@@ -6054,12 +6046,12 @@ impl ToolCallEventStream {
             acp_thread::PermissionOptionChoice {
                 allow: acp_v2::PermissionOption::new(
                     acp_v2::PermissionOptionId::new("allow"),
-                    "Only this time",
+                    "仅此一次",
                     acp_v2::PermissionOptionKind::AllowOnce,
                 ),
                 deny: acp_v2::PermissionOption::new(
                     acp_v2::PermissionOptionId::new("deny"),
-                    "Only this time",
+                    "仅此一次",
                     acp_v2::PermissionOptionKind::RejectOnce,
                 ),
                 sub_patterns: vec![],
@@ -6285,7 +6277,7 @@ impl ToolCallEventStream {
     /// guarantees. This is a transient gate *in front of* the normal sandbox
     /// flow — it is never persisted or recorded as a grant; the only way to
     /// stop it recurring is to disable `warn_ntfs_grants` in settings (offered
-    /// via the banner's gear). Returns `Ok(())` on "Continue" (after which the
+    /// via the banner's gear). Returns `Ok(())` on "继续" (after which the
     /// caller proceeds to any escalation prompt) and `Err` on "Abort".
     pub(crate) fn authorize_windows_fs_warning(&self, cx: &mut App) -> Task<Result<()>> {
         // If the warning is already disabled, don't prompt.
@@ -6309,7 +6301,7 @@ impl ToolCallEventStream {
         let options = acp_thread::PermissionOptions::Flat(vec![
             acp_v2::PermissionOption::new(
                 acp_v2::PermissionOptionId::new(acp_thread::SandboxPermission::AllowOnce.as_id()),
-                "Continue",
+                "继续",
                 acp_v2::PermissionOptionKind::AllowOnce,
             ),
             acp_v2::PermissionOption::new(
@@ -6525,7 +6517,7 @@ impl ToolCallEventStream {
     ///
     /// `retries` is how many times the user has already pressed Retry for this
     /// command; it's shown on the button so repeated presses visibly advance
-    /// ("Retry", then "Retry (attempt 1)", "Retry (attempt 2)", …).
+    /// ("重试", then "Retry (attempt 1)", "Retry (attempt 2)", …).
     #[cfg(any(target_os = "linux", target_os = "windows"))]
     pub(crate) fn authorize_sandbox_fallback(
         &self,
@@ -6541,7 +6533,7 @@ impl ToolCallEventStream {
             docs_section,
         };
         let retry_label = if retries == 0 {
-            "Retry".to_string()
+            "重试".to_string()
         } else {
             format!("重试（第 {retries} 次）")
         };
@@ -6679,7 +6671,7 @@ impl ToolCallEventStream {
     /// does not interpret the user's choice as a permission grant — callers
     /// are responsible for handling each `option_id` explicitly. Use this
     /// when a tool needs the user to pick between several side-effecting
-    /// actions (for example, "Save" vs "Discard" for a dirty buffer).
+    /// actions (for example, "保存" vs "Discard" for a dirty buffer).
     pub fn prompt_for_decision(
         &self,
         title: Option<String>,
@@ -9039,7 +9031,7 @@ mod tests {
         assert_eq!(
             options,
             vec![
-                ("retry", "Retry"),
+                ("retry", "重试"),
                 ("allow", "Run without sandbox once"),
                 ("allow_thread", "Run without sandbox for this thread"),
                 ("allow_always", "Always run without sandbox"),
@@ -9096,7 +9088,7 @@ mod tests {
             label
         }
 
-        assert_eq!(retry_label(cx, 0).await, "Retry");
+        assert_eq!(retry_label(cx, 0).await, "重试");
         assert_eq!(retry_label(cx, 1).await, "Retry (attempt 1)");
         assert_eq!(retry_label(cx, 2).await, "Retry (attempt 2)");
     }

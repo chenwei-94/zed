@@ -179,7 +179,7 @@ impl PromptContextAction {
 
     pub fn label(&self) -> &'static str {
         match self {
-            Self::AddSelections => "Selection",
+            Self::AddSelections => "选择",
         }
     }
 
@@ -264,11 +264,11 @@ impl PromptContextType {
     pub fn label(&self) -> &'static str {
         match self {
             Self::File => "文件与目录",
-            Self::Symbol => "Symbols",
-            Self::Fetch => "Fetch",
-            Self::Thread => "Threads",
-            Self::Skill => "Skills",
-            Self::Diagnostics => "Diagnostics",
+            Self::Symbol => "符号",
+            Self::Fetch => "抓取",
+            Self::Thread => "会话",
+            Self::Skill => "技能",
+            Self::Diagnostics => "诊断",
             Self::BranchDiff => "分支差异",
         }
     }
@@ -2179,7 +2179,7 @@ fn diagnostics_label(
     }
 
     if parts.is_empty() {
-        return "Diagnostics".into();
+        return "诊断".into();
     }
 
     let body = if parts.len() == 2 {
@@ -2216,7 +2216,7 @@ fn diagnostics_submenu_label(
             summary.warning_count,
             pluralize("warning", summary.warning_count)
         ),
-        _ => "Diagnostics".into(),
+        _ => "诊断".into(),
     }
 }
 

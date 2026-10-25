@@ -66,7 +66,7 @@ impl Display for BaseKeymap {
             BaseKeymap::TextMate => write!(f, "TextMate"),
             BaseKeymap::Emacs => write!(f, "Emacs (beta)"),
             BaseKeymap::Cursor => write!(f, "Cursor (beta)"),
-            BaseKeymap::None => write!(f, "None"),
+            BaseKeymap::None => write!(f, "无"),
         }
     }
 }
@@ -81,7 +81,7 @@ impl BaseKeymap {
         ("Sublime Text", Self::SublimeText),
         ("Emacs (beta)", Self::Emacs),
         ("TextMate", Self::TextMate),
-        ("Cursor", Self::Cursor),
+        ("光标", Self::Cursor),
     ];
 
     #[cfg(not(target_os = "macos"))]
@@ -92,7 +92,7 @@ impl BaseKeymap {
         ("JetBrains", Self::JetBrains),
         ("Sublime Text", Self::SublimeText),
         ("Emacs (beta)", Self::Emacs),
-        ("Cursor", Self::Cursor),
+        ("光标", Self::Cursor),
     ];
 
     pub fn asset_path(&self) -> Option<&'static str> {

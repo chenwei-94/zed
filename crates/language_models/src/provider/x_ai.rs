@@ -154,7 +154,10 @@ impl XAiLanguageModelProvider {
     ) -> BoxFuture<
         'static,
         Result<
-            futures::stream::BoxStream<'static, Result<ResponseStreamEvent>>,
+            futures::stream::BoxStream<
+                'static,
+                Result<ResponseStreamEvent, LanguageModelCompletionError>,
+            >,
             LanguageModelCompletionError,
         >,
     > {
@@ -370,7 +373,7 @@ fn supported_thinking_effort_levels(model: &x_ai::Model) -> Vec<LanguageModelEff
                 open_ai::ReasoningEffort::None => return None,
                 open_ai::ReasoningEffort::Minimal => ("Minimal", "minimal"),
                 open_ai::ReasoningEffort::Low => ("Low", "low"),
-                open_ai::ReasoningEffort::Medium => ("Medium", "medium"),
+                open_ai::ReasoningEffort::Medium => ("中", "medium"),
                 open_ai::ReasoningEffort::High => ("High", "high"),
                 open_ai::ReasoningEffort::XHigh => ("极高", "xhigh"),
                 open_ai::ReasoningEffort::Max => return None, // Not supported by any xAI models

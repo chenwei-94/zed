@@ -327,7 +327,7 @@ pub async fn get_models(
     let mut request_builder = HttpRequest::builder()
         .method(Method::GET)
         .uri(uri)
-        .header("Accept", "application/json");
+        .header("接受", "application/json");
 
     if let Some(api_key) = api_key {
         request_builder = request_builder.header("Authorization", format!("Bearer {}", api_key));

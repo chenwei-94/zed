@@ -1013,7 +1013,7 @@ mod remote_button {
     ) -> SplitButton {
         split_button(
             id,
-            "Fetch",
+            "抓取",
             0,
             0,
             Some(IconName::ArrowCircle),
@@ -1044,7 +1044,7 @@ mod remote_button {
     ) -> SplitButton {
         split_button(
             id,
-            "Push",
+            "推送",
             ahead as usize,
             0,
             None,
@@ -1076,7 +1076,7 @@ mod remote_button {
     ) -> SplitButton {
         split_button(
             id,
-            "Pull",
+            "拉取",
             ahead as usize,
             behind as usize,
             None,
@@ -1088,7 +1088,7 @@ mod remote_button {
             },
             move |_window, cx| {
                 git_action_tooltip(
-                    "Pull",
+                    "拉取",
                     &git::Pull,
                     "git pull",
                     keybinding_target.clone(),

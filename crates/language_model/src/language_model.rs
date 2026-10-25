@@ -17,7 +17,7 @@ use std::sync::Arc;
 
 pub type CreateProviderSettingsView = Arc<dyn Fn(&mut Window, &mut App) -> AnyView + 'static>;
 
-pub use crate::api_key::{ApiKey, ApiKeyState};
+pub use crate::api_key::{ApiKey, ApiKeyState, read_credentials, set_credentials_read_gate};
 pub use crate::registry::*;
 pub use crate::request::{LanguageModelImageExt, gpui_size_to_image_size, image_size_to_gpui};
 pub use env_var::{EnvVar, env_var};
@@ -559,6 +559,7 @@ pub trait LanguageModelProvider: LanguageModelClient {
 
     fn is_authenticated(&self, cx: &App) -> bool;
     fn authenticate(&self, cx: &mut App) -> Task<Result<(), AuthenticateError>>;
+    fn refresh_models(&self, _cx: &mut App) {}
     fn settings_view(&self, cx: &mut App) -> Option<ProviderSettingsView>;
 
     fn set_api_key(&self, _key: Option<String>, _cx: &mut App) -> Task<Result<()>> {
@@ -649,7 +650,7 @@ impl ApiKeyConfiguration {
 }
 
 /// A live snapshot of a single-API-key provider's credential state, used by the
-/// settings UI to render the provider's "API Key" section.
+/// settings UI to render the provider's "API 密钥" section.
 #[derive(Clone)]
 pub struct ApiKeyConfiguration {
     pub has_key: bool,

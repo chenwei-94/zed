@@ -1695,7 +1695,7 @@ fn render_completion_kind_letter(
 
 fn completion_kind_name(kind: CompletionItemKind) -> &'static str {
     match kind {
-        CompletionItemKind::TEXT => "Text",
+        CompletionItemKind::TEXT => "文本",
         CompletionItemKind::METHOD => "Method",
         CompletionItemKind::FUNCTION => "Function",
         CompletionItemKind::CONSTRUCTOR => "Constructor",
@@ -1711,7 +1711,7 @@ fn completion_kind_name(kind: CompletionItemKind) -> &'static str {
         CompletionItemKind::KEYWORD => "Keyword",
         CompletionItemKind::SNIPPET => "Snippet",
         CompletionItemKind::COLOR => "Color",
-        CompletionItemKind::FILE => "File",
+        CompletionItemKind::FILE => "文件",
         CompletionItemKind::REFERENCE => "Reference",
         CompletionItemKind::FOLDER => "Folder",
         CompletionItemKind::ENUM_MEMBER => "枚举成员",
@@ -1720,7 +1720,7 @@ fn completion_kind_name(kind: CompletionItemKind) -> &'static str {
         CompletionItemKind::EVENT => "Event",
         CompletionItemKind::OPERATOR => "Operator",
         CompletionItemKind::TYPE_PARAMETER => "类型参数",
-        _ => "Unknown",
+        _ => "未知",
     }
 }
 

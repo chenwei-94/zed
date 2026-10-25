@@ -292,7 +292,7 @@ pub fn parse_skill_frontmatter(
 pub fn extract_skill_frontmatter(content: &str) -> Result<(SkillMetadata, &str)> {
     if content.len() > MAX_SKILL_FILE_SIZE {
         anyhow::bail!(
-            "SKILL.md file exceeds maximum size of {}KB",
+            "SKILL.md 文件超过 {}KB 的大小上限",
             MAX_SKILL_FILE_SIZE / 1024
         );
     }

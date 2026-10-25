@@ -324,7 +324,7 @@ pub fn print_report(
     println!("{}", separator);
     println!(
         "{:<40} {:>8} {:>5} {:>7} {:>7} {:>7} {:>7} {:>6} {:>5}",
-        "Example", "DeltaChrF", "Brace", "F1", "Revert", "QaRev", "QaConf", "Cursor", "WrgER"
+        "Example", "DeltaChrF", "Brace", "F1", "Revert", "QaRev", "QaConf", "光标", "WrgER"
     );
     println!("{}", separator);
 

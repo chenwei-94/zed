@@ -306,7 +306,7 @@ impl Render for Onboarding {
         div()
             .image_cache(gpui::retain_all("onboarding-page"))
             .key_context({
-                let mut ctx = KeyContext::new_with_defaults();
+                let mut ctx = KeyContext::new_with_defaults(cx.platform_info().os);
                 ctx.add("Onboarding");
                 ctx.add("menu");
                 ctx
@@ -486,7 +486,7 @@ pub async fn handle_import_vscode_settings(
                     gpui::PromptLevel::Info,
                     &format!("找不到或无法加载 {source} 设置文件"),
                     None,
-                    &["OK"],
+                    &["确定"],
                 );
                 return;
             }
@@ -501,7 +501,7 @@ pub async fn handle_import_vscode_settings(
                 truncate_and_remove_front(&vscode_settings.path.to_string_lossy(), 128),
             ),
             None,
-            &["Import", "Cancel"],
+            &["Import", "取消"],
         );
         let result = cx.spawn(async move |_| prompt.await.ok()).await;
         if result != Some(0) {

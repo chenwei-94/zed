@@ -974,7 +974,7 @@ impl AgentTerminal {
         let terminal = view.terminal().read(cx);
         if terminal.breadcrumb_text.is_empty() {
             let title = terminal.title(true);
-            if title == "Terminal" {
+            if title == "终端" {
                 SharedString::from("")
             } else {
                 title.into()
@@ -1826,7 +1826,7 @@ impl AgentPanel {
 
     fn draft_has_content(&self, draft: &Entity<ConversationView>, cx: &App) -> bool {
         let cv = draft.read(cx);
-        if cv.has_pending_selections() {
+        if cv.has_pending_selections() || cv.has_saved_input() {
             return true;
         }
         if let Some(thread_view) = cv.active_thread() {
@@ -4303,7 +4303,7 @@ impl AgentPanel {
             .iter()
             .filter(|(_id, view)| {
                 let view = view.read(cx);
-                if view.has_pending_selections() {
+                if view.has_pending_selections() || view.has_saved_input() {
                     return false;
                 }
                 let Some(thread_view) = view.root_thread_view() else {
@@ -5553,7 +5553,7 @@ impl AgentPanel {
                             .into_any_element()
                     }
                 } else {
-                    Label::new("Terminal").into_any_element()
+                    Label::new("终端").into_any_element()
                 }
             }
 
@@ -5768,7 +5768,7 @@ impl AgentPanel {
                                     }),
                                 )
                                 .separator()
-                                .header("Context")
+                                .header("上下文")
                                 .action("技能", Box::new(ManageSkills));
 
                             if project_agents_md_path.is_some() || global_agents_md_loaded {
@@ -5889,7 +5889,7 @@ impl AgentPanel {
         let showing_terminal = matches!(self.visible_surface(), VisibleSurface::Terminal(_));
 
         let (selected_agent_custom_icon, selected_agent_label) = if showing_terminal {
-            (None, SharedString::from("Terminal"))
+            (None, SharedString::from("终端"))
         } else if let Agent::Custom { id, .. } = &self.selected_agent {
             let store = agent_server_store.read(cx);
             let icon = store.agent_icon(&id);
@@ -5954,7 +5954,7 @@ impl AgentPanel {
                         )
                         .when(supports_terminal, |menu| {
                             menu.item(
-                                ContextMenuEntry::new("Terminal")
+                                ContextMenuEntry::new("终端")
                                     .when(showing_terminal, |this| this.action(Box::new(NewThread)))
                                     .when(!showing_terminal, |this| {
                                         this.action(Box::new(NewTerminalThread))
@@ -6593,8 +6593,8 @@ impl AgentPanel {
         }
     }
 
-    fn key_context(&self) -> KeyContext {
-        let mut key_context = KeyContext::new_with_defaults();
+    fn key_context(&self, cx: &App) -> KeyContext {
+        let mut key_context = KeyContext::new_with_defaults(cx.platform_info().os);
         key_context.add("AgentPanel");
         key_context
     }
@@ -6612,7 +6612,7 @@ impl Render for AgentPanel {
         // - Scrolling in all views works as expected
         // - Files can be dropped into the panel
         let content = v_flex()
-            .key_context(self.key_context())
+            .key_context(self.key_context(cx))
             .relative()
             .size_full()
             .justify_between()
@@ -8792,7 +8792,7 @@ mod tests {
         cx.update(|_, cx| {
             connection.send_update(
                 session_id.clone(),
-                acp::SessionUpdate::AgentMessageChunk(acp::ContentChunk::new("done".into())),
+                acp::SessionUpdate::AgentMessageChunk(acp::ContentChunk::new("完成".into())),
                 cx,
             );
         });
@@ -8810,7 +8810,7 @@ mod tests {
         let thread_id = active_thread_id(panel, cx);
 
         connection.set_next_prompt_updates(vec![acp::SessionUpdate::AgentMessageChunk(
-            acp::ContentChunk::new("done".into()),
+            acp::ContentChunk::new("完成".into()),
         )]);
         send_message(panel, cx);
 
@@ -9711,7 +9711,7 @@ mod tests {
                 panel.insert_display_only_terminal(
                     terminal_id,
                     Some(PathBuf::from("/project")),
-                    Some("Terminal".into()),
+                    Some("终端".into()),
                     None,
                     None,
                     true,
@@ -10791,7 +10791,7 @@ mod tests {
         });
 
         terminal_entity.update(&mut cx, |terminal, cx| {
-            terminal.breadcrumb_text = "Thinking".to_string();
+            terminal.breadcrumb_text = "思考中".to_string();
             cx.emit(TerminalEvent::BreadcrumbsChanged);
         });
         cx.run_until_parked();
@@ -10803,7 +10803,7 @@ mod tests {
             let metadata = panel
                 .terminal_metadata(terminal_id, cx)
                 .expect("terminal metadata should be available");
-            assert_eq!(metadata.title.as_ref(), "Thinking");
+            assert_eq!(metadata.title.as_ref(), "思考中");
             assert_eq!(metadata.display_title().as_ref(), "Fix bug");
         });
     }
@@ -10852,7 +10852,7 @@ mod tests {
                 .as_ref()
                 .expect("terminal title editor should be active while editing")
                 .clone();
-            assert_eq!(title_editor.read(cx).text(cx), "Thinking");
+            assert_eq!(title_editor.read(cx).text(cx), "思考中");
             title_editor
         });
 
@@ -11911,6 +11911,46 @@ mod tests {
     }
 
     #[gpui::test]
+    async fn test_disconnected_saved_input_is_not_evicted_as_idle(cx: &mut TestAppContext) {
+        let (panel, mut cx) = setup_panel(cx).await;
+        let connection = StubAgentConnection::new()
+            .with_receipt_submissions(true)
+            .with_supports_load_session(true);
+        open_thread_with_custom_connection(&panel, connection.clone(), &mut cx);
+        let saved = panel.read_with(&cx, |panel, _| {
+            panel
+                .active_conversation_view()
+                .expect("conversation")
+                .clone()
+        });
+        let _response = connection.defer_next_receipt_response();
+        send_message(&panel, &mut cx);
+        let thread = saved.read_with(&cx, |view, cx| view.root_thread(cx).expect("thread"));
+        thread.update(&mut cx, |thread, cx| thread.handle_connection_lost(cx));
+        cx.run_until_parked();
+        assert!(saved.read_with(&cx, |view, _| view.has_saved_input()));
+
+        cx.update(|_, cx| {
+            AgentSettings::override_global(
+                AgentSettings {
+                    max_idle_retained_threads: 0,
+                    ..AgentSettings::get_global(cx).clone()
+                },
+                cx,
+            );
+        });
+        open_thread_with_custom_connection(&panel, connection, &mut cx);
+        panel.update(&mut cx, |panel, cx| {
+            panel.cleanup_retained_threads(cx);
+            assert!(
+                panel
+                    .retained_threads
+                    .contains_key(&saved.read(cx).thread_id)
+            );
+        });
+    }
+
+    #[gpui::test]
     async fn test_completed_retained_thread_is_unloaded_when_retained_thread_limit_is_zero(
         cx: &mut TestAppContext,
     ) {
@@ -12054,7 +12094,7 @@ mod tests {
             Agent::NativeAgent,
         );
         assert_eq!(
-            serde_json::from_str::<Agent>(r#"{"Custom":{"name":"my-agent"}}"#).unwrap(),
+            serde_json::from_str::<Agent>(r#"{"自定义":{"name":"my-agent"}}"#).unwrap(),
             Agent::Custom {
                 id: "my-agent".into(),
             },
@@ -12154,7 +12194,7 @@ mod tests {
         // Thread C completes immediately (idle), then opening B moves C to background too.
         let connection_c = StubAgentConnection::new().with_agent_id("agent-c".into());
         connection_c.set_next_prompt_updates(vec![acp::SessionUpdate::AgentMessageChunk(
-            acp::ContentChunk::new("done".into()),
+            acp::ContentChunk::new("完成".into()),
         )]);
         open_thread_with_custom_connection(&panel, connection_c.clone(), &mut cx);
         send_message(&panel, &mut cx);

@@ -919,7 +919,7 @@ fn render_mcp_server_form_page(
                 ))
                 .child(render_form_field(
                     settings_window,
-                    "Arguments",
+                    "参数",
                     "传给命令的、以空格分隔的参数。",
                     &form.args,
                     cx,
@@ -1401,7 +1401,7 @@ mod tests {
         values.command = "/bin/server".into();
         assert_eq!(
             build_settings_from_values(&values).unwrap_err().as_ref(),
-            "Server name is required."
+            "服务器名称为必填项。"
         );
     }
 
@@ -1410,7 +1410,7 @@ mod tests {
         let values = values(McpTransport::Stdio);
         assert_eq!(
             build_settings_from_values(&values).unwrap_err().as_ref(),
-            "Command is required."
+            "命令为必填项。"
         );
     }
 
@@ -1419,7 +1419,7 @@ mod tests {
         let values = values(McpTransport::Http);
         assert_eq!(
             build_settings_from_values(&values).unwrap_err().as_ref(),
-            "URL is required."
+            "URL 为必填项。"
         );
     }
 
@@ -1441,7 +1441,7 @@ mod tests {
         values.timeout = "soon".into();
         assert_eq!(
             build_settings_from_values(&values).unwrap_err().as_ref(),
-            "Timeout must be a positive whole number of seconds."
+            "超时必须是正整数秒。"
         );
     }
 
@@ -1548,7 +1548,7 @@ mod tests {
             settings_validation_error(Some(&http("not a url")))
                 .unwrap()
                 .as_ref(),
-            "Invalid URL in settings."
+            "设置中的 URL 无效。"
         );
         assert!(settings_validation_error(Some(&http("https://example.com/mcp"))).is_none());
         assert!(settings_validation_error(None).is_none());

@@ -65,7 +65,7 @@ pub async fn request_device_code(
     let request = HttpRequest::builder()
         .method(Method::POST)
         .uri(configuration.device_code_url())
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .header("Content-Type", "application/x-www-form-urlencoded")
         .body(AsyncBody::from(body))?;
 
@@ -110,7 +110,7 @@ pub async fn poll_for_access_token(
         let request = HttpRequest::builder()
             .method(Method::POST)
             .uri(configuration.access_token_url())
-            .header("Accept", "application/json")
+            .header("接受", "application/json")
             .header("Content-Type", "application/x-www-form-urlencoded")
             .body(AsyncBody::from(body.clone()))?;
 

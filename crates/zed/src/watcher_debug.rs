@@ -772,7 +772,7 @@ mod tests {
         let mut visual = gpui::VisualTestContext::from_window(window.into(), cx);
         assert_eq!(
             visual.window_title().as_deref(),
-            Some("Debug Filesystem Watching")
+            Some("调试文件系统监视")
         );
         visual.run_until_parked();
         let footer = visual.debug_bounds("watcher-footer").unwrap();

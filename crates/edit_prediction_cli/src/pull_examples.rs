@@ -374,7 +374,7 @@ pub(crate) async fn fetch_partition(
             "X-Snowflake-Authorization-Token-Type",
             "PROGRAMMATIC_ACCESS_TOKEN",
         )
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .header("Accept-Encoding", "gzip")
         .header("User-Agent", "edit_prediction_cli")
         .body(AsyncBody::empty())?;
@@ -512,7 +512,7 @@ pub(crate) async fn run_sql(
             "PROGRAMMATIC_ACCESS_TOKEN",
         )
         .header("Content-Type", "application/json")
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .header("User-Agent", "edit_prediction_cli")
         .body(AsyncBody::from(request_body.clone()))?;
 

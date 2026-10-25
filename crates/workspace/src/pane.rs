@@ -365,7 +365,7 @@ impl fmt::Debug for Event {
                 .debug_struct("ActivateItem")
                 .field("local", local)
                 .finish(),
-            Event::Remove { .. } => f.write_str("Remove"),
+            Event::Remove { .. } => f.write_str("移除"),
             Event::RemovedItem { item } => f
                 .debug_struct("RemovedItem")
                 .field("item", &item.item_id())
@@ -1239,6 +1239,8 @@ impl Pane {
             .iter()
             .any(|existing_item| existing_item.item_id() == item.item_id());
 
+        let mut replaces_existing_item_in_pane = false;
+
         if !item_already_exists {
             self.close_items_on_item_open(window, cx);
         }
@@ -1305,7 +1307,7 @@ impl Pane {
                 if existing_item_is_active && destination_index.is_none() {
                     insertion_index = existing_item_index;
                 } else {
-                    self.items.remove(existing_item_index);
+                    let removed_item = self.items.remove(existing_item_index);
                     if existing_item_index < self.active_item_index {
                         self.active_item_index -= 1;
                     }
@@ -1317,6 +1319,10 @@ impl Pane {
                         self.active_item_index = insertion_index;
                     } else if insertion_index <= self.active_item_index {
                         self.active_item_index += 1;
+                    }
+
+                    if removed_item.item_id() != item.item_id() {
+                        replaces_existing_item_in_pane = true;
                     }
                 }
 
@@ -1341,7 +1347,11 @@ impl Pane {
             }
         }
 
-        cx.emit(Event::AddItem { item });
+        // only new adds or replaced items should be treated as "added". treating existing items as "added" would cause listeners
+        // like markdown auto preview to treat a pane move as a new item / fresh open.
+        if existing_item_index.is_none() || replaces_existing_item_in_pane {
+            cx.emit(Event::AddItem { item: item.clone() });
+        }
     }
 
     pub fn add_item(
@@ -2000,7 +2010,7 @@ impl Pane {
                         PromptLevel::Warning,
                         "是否保存以下文件的更改？",
                         Some(&detail),
-                        &["全部保存", "全部放弃", "Cancel"],
+                        &["全部保存", "全部放弃", "取消"],
                         cx,
                     )
                 })?;
@@ -2051,7 +2061,7 @@ impl Pane {
                                     PromptLevel::Warning,
                                     &format!("无法保存文件：{err}"),
                                     Some(&detail),
-                                    &["不保存并关闭", "Cancel"],
+                                    &["不保存并关闭", "取消"],
                                     cx,
                                 )
                             })?;
@@ -2325,7 +2335,7 @@ impl Pane {
                         PromptLevel::Warning,
                         DELETED_MESSAGE,
                         None,
-                        &["Save", "Close", "Cancel"],
+                        &["保存", "关闭", "取消"],
                         cx,
                     )
                 })?;
@@ -2360,7 +2370,7 @@ impl Pane {
                         PromptLevel::Warning,
                         CONFLICT_MESSAGE,
                         None,
-                        &["Overwrite", "放弃编辑", "Cancel"],
+                        &["覆盖", "放弃编辑", "取消"],
                         cx,
                     )
                 })?;
@@ -2403,7 +2413,7 @@ impl Pane {
                                 PromptLevel::Warning,
                                 &prompt,
                                 None,
-                                &["Save", "不保存", "Cancel"],
+                                &["保存", "不保存", "取消"],
                                 cx,
                             ))
                         } else {
@@ -2921,7 +2931,7 @@ impl Pane {
                         let extra_actions = item_handle.tab_extra_context_menu_actions(window, cx);
                         if let Some((_, action)) = extra_actions
                             .into_iter()
-                            .find(|(label, _)| label.as_ref() == "Rename")
+                            .find(|(label, _)| label.as_ref() == "重命名")
                         {
                             // Dispatch action directly through the focus handle to avoid
                             // relay_action's intermediate focus step which can interfere
@@ -3131,7 +3141,7 @@ impl Pane {
                     if let Some(pane) = pane.upgrade() {
                         menu = menu
                             .entry(
-                                "Close",
+                                "关闭",
                                 Some(Box::new(close_active_item_action)),
                                 window.handler_for(&pane, move |pane, window, cx| {
                                     pane.close_item_by_id(item_id, SaveIntent::Close, window, cx)
@@ -3682,7 +3692,7 @@ impl Pane {
             .overflow_x_scroll()
             .w_full()
             .track_scroll(&self.tab_bar_scroll_handle)
-            .on_scroll_wheel(cx.listener(|this, _, _, _| {
+            .on_scroll(cx.listener(|this, _, _, _| {
                 this.suppress_scroll = true;
             }))
             .children(unpinned_tabs)
@@ -4390,7 +4400,7 @@ impl Focusable for Pane {
 
 impl Render for Pane {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
-        let mut key_context = KeyContext::new_with_defaults();
+        let mut key_context = KeyContext::new_with_defaults(cx.platform_info().os);
         key_context.add("Pane");
         if self.active_item().is_none() {
             key_context.add("EmptyPane");
@@ -5204,7 +5214,7 @@ mod tests {
         let item_c = add_labeled_item(&pane, "C", false, cx);
         let item_d = add_labeled_item(&pane, "D", false, cx);
         add_labeled_item(&pane, "E", false, cx);
-        add_labeled_item(&pane, "Settings", false, cx);
+        add_labeled_item(&pane, "设置", false, cx);
         assert_item_labels(&pane, ["A", "B", "C", "D", "E", "Settings*"], cx);
 
         set_max_tabs(cx, Some(5));
@@ -7339,6 +7349,116 @@ mod tests {
     }
 
     #[gpui::test]
+    async fn test_move_item(cx: &mut TestAppContext) {
+        init_test(cx);
+        let fs = FakeFs::new(cx.executor());
+
+        let project = Project::test(fs, None, cx).await;
+        let (workspace, cx) =
+            cx.add_window_view(|window, cx| Workspace::test_new(project.clone(), window, cx));
+        let pane = workspace.read_with(cx, |workspace, _| workspace.active_pane().clone());
+
+        let [first_item, _, _] = set_labeled_items(&pane, ["A", "B*", "C"], cx);
+
+        let add_item_event_count = Rc::new(Cell::new(0));
+        let _subscription = cx.update(|_, cx| {
+            cx.subscribe(&pane, {
+                let add_item_event_count = add_item_event_count.clone();
+                move |_pane, event: &Event, _cx| {
+                    if matches!(event, Event::AddItem { .. }) {
+                        add_item_event_count.set(add_item_event_count.get() + 1);
+                    }
+                }
+            })
+        });
+
+        pane.update_in(cx, |pane, window, cx| {
+            // move pane
+            pane.add_item(first_item, false, false, Some(1), window, cx)
+        });
+
+        assert_item_labels(&pane, ["B", "A*", "C"], cx);
+        assert_eq!(add_item_event_count.get(), 0);
+
+        add_labeled_item(&pane, "D", false, cx);
+        assert_eq!(add_item_event_count.get(), 1);
+    }
+
+    #[gpui::test]
+    async fn test_move_item_to_different_pane(cx: &mut TestAppContext) {
+        init_test(cx);
+
+        let fs = FakeFs::new(cx.executor());
+
+        let project = Project::test(fs, None, cx).await;
+        let (workspace, cx) =
+            cx.add_window_view(|window, cx| Workspace::test_new(project.clone(), window, cx));
+        let pane1 = workspace.read_with(cx, |workspace, _| workspace.active_pane().clone());
+        let pane2 = workspace.update_in(cx, |workspace, window, cx| {
+            workspace.split_pane(pane1.clone(), SplitDirection::Right, window, cx)
+        });
+
+        let item_a = pane1.update_in(cx, |pane, window, cx| {
+            let item = Box::new(cx.new(|cx| {
+                TestItem::new(cx)
+                    .with_buffer_kind(ItemBufferKind::Singleton)
+                    .with_label("a")
+                    .with_project_items(&[TestProjectItem::new(1, "one.txt", cx)])
+            }));
+            pane.add_item(item.clone(), false, false, None, window, cx);
+            item
+        });
+
+        pane2.update_in(cx, |pane, window, cx| {
+            let item = Box::new(cx.new(|cx| {
+                TestItem::new(cx)
+                    .with_buffer_kind(ItemBufferKind::Singleton)
+                    .with_label("b")
+                    .with_project_items(&[TestProjectItem::new(1, "one.txt", cx)])
+            }));
+            pane.add_item(item.clone(), false, false, None, window, cx);
+            item
+        });
+
+        assert_item_labels(&pane1, ["a*"], cx);
+        assert_item_labels(&pane2, ["b*"], cx);
+
+        let add_item_event_count = Rc::new(Cell::new(0));
+        let _subscription = cx.update(|_, cx| {
+            cx.subscribe(&pane2, {
+                let add_item_event_count = add_item_event_count.clone();
+                move |_pane, event: &Event, _cx| {
+                    if matches!(event, Event::AddItem { .. }) {
+                        add_item_event_count.set(add_item_event_count.get() + 1);
+                    }
+                }
+            })
+        });
+        workspace.update_in(cx, |_, window, cx| {
+            move_item(
+                &pane1,
+                &pane2,
+                item_a.clone().entity_id(),
+                2,
+                true,
+                window,
+                cx,
+            );
+        });
+
+        assert_item_labels(&pane1, [], cx);
+        assert_item_labels(&pane2, ["a*"], cx);
+
+        assert_eq!(add_item_event_count.get(), 1);
+
+        let pane_holding_item_a = workspace.read_with(cx, |workspace, _| {
+            let pane_id = workspace.pane_for_item_id(item_a.item_id()).unwrap();
+            pane_id
+        });
+        assert_eq!(pane_holding_item_a.entity_id(), pane2.entity_id());
+    }
+
+    #[gpui::test]
     async fn test_add_item_with_same_project_entries(cx: &mut TestAppContext) {
         init_test(cx);
         let fs = FakeFs::new(cx.executor());
@@ -7993,7 +8113,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Save all");
+        cx.simulate_prompt_answer("全部保存");
         save.await.unwrap();
         assert_item_labels(&pane, [], cx);
 
@@ -8013,7 +8133,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Discard all");
+        cx.simulate_prompt_answer("全部放弃");
         save.await.unwrap();
         assert_item_labels(&pane, [], cx);
 
@@ -8043,7 +8163,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Discard all");
+        cx.simulate_prompt_answer("全部放弃");
         close_task.await.unwrap();
         assert_item_labels(&pane, [], cx);
 
@@ -8067,7 +8187,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Cancel");
+        cx.simulate_prompt_answer("取消");
         close_task.await.unwrap();
         assert_item_labels(&pane, ["Dirty*^"], cx);
     }
@@ -8106,7 +8226,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Discard all");
+        cx.simulate_prompt_answer("全部放弃");
         close_task.await.unwrap();
         assert_item_labels(&pane, [], cx);
 
@@ -8148,7 +8268,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Don't Save");
+        cx.simulate_prompt_answer("不保存");
         close_task.await.unwrap();
         assert_item_labels(&pane, [], cx);
 
@@ -8281,7 +8401,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Discard all");
+        cx.simulate_prompt_answer("全部放弃");
         close_task.await.unwrap();
         assert_item_labels(&pane, [], cx);
 
@@ -8397,7 +8517,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Save all");
+        cx.simulate_prompt_answer("全部保存");
         save.await.unwrap();
         assert_item_labels(&pane, ["C", "A*^"], cx);
 
@@ -8428,7 +8548,7 @@ mod tests {
         });
 
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Discard all");
+        cx.simulate_prompt_answer("全部放弃");
         save.await.unwrap();
         assert_item_labels(&pane, ["C", "A*^"], cx);
     }
@@ -9309,7 +9429,7 @@ mod tests {
         );
         assert_eq!(
             dirty_message_for(None, PathStyle::Unix),
-            "This buffer contains unsaved edits. Do you want to save it?"
+            "此缓冲区包含未保存的更改。是否要保存？"
         );
     }
 

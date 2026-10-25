@@ -447,7 +447,7 @@ mod tests {
         let serialized_editor = SerializedEditor {
             abs_path: Some(PathBuf::from("testing.txt")),
             contents: Some("Test".to_owned()),
-            language: Some("Go".to_owned()),
+            language: Some("转到".to_owned()),
             mtime: None,
         };
 

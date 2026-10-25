@@ -146,7 +146,7 @@ impl AgentTool for FindPathTool {
             event_stream.update_fields(
                 |update| update
                     .title(if paginated_matches.is_empty() {
-                        "No matches".to_string()
+                        "无匹配项".to_string()
                     } else if paginated_matches.len() == 1 {
                         "1 match".to_string()
                     } else {

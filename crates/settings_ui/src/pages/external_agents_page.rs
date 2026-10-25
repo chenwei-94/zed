@@ -528,7 +528,7 @@ fn render_custom_agent_form_page(
         .child(
             crate::render_settings_item_layout(
                 settings_window,
-                "Arguments",
+                "参数",
                 "传给命令的、以空格分隔的参数。",
                 input_box(&form.args, cx).into_any_element(),
                 None,
@@ -872,7 +872,7 @@ fn collect_kv(
 
 // === Open settings.json at the agent's position ===
 //
-// Retained for an upcoming "Edit in settings.json" affordance that jumps the
+// Retained for an upcoming "在 settings.json 中编辑" affordance that jumps the
 // user to the relevant `agent_servers` entry. Not currently wired to any UI.
 
 /// Opens the user's `settings.json` in the original (editor) window, inserts a
@@ -1058,7 +1058,7 @@ mod tests {
         values.name = "   ".into();
         assert_eq!(
             build_settings_from_values(values).unwrap_err().as_ref(),
-            "Agent name is required."
+            "智能体名称为必填项。"
         );
     }
 
@@ -1068,7 +1068,7 @@ mod tests {
         values.command = "   ".into();
         assert_eq!(
             build_settings_from_values(values).unwrap_err().as_ref(),
-            "Command is required."
+            "命令为必填项。"
         );
     }
 

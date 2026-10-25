@@ -349,7 +349,7 @@ async fn load_directory_shell_environment(
         })?;
 
     if cfg!(target_os = "windows")
-        && let Some(path) = envs.remove("Path")
+        && let Some(path) = envs.remove("路径")
     {
         // windows env vars are case-insensitive, so normalize the path var
         // so we can just assume `PATH` in other places

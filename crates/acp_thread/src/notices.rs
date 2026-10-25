@@ -29,11 +29,11 @@ mod tests {
             (
                 serde_json::from_value(json!({
                     "severity": "warning",
-                    "title": "MCP server unavailable",
+                    "title": "MCP 服务器不可用",
                     "description": null,
                     "_meta": null
                 }))?,
-                json!({"severity": "warning", "title": "MCP server unavailable"}),
+                json!({"severity": "warning", "title": "MCP 服务器不可用"}),
             ),
             (
                 acp_v1::Notice::new(acp_v1::NoticeSeverity::Error, "Optional integration failed")
@@ -49,7 +49,7 @@ mod tests {
             (
                 acp_v1::Notice::new(
                     acp_v1::NoticeSeverity::Other("critical".into()),
-                    "Future severity",
+                    "未来的严重级别",
                 )
                 .description("**Plain text**, not Markdown.\nWork continues.")
                 .meta(acp_v1::Meta::from_iter([(
@@ -58,7 +58,7 @@ mod tests {
                 )])),
                 json!({
                     "severity": "critical",
-                    "title": "Future severity",
+                    "title": "未来的严重级别",
                     "description": "**Plain text**, not Markdown.\nWork continues.",
                     "_meta": {"extension": {"nested": [null, true, {"value": "retained"}]}}
                 }),
@@ -66,9 +66,9 @@ mod tests {
             (
                 acp_v1::Notice::new(
                     acp_v1::NoticeSeverity::Other("_custom/β".into()),
-                    "Custom severity",
+                    "自定义严重级别",
                 ),
-                json!({"severity": "_custom/β", "title": "Custom severity"}),
+                json!({"severity": "_custom/β", "title": "自定义严重级别"}),
             ),
         ] {
             assert_eq!(serde_json::to_value(from_v1(legacy)?)?, expected);

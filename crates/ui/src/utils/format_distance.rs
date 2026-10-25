@@ -301,19 +301,19 @@ mod tests {
     fn test_format_distance_string() {
         assert_eq!(
             distance_string(3, false, false, false),
-            "less than a minute"
+            "不到 1 分钟"
         );
         assert_eq!(
             distance_string(7, false, false, false),
-            "less than a minute"
+            "不到 1 分钟"
         );
         assert_eq!(
             distance_string(13, false, false, false),
-            "less than a minute"
+            "不到 1 分钟"
         );
         assert_eq!(
             distance_string(21, false, false, false),
-            "less than a minute"
+            "不到 1 分钟"
         );
         assert_eq!(distance_string(45, false, false, false), "1 分钟");
         assert_eq!(distance_string(61, false, false, false), "1 分钟");
@@ -324,11 +324,11 @@ mod tests {
         assert_eq!(distance_string(345880, false, false, false), "4 days");
         assert_eq!(
             distance_string(2764800, false, false, false),
-            "about 1 month"
+            "约 1 个月"
         );
         assert_eq!(
             distance_string(5184000, false, false, false),
-            "about 2 months"
+            "约 2 个月"
         );
         assert_eq!(distance_string(10368000, false, false, false), "4 months");
         assert_eq!(
@@ -337,7 +337,7 @@ mod tests {
         );
         assert_eq!(
             distance_string(47310000, false, false, false),
-            "over 1 year"
+            "1 年以上"
         );
         assert_eq!(
             distance_string(61503000, false, false, false),
@@ -365,16 +365,16 @@ mod tests {
         );
         assert_eq!(
             distance_string(7, true, false, false),
-            "less than 10 seconds"
+            "不到 10 秒"
         );
         assert_eq!(
             distance_string(13, true, false, false),
-            "less than 20 seconds"
+            "不到 20 秒"
         );
         assert_eq!(distance_string(21, true, false, false), "半分钟");
         assert_eq!(
             distance_string(45, true, false, false),
-            "less than a minute"
+            "不到 1 分钟"
         );
         assert_eq!(distance_string(61, true, false, false), "1 分钟");
     }

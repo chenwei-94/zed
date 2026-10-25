@@ -133,7 +133,7 @@ fn files_not_created_on_launch(errors: HashMap<io::ErrorKind, Vec<&Path>>) {
                             gpui::PromptLevel::Critical,
                             message,
                             Some(&error_details),
-                            &["Exit"],
+                            &["退出"],
                             cx,
                         );
 
@@ -271,7 +271,7 @@ fn main() {
     match util::get_zed_cli_path() {
         Ok(path) => askpass::set_askpass_program(path),
         Err(err) => {
-            eprintln!("Error: {}", err);
+            eprintln!("错误：{}", err);
             if std::option_env!("ZED_BUNDLE").is_some() {
                 process::exit(1);
             }
@@ -552,7 +552,7 @@ fn main() {
             tx.send(Some(options)).log_err();
         })
         .detach();
-        ui::on_new_scrollbars::<SettingsStore>(cx);
+        ui::observe_scrollbar_settings::<SettingsStore>(cx);
 
         let node_runtime = NodeRuntime::new(client.http_client(), Some(shell_env_loaded_rx), rx);
 

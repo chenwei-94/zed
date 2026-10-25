@@ -864,7 +864,7 @@ fn create_worktree_workspace_inner(
         .await;
 
         if let Err(err) = &result {
-            log::error!("Failed to create worktree: {err}");
+            log::error!("创建工作树失败：{err}");
             workspace_handle
                 .update(cx, |workspace, cx| {
                     workspace.set_active_worktree_creation(None, false, cx);
@@ -1782,7 +1782,7 @@ mod tests {
         // Multiple repositories pluralize the current branch.
         assert_eq!(
             WorktreeCreateTarget::CurrentBranch.branch_label(true, Some("feature")),
-            "current branches"
+            "当前分支"
         );
     }
 }

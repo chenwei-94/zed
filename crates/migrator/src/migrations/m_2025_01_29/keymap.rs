@@ -60,11 +60,11 @@ static TRANSFORM_ARRAY: LazyLock<HashMap<(&str, &str), &str>> = LazyLock::new(||
             "workspace::ActivatePaneDown",
         ),
         (
-            ("workspace::ActivatePaneInDirection", "Left"),
+            ("workspace::ActivatePaneInDirection", "左"),
             "workspace::ActivatePaneLeft",
         ),
         (
-            ("workspace::ActivatePaneInDirection", "Right"),
+            ("workspace::ActivatePaneInDirection", "右"),
             "workspace::ActivatePaneRight",
         ),
         // swap
@@ -77,25 +77,25 @@ static TRANSFORM_ARRAY: LazyLock<HashMap<(&str, &str), &str>> = LazyLock::new(||
             "workspace::SwapPaneDown",
         ),
         (
-            ("workspace::SwapPaneInDirection", "Left"),
+            ("workspace::SwapPaneInDirection", "左"),
             "workspace::SwapPaneLeft",
         ),
         (
-            ("workspace::SwapPaneInDirection", "Right"),
+            ("workspace::SwapPaneInDirection", "右"),
             "workspace::SwapPaneRight",
         ),
         // menu
         (
-            ("app_menu::NavigateApplicationMenuInDirection", "Left"),
+            ("app_menu::NavigateApplicationMenuInDirection", "左"),
             "app_menu::ActivateMenuLeft",
         ),
         (
-            ("app_menu::NavigateApplicationMenuInDirection", "Right"),
+            ("app_menu::NavigateApplicationMenuInDirection", "右"),
             "app_menu::ActivateMenuRight",
         ),
         // vim push
         (("vim::PushOperator", "Change"), "vim::PushChange"),
-        (("vim::PushOperator", "Delete"), "vim::PushDelete"),
+        (("vim::PushOperator", "删除"), "vim::PushDelete"),
         (("vim::PushOperator", "Yank"), "vim::PushYank"),
         (("vim::PushOperator", "Replace"), "vim::PushReplace"),
         (
@@ -135,7 +135,7 @@ static TRANSFORM_ARRAY: LazyLock<HashMap<(&str, &str), &str>> = LazyLock::new(||
             "vim::PushToggleComments",
         ),
         // vim switch
-        (("vim::SwitchMode", "Normal"), "vim::SwitchToNormalMode"),
+        (("vim::SwitchMode", "正常"), "vim::SwitchToNormalMode"),
         (("vim::SwitchMode", "Insert"), "vim::SwitchToInsertMode"),
         (("vim::SwitchMode", "Replace"), "vim::SwitchToReplaceMode"),
         (("vim::SwitchMode", "Visual"), "vim::SwitchToVisualMode"),
@@ -153,7 +153,7 @@ static TRANSFORM_ARRAY: LazyLock<HashMap<(&str, &str), &str>> = LazyLock::new(||
         ),
         // vim resize
         (("vim::ResizePane", "Widen"), "vim::ResizePaneRight"),
-        (("vim::ResizePane", "Narrow"), "vim::ResizePaneLeft"),
+        (("vim::ResizePane", "窄"), "vim::ResizePaneLeft"),
         (("vim::ResizePane", "Shorten"), "vim::ResizePaneDown"),
         (("vim::ResizePane", "Lengthen"), "vim::ResizePaneUp"),
         // fold at level

@@ -363,7 +363,7 @@ fn render_base_keymap_section(tab_index: &mut isize, cx: &mut App) -> impl IntoE
                 ToggleButtonWithIcon::new("Emacs", IconName::EditorEmacs, |_, _, cx| {
                     write_keymap_base(BaseKeymap::Emacs, cx);
                 }),
-                ToggleButtonWithIcon::new("Cursor", IconName::EditorCursor, |_, _, cx| {
+                ToggleButtonWithIcon::new("光标", IconName::EditorCursor, |_, _, cx| {
                     write_keymap_base(BaseKeymap::Cursor, cx);
                 }),
                 ToggleButtonWithIcon::new("TextMate", IconName::Keyboard, |_, _, cx| {
@@ -506,7 +506,7 @@ fn render_import_settings_section(tab_index: &mut isize, cx: &mut App) -> impl I
             import_state.vscode,
         ),
         (
-            "Cursor".into(),
+            "光标".into(),
             &ImportCursorSettings { skip_prompt: false },
             import_state.cursor,
         ),

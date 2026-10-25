@@ -18,7 +18,7 @@ use gpui::{
 
 use language::Buffer;
 use platform_title_bar::PlatformTitleBar;
-use project::{Project, ProjectPath, Worktree, WorktreeId};
+use project::{DisableAiSettings, Project, ProjectPath, Worktree, WorktreeId};
 use release_channel::ReleaseChannel;
 use schemars::JsonSchema;
 use serde::Deserialize;
@@ -996,19 +996,19 @@ pub struct SettingsWindow {
     pub(crate) last_copied_skill_directory_path: Option<PathBuf>,
     /// State for the active "add OpenAI/Anthropic-compatible provider" form sub-page, if open.
     pub(crate) llm_provider_form: Option<LlmProviderForm>,
-    /// Stable focus handle for the LLM "Add Provider" button, so it can show a
+    /// Stable focus handle for the LLM "添加提供商" button, so it can show a
     /// focus ring when the page auto-focuses it on open (which happens via mouse,
     /// where `focus_visible` styling would otherwise be suppressed).
     pub(crate) llm_provider_add_focus_handle: FocusHandle,
     /// State for the active "add/edit custom MCP server" form sub-page, if open.
     pub(crate) mcp_server_form: Option<McpServerForm>,
-    /// Stable focus handle for the MCP "Add Server" button, so it can show a
+    /// Stable focus handle for the MCP "添加服务器" button, so it can show a
     /// focus ring when the page auto-focuses it on open (which happens via mouse,
     /// where `focus_visible` styling would otherwise be suppressed).
     pub(crate) mcp_add_server_focus_handle: FocusHandle,
     /// State for the active "add/edit custom external agent" form sub-page, if open.
     pub(crate) custom_agent_form: Option<CustomAgentForm>,
-    /// Stable focus handle for the external agents "Add Agent" button, so it can
+    /// Stable focus handle for the external agents "添加智能体" button, so it can
     /// show a focus ring when the page auto-focuses it on open (which happens via
     /// mouse, where `focus_visible` styling would otherwise be suppressed).
     pub(crate) external_agent_add_focus_handle: FocusHandle,
@@ -1682,7 +1682,7 @@ struct SubPageLink {
     /// See [`SettingField.json_path`]
     json_path: Option<&'static str>,
     /// Whether or not the settings in this sub page are configurable in settings.json
-    /// Removes the "Edit in settings.json" button from the page.
+    /// Removes the "在 settings.json 中编辑" button from the page.
     in_json: bool,
     files: FileMask,
     render:
@@ -3073,7 +3073,7 @@ impl SettingsWindow {
             "聚焦导航栏"
         };
 
-        let mut key_context = KeyContext::new_with_defaults();
+        let mut key_context = KeyContext::new_with_defaults(cx.platform_info().os);
         key_context.add("NavigationMenu");
         key_context.add("menu");
         if self.search_bar.focus_handle(cx).is_focused(window) {
@@ -3491,7 +3491,7 @@ impl SettingsWindow {
                 "sub-page-scope-picker",
                 scope_name,
                 ContextMenu::build(window, cx, move |mut menu, _, _| {
-                    menu = menu.header("Scope");
+                    menu = menu.header("作用域");
 
                     for ix in allowed_file_indices {
                         let (file, focus_handle) = &self.files[ix];
@@ -4349,6 +4349,7 @@ impl SettingsWindow {
         self.sandbox_host_validation_error = None;
         self.sub_page_stack
             .push(SubPage::new(sub_page_link, section_header));
+        self.retry_llm_provider_authentication(cx);
         self.content_focus_handle.focus_handle(cx).focus(window, cx);
         cx.notify();
     }
@@ -4440,7 +4441,7 @@ impl SettingsWindow {
             render: pages::render_skill_creator_page,
         };
 
-        self.push_sub_page(sub_page_link, "Agent".into(), window, cx);
+        self.push_sub_page(sub_page_link, "智能体".into(), window, cx);
 
         let creating_from_url = !matches!(open_mode, pages::SkillCreatorOpenMode::Url { .. });
         page.update(cx, |page, cx| {
@@ -4498,7 +4499,7 @@ impl SettingsWindow {
                             .take(item_index)
                             .rev()
                             .find_map(|item| item.header_text().map(SharedString::new_static))
-                            .unwrap_or_else(|| "Settings".into());
+                            .unwrap_or_else(|| "设置".into());
 
                         self.push_sub_page(sub_page_link.clone(), section_header, window, cx);
                         return true;
@@ -4559,8 +4560,20 @@ impl SettingsWindow {
         {
             self.skill_creator_page = None;
         }
+        self.retry_llm_provider_authentication(cx);
         self.content_focus_handle.focus_handle(cx).focus(window, cx);
         cx.notify();
+    }
+
+    fn retry_llm_provider_authentication(&self, cx: &mut Context<Self>) {
+        if self.sub_page_stack.last().is_some_and(|sub_page| {
+            sub_page.link.json_path == Some("llm_providers")
+                && sub_page.link.title.as_ref() == "LLM 提供商"
+        }) && !DisableAiSettings::get_global(cx).disable_ai
+        {
+            language_model::LanguageModelRegistry::global(cx)
+                .update(cx, |registry, cx| registry.retry_authentication(cx));
+        }
     }
 
     pub(crate) fn active_project(&self, cx: &App) -> Option<Entity<Project>> {
@@ -4983,7 +4996,7 @@ fn update_project_setting_file(
 }
 
 /// Derives a human-readable label for assistive technology from a setting's
-/// JSON path, e.g. `"buffer_font_size"` becomes `"Buffer Font Size"`.
+/// JSON path, e.g. `"buffer_font_size"` becomes `"缓冲区字号"`.
 struct CurrentSettingsValue<'a, T> {
     value: &'a T,
     disabled: bool,
@@ -5427,6 +5440,9 @@ fn render_icon_theme_picker(
 pub mod test {
 
     use super::*;
+    use credentials_provider::test_support::FakeCredentialsProvider;
+    use language_model::{ApiKeyState, EnvVar, LanguageModelProviderState, LanguageModelRegistry};
+    use language_models::provider::open_ai_compatible::OpenAiCompatibleLanguageModelProvider;
 
     impl SettingsWindow {
         fn navbar_entry(&self) -> usize {
@@ -5751,9 +5767,9 @@ pub mod test {
             };
             settings_window_with_items(
                 vec![
-                    SettingsPageItem::SectionHeader("First"),
+                    SettingsPageItem::SectionHeader("首个"),
                     setting(),
-                    SettingsPageItem::SectionHeader("Last"),
+                    SettingsPageItem::SectionHeader("最后一个"),
                     setting(),
                 ],
                 window,
@@ -5865,19 +5881,19 @@ pub mod test {
                 .flat_map(|page| Vec::from(page.items))
                 .find(|item| match item {
                     SettingsPageItem::DynamicItem(item) => {
-                        item.discriminant.title == "Disable Git Integration"
+                        item.discriminant.title == "禁用 Git 集成"
                     }
                     _ => false,
                 })
                 .unwrap();
             let mut settings_window = settings_window_with_items(
                 vec![
-                    SettingsPageItem::SectionHeader("First"),
+                    SettingsPageItem::SectionHeader("首个"),
                     test_action_link(
                         "Preceding setting",
                         Some("A setting with a long description. ".repeat(100)),
                     ),
-                    SettingsPageItem::SectionHeader("Last"),
+                    SettingsPageItem::SectionHeader("最后一个"),
                     git_integration,
                     SettingsPageItem::SectionHeader("Hidden"),
                 ],
@@ -5905,29 +5921,29 @@ pub mod test {
             cx.run_until_parked();
             let viewport = list_state.viewport_bounds();
             if clipped {
-                let status_bounds = cx.debug_bounds("Enable Git Status").unwrap();
+                let status_bounds = cx.debug_bounds("启用 Git 状态").unwrap();
                 settings_window.update(cx, |_, cx| {
                     list_state.scroll_by(status_bounds.bottom() - viewport.bottom() + px(1.));
                     cx.notify();
                 });
                 cx.run_until_parked();
             }
-            let status_handle = control_handles.borrow()["Enable Git Status"].clone();
-            let diff_handle = control_handles.borrow()["Enable Git Diff"].clone();
+            let status_handle = control_handles.borrow()["启用 Git 状态"].clone();
+            let diff_handle = control_handles.borrow()["启用 Git 差异"].clone();
             cx.update(|window, cx| {
                 status_handle.focus(window, cx);
                 window.focus_next(cx);
             });
             cx.run_until_parked();
             cx.update(|window, cx| assert!(status_handle.contains_focused(window, cx)));
-            let status_bounds = cx.debug_bounds("Enable Git Status").unwrap();
+            let status_bounds = cx.debug_bounds("启用 Git 状态").unwrap();
             let initial_row_bounds = list_state.bounds_for_item(4).unwrap();
             let initial_offset = list_state.scroll_px_offset_for_scrollbar();
             assert!(status_bounds.top() >= viewport.top());
             assert!(status_bounds.bottom() <= viewport.bottom());
             if clipped {
                 assert_eq!(status_bounds.bottom(), viewport.bottom() - px(1.));
-                assert!(cx.debug_bounds("Enable Git Diff").unwrap().top() > viewport.bottom());
+                assert!(cx.debug_bounds("启用 Git 差异").unwrap().top() > viewport.bottom());
             } else {
                 assert!(initial_row_bounds.top() >= viewport.top());
                 assert_eq!(initial_row_bounds.bottom(), viewport.bottom());
@@ -5947,7 +5963,7 @@ pub mod test {
                 cx.run_until_parked();
             }
             cx.update(|window, cx| assert!(diff_handle.contains_focused(window, cx)));
-            let diff_bounds = cx.debug_bounds("Enable Git Diff").unwrap();
+            let diff_bounds = cx.debug_bounds("启用 Git 差异").unwrap();
             assert_eq!(
                 list_state.bounds_for_item(4).unwrap().bottom(),
                 viewport.bottom()
@@ -5979,13 +5995,13 @@ pub mod test {
                 .into_iter()
                 .flat_map(|page| Vec::from(page.items))
                 .find(|item| match item {
-                    SettingsPageItem::SettingItem(item) => item.title == "Fallback Branch Name",
+                    SettingsPageItem::SettingItem(item) => item.title == "后备分支名称",
                     _ => false,
                 })
                 .unwrap();
             window.activate_window();
             settings_window_with_items(
-                vec![SettingsPageItem::SectionHeader("Last"), setting],
+                vec![SettingsPageItem::SectionHeader("最后一个"), setting],
                 window,
                 cx,
             )
@@ -6037,9 +6053,9 @@ pub mod test {
             ]
             .into_boxed_slice();
             settings_window.pages[1].items = vec![
-                SettingsPageItem::SectionHeader("First"),
+                SettingsPageItem::SectionHeader("首个"),
                 setting("Last setting", 30),
-                SettingsPageItem::SectionHeader("Last"),
+                SettingsPageItem::SectionHeader("最后一个"),
                 setting("Last setting", 0),
             ]
             .into_boxed_slice();
@@ -6091,11 +6107,11 @@ pub mod test {
             );
             let setting = || test_action_link("Setting", None);
             settings_window.pages[1].items = vec![
-                SettingsPageItem::SectionHeader("Status Bar"),
+                SettingsPageItem::SectionHeader("状态栏"),
                 setting(),
-                SettingsPageItem::SectionHeader("Title Bar"),
+                SettingsPageItem::SectionHeader("标题栏"),
                 setting(),
-                SettingsPageItem::SectionHeader("Tab Bar"),
+                SettingsPageItem::SectionHeader("标签栏"),
                 setting(),
             ]
             .into_boxed_slice();
@@ -6137,7 +6153,7 @@ pub mod test {
                     files: USER,
                     render: |_, _, _, _| gpui::Empty.into_any_element(),
                 },
-                "Title Bar".into(),
+                "标题栏".into(),
             ));
             settings_window.list_state.scroll_to(gpui::ListOffset {
                 item_ix: 3,
@@ -6162,8 +6178,8 @@ pub mod test {
             cx.new(|cx| {
                 settings_window_with_items(
                     vec![
-                        SettingsPageItem::SectionHeader("First"),
-                        SettingsPageItem::SectionHeader("Last"),
+                        SettingsPageItem::SectionHeader("首个"),
+                        SettingsPageItem::SectionHeader("最后一个"),
                         test_action_link(
                             "Last setting",
                             Some(
@@ -6189,10 +6205,10 @@ pub mod test {
         });
         draw_settings_page(&view, px(400.), px(600.) + last_height * 2., cx);
         draw_settings_page(&view, px(400.), px(600.) + last_height, cx);
-        cx.simulate_event(gpui::ScrollWheelEvent {
+        cx.simulate_event(gpui::ScrollEvent {
             position: point(px(200.), px(100.)),
             delta: gpui::ScrollDelta::Pixels(point(px(0.), -last_height)),
-            ..gpui::ScrollWheelEvent::default()
+            ..gpui::ScrollEvent::default()
         });
         draw_settings_page(&view, px(400.), px(600.), cx);
         let viewport = list_state.viewport_bounds();
@@ -6302,10 +6318,10 @@ pub mod test {
             });
             let expected_offset = match input {
                 ScrollInput::Wheel => {
-                    cx.simulate_event(gpui::ScrollWheelEvent {
+                    cx.simulate_event(gpui::ScrollEvent {
                         position: point(px(200.), px(100.)),
                         delta: gpui::ScrollDelta::Pixels(point(px(0.), px(-32.))),
-                        ..gpui::ScrollWheelEvent::default()
+                        ..gpui::ScrollEvent::default()
                     });
                     px(-32.)
                 }
@@ -6389,7 +6405,7 @@ pub mod test {
         v Project
         - Project Settings
         ",
-        toggle_page: "General",
+        toggle_page: "通用",
         after: r"
         > General*
         v Project
@@ -6406,7 +6422,7 @@ pub mod test {
         v Project
         - Project Settings
         ",
-        toggle_page: "General",
+        toggle_page: "通用",
         after: r"
         v General*
         - General
@@ -7089,7 +7105,7 @@ pub mod test {
                 1,
                 "Skills sub-page should stay open when switching scope"
             );
-            assert_eq!(settings_window.sub_page_stack[0].link.title, "Skills");
+            assert_eq!(settings_window.sub_page_stack[0].link.title, "技能");
             assert_eq!(
                 displayed_skill_names(settings_window, cx),
                 ["project-skill"]
@@ -7186,7 +7202,7 @@ pub mod test {
                 .collect();
             assert_eq!(
                 titles,
-                ["Skills", "Create Skill"],
+                ["技能", "创建技能"],
                 "skill creator should be pushed on top of the skills page"
             );
             assert!(
@@ -7279,11 +7295,81 @@ pub mod test {
                     .collect();
                 assert_eq!(
                     titles,
-                    ["Skills", "Create Skill"],
+                    ["技能", "创建技能"],
                     "skill creator should be pushed on top of the skills page"
                 );
             })
             .unwrap();
+    }
+
+    #[gpui::test]
+    fn test_llm_provider_authentication_and_settings_retry(cx: &mut gpui::TestAppContext) {
+        let url = "https://settings-provider.example/v1";
+        let credentials = Arc::new(FakeCredentialsProvider::default());
+        let release = credentials.defer_read(url);
+        let provider = cx.update(|cx| {
+            register_settings(cx);
+            let app_state = AppState::test(cx);
+            AppState::set_global(app_state.clone(), cx);
+            let settings = r#"{"language_models":{"openai_compatible":{
+                "settings-retry":{"api_url":"https://settings-provider.example/v1",
+                "available_models":[]}
+            }}}"#;
+            cx.update_global::<SettingsStore, _>(|store, cx| {
+                store
+                    .set_user_settings(settings, cx)
+                    .expect("provider settings");
+            });
+            let provider = Arc::new(OpenAiCompatibleLanguageModelProvider::new(
+                Arc::from("settings-retry"),
+                app_state.client.http_client(),
+                credentials.clone(),
+                cx,
+            ));
+            let env_var = EnvVar {
+                name: SharedString::from("TEST_SETTINGS_API_KEY"),
+                value: None,
+            };
+            let state = provider.observable_entity().expect("provider state");
+            state.update(cx, |state, _| {
+                state.api_key_state = ApiKeyState::new(SharedString::from(url), env_var);
+            });
+            LanguageModelRegistry::global(cx).update(cx, |registry, cx| {
+                registry.register_provider(provider.clone(), cx);
+                registry.authenticate_providers(cx);
+            });
+            provider
+        });
+        let (settings_window, cx) =
+            cx.add_window_view(|window, cx| SettingsWindow::new(None, window, cx));
+        cx.run_until_parked();
+        for release in [None, Some(release)] {
+            if let Some(release) = release {
+                release.send(()).expect("authentication remains live");
+                cx.run_until_parked();
+            }
+            cx.cx.update(|cx| {
+                LanguageModelRegistry::global(cx).update(cx, |registry, cx| {
+                    registry.register_provider(provider.clone(), cx);
+                    registry.authenticate_providers(cx);
+                    registry.authenticate_providers(cx);
+                });
+            });
+            cx.run_until_parked();
+            credentials.assert_reads(&[url]);
+        }
+        cx.cx
+            .update(|cx| open_settings_editor(Some("llm_providers"), None, None, cx));
+        cx.run_until_parked();
+        credentials.assert_reads(&[url; 2]);
+        settings_window.update(cx, |_, cx| cx.notify());
+        cx.draw(
+            point(px(0.), px(0.)),
+            gpui::size(px(1000.), px(700.)),
+            |_, _| settings_window.clone().into_any_element(),
+        );
+        cx.run_until_parked();
+        credentials.assert_reads(&[url; 2]);
     }
 
     fn settings_window_with_items(

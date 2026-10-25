@@ -321,7 +321,7 @@ pub async fn open_remote_project(
                                 RemoteConnectionOptions::Mock(_) => "连接模拟服务器失败",
                             },
                             Some(&format!("{e:#}")),
-                            &["Retry", "Cancel"],
+                            &["重试", "取消"],
                             cx,
                         )
                     })?
@@ -378,7 +378,7 @@ pub async fn open_remote_project(
                                 RemoteConnectionOptions::Mock(_) => "连接模拟服务器失败",
                             },
                             Some(&format!("{e:#}")),
-                            &["Retry", "Cancel"],
+                            &["重试", "取消"],
                             cx,
                         )
                     })?
@@ -968,7 +968,7 @@ mod tests {
 
         drop(connect_guard_2);
 
-        // Simulate clicking "Reconnect": calls open_remote_project with
+        // Simulate clicking "重新连接": calls open_remote_project with
         // replace_window pointing to the existing window.
         let result = open_remote_project(
             opts,

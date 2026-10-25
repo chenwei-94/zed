@@ -213,7 +213,7 @@ mod tests {
         let empty_commands = db.list_commands_used();
         match &empty_commands {
             Ok(_) => (),
-            Err(e) => println!("Error: {:?}", e),
+            Err(e) => println!("错误：{:?}", e),
         }
         assert!(empty_commands.is_ok());
         assert_eq!(empty_commands.expect("is ok").len(), 0);

@@ -21,6 +21,7 @@ mod language_model_selector;
 mod mention_set;
 mod message_editor;
 mod mode_selector;
+mod model_search;
 mod model_selector;
 mod model_selector_popover;
 mod profile_selector;
@@ -359,7 +360,7 @@ actions!(
         ResetTrialEndUpsell,
         /// Re-enables the fast mode warning for every provider and model.
         ResetFastModeWarnings,
-        /// Opens the "Add Context" menu in the message editor.
+        /// Opens the "添加上下文" menu in the message editor.
         OpenAddContextMenu,
         /// Interrupts the current generation and sends the message immediately.
         SendImmediately,
@@ -521,7 +522,7 @@ pub enum Agent {
     #[default]
     #[serde(alias = "NativeAgent", alias = "TextThread")]
     NativeAgent,
-    #[serde(alias = "Custom")]
+    #[serde(alias = "自定义")]
     Custom {
         #[serde(rename = "name")]
         id: AgentId,
@@ -1357,7 +1358,7 @@ mod tests {
             Agent::NativeAgent,
         );
         assert_eq!(
-            serde_json::from_str::<Agent>(r#"{"Custom":{"name":"my-agent"}}"#).unwrap(),
+            serde_json::from_str::<Agent>(r#"{"自定义":{"name":"my-agent"}}"#).unwrap(),
             Agent::Custom {
                 id: "my-agent".into(),
             },

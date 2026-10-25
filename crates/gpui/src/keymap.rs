@@ -826,7 +826,7 @@ mod tests {
         // Editor binding should take precedence over Workspace binding
         let bindings = [
             KeyBinding::new("cmd-r", ActionAlpha {}, Some("Workspace")),
-            KeyBinding::new("cmd-r", ActionBeta {}, Some("Editor")),
+            KeyBinding::new("cmd-r", ActionBeta {}, Some("编辑器")),
         ];
 
         let mut keymap = Keymap::default();
@@ -837,7 +837,7 @@ mod tests {
             &[Keystroke::parse("cmd-r").unwrap()],
             &[
                 KeyContext::parse("Workspace").unwrap(),
-                KeyContext::parse("Editor").unwrap(),
+                KeyContext::parse("编辑器").unwrap(),
             ],
         );
 
@@ -868,7 +868,11 @@ mod tests {
         fn assert_bindings(keymap: &Keymap, action: &dyn Action, expected: &[&str]) {
             let actual = keymap
                 .bindings_for_action(action)
-                .map(|binding| binding.keystrokes[0].inner().unparse())
+                .map(|binding| {
+                    binding.keystrokes[0]
+                        .inner()
+                        .unparse(crate::OperatingSystem::Mac)
+                })
                 .collect::<Vec<_>>();
             assert_eq!(actual, expected, "{:?}", action);
         }
@@ -877,7 +881,7 @@ mod tests {
     #[test]
     fn test_targeted_unbind_ignores_target_context() {
         let bindings = [
-            KeyBinding::new("tab", ActionAlpha {}, Some("Editor")),
+            KeyBinding::new("tab", ActionAlpha {}, Some("编辑器")),
             KeyBinding::new("tab", ActionBeta {}, Some("Editor && showing_completions")),
             KeyBinding::new(
                 "tab",
@@ -902,7 +906,7 @@ mod tests {
     #[test]
     fn test_bindings_for_action_keeps_binding_for_narrower_targeted_unbind() {
         let bindings = [
-            KeyBinding::new("tab", ActionAlpha {}, Some("Editor")),
+            KeyBinding::new("tab", ActionAlpha {}, Some("编辑器")),
             KeyBinding::new(
                 "tab",
                 Unbind("test_only::ActionAlpha".into()),
@@ -921,7 +925,11 @@ mod tests {
         fn assert_bindings(keymap: &Keymap, action: &dyn Action, expected: &[&str]) {
             let actual = keymap
                 .bindings_for_action(action)
-                .map(|binding| binding.keystrokes[0].inner().unparse())
+                .map(|binding| {
+                    binding.keystrokes[0]
+                        .inner()
+                        .unparse(crate::OperatingSystem::Mac)
+                })
                 .collect::<Vec<_>>();
             assert_eq!(actual, expected, "{:?}", action);
         }
@@ -934,7 +942,7 @@ mod tests {
             KeyBinding::new(
                 "tab",
                 Unbind("test_only::ActionAlpha".into()),
-                Some("Editor"),
+                Some("编辑器"),
             ),
         ];
 
@@ -951,19 +959,19 @@ mod tests {
         let mut keymap = Keymap::default();
 
         // Add a default keymap binding first
-        let mut default_binding = KeyBinding::new("cmd-r", ActionAlpha {}, Some("Editor"));
+        let mut default_binding = KeyBinding::new("cmd-r", ActionAlpha {}, Some("编辑器"));
         default_binding.set_meta(KeyBindingMetaIndex(3)); // Default source
         keymap.add_bindings([default_binding]);
 
         // Add a user keymap binding
-        let mut user_binding = KeyBinding::new("cmd-r", ActionBeta {}, Some("Editor"));
+        let mut user_binding = KeyBinding::new("cmd-r", ActionBeta {}, Some("编辑器"));
         user_binding.set_meta(KeyBindingMetaIndex(0)); // User source
         keymap.add_bindings([user_binding]);
 
         // Test with Editor context stack
         let (result, _) = keymap.bindings_for_input(
             &[Keystroke::parse("cmd-r").unwrap()],
-            &[KeyContext::parse("Editor").unwrap()],
+            &[KeyContext::parse("编辑器").unwrap()],
         );
 
         // User binding should take precedence over default binding
@@ -975,14 +983,14 @@ mod tests {
     #[test]
     fn test_possible_next_bindings_exclude_null_bindings() {
         let keymap = Keymap::new(vec![
-            KeyBinding::new("ctrl-k a", ActionAlpha {}, Some("Editor")),
-            KeyBinding::new("ctrl-k b", ActionBeta {}, Some("Editor")),
-            KeyBinding::new("ctrl-k a", NoAction {}, Some("Editor")),
+            KeyBinding::new("ctrl-k a", ActionAlpha {}, Some("编辑器")),
+            KeyBinding::new("ctrl-k b", ActionBeta {}, Some("编辑器")),
+            KeyBinding::new("ctrl-k a", NoAction {}, Some("编辑器")),
         ]);
 
         let bindings = keymap.possible_next_bindings_for_input(
             &[Keystroke::parse("ctrl-k").unwrap()],
-            &[KeyContext::parse("Editor").unwrap()],
+            &[KeyContext::parse("编辑器").unwrap()],
         );
         assert_eq!(
             describe_bindings(&bindings),
@@ -993,18 +1001,18 @@ mod tests {
     #[test]
     fn test_possible_next_bindings_exclude_unbound_bindings() {
         let keymap = Keymap::new(vec![
-            KeyBinding::new("ctrl-k a", ActionAlpha {}, Some("Editor")),
-            KeyBinding::new("ctrl-k b", ActionBeta {}, Some("Editor")),
+            KeyBinding::new("ctrl-k a", ActionAlpha {}, Some("编辑器")),
+            KeyBinding::new("ctrl-k b", ActionBeta {}, Some("编辑器")),
             KeyBinding::new(
                 "ctrl-k a",
                 Unbind("test_only::ActionAlpha".into()),
-                Some("Editor"),
+                Some("编辑器"),
             ),
         ]);
 
         let bindings = keymap.possible_next_bindings_for_input(
             &[Keystroke::parse("ctrl-k").unwrap()],
-            &[KeyContext::parse("Editor").unwrap()],
+            &[KeyContext::parse("编辑器").unwrap()],
         );
         assert_eq!(
             describe_bindings(&bindings),
@@ -1020,14 +1028,14 @@ mod tests {
 
         let mut keymap = Keymap::default();
         keymap.add_bindings([
-            KeyBinding::new("ctrl-k a", ActionAlpha {}, Some("Editor")).with_meta(DEFAULT),
-            KeyBinding::new("ctrl-k a", NoAction {}, Some("Editor")).with_meta(BASE),
-            KeyBinding::new("ctrl-k a", ActionBeta {}, Some("Editor")).with_meta(USER),
+            KeyBinding::new("ctrl-k a", ActionAlpha {}, Some("编辑器")).with_meta(DEFAULT),
+            KeyBinding::new("ctrl-k a", NoAction {}, Some("编辑器")).with_meta(BASE),
+            KeyBinding::new("ctrl-k a", ActionBeta {}, Some("编辑器")).with_meta(USER),
         ]);
 
         let bindings = keymap.possible_next_bindings_for_input(
             &[Keystroke::parse("ctrl-k").unwrap()],
-            &[KeyContext::parse("Editor").unwrap()],
+            &[KeyContext::parse("编辑器").unwrap()],
         );
         assert_eq!(
             describe_bindings(&bindings),
@@ -1039,23 +1047,23 @@ mod tests {
     fn test_possible_next_bindings_apply_disabling_by_context() {
         let keymap = Keymap::new(vec![
             KeyBinding::new("ctrl-k a", ActionAlpha {}, Some("Workspace")),
-            KeyBinding::new("ctrl-k a", ActionBeta {}, Some("Editor")),
-            KeyBinding::new("ctrl-k b", ActionGamma {}, Some("Editor")),
+            KeyBinding::new("ctrl-k a", ActionBeta {}, Some("编辑器")),
+            KeyBinding::new("ctrl-k b", ActionGamma {}, Some("编辑器")),
             // Only removes the editor binding, so the workspace binding still dispatches.
             KeyBinding::new(
                 "ctrl-k a",
                 Unbind("test_only::ActionBeta".into()),
-                Some("Editor"),
+                Some("编辑器"),
             ),
             // Doesn't apply because `Terminal` isn't in the context stack.
-            KeyBinding::new("ctrl-k b", NoAction {}, Some("Terminal")),
+            KeyBinding::new("ctrl-k b", NoAction {}, Some("终端")),
         ]);
 
         let bindings = keymap.possible_next_bindings_for_input(
             &[Keystroke::parse("ctrl-k").unwrap()],
             &[
                 KeyContext::parse("Workspace").unwrap(),
-                KeyContext::parse("Editor").unwrap(),
+                KeyContext::parse("编辑器").unwrap(),
             ],
         );
         assert_eq!(
@@ -1124,7 +1132,7 @@ mod tests {
                     binding
                         .keystrokes()
                         .iter()
-                        .map(|keystroke| keystroke.inner().unparse())
+                        .map(|keystroke| keystroke.inner().unparse(crate::OperatingSystem::Mac))
                         .collect::<Vec<_>>()
                         .join(" "),
                     binding.action().name(),

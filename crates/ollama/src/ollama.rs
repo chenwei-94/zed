@@ -343,7 +343,7 @@ pub async fn get_models(
     let request = HttpRequest::builder()
         .method(Method::GET)
         .uri(uri)
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .when_some(api_key, |builder, api_key| {
             builder.header("Authorization", format!("Bearer {api_key}"))
         })
@@ -414,7 +414,7 @@ mod tests {
             "role": "assistant",
             "content": "Hello! How are you today?"
         },
-        "done": true,
+        "完成": true,
         "total_duration": 5191566416u64,
         "load_duration": 2154458,
         "prompt_eval_count": 26,
@@ -435,7 +435,7 @@ mod tests {
             "content": "The",
             "images": null
         },
-        "done": false
+        "完成": false
         });
 
         let _: ChatResponseDelta = serde_json::from_value(partial).unwrap();
@@ -447,7 +447,7 @@ mod tests {
             "role": "assistant",
             "content": ""
         },
-        "done": true,
+        "完成": true,
         "total_duration": 4883583458u64,
         "load_duration": 1334875,
         "prompt_eval_count": 26,
@@ -480,7 +480,7 @@ mod tests {
                 ]
             },
             "done_reason": "stop",
-            "done": true,
+            "完成": true,
             "total_duration": 2758629166u64,
             "load_duration": 1770059875,
             "prompt_eval_count": 147,

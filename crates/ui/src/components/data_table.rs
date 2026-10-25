@@ -1394,7 +1394,7 @@ impl Component for Table {
                             "简单表格",
                             Table::new(3)
                                 .width(px(400.))
-                                .header(vec!["Name", "Age", "City"])
+                                .header(vec!["名称", "Age", "City"])
                                 .row(vec!["Alice", "28", "纽约"])
                                 .row(vec!["Bob", "32", "旧金山"])
                                 .row(vec!["Charlie", "25", "London"])
@@ -1445,7 +1445,7 @@ impl Component for Table {
                         "带元素的表格",
                         Table::new(5)
                             .width(px(840.))
-                            .header(vec!["Status", "Name", "Priority", "Deadline", "Action"])
+                            .header(vec!["Status", "名称", "Priority", "Deadline", "操作"])
                             .row(vec![
                                 Indicator::dot().color(Color::Success).into_any_element(),
                                 "项目 A".into_any_element(),
@@ -1459,7 +1459,7 @@ impl Component for Table {
                             .row(vec![
                                 Indicator::dot().color(Color::Warning).into_any_element(),
                                 "项目 B".into_any_element(),
-                                "Medium".into_any_element(),
+                                "中".into_any_element(),
                                 "2024-03-15".into_any_element(),
                                 Button::new("view_b", "视图")
                                     .style(ButtonStyle::Filled)

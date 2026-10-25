@@ -105,7 +105,7 @@ async fn test_fuzzy_score(cx: &mut TestAppContext) {
             CompletionBuilder::method("await", Some("await"), "7fffffff"),
             CompletionBuilder::method("await.ne", Some("ne"), "80000010"),
             CompletionBuilder::method("await.eq", Some("eq"), "80000010"),
-            CompletionBuilder::method("await.or", Some("or"), "7ffffff8"),
+            CompletionBuilder::method("await.or", Some("或"), "7ffffff8"),
             CompletionBuilder::method("await.zip", Some("zip"), "80000006"),
             CompletionBuilder::method("await.xor", Some("xor"), "7ffffff8"),
             CompletionBuilder::method("await.and", Some("and"), "80000006"),

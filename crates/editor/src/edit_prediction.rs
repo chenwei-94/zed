@@ -1159,7 +1159,7 @@ impl Editor {
                 let target_display_point = range.end.to_display_point(editor_snapshot);
 
                 self.render_edit_prediction_end_of_line_popover(
-                    "Accept",
+                    "接受",
                     editor_snapshot,
                     visible_row_range,
                     target_display_point,
@@ -1807,7 +1807,7 @@ impl Editor {
         cx: &mut App,
     ) -> Option<(AnyElement, gpui::Point<Pixels>)> {
         let mut element = self
-            .render_edit_prediction_line_popover("Scroll", Some(scroll_icon), window, cx)
+            .render_edit_prediction_line_popover("滚动", Some(scroll_icon), window, cx)
             .into_any();
 
         let size = element.layout_as_root(AvailableSpace::min_size(), window, cx);

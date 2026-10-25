@@ -41,7 +41,7 @@ where
     T::Summary: fmt::Debug,
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("Cursor")
+        f.debug_struct("光标")
             .field("tree", &self.tree)
             .field("stack", &self.stack)
             .field("position", &self.position)
@@ -856,6 +856,6 @@ impl<'a, S: Summary, D: Dimension<'a, S>> SeekTarget<'a, S, D> for End<D> {
 
 impl<D> fmt::Debug for End<D> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple("End").finish()
+        f.debug_tuple("结束").finish()
     }
 }

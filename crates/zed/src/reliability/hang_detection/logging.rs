@@ -128,7 +128,7 @@ impl Reporter {
 
             info!(
                 "Background hang detected on {}:\n{}",
-                worker.thread_name.as_deref().unwrap_or_else(|| "Unknown"),
+                worker.thread_name.as_deref().unwrap_or_else(|| "未知"),
                 DisplayTasks(&hangs)
             );
             report_made = true;

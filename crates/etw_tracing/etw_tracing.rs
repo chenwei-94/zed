@@ -258,7 +258,7 @@ fn heap_tracing_profile(heap_pid: Option<u32>) -> String {
     </HeapEventProvider>"#
             ),
             r#"
-      <Collectors Operation="Add">
+      <Collectors Operation="添加">
         <HeapEventCollectorId Value="HeapCollector_WPRHeapCollector">
           <HeapEventProviders Operation="Set">
             <HeapEventProviderId Value="ZedHeapProvider"/>
@@ -308,7 +308,7 @@ fn wpr_error_context(hresult: windows_core::HRESULT, source: &windows_core::IUnk
         {
             for (label, value) in [
                 ("Message", &message),
-                ("Description", &description),
+                ("描述", &description),
                 ("Detail", &detail),
             ] {
                 if !value.is_empty() {
@@ -329,7 +329,7 @@ fn wpr_error_context(hresult: windows_core::HRESULT, source: &windows_core::IUnk
             for (label, getter) in [
                 ("Element type", info.GetElementType()),
                 ("元素 ID", info.GetElementId()),
-                ("Description", info.GetDescription()),
+                ("描述", info.GetDescription()),
             ] {
                 if let Ok(value) = getter
                     && !value.is_empty()
@@ -349,8 +349,8 @@ fn wpr_error_context(hresult: windows_core::HRESULT, source: &windows_core::IUnk
                 let name = match object_type {
                     wprcontrol::ObjectType_Profile => "Profile",
                     wprcontrol::ObjectType_Collector => "Collector",
-                    wprcontrol::ObjectType_Provider => "Provider",
-                    _ => "Unknown",
+                    wprcontrol::ObjectType_Provider => "提供商",
+                    _ => "未知",
                 };
                 let _ = write!(out, "\n  Object type: {name}");
             }

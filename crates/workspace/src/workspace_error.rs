@@ -75,7 +75,7 @@ impl ErrorAction {
         }
     }
 
-    /// Creates a dismiss-only action labelled "Dismiss".
+    /// Creates a dismiss-only action labelled "忽略".
     ///
     /// Useful as a sensible default for [`WorkspaceError::primary_action`] when the error has no
     /// recovery affordance beyond closing the notification.

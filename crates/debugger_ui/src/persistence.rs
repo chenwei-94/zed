@@ -58,12 +58,12 @@ impl DebuggerPaneItem {
     pub(crate) fn to_shared_string(self) -> SharedString {
         match self {
             DebuggerPaneItem::Console => SharedString::new_static("Console"),
-            DebuggerPaneItem::Variables => SharedString::new_static("Variables"),
-            DebuggerPaneItem::BreakpointList => SharedString::new_static("Breakpoints"),
+            DebuggerPaneItem::Variables => SharedString::new_static("变量"),
+            DebuggerPaneItem::BreakpointList => SharedString::new_static("断点"),
             DebuggerPaneItem::Frames => SharedString::new_static("Frames"),
             DebuggerPaneItem::Modules => SharedString::new_static("Modules"),
             DebuggerPaneItem::LoadedSources => SharedString::new_static("Sources"),
-            DebuggerPaneItem::Terminal => SharedString::new_static("Terminal"),
+            DebuggerPaneItem::Terminal => SharedString::new_static("终端"),
             DebuggerPaneItem::MemoryView => SharedString::new_static("内存视图"),
         }
     }

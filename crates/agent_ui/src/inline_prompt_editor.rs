@@ -1831,7 +1831,7 @@ mod tests {
         .await;
 
         let image_uri = acp_thread::MentionUri::PastedImage {
-            name: "Image".into(),
+            name: "图像".into(),
         };
         assert_eq!(prompt, format!("{} ", image_uri.as_link()));
     }

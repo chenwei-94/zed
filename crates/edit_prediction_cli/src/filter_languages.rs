@@ -471,7 +471,7 @@ mod tests {
         assert!(!map.is_empty());
         assert_eq!(map.get("rs"), Some(&"Rust".to_string()));
         assert_eq!(map.get("py"), Some(&"Python".to_string()));
-        assert_eq!(map.get("go"), Some(&"Go".to_string()));
+        assert_eq!(map.get("go"), Some(&"转到".to_string()));
     }
 
     #[test]
@@ -488,7 +488,7 @@ mod tests {
         );
         assert_eq!(
             detect_language("cmd/server.go", &map),
-            Some("Go".to_string())
+            Some("转到".to_string())
         );
         assert_eq!(detect_language("index.tsx", &map), Some("TSX".to_string()));
     }

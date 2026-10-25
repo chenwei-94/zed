@@ -241,12 +241,12 @@ impl Component for ChoiceCard {
                 "Radio",
                 vec![
                     single_example(
-                        "Unselected",
+                        "未选择",
                         Self::radio("choice-radio-unselected", "Unselected option", false)
                             .into_any_element(),
                     ),
                     single_example(
-                        "Selected",
+                        "已选中",
                         Self::radio("choice-radio-selected", "Selected option", true)
                             .into_any_element(),
                     ),
@@ -274,12 +274,12 @@ impl Component for ChoiceCard {
                 "Checkbox",
                 vec![
                     single_example(
-                        "Unselected",
+                        "未选择",
                         Self::checkbox("choice-checkbox-unselected", "Unselected option", false)
                             .into_any_element(),
                     ),
                     single_example(
-                        "Selected",
+                        "已选中",
                         Self::checkbox("choice-checkbox-selected", "Selected option", true)
                             .into_any_element(),
                     ),
@@ -304,7 +304,7 @@ impl Component for ChoiceCard {
                 ],
             ))
             .child(example_group_with_title(
-                "Long Text",
+                "长文本",
                 vec![
                     single_example(
                         "Radio",

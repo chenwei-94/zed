@@ -555,8 +555,8 @@ impl strum::VariantNames for BaseKeymapContent {
         "Atom",
         "TextMate",
         "Emacs",
-        "Cursor",
-        "None",
+        "光标",
+        "无",
     ];
 }
 

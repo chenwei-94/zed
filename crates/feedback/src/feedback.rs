@@ -60,7 +60,7 @@ pub fn init(cx: &mut App) {
                     })
                     .log_err();
 
-                    cx.prompt(PromptLevel::Info, "已复制到剪贴板", Some(&specs), &["OK"])
+                    cx.prompt(PromptLevel::Info, "已复制到剪贴板", Some(&specs), &["确定"])
                         .await
                 })
                 .detach();
@@ -72,7 +72,7 @@ pub fn init(cx: &mut App) {
                     PromptLevel::Info,
                     "已复制到剪贴板",
                     Some(&clipboard_text),
-                    &["OK"],
+                    &["确定"],
                     cx,
                 ));
             })

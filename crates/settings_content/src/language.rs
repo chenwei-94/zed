@@ -713,7 +713,7 @@ pub struct LanguageSettingsContent {
     /// {
     ///   "edit_predictions_disabled_in": ["comment"],
     ///   "languages": {
-    ///     "Go": {
+    ///     "转到": {
     ///       "edit_predictions_disabled_in": ["string", "..."]
     ///     }
     ///   }

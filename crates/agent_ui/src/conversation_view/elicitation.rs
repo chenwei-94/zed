@@ -475,7 +475,8 @@ mod tests {
                 // Click handlers activate buttons on key release, not key press.
                 window.dispatch_event(
                     PlatformInput::KeyUp(KeyUpEvent {
-                        keystroke: Keystroke::parse(key).expect("valid test keystroke"),
+                        keystroke: Keystroke::parse_with_os(key, cx.platform_info().os)
+                            .expect("valid test keystroke"),
                     }),
                     cx,
                 );
@@ -739,10 +740,10 @@ mod tests {
     fn string_validation_rejects_pattern_mismatch() {
         let schema = acp::StringPropertySchema::new().pattern("^prod-[0-9]+$");
 
-        validate_string_value("Environment".into(), &schema, "prod-42")
+        validate_string_value("环境".into(), &schema, "prod-42")
             .expect("matching pattern should be accepted");
         assert_eq!(
-            validate_string_value("Environment".into(), &schema, "dev-42")
+            validate_string_value("环境".into(), &schema, "dev-42")
                 .expect_err("pattern mismatch should be rejected")
                 .to_string(),
             "Environment does not match the requested pattern"
@@ -753,10 +754,10 @@ mod tests {
     fn string_validation_supports_bounded_advanced_patterns() {
         let schema = acp::StringPropertySchema::new().pattern(r"^prod-(?=[0-9]+$)([0-9])\1$");
 
-        validate_string_value("Environment".into(), &schema, "prod-44")
+        validate_string_value("环境".into(), &schema, "prod-44")
             .expect("lookahead and backreference should be accepted");
         assert_eq!(
-            validate_string_value("Environment".into(), &schema, "prod-45")
+            validate_string_value("环境".into(), &schema, "prod-45")
                 .expect_err("backreference mismatch should be rejected")
                 .to_string(),
             "Environment does not match the requested pattern"
@@ -947,7 +948,7 @@ mod tests {
     #[test]
     fn multi_select_options_include_titled_descriptions() {
         let schema = acp::MultiSelectPropertySchema::titled(vec![
-            acp::EnumOption::new("repository", "Repository Access")
+            acp::EnumOption::new("repository", "仓库访问")
                 .description("Read and update repositories"),
         ]);
 
@@ -957,7 +958,7 @@ mod tests {
             panic!("expected one option, got {}", options.len());
         };
         assert_eq!(option.value, "repository");
-        assert_eq!(option.label.to_string(), "Repository Access");
+        assert_eq!(option.label.to_string(), "仓库访问");
         assert_eq!(
             option
                 .description
@@ -1136,7 +1137,7 @@ mod tests {
             let schema = acp::ElicitationSchema::new().property(
                 "environment",
                 acp::StringPropertySchema::new()
-                    .title("Environment")
+                    .title("环境")
                     .enum_values(vec!["production".to_string(), "staging".to_string()])
                     .default_value("development"),
                 false,
@@ -1160,7 +1161,7 @@ mod tests {
             let schema = acp::ElicitationSchema::new().property(
                 "environment",
                 acp::StringPropertySchema::new()
-                    .title("Environment")
+                    .title("环境")
                     .enum_values(vec!["production".to_string(), "staging".to_string()])
                     .default_value("development"),
                 true,
@@ -1189,7 +1190,7 @@ mod tests {
             let schema = acp::ElicitationSchema::new().property(
                 "environment",
                 acp::StringPropertySchema::new()
-                    .title("Environment")
+                    .title("环境")
                     .enum_values(vec!["production".to_string(), "staging".to_string()]),
                 false,
             );
@@ -1226,7 +1227,7 @@ mod tests {
                 .property(
                     "environment",
                     acp::StringPropertySchema::new()
-                        .title("Environment")
+                        .title("环境")
                         .enum_values(vec!["production".to_string(), "staging".to_string()]),
                     false,
                 );
@@ -1918,8 +1919,8 @@ impl<'a> ElicitationCard<'a> {
                 ("等待完成", IconName::Info, Color::Info)
             }
             ElicitationStatus::Accepted => ("Submitted", IconName::Check, Color::Success),
-            ElicitationStatus::Declined => ("Declined", IconName::Close, Color::Muted),
-            ElicitationStatus::Canceled => ("Canceled", IconName::Circle, Color::Muted),
+            ElicitationStatus::Declined => ("已拒绝", IconName::Close, Color::Muted),
+            ElicitationStatus::Canceled => ("已取消", IconName::Circle, Color::Muted),
             ElicitationStatus::Completed => ("Completed", IconName::Check, Color::Success),
         };
 
@@ -2324,9 +2325,9 @@ impl<'a> ElicitationCard<'a> {
         let (accept_label, accept_icon, accept_icon_color) = if is_accepted_url {
             ("再次打开", IconName::ArrowUpRight, Color::Muted)
         } else if open_url.is_some() {
-            ("Open", IconName::ArrowUpRight, Color::Muted)
+            ("打开", IconName::ArrowUpRight, Color::Muted)
         } else {
-            ("Submit", IconName::Check, Color::Success)
+            ("提交", IconName::Check, Color::Success)
         };
         let border_color = cx.theme().colors().border.opacity(0.8);
         let on_submit = self.handlers.on_submit.clone();

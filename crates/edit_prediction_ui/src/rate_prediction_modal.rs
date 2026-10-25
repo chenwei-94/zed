@@ -1232,7 +1232,7 @@ impl RatePredictionsModal {
                 let (trigger_icon, trigger_tooltip) = match completion.trigger {
                     PredictEditsRequestTrigger::Testing => (IconName::Debug, "Testing"),
                     PredictEditsRequestTrigger::Diagnostics => {
-                        (IconName::ToolDiagnostics, "Diagnostics")
+                        (IconName::ToolDiagnostics, "诊断")
                     }
                     PredictEditsRequestTrigger::DiagnosticNavigation => {
                         (IconName::ArrowRight, "诊断导航")

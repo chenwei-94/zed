@@ -23,7 +23,7 @@ fn language_registry_key(language: betlang::Language) -> Option<&'static str> {
         betlang::Language::Erlang => "Erlang",
         betlang::Language::Gemfile => "Ruby",
         betlang::Language::Gemspec => "Ruby",
-        betlang::Language::Go => "Go",
+        betlang::Language::Go => "转到",
         betlang::Language::Gradle => "Groovy",
         betlang::Language::Groovy => "Groovy",
         betlang::Language::Haskell => "Haskell",

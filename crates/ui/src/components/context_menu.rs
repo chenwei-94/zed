@@ -2491,8 +2491,8 @@ mod tests {
                 cx.open_window(Default::default(), |window, cx| {
                     let build_menu =
                         |menu: ContextMenu, _: &mut Window, _: &mut Context<ContextMenu>| {
-                            menu.header("Options")
-                                .entry("First", None, |_, _| {})
+                            menu.header("选项")
+                                .entry("首个", None, |_, _| {})
                                 .separator()
                                 .item(
                                     ContextMenuEntry::new("Checked")

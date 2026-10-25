@@ -88,7 +88,7 @@ impl BranchDiff {
             let workspace = cx.entity().downgrade();
             window
                 .spawn(cx, async |_cx| {
-                    let result: Result<()> = Err(anyhow!("No active repository"));
+                    let result: Result<()> = Err(anyhow!("没有活动仓库"));
                     result
                 })
                 .detach_and_notify_err(workspace, window, cx);
@@ -146,7 +146,7 @@ impl BranchDiff {
             let workspace = cx.entity().downgrade();
             window
                 .spawn(cx, async |_cx| {
-                    let result: Result<()> = Err(anyhow!("No active repository"));
+                    let result: Result<()> = Err(anyhow!("没有活动仓库"));
                     result
                 })
                 .detach_and_notify_err(workspace, window, cx);
@@ -253,7 +253,7 @@ impl BranchDiff {
         cx: &mut App,
     ) -> Task<Result<Entity<Self>>> {
         let Some(repo) = project.read(cx).git_store().read(cx).active_repository() else {
-            return Task::ready(Err(anyhow!("No active repository")));
+            return Task::ready(Err(anyhow!("没有活动仓库")));
         };
         let main_branch = repo.update(cx, |repo, _| repo.default_branch(true));
         window.spawn(cx, async move |cx| {
@@ -1216,7 +1216,7 @@ mod tests {
         let target_branch_diff = cx
             .update(|window, cx| {
                 let Some(repository) = project.read(cx).active_repository(cx) else {
-                    return Task::ready(Err(anyhow!("No active repository")));
+                    return Task::ready(Err(anyhow!("没有活动仓库")));
                 };
                 BranchDiff::new_with_branch_base(
                     project.clone(),

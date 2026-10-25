@@ -178,7 +178,7 @@ mod tests {
                     "type": "object",
                     "properties": { "severity": { "$ref": "#/$defs/Severity" } }
                 },
-                "Severity": { "type": "string", "enum": ["low", "high"] }
+                "严重级别": { "type": "string", "enum": ["low", "high"] }
             },
             "type": "object",
             "properties": {

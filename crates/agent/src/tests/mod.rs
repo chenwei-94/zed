@@ -1042,8 +1042,8 @@ async fn test_tool_authorization(cx: &mut TestAppContext) {
                 tool_use_id: "tool_id_1".into(),
                 tool_name: ToolRequiringPermission::NAME.into(),
                 is_error: false,
-                content: vec!["Allowed".into()],
-                output: Some("Allowed".into())
+                content: vec!["允许".into()],
+                output: Some("允许".into())
             }),
             language_model::MessageContent::ToolResult(LanguageModelToolResult {
                 tool_use_id: "tool_id_2".into(),
@@ -1096,8 +1096,8 @@ async fn test_tool_authorization(cx: &mut TestAppContext) {
                 tool_use_id: "tool_id_3".into(),
                 tool_name: ToolRequiringPermission::NAME.into(),
                 is_error: false,
-                content: vec!["Allowed".into()],
-                output: Some("Allowed".into())
+                content: vec!["允许".into()],
+                output: Some("允许".into())
             }
         )]
     );
@@ -1125,8 +1125,8 @@ async fn test_tool_authorization(cx: &mut TestAppContext) {
                 tool_use_id: "tool_id_4".into(),
                 tool_name: ToolRequiringPermission::NAME.into(),
                 is_error: false,
-                content: vec!["Allowed".into()],
-                output: Some("Allowed".into())
+                content: vec!["允许".into()],
+                output: Some("允许".into())
             }
         )]
     );
@@ -1906,7 +1906,7 @@ async fn test_mcp_tools(cx: &mut TestAppContext) {
     // Send again after adding the echo tool, ensuring the name collision is resolved.
     let events = thread.update(cx, |thread, cx| {
         thread.add_tool(EchoTool);
-        thread.send(ClientUserMessageId::new(), ["Go"], cx).unwrap()
+        thread.send(ClientUserMessageId::new(), ["转到"], cx).unwrap()
     });
     cx.run_until_parked();
     let completion = fake.pending_completions().pop().unwrap();
@@ -2055,7 +2055,7 @@ async fn test_mcp_tool_names_are_sanitized_for_providers(cx: &mut TestAppContext
     tool_call_response
         .send(context_server::types::CallToolResponse {
             content: vec![context_server::types::ToolResponseContent::Text {
-                text: "done".into(),
+                text: "完成".into(),
             }],
             is_error: None,
             meta: None,
@@ -2559,7 +2559,7 @@ async fn test_mcp_tool_truncation(cx: &mut TestAppContext) {
 
     thread
         .update(cx, |thread, cx| {
-            thread.send(ClientUserMessageId::new(), ["Go"], cx)
+            thread.send(ClientUserMessageId::new(), ["转到"], cx)
         })
         .unwrap();
     cx.run_until_parked();
@@ -3457,7 +3457,7 @@ async fn test_retry_cancelled_promptly_on_new_send(cx: &mut TestAppContext) {
     });
     let events_2 = thread
         .update(cx, |thread, cx| {
-            thread.send(ClientUserMessageId::new(), ["Continue"], cx)
+            thread.send(ClientUserMessageId::new(), ["继续"], cx)
         })
         .unwrap();
     cx.run_until_parked();
@@ -3922,7 +3922,7 @@ async fn test_cumulative_token_usage(cx: &mut TestAppContext) {
     cx.run_until_parked();
 
     // The second request (after the tool call) is counted in addition to the first.
-    fake.send_last_text(&model, "Done");
+    fake.send_last_text(&model, "完成");
     fake.send_last_event(
         &model,
         LanguageModelCompletionEvent::UsageUpdate(TokenUsage {
@@ -4241,7 +4241,7 @@ async fn test_stream_thread_title_stops_when_newline_ends_chunk(cx: &mut TestApp
 
 // `Thread::to_markdown` (live native) and `DbThread::to_markdown` (persisted
 // native) must stay byte-for-byte identical for the same messages, since both
-// back the sidebar's native "Open Thread as Markdown" action. This pins that
+// back the sidebar's native "以 Markdown 打开会话" action. This pins that
 // they share a single rendering path.
 #[gpui::test]
 async fn test_db_thread_markdown_matches_live_thread(cx: &mut TestAppContext) {
@@ -4835,7 +4835,7 @@ async fn test_send_retry_finishes_tool_calls_on_error(cx: &mut TestAppContext) {
         ]
     );
 
-    fake.send_last_text(&model, "Done");
+    fake.send_last_text(&model, "完成");
     fake.end_last(&model);
     cx.run_until_parked();
     events.collect::<Vec<_>>().await;
@@ -4843,7 +4843,7 @@ async fn test_send_retry_finishes_tool_calls_on_error(cx: &mut TestAppContext) {
         assert_eq!(
             thread.last_received_or_pending_message().as_deref(),
             Some(&Message::Agent(AgentMessage {
-                content: vec![AgentMessageContent::Text("Done".into())],
+                content: vec![AgentMessageContent::Text("完成".into())],
                 tool_results: IndexMap::default(),
                 reasoning_details: None,
             }))
@@ -5021,7 +5021,7 @@ async fn test_streaming_tool_completes_when_llm_stream_ends_without_final_input(
     );
 
     // Finish the retry round so the turn completes cleanly.
-    fake.send_last_text(&model, "Done");
+    fake.send_last_text(&model, "完成");
     fake.end_last(&model);
     cx.run_until_parked();
 
@@ -5133,7 +5133,7 @@ async fn test_streaming_tool_json_parse_error_is_forwarded_to_running_tool(
         "Should not contain orphaned sender error, got: {content_text}"
     );
 
-    fake.send_last_text(&model, "Done");
+    fake.send_last_text(&model, "完成");
     fake.end_last(&model);
     cx.run_until_parked();
 
@@ -5979,7 +5979,7 @@ async fn test_spawn_agent_tool_forwards_explicit_model(cx: &mut TestAppContext) 
     let environment = Rc::new(
         FakeThreadEnvironment::default().with_subagent(FakeSubagentHandle {
             session_id: acp_v2::SessionId::new("subagent-id"),
-            send_task: Task::ready("done".to_string()).shared(),
+            send_task: Task::ready("完成".to_string()).shared(),
         }),
     );
     #[allow(clippy::arc_with_non_send_sync)]
@@ -6133,6 +6133,13 @@ async fn test_subagent_tool_call_end_to_end(cx: &mut TestAppContext) {
             .acp_thread
             .upgrade()
             .expect("subagent thread should be alive")
+    });
+    acp_thread.read_with(cx, |parent, _| {
+        assert_eq!(
+            parent.subagent(&subagent_session_id),
+            Some(&subagent_thread),
+            "the parent thread owns the spawned subagent"
+        );
     });
 
     let request = fake.pending_completions_for(&model).pop().unwrap();
@@ -6633,6 +6640,13 @@ async fn test_subagent_tool_resume_session(cx: &mut TestAppContext) {
         let running = thread.running_subagent_ids(cx);
         assert_eq!(running.len(), 1, "subagent should be running");
         assert_eq!(running[0], subagent_session_id, "should be same session");
+    });
+    acp_thread.read_with(cx, |parent, _| {
+        assert_eq!(
+            parent.subagents().collect::<Vec<_>>(),
+            [&subagent_acp_thread],
+            "resuming keeps the one registered subagent"
+        );
     });
 
     // Subagent responds to follow-up

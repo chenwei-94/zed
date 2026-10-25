@@ -36,7 +36,7 @@ impl lsp::request::Request for SignIn {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(tag = "status")]
 pub enum SignInStatus {
-    #[serde(rename = "OK")]
+    #[serde(rename = "确定")]
     Ok {
         user: Option<String>,
     },

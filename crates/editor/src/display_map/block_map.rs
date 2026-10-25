@@ -511,7 +511,7 @@ impl Block {
 impl Debug for Block {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Custom(block) => f.debug_struct("Custom").field("block", block).finish(),
+            Self::Custom(block) => f.debug_struct("自定义").field("block", block).finish(),
             Self::FoldedBuffer {
                 first_excerpt,
                 height,

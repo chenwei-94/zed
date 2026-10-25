@@ -235,7 +235,7 @@ impl AgentRegistryPage {
     }
 
     fn render_search(&self, cx: &mut Context<Self>) -> Div {
-        let mut key_context = KeyContext::new_with_defaults();
+        let mut key_context = KeyContext::new_with_defaults(cx.platform_info().os);
         key_context.add("BufferSearchBar");
 
         h_flex()
@@ -619,7 +619,7 @@ impl Render for AgentRegistryPage {
                                         "registry-filter-buttons",
                                         [
                                             ToggleButtonSimple::new(
-                                                "All",
+                                                "全部",
                                                 cx.listener(|this, _event, _, cx| {
                                                     this.filter = RegistryFilter::All;
                                                     this.filter_registry_agents(cx);
@@ -627,7 +627,7 @@ impl Render for AgentRegistryPage {
                                                 }),
                                             ),
                                             ToggleButtonSimple::new(
-                                                "Installed",
+                                                "已安装",
                                                 cx.listener(|this, _event, _, cx| {
                                                     this.filter = RegistryFilter::Installed;
                                                     this.filter_registry_agents(cx);

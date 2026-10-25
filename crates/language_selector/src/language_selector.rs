@@ -360,7 +360,7 @@ mod tests {
             let language_registry = project.languages();
             for (language_name, path_suffix) in [
                 ("C", "c"),
-                ("Go", "go"),
+                ("转到", "go"),
                 ("Ruby", "rb"),
                 ("Rust", "rs"),
                 ("TypeScript", "ts"),

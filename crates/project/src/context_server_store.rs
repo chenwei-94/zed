@@ -55,7 +55,7 @@ pub enum ContextServerStatus {
     Stopped,
     Error(Arc<str>),
     /// The server returned 401 and OAuth authorization is needed. The UI
-    /// should show an "Authenticate" button.
+    /// should show an "身份验证" button.
     AuthRequired,
     /// The server has a pre-registered OAuth client_id, but a client_secret
     /// is needed and not available in settings or the keychain.

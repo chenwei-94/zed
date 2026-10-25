@@ -197,7 +197,7 @@ impl Render for ProfileSelector {
 
         let selected_profile = profile
             .map(|profile| profile.name.clone())
-            .unwrap_or_else(|| "Unknown".into());
+            .unwrap_or_else(|| "未知".into());
 
         let icon = if self.picker_handle.is_deployed() {
             IconName::ChevronUp

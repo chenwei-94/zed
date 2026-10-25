@@ -120,10 +120,16 @@ impl State {
             .spawn({
                 let credentials_provider = credentials_provider.clone();
                 async move |this, cx| {
-                    let result = credentials_provider
-                        .read_credentials(CREDENTIALS_KEY, cx)
-                        .await;
+                    let result = language_model::read_credentials(
+                        credentials_provider.as_ref(),
+                        CREDENTIALS_KEY,
+                        cx,
+                    )
+                    .await;
                     let refresh_models_task = this.update(cx, |state, cx| {
+                        if state.auth_generation != 0 {
+                            return None;
+                        }
                         match result {
                             Ok(Some((_, bytes))) => {
                                 match serde_json::from_slice::<CodexCredentials>(&bytes) {
@@ -682,7 +688,7 @@ async fn list_models(
     let request = HttpRequest::builder()
         .method(Method::GET)
         .uri(uri)
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .header(
             "Authorization",
             format!("Bearer {}", credentials.access_token),
@@ -730,7 +736,7 @@ pub fn language_model(model: &ChatGptModel) -> LanguageModel {
                 ReasoningEffort::None => return None,
                 ReasoningEffort::Minimal => ("Minimal", "minimal"),
                 ReasoningEffort::Low => ("Low", "low"),
-                ReasoningEffort::Medium => ("Medium", "medium"),
+                ReasoningEffort::Medium => ("中", "medium"),
                 ReasoningEffort::High => ("High", "high"),
                 ReasoningEffort::XHigh => ("极高", "xhigh"),
                 ReasoningEffort::Max => ("Max", "max"),
@@ -1699,7 +1705,7 @@ mod tests {
                             "default_reasoning_level": "medium",
                             "supported_reasoning_levels": [{
                                 "effort": "medium",
-                                "description": "Medium"
+                                "description": "中"
                             }],
                             "visibility": "list",
                             "priority": 0,
@@ -1714,7 +1720,7 @@ mod tests {
                 ))?)
         });
 
-        let state = cx.new(|cx| State::new(http, creds_provider, cx));
+        let state = cx.new(|cx| State::new(http.clone(), creds_provider.clone(), cx));
 
         let load_task = cx
             .read(|cx| state.read(cx).load_task())
@@ -1731,6 +1737,25 @@ mod tests {
                 state.available_models().first().map(ChatGptModel::id),
                 Some("gpt-account-default")
             );
+        });
+
+        let state = cx.new(|cx| State::new(http, creds_provider, cx));
+        state.update(cx, |state, _| state.auth_generation += 1);
+        let load_task = cx
+            .read(|cx| state.read(cx).load_task())
+            .expect("constructor should start the credentials load");
+        cx.run_until_parked();
+        load_task.await.expect("stale load should complete");
+        cx.read(|cx| {
+            let state = state.read(cx);
+            assert_eq!(
+                state
+                    .credentials
+                    .as_ref()
+                    .map(|creds| creds.access_token.as_str()),
+                None
+            );
+            assert!(state.load_task().is_none());
         });
     }
 
@@ -1790,7 +1815,7 @@ mod tests {
                                 "default_reasoning_level": "medium",
                                 "supported_reasoning_levels": [{
                                     "effort": "medium",
-                                    "description": "Medium"
+                                    "description": "中"
                                 }],
                                 "visibility": "list",
                                 "priority": 2,
@@ -1806,7 +1831,7 @@ mod tests {
                                 "default_reasoning_level": "medium",
                                 "supported_reasoning_levels": [{
                                     "effort": "medium",
-                                    "description": "Medium"
+                                    "description": "中"
                                 }],
                                 "visibility": "list",
                                 "priority": 1,

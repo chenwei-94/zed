@@ -550,7 +550,7 @@ impl Item for AgentDiffPane {
             move |_, _| {
                 v_flex()
                     .child(Label::new(
-                        title.clone().unwrap_or_else(|| "Review".to_string()),
+                        title.clone().unwrap_or_else(|| "审阅".to_string()),
                     ))
                     .child(
                         Label::new("智能体差异")
@@ -684,7 +684,7 @@ impl Item for AgentDiffPane {
     fn tab_content_text(&self, _detail: usize, cx: &App) -> SharedString {
         match self.thread.read(cx).title() {
             Some(title) => format!("审阅：{}", truncate_and_trailoff(&title, 20)).into(),
-            None => "Review".into(),
+            None => "审阅".into(),
         }
     }
 }
@@ -1070,7 +1070,7 @@ impl Render for AgentDiffToolbar {
     fn render(&mut self, _window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let spinner_icon = div()
             .px_0p5()
-            .id("generating")
+            .id("生成中")
             .tooltip(Tooltip::text("正在生成变更…"))
             .child(
                 Icon::new(IconName::LoadCircle)
@@ -1305,6 +1305,19 @@ impl AgentDiff {
         });
     }
 
+    #[cfg(test)]
+    pub(crate) fn reviewed_thread(
+        workspace: &WeakEntity<Workspace>,
+        cx: &mut App,
+    ) -> Option<Entity<AcpThread>> {
+        Self::global(cx)
+            .read(cx)
+            .workspace_threads
+            .get(workspace)?
+            .thread
+            .upgrade()
+    }
+
     fn register_active_thread_impl(
         &mut self,
         workspace: &WeakEntity<Workspace>,
@@ -1460,15 +1473,20 @@ impl AgentDiff {
             AcpThreadEvent::Stopped { .. } => {
                 self.update_reviewing_editors(workspace, window, cx);
             }
-            AcpThreadEvent::Error | AcpThreadEvent::LoadError(_) | AcpThreadEvent::Refusal => {
+            AcpThreadEvent::Error
+            | AcpThreadEvent::ConnectionLost
+            | AcpThreadEvent::LoadError(_)
+            | AcpThreadEvent::Refusal => {
                 self.update_reviewing_editors(workspace, window, cx);
             }
             AcpThreadEvent::TitleUpdated
+            | AcpThreadEvent::ActivityConfirmedIdle
             | AcpThreadEvent::StatusChanged
             | AcpThreadEvent::SubmissionUpdated(_)
-            | AcpThreadEvent::TokenUsageUpdated
+            | AcpThreadEvent::TokenUsageUpdated(_)
             | AcpThreadEvent::NoticesUpdated
             | AcpThreadEvent::SubagentSpawned(_)
+            | AcpThreadEvent::SubagentAssociationUpdated
             | AcpThreadEvent::EntriesRemoved(_)
             | AcpThreadEvent::ToolAuthorizationRequested(_)
             | AcpThreadEvent::ToolAuthorizationReceived(_)

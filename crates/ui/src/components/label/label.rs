@@ -23,7 +23,7 @@ use gpui::{HighlightStyle, StyleRefinement, StyledText, TextAlign};
 /// ```
 /// use ui::prelude::*;
 ///
-/// let my_label = Label::new("Delete").color(Color::Error);
+/// let my_label = Label::new("删除").color(Color::Error);
 /// ```
 ///
 /// **A label with a strikethrough**, for example labeling something that has been deleted:
@@ -31,7 +31,7 @@ use gpui::{HighlightStyle, StyleRefinement, StyledText, TextAlign};
 /// ```
 /// use ui::prelude::*;
 ///
-/// let my_label = Label::new("Deleted").strikethrough();
+/// let my_label = Label::new("已删除").strikethrough();
 /// ```
 #[derive(IntoElement, RegisterComponent)]
 pub struct Label {

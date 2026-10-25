@@ -442,7 +442,7 @@ impl Render for QuickActionBar {
 
                             if supports_minimap {
                                 menu = menu.toggleable_entry(
-                                    "Minimap",
+                                    "缩略图",
                                     minimap_enabled,
                                     IconPosition::Start,
                                     Some(editor::actions::ToggleMinimap.boxed_clone()),
@@ -500,7 +500,7 @@ impl Render for QuickActionBar {
 
                             if is_full {
                                 menu = menu.toggleable_entry(
-                                    "Diagnostics",
+                                    "诊断",
                                     diagnostics_enabled,
                                     IconPosition::Start,
                                     Some(ToggleDiagnostics.boxed_clone()),

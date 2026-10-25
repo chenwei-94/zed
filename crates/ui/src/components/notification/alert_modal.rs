@@ -141,8 +141,8 @@ impl RenderOnce for AlertModal {
         if let Some(footer) = self.footer {
             modal = modal.child(footer);
         } else if has_default_footer {
-            let primary_action = self.primary_action.unwrap_or_else(|| "OK".into());
-            let dismiss_label = self.dismiss_label.unwrap_or_else(|| "Cancel".into());
+            let primary_action = self.primary_action.unwrap_or_else(|| "确定".into());
+            let dismiss_label = self.dismiss_label.unwrap_or_else(|| "取消".into());
 
             modal = modal.child(
                 h_flex()
@@ -191,7 +191,7 @@ impl Component for AlertModal {
                                 "当前窗口将关闭，与所有共享项目的连接将终止。"
                             )
                             .primary_action("离开通话")
-                            .dismiss_label("Cancel")
+                            .dismiss_label("取消")
                             .into_any_element(),
                     )]),
                     example_group(vec![single_example(

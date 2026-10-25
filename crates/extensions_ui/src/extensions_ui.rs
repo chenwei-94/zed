@@ -763,7 +763,7 @@ impl ExtensionsPage {
     }
 
     fn render_search(&self, cx: &mut Context<Self>) -> Div {
-        let mut key_context = KeyContext::new_with_defaults();
+        let mut key_context = KeyContext::new_with_defaults(cx.platform_info().os);
         key_context.add("BufferSearchBar");
 
         let editor_border = if self.query_contains_error {
@@ -1401,7 +1401,7 @@ impl Render for ExtensionsPage {
                                         "filter-buttons",
                                         [
                                             ToggleButtonSimple::new(
-                                                "All",
+                                                "全部",
                                                 cx.listener(|this, _event, _, cx| {
                                                     this.filter = ExtensionFilter::All;
                                                     this.filter_extension_entries(cx);
@@ -1409,7 +1409,7 @@ impl Render for ExtensionsPage {
                                                 }),
                                             ),
                                             ToggleButtonSimple::new(
-                                                "Installed",
+                                                "已安装",
                                                 cx.listener(|this, _event, _, cx| {
                                                     this.filter = ExtensionFilter::Installed;
                                                     this.filter_extension_entries(cx);
@@ -1527,7 +1527,7 @@ impl Item for ExtensionsPage {
     type Event = ItemEvent;
 
     fn tab_content_text(&self, _detail: usize, _cx: &App) -> SharedString {
-        "Extensions".into()
+        "扩展".into()
     }
 
     fn telemetry_event_text(&self) -> Option<&'static str> {

@@ -424,17 +424,17 @@ mod tests {
         let mut items = Vec::new();
         if include_agent_panel {
             items.push(MenuItem::action(
-                "Agent Panel",
+                "智能体面板",
                 OpenApplicationMenu(String::new()),
             ));
         }
         items.push(MenuItem::action(
-            "Diagnostics",
+            "诊断",
             OpenApplicationMenu(String::new()),
         ));
 
         Menu {
-            name: "View".into(),
+            name: "视图".into(),
             items,
             disabled: false,
         }
@@ -443,12 +443,12 @@ mod tests {
     #[test]
     fn test_build_entries_reflects_current_menu_data() {
         let with_agent_panel =
-            ApplicationMenu::build_entries(vec![owned_menu("View", "Agent Panel")]);
-        assert!(has_item(&with_agent_panel, "View", "Agent Panel"));
+            ApplicationMenu::build_entries(vec![owned_menu("视图", "智能体面板")]);
+        assert!(has_item(&with_agent_panel, "视图", "智能体面板"));
 
         let without_agent_panel =
-            ApplicationMenu::build_entries(vec![owned_menu("View", "Diagnostics")]);
-        assert!(!has_item(&without_agent_panel, "View", "Agent Panel"));
+            ApplicationMenu::build_entries(vec![owned_menu("视图", "诊断")]);
+        assert!(!has_item(&without_agent_panel, "视图", "智能体面板"));
     }
 
     #[gpui::test]
@@ -462,7 +462,7 @@ mod tests {
         let (app_menu, cx) = cx.add_window_view(|window, cx| ApplicationMenu::new(window, cx));
         let view_handle = cx.update(|window, cx| {
             let view_handle = app_menu.read_with(cx, |app_menu, _| {
-                menu_entry(&app_menu.entries, "View").handle.clone()
+                menu_entry(&app_menu.entries, "视图").handle.clone()
             });
             view_handle.show(window, cx);
             view_handle
@@ -471,14 +471,14 @@ mod tests {
 
         assert!(app_menu.read_with(cx, |app_menu, _| has_item(
             &app_menu.entries,
-            "View",
-            "Agent Panel"
+            "视图",
+            "智能体面板"
         )));
 
         assert!(app_menu.read_with(cx, |app_menu, _| has_item(
             &app_menu.entries,
-            "View",
-            "Diagnostics"
+            "视图",
+            "诊断"
         )));
 
         cx.update(|_, cx| {
@@ -490,16 +490,16 @@ mod tests {
         assert!(
             !app_menu.read_with(cx, |app_menu, _| has_item(
                 &app_menu.entries,
-                "View",
-                "Agent Panel"
+                "视图",
+                "智能体面板"
             )),
             "expected Agent Panel is not in the View menu"
         );
 
         assert!(app_menu.read_with(cx, |app_menu, _| has_item(
             &app_menu.entries,
-            "View",
-            "Diagnostics"
+            "视图",
+            "诊断"
         )));
 
         cx.update(|_, cx| {
@@ -509,13 +509,13 @@ mod tests {
 
         assert!(app_menu.read_with(cx, |app_menu, _| has_item(
             &app_menu.entries,
-            "View",
-            "Agent Panel"
+            "视图",
+            "智能体面板"
         )));
         assert!(app_menu.read_with(cx, |app_menu, _| has_item(
             &app_menu.entries,
-            "View",
-            "Diagnostics"
+            "视图",
+            "诊断"
         )));
     }
 
@@ -526,7 +526,7 @@ mod tests {
         cx.update(|cx| {
             cx.set_menus(vec![
                 Menu::new("Zed").items([MenuItem::action(
-                    "Settings",
+                    "设置",
                     OpenApplicationMenu(String::new()),
                 )]),
                 view_menu(true),
@@ -547,7 +547,7 @@ mod tests {
 
         cx.update(|window, cx| {
             let view_handle = app_menu.read_with(cx, |app_menu, _| {
-                menu_entry(&app_menu.entries, "View").handle.clone()
+                menu_entry(&app_menu.entries, "视图").handle.clone()
             });
             zed_handle.hide(cx);
             view_handle.show(window, cx);
@@ -556,7 +556,7 @@ mod tests {
         assert!(!zed_handle.is_deployed());
 
         assert!(app_menu.read_with(cx, |app_menu, _| {
-            menu_entry(&app_menu.entries, "View").handle.is_deployed()
+            menu_entry(&app_menu.entries, "视图").handle.is_deployed()
         }));
 
         cx.update(|_, cx| {
@@ -565,7 +565,7 @@ mod tests {
         cx.run_until_parked();
 
         assert!(app_menu.read_with(cx, |app_menu, _| {
-            menu_entry(&app_menu.entries, "View").handle.is_deployed()
+            menu_entry(&app_menu.entries, "视图").handle.is_deployed()
         }));
     }
 }

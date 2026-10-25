@@ -367,7 +367,7 @@ pub async fn list_models(
         .uri(uri)
         .header("Anthropic-Version", "2023-06-01")
         .header("X-Api-Key", api_key.trim())
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .extra_headers(extra_headers)
         .body(AsyncBody::default())
         .map_err(AnthropicError::BuildRequestBody)?;

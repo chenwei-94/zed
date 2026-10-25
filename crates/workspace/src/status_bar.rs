@@ -14,7 +14,7 @@ use ui::{ContextMenu, Divider, IconPosition, Indicator, Tooltip, prelude::*, rig
 /// Describes how a status-bar item can be hidden by the user.
 ///
 /// Every [`StatusItemView`] must either provide this (so that the user gets a
-/// "Hide Button" entry in the right-click menu) or explicitly return `None`
+/// "隐藏按钮" entry in the right-click menu) or explicitly return `None`
 /// to opt out. Returning `None` should be reserved for items that are
 /// already conditional on some other setting exposed elsewhere (e.g., the
 /// activity indicator, which disappears on its own once there's no work to
@@ -53,7 +53,7 @@ pub trait StatusItemView: Render {
     ///
     /// Implementors that return `None` must be inherently conditional on
     /// another user-exposed setting; otherwise, they should return `Some` so
-    /// that the status bar can show a "Hide Button" entry in its
+    /// that the status bar can show a "隐藏按钮" entry in its
     /// right-click menu.
     fn hide_setting(&self, cx: &App) -> Option<HideStatusItem>;
 }
@@ -312,7 +312,7 @@ fn render_hideable_item(
         .into_any_element()
 }
 
-/// Appends a "Hide Button" entry aligned with surrounding toggleable entries.
+/// Appends a "隐藏按钮" entry aligned with surrounding toggleable entries.
 pub fn add_hide_button_entry(menu: ContextMenu, hide: HideStatusItem) -> ContextMenu {
     menu.toggleable_entry(
         "隐藏按钮",

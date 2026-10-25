@@ -420,7 +420,7 @@ pub(crate) fn extension_provides_label(provides: ExtensionProvides) -> &'static 
     match provides {
         ExtensionProvides::Themes => "Themes",
         ExtensionProvides::IconThemes => "图标主题",
-        ExtensionProvides::Languages => "Languages",
+        ExtensionProvides::Languages => "语言",
         ExtensionProvides::Grammars => "Grammars",
         ExtensionProvides::LanguageServers => "语言服务器",
         ExtensionProvides::ContextServers => "MCP 服务器",

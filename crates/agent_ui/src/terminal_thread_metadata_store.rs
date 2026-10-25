@@ -678,7 +678,7 @@ mod tests {
         assert_eq!(terminal_title_prefix("⠋ Running"), Some("⠋ "));
         assert_eq!(terminal_title_prefix("* Claude"), Some("* "));
         assert_eq!(terminal_title_prefix("✳Thinking"), None);
-        assert_eq!(terminal_title_prefix("Thinking"), None);
+        assert_eq!(terminal_title_prefix("思考中"), None);
         assert_eq!(terminal_title_prefix(" Thinking"), None);
         assert_eq!(terminal_title_prefix("✳"), None);
         assert_eq!(terminal_title_prefix("v1 Running"), None);
@@ -693,7 +693,7 @@ mod tests {
         metadata.custom_title = Some("Fix bug".into());
         assert_eq!(metadata.display_title().as_ref(), "⠋ Fix bug");
 
-        metadata.title = "Thinking".into();
+        metadata.title = "思考中".into();
         assert_eq!(metadata.display_title().as_ref(), "Fix bug");
     }
 

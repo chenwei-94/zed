@@ -259,7 +259,7 @@ mod tests {
                 "_meta": {"schema": {}},
                 "properties": {
                     "name": {
-                        "type": "string", "title": "Name", "description": "Display name",
+                        "type": "string", "title": "名称", "description": "Display name",
                         "minLength": 1, "maxLength": 64, "pattern": "^[a-z]+$",
                         "format": "email", "default": "ada", "enum": ["ada", "grace"],
                         "oneOf": [
@@ -281,7 +281,7 @@ mod tests {
                         "minimum": -4, "maximum": 20, "default": 3, "_meta": {"integer": null}
                     },
                     "enabled": {
-                        "type": "boolean", "title": "Enabled", "description": "Toggle",
+                        "type": "boolean", "title": "已启用", "description": "Toggle",
                         "default": false, "_meta": {"boolean": true}
                     },
                     "choices": {
@@ -294,7 +294,7 @@ mod tests {
                     "titled": {
                         "type": "array",
                         "items": {"anyOf": [
-                            {"const": "b", "title": "B", "description": "First",
+                            {"const": "b", "title": "B", "description": "首个",
                              "_meta": {"option": true}},
                             {"const": "a", "title": "A"}
                         ], "_meta": {}},
@@ -418,7 +418,7 @@ mod tests {
                 Some(json!({"parameter": [1, null]})),
             ),
             (-32603, "Internal", Some(json!("detail"))),
-            (-32800, "Canceled", None),
+            (-32800, "已取消", None),
             (-32000, "Authentication", None),
             (-32002, "Missing resource", None),
             (17, "", Some(json!({"opaque": {"nested": [false, 2]}}))),

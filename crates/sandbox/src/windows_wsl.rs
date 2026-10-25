@@ -1977,7 +1977,7 @@ mod tests {
         // contain parentheses but no `=`, so they'd pass the `setenv` filter
         // and must be blocked by name.
         let env = HashMap::from([
-            ("Path".to_string(), r"C:\Windows\System32".to_string()),
+            ("路径".to_string(), r"C:\Windows\System32".to_string()),
             ("PATHEXT".to_string(), ".COM;.EXE;.BAT".to_string()),
             (
                 "TEMP".to_string(),
@@ -2052,12 +2052,12 @@ mod tests {
         let env = HashMap::from([
             ("=C:".to_string(), r"C:\Users\me".to_string()),
             (String::new(), "value".to_string()),
-            ("OK".to_string(), "value".to_string()),
+            ("确定".to_string(), "value".to_string()),
         ]);
         let args = build_bwrap_args(&[], &[], SandboxPermissions::default(), None, false, &env);
         assert!(
             args.windows(3)
-                .any(|window| window == ["--setenv", "OK", "value"])
+                .any(|window| window == ["--setenv", "确定", "value"])
         );
         assert_eq!(args.iter().filter(|arg| *arg == "--setenv").count(), 1);
     }

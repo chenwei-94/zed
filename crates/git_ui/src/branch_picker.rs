@@ -338,7 +338,7 @@ impl BranchList {
         // Fetch default branch asynchronously since it requires a git operation
         cx.spawn_in(window, async move |this, cx| {
             let default_branch = default_branch_request
-                .context("No active repository")?
+                .context("没有活动仓库")?
                 .await
                 .map(Result::ok)
                 .ok()
@@ -357,7 +357,7 @@ impl BranchList {
 
         cx.spawn(async move |this, cx| {
             let remote_urls = remote_urls_request
-                .context("No active repository")?
+                .context("没有活动仓库")?
                 .await??;
             let remote_provider_icons = cx.update(|cx| remote_provider_icons(&remote_urls, cx));
             this.update(cx, |this, cx| {
@@ -1161,7 +1161,7 @@ impl BranchListDelegate {
                                 PromptLevel::Warning,
                                 &prompt_message,
                                 None,
-                                &["Force Delete", "Cancel"],
+                                &["强制删除", "取消"],
                                 cx,
                             )
                         })?;
@@ -2654,7 +2654,7 @@ mod tests {
         cx.run_until_parked();
         assert!(cx.has_pending_prompt());
 
-        cx.simulate_prompt_answer("Force Delete");
+        cx.simulate_prompt_answer("强制删除");
         cx.run_until_parked();
 
         let repo_branches = branch_list
@@ -2733,7 +2733,7 @@ mod tests {
         cx.run_until_parked();
         assert!(cx.has_pending_prompt());
 
-        cx.simulate_prompt_answer("Cancel");
+        cx.simulate_prompt_answer("取消");
         cx.run_until_parked();
         assert!(!cx.has_pending_prompt());
 

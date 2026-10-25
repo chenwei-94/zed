@@ -320,6 +320,6 @@ pub enum ComponentScope {
     Status,
     Typography,
     Utilities,
-    #[strum(serialize = "Version Control")]
+    #[strum(serialize = "版本控制")]
     VersionControl,
 }

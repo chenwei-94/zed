@@ -10,7 +10,7 @@ use regex::Regex;
 
 use fs::Fs;
 use http_client::HttpClient;
-use util::{ResultExt, command::Command, normalize_path};
+use util::{ResultExt, command::Command, paths::normalize_path};
 
 use crate::{
     DevContainerConfig, DevContainerContext,
@@ -8374,7 +8374,7 @@ RUN echo $RUBY_VERSION2
                                     }
                                 }
                                 setup_selinux_context() {
-                                    if command -v getenforce >/dev/null 2>&1 && [ "$(getenforce 2>/dev/null)" != "Disabled" ]; then
+                                    if command -v getenforce >/dev/null 2>&1 && [ "$(getenforce 2>/dev/null)" != "已禁用" ]; then
                                         echo "(*) Creating minimal SELinux context for Docker compatibility..."
                                         mkdir -p /etc/selinux/targeted/contexts/files/ 2>/dev/null || true
                                         echo "/var/lib/docker(/.*)? system_u:object_r:container_file_t:s0" >> /etc/selinux/targeted/contexts/files/file_contexts.local 2>/dev/null || true
@@ -9033,7 +9033,7 @@ RUN echo $RUBY_VERSION2
                         {
                             "id": "go",
                             "version": "1.3.3",
-                            "name": "Go",
+                            "name": "转到",
                             "documentationURL": "https://github.com/devcontainers/features/tree/main/src/go",
                             "description": "Installs Go and common Go utilities. Auto-detects latest version and installs needed dependencies.",
                             "options": {

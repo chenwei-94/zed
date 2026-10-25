@@ -544,7 +544,7 @@ pub(crate) enum NewProcessMode {
 impl std::fmt::Display for NewProcessMode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mode = match self {
-            NewProcessMode::Task => "Run",
+            NewProcessMode::Task => "运行",
             NewProcessMode::Debug => "Debug",
             NewProcessMode::Attach => "Attach",
             NewProcessMode::Launch => "Launch",
@@ -570,7 +570,7 @@ impl Render for NewProcessModal {
 
         v_flex()
             .key_context({
-                let mut key_context = KeyContext::new_with_defaults();
+                let mut key_context = KeyContext::new_with_defaults(cx.platform_info().os);
                 key_context.add("Pane");
                 key_context.add("RunModal");
                 key_context

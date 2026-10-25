@@ -78,7 +78,7 @@ struct OpenFolderEntry {
 #[derive(Clone, Debug)]
 enum ProjectPickerEntry {
     Header(SharedString),
-    /// A currently open folder from the active workspace's "Current Folders" section.
+    /// A currently open folder from the active workspace's "当前文件夹" section.
     ///
     /// `index` points into `RecentProjectsDelegate::open_folders`, and `positions` stores the
     /// fuzzy-match highlight positions for rendering the folder name.
@@ -86,7 +86,7 @@ enum ProjectPickerEntry {
         index: usize,
         positions: Vec<usize>,
     },
-    /// A project group from the current window's "This Window" section.
+    /// A project group from the current window's "当前窗口" section.
     ///
     /// These entries come from `RecentProjectsDelegate::window_project_groups`, not from the
     /// recent-project database. Empty queries list every project group known to the current
@@ -94,7 +94,7 @@ enum ProjectPickerEntry {
     /// that project group in the current window, while secondary confirm can move local project
     /// groups to a new window when multiple groups are available.
     ProjectGroup(StringMatch),
-    /// A workspace from the recent-project database's "Recent Projects" section.
+    /// A workspace from the recent-project database's "最近的项目" section.
     ///
     /// The match's `candidate_id` indexes into `RecentProjectsDelegate::workspaces`. Confirming
     /// one opens that recent workspace in either the current window or a new window, depending on
@@ -356,7 +356,7 @@ pub fn init(cx: &mut App) {
                         Please note that Zed currently does not support opening network share folders inside wsl.
                     "#};
 
-                    let _ = cx.prompt(gpui::PromptLevel::Critical, "无效路径", Some(&message), &["OK"]).await;
+                    let _ = cx.prompt(gpui::PromptLevel::Critical, "无效路径", Some(&message), &["确定"]).await;
                     return;
                 }
 
@@ -511,7 +511,7 @@ pub fn init(cx: &mut App) {
                         gpui::PromptLevel::Critical,
                         "无法从远程项目打开 Dev Container",
                         None,
-                        &["OK"],
+                        &["确定"],
                     )
                     .await
                     .ok();
@@ -2499,13 +2499,13 @@ mod tests {
 
     // Test picker for the empty query:
     //
-    //   [0] Header("Current Folders")
+    //   [0] Header("当前文件夹")
     //   [1] OpenFolder(0)
     //   [2] OpenFolder(1)
-    //   [3] Header("This Window")
+    //   [3] Header("当前窗口")
     //   [4] ProjectGroup(0)
     //   [5] ProjectGroup(1)
-    //   [6] Header("Recent Projects")
+    //   [6] Header("最近的项目")
     //   [7..=26] RecentProject(0..=19)
     //
     const RECENT_PROJECT_COUNT: usize = 20;
@@ -3205,7 +3205,7 @@ mod tests {
     #[gpui::test]
     async fn test_remove_open_folder_rekeys_this_window_group(cx: &mut TestAppContext) {
         // Regression test: removing a folder from the active project while the
-        // picker is open must update the "This Window" group so it no longer
+        // picker is open must update the "当前窗口" group so it no longer
         // lists the removed folder.
         let app_state = init_test(cx);
         app_state

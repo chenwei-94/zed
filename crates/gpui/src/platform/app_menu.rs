@@ -409,7 +409,7 @@ mod tests {
         );
 
         let submenu = MenuItem::submenu(super::Menu {
-            name: "Submenu".into(),
+            name: "子菜单".into(),
             items: vec![],
             disabled: true,
         });
@@ -418,7 +418,7 @@ mod tests {
                 MenuItem::Submenu(menu) => menu.name.as_ref(),
                 _ => unreachable!(),
             },
-            "Submenu"
+            "子菜单"
         );
         assert!(!submenu.is_checked());
         assert!(submenu.is_disabled());

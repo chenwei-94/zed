@@ -796,15 +796,9 @@ impl Item for Editor {
         };
 
         let description = params.detail.and_then(|detail| {
-            let path = path_for_buffer(&self.buffer, detail, false, cx)?;
-            let description = path.trim();
-
-            if description.is_empty() {
-                return None;
-            }
-
+            let description = self.tab_description(detail, cx)?;
             Some(util::truncate_and_trailoff(
-                description,
+                &description,
                 params.max_title_len.unwrap_or(MAX_TAB_TITLE_LEN),
             ))
         });
@@ -1273,7 +1267,7 @@ impl Item for Editor {
 
 impl SerializableItem for Editor {
     fn serialized_item_kind() -> &'static str {
-        "Editor"
+        "编辑器"
     }
 
     fn cleanup(
@@ -1461,7 +1455,7 @@ impl SerializableItem for Editor {
                 let buffer = project
                     .update(cx, |project, cx| project.create_buffer(None, true, cx))
                     .await
-                    .context("Failed to create buffer")?;
+                    .context("创建缓冲区失败")?;
                 if language.is_none() {
                     buffer.update(cx, |buffer, _| {
                         buffer.set_content_language_detection_enabled(true);
@@ -1582,7 +1576,7 @@ impl ProjectItem for Editor {
     type Item = Buffer;
 
     fn project_item_kind() -> Option<ProjectItemKind> {
-        Some(ProjectItemKind("Editor"))
+        Some(ProjectItemKind("编辑器"))
     }
 
     fn for_project_item(
@@ -1653,6 +1647,17 @@ fn clip_ranges<'a>(
 impl EventEmitter<SearchEvent> for Editor {}
 
 impl Editor {
+    /// Panes keep increasing `detail` until tabs for files with the same name look different.
+    pub fn tab_description(&self, detail: usize, cx: &App) -> Option<SharedString> {
+        let path = path_for_buffer(&self.buffer, detail, false, cx)?;
+        let description = path.trim();
+        if description.is_empty() {
+            None
+        } else {
+            Some(description.to_string().into())
+        }
+    }
+
     pub fn update_restoration_data(
         &self,
         cx: &mut Context<Self>,

@@ -463,7 +463,7 @@ pub struct ArchivedGitWorktree {
     /// If the path already exists on disk, the worktree is assumed to be
     /// already restored and is used as-is.
     pub worktree_path: PathBuf,
-    /// Absolute path of the main repository ("main worktree") that owned this worktree.
+    /// Absolute path of the main repository ("主工作树") that owned this worktree.
     /// Used when restoring, to reattach the recreated worktree to the correct main repo.
     /// If the main repo isn't found on disk, unarchiving fails because we only store
     /// commit hashes, and without the actual git repo being available, we can't restore
@@ -3609,7 +3609,7 @@ mod tests {
 
         let original_paths =
             PathList::new(&[Path::new("/projects/worktree-a"), Path::new("/other/path")]);
-        let meta = make_metadata("session-partial", "Partial", Utc::now(), original_paths);
+        let meta = make_metadata("session-partial", "部分", Utc::now(), original_paths);
         let thread_id = meta.thread_id;
 
         store.update(cx, |store, cx| {
@@ -3688,7 +3688,7 @@ mod tests {
 
         let original_paths =
             PathList::new(&[Path::new("/projects/worktree-a"), Path::new("/other/path")]);
-        let meta = make_metadata("session-partial", "Partial", Utc::now(), original_paths);
+        let meta = make_metadata("session-partial", "部分", Utc::now(), original_paths);
         let thread_id = meta.thread_id;
 
         store.update(cx, |store, cx| {

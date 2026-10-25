@@ -167,7 +167,7 @@ fn metric_rating(label: &str, value_ms: f64) -> (&'static str, Color) {
     match label {
         "Latency" => {
             if value_ms < 100.0 {
-                ("Normal", Color::Success)
+                ("正常", Color::Success)
             } else if value_ms < 300.0 {
                 ("High", Color::Warning)
             } else {
@@ -176,20 +176,20 @@ fn metric_rating(label: &str, value_ms: f64) -> (&'static str, Color) {
         }
         "Jitter" => {
             if value_ms < 30.0 {
-                ("Normal", Color::Success)
+                ("正常", Color::Success)
             } else if value_ms < 75.0 {
                 ("High", Color::Warning)
             } else {
                 ("Poor", Color::Error)
             }
         }
-        _ => ("Normal", Color::Success),
+        _ => ("正常", Color::Success),
     }
 }
 
 fn input_lag_rating(value_ms: u128) -> (&'static str, Color) {
     if value_ms < 20 {
-        ("Normal", Color::Success)
+        ("正常", Color::Success)
     } else if value_ms < 50 {
         ("High", Color::Warning)
     } else {
@@ -199,7 +199,7 @@ fn input_lag_rating(value_ms: u128) -> (&'static str, Color) {
 
 fn packet_loss_rating(loss_pct: f64) -> (&'static str, Color) {
     if loss_pct < 1.0 {
-        ("Normal", Color::Success)
+        ("正常", Color::Success)
     } else if loss_pct < 5.0 {
         ("High", Color::Warning)
     } else {

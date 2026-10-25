@@ -202,7 +202,7 @@ async fn run_rules_to_skills_migration(
     // Snapshot the (id, title) pairs for every user rule, split by
     // whether it's a Default rule or not. BuiltIn prompts (e.g. the
     // commit-message prompt) are excluded — they're not user-facing
-    // "Rules" in the agent sense.
+    // "规则" in the agent sense.
     let (default_rules, non_default_rules) = prompt_store.read_with(cx, |store, _| {
         let mut default = Vec::new();
         let mut non_default = Vec::new();

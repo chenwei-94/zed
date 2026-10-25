@@ -113,11 +113,11 @@ mod tests {
     #[test]
     fn legacy_options_preserve_fields_in_v2() -> Result<()> {
         let options = vec![
-            acp_v1::SessionConfigOption::boolean("enabled", "Enabled", false)
+            acp_v1::SessionConfigOption::boolean("enabled", "已启用", false)
                 .meta(acp_v1::Meta::new()),
             acp_v1::SessionConfigOption::select(
                 "mode",
-                "Mode",
+                "模式",
                 "fast",
                 vec![
                     acp_v1::SessionConfigSelectOption::new("fast", "Fast")
@@ -133,13 +133,13 @@ mod tests {
             )])),
             acp_v1::SessionConfigOption::select(
                 "model",
-                "Model",
+                "模型",
                 "large",
                 vec![
                     acp_v1::SessionConfigSelectGroup::new(
                         "provider",
-                        "Provider",
-                        vec![acp_v1::SessionConfigSelectOption::new("large", "Large")],
+                        "提供商",
+                        vec![acp_v1::SessionConfigSelectOption::new("large", "大")],
                     )
                     .meta(acp_v1::Meta::from_iter([(
                         "group".into(),
@@ -153,21 +153,21 @@ mod tests {
             serde_json::to_value(from_v1(options)?)?,
             json!([
                 {
-                    "configId": "enabled", "name": "Enabled",
+                    "configId": "enabled", "name": "已启用",
                     "type": "boolean", "currentValue": false, "_meta": {}
                 },
                 {
-                    "configId": "mode", "name": "Mode", "description": "",
+                    "configId": "mode", "name": "模式", "description": "",
                     "category": "_custom", "type": "select", "currentValue": "fast",
                     "options": [{"value": "fast", "name": "Fast", "description": "", "_meta": {}}],
                     "_meta": {"nested": [1, true]}
                 },
                 {
-                    "configId": "model", "name": "Model", "category": "model",
+                    "configId": "model", "name": "模型", "category": "model",
                     "type": "select", "currentValue": "large",
                     "options": [{
-                        "groupId": "provider", "name": "Provider",
-                        "options": [{"value": "large", "name": "Large"}],
+                        "groupId": "provider", "name": "提供商",
+                        "options": [{"value": "large", "name": "大"}],
                         "_meta": {"group": "metadata"}
                     }]
                 }

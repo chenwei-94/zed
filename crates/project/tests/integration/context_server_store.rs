@@ -982,7 +982,7 @@ async fn test_remote_context_server(cx: &mut TestAppContext) {
 // A server may accept `initialize` unauthenticated (returns 200) yet only send
 // `WWW-Authenticate` on a later request such as `tools/list` / `tools/call`.
 // That post-initialize 401 must initiate the OAuth flow instead of surfacing as
-// an opaque request failure while the server stays "Running".
+// an opaque request failure while the server stays "运行中".
 #[gpui::test]
 async fn test_http_server_authenticates_on_post_init_401(cx: &mut TestAppContext) {
     use context_server::transport::TransportError;

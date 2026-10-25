@@ -22,7 +22,7 @@ const SETTINGS_DISCLAIMER: &str = "注意：自定义工具权限仅对 Zed 原�
 const TOOLS: &[ToolInfo] = &[
     ToolInfo {
         id: "terminal",
-        name: "Terminal",
+        name: "终端",
         description: "在终端中执行的命令",
         regex_explanation: "Patterns are matched against each command in the input. Commands chained with &&, ||, ;, or pipes are split and checked individually.",
     },
@@ -64,7 +64,7 @@ const TOOLS: &[ToolInfo] = &[
     },
     ToolInfo {
         id: "fetch",
-        name: "Fetch",
+        name: "抓取",
         description: "对 URL 的 HTTP 请求",
         regex_explanation: "模式将与要抓取的 URL 匹配。",
     },
@@ -768,9 +768,9 @@ fn implied_mode_from_patterns(
 
 fn mode_display_label(mode: ToolPermissionMode) -> &'static str {
     match mode {
-        ToolPermissionMode::Allow => "Allow",
+        ToolPermissionMode::Allow => "允许",
         ToolPermissionMode::Deny => "Deny",
-        ToolPermissionMode::Confirm => "Confirm",
+        ToolPermissionMode::Confirm => "确认",
     }
 }
 
@@ -1093,10 +1093,10 @@ fn render_global_default_mode_section(current_mode: ToolPermissionMode) -> AnyEl
                 )
                 .menu(move |window, cx| {
                     Some(ContextMenu::build(window, cx, move |menu, _, _| {
-                        menu.entry("Confirm", None, move |_, cx| {
+                        menu.entry("确认", None, move |_, cx| {
                             set_global_default_permission(ToolPermissionMode::Confirm, cx);
                         })
-                        .entry("Allow", None, move |_, cx| {
+                        .entry("允许", None, move |_, cx| {
                             set_global_default_permission(ToolPermissionMode::Allow, cx);
                         })
                         .entry("Deny", None, move |_, cx| {
@@ -1115,9 +1115,9 @@ fn render_default_mode_section(
     _cx: &mut Context<SettingsWindow>,
 ) -> AnyElement {
     let mode_label = match current_mode {
-        ToolPermissionMode::Allow => "Allow",
+        ToolPermissionMode::Allow => "允许",
         ToolPermissionMode::Deny => "Deny",
-        ToolPermissionMode::Confirm => "Confirm",
+        ToolPermissionMode::Confirm => "确认",
     };
 
     let tool_id_owned = tool_id.to_string();
@@ -1152,10 +1152,10 @@ fn render_default_mode_section(
                         let tool_id_allow = tool_id.clone();
                         let tool_id_deny = tool_id;
 
-                        menu.entry("Confirm", None, move |_, cx| {
+                        menu.entry("确认", None, move |_, cx| {
                             set_default_mode(&tool_id_confirm, ToolPermissionMode::Confirm, cx);
                         })
-                        .entry("Allow", None, move |_, cx| {
+                        .entry("允许", None, move |_, cx| {
                             set_default_mode(&tool_id_allow, ToolPermissionMode::Allow, cx);
                         })
                         .entry("Deny", None, move |_, cx| {

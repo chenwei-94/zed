@@ -151,7 +151,7 @@ impl Render for A11yDemo {
                                 this.count = 0;
                                 cx.notify();
                             }))
-                            .child(text!("Reset")),
+                            .child(text!("重置")),
                     ),
             )
             // A toggle switch
@@ -199,7 +199,7 @@ impl Render for A11yDemo {
                 div()
                     .id("task-list")
                     .role(Role::List)
-                    .aria_label("Tasks")
+                    .aria_label("任务")
                     .flex()
                     .flex_col()
                     .gap_1()

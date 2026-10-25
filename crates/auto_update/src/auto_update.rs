@@ -316,7 +316,7 @@ pub fn check(_: &Check, window: &mut Window, cx: &mut App) {
             gpui::PromptLevel::Info,
             "Zed 是通过包管理器安装的。",
             Some(&message),
-            &["OK"],
+            &["确定"],
             cx,
         ));
         return;
@@ -336,7 +336,7 @@ pub fn check(_: &Check, window: &mut Window, cx: &mut App) {
             gpui::PromptLevel::Info,
             "无法检查更新",
             Some("非捆绑应用已禁用自动更新。"),
-            &["OK"],
+            &["确定"],
             cx,
         ));
     }

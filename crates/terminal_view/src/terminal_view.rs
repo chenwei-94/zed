@@ -11,8 +11,8 @@ use editor::{
 use gpui::{
     Action, AnyElement, App, ClipboardEntry, Corners, DismissEvent, Entity, EventEmitter,
     ExternalPaths, FocusHandle, Focusable, Font, KeyContext, KeyDownEvent, Keystroke, MouseButton,
-    MouseDownEvent, Pixels, Point as GpuiPoint, Rems, Render, ScrollWheelEvent, Styled,
-    Subscription, Task, TaskExt, WeakEntity, actions, anchored, deferred, div,
+    MouseDownEvent, Pixels, Point as GpuiPoint, Rems, Render, ScrollEvent, Styled, Subscription,
+    Task, TaskExt, WeakEntity, actions, anchored, deferred, div,
 };
 use menu;
 use persistence::TerminalDb;
@@ -765,7 +765,7 @@ impl TerminalView {
         max_scroll_top_in_lines as f32 * line_height
     }
 
-    fn scroll_wheel(&mut self, event: &ScrollWheelEvent, cx: &mut Context<Self>) {
+    fn scroll_wheel(&mut self, event: &ScrollEvent, cx: &mut Context<Self>) {
         let terminal_content = self.terminal.read(cx).last_content();
 
         if self.block_below_cursor.is_some() && terminal_content.display_offset == 0 {
@@ -1069,7 +1069,8 @@ impl TerminalView {
     }
 
     fn send_keystroke(&mut self, text: &SendKeystroke, _: &mut Window, cx: &mut Context<Self>) {
-        if let Some(keystroke) = Keystroke::parse(&text.0).log_err() {
+        if let Some(keystroke) = Keystroke::parse_with_os(&text.0, cx.platform_info().os).log_err()
+        {
             self.clear_bell(cx);
             self.blink_manager.update(cx, BlinkManager::pause_blinking);
             self.process_keystroke(&keystroke, cx);
@@ -1077,8 +1078,8 @@ impl TerminalView {
     }
 
     fn dispatch_context(&self, cx: &App) -> KeyContext {
-        let mut dispatch_context = KeyContext::new_with_defaults();
-        dispatch_context.add("Terminal");
+        let mut dispatch_context = KeyContext::new_with_defaults(cx.platform_info().os);
+        dispatch_context.add("终端");
 
         if self.terminal.read(cx).vi_mode_enabled() {
             dispatch_context.add("vi_mode");
@@ -1871,7 +1872,7 @@ impl Item for TerminalView {
     ) -> Vec<(SharedString, Box<dyn gpui::Action>)> {
         let terminal = self.terminal.read(cx);
         if terminal.task().is_none() {
-            vec![("Rename".into(), Box::new(RenameTerminal))]
+            vec![("重命名".into(), Box::new(RenameTerminal))]
         } else {
             Vec::new()
         }
@@ -1987,7 +1988,7 @@ impl Item for TerminalView {
 
 impl SerializableItem for TerminalView {
     fn serialized_item_kind() -> &'static str {
-        "Terminal"
+        "终端"
     }
 
     fn cleanup(

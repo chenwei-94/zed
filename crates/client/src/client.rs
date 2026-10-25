@@ -1314,7 +1314,7 @@ impl Client {
             );
             let collab_url = response
                 .headers()
-                .get("Location")
+                .get("位置")
                 .context("missing location header in /rpc response")?
                 .to_str()
                 .map_err(EstablishConnectionError::other)?
@@ -1524,7 +1524,7 @@ impl Client {
                                     req.respond(
                                         tiny_http::Response::empty(302).with_header(
                                             tiny_http::Header::from_bytes(
-                                                &b"Location"[..],
+                                                &b"位置"[..],
                                                 post_auth_url.as_bytes(),
                                             )
                                             .unwrap(),
@@ -1977,7 +1977,7 @@ pub fn parse_zed_link(link: &str, cx: &App) -> Option<ZedLink> {
         });
     }
 
-    if next == "notes" {
+    if next == "备注" {
         return Some(ZedLink::ChannelNotes {
             channel_id,
             heading: None,

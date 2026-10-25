@@ -420,7 +420,7 @@ impl CommitModal {
         let focus_handle = self.focus_handle(cx);
 
         let close_kb_hint = ui::KeyBinding::for_action(&menu::Cancel, cx).map(|close_kb| {
-            KeybindingHint::new(close_kb, cx.theme().colors().editor_background).suffix("Cancel")
+            KeybindingHint::new(close_kb, cx.theme().colors().editor_background).suffix("取消")
         });
 
         h_flex()

@@ -3356,10 +3356,14 @@ impl EditPredictionStore {
                 .edit_preview
                 .as_unified_diff(prediction.snapshot.file(), &prediction.edits);
             async move {
+                let organization_id = organization
+                    .map(|organization| organization.id.clone())
+                    .context("no organization selected")?;
+
                 client
                     .cloud_client()
                     .submit_edit_prediction_feedback(SubmitEditPredictionFeedbackBody {
-                        organization_id: organization.map(|organization| organization.id.clone()),
+                        organization_id,
                         request_id: prediction_id,
                         rating: match rating {
                             EditPredictionRating::Positive => "positive".to_string(),
@@ -3622,7 +3626,7 @@ fn show_free_plan_edit_predictions_ended_notice_once(user_store: &Entity<UserSto
                     Upgrade to Pro for unlimited edit predictions.",
                     cx,
                 )
-                .primary_message("Upgrade")
+                .primary_message("升级")
                 .primary_on_click(|_window, cx| {
                     telemetry::event!(
                         "Upgrade To Pro Clicked",

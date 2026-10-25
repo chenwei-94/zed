@@ -826,10 +826,10 @@ impl ReasoningEffort {
 
     pub fn label(self) -> &'static str {
         match self {
-            Self::None => "None",
+            Self::None => "无",
             Self::Minimal => "Minimal",
             Self::Low => "Low",
-            Self::Medium => "Medium",
+            Self::Medium => "中",
             Self::High => "High",
             Self::XHigh => "极高",
             Self::Max => "Max",

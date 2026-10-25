@@ -112,7 +112,7 @@ impl KeybindingHint {
     /// # fn example(cx: &App) {
     /// let hint = KeybindingHint::with_suffix(
     ///     KeyBinding::from_keystrokes(vec![KeybindingKeystroke::from_keystroke(Keystroke::parse("ctrl-v").unwrap())].into(), false),
-    ///     "Paste",
+    ///     "粘贴",
     ///     Hsla::black()
     /// );
     /// # }
@@ -171,7 +171,7 @@ impl KeybindingHint {
     ///     KeyBinding::from_keystrokes(vec![KeybindingKeystroke::from_keystroke(Keystroke::parse("ctrl-f").unwrap())].into(), false),
     ///     Hsla::black()
     /// )
-    ///     .suffix("Find");
+    ///     .suffix("查找");
     /// # }
     /// ```
     pub fn suffix(mut self, suffix: impl Into<SharedString>) -> Self {
@@ -302,7 +302,7 @@ impl Component for KeybindingHint {
                             "中",
                             KeybindingHint::new(enter.clone(), bg_color)
                                 .size(Pixels::from(16.0))
-                                .suffix("Medium")
+                                .suffix("中")
                                 .into_any_element(),
                         ),
                         single_example(

@@ -1335,9 +1335,9 @@ mod tests {
                     .debug_selector(|| "provider-row".into())
                     .child(render_inline_body(
                         "Zed".into(),
-                        Some("Subscribed to Business".into()),
+                        Some("已订阅 Business".into()),
                         Some(InlineDescription::Text(
-                            "You have access to Zed's hosted models through your organization."
+                            "你可以通过所在组织使用 Zed 托管模型。"
                                 .into(),
                         )),
                         cloud::test_support::young_account_configuration(),

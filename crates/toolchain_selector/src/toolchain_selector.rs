@@ -385,7 +385,7 @@ impl Render for AddToolchainState {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let theme = cx.theme().clone();
         let weak = self.weak.upgrade();
-        let label = SharedString::new_static("Add");
+        let label = SharedString::new_static("添加");
 
         v_flex()
             .size_full()
@@ -731,7 +731,7 @@ impl ToolchainSelector {
 
 impl Render for ToolchainSelector {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
-        let mut key_context = KeyContext::new_with_defaults();
+        let mut key_context = KeyContext::new_with_defaults(cx.platform_info().os);
         key_context.add("ToolchainSelector");
 
         v_flex()

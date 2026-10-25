@@ -786,7 +786,7 @@ impl Render for ExecutionView {
 
         let pending_input_element = self.pending_input.as_ref().map(|pending_input| {
             let prompt_label = if pending_input.prompt.is_empty() {
-                "Input:".to_string()
+                "输入：".to_string()
             } else {
                 pending_input.prompt.clone()
             };

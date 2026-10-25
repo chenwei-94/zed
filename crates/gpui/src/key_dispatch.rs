@@ -17,7 +17,7 @@
 //!   fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
 //!     div()
 //!       .track_focus(&self.focus_handle(cx))
-//!       .key_context("Editor")
+//!       .key_context("编辑器")
 //!       .on_action(cx.listener(Editor::undo))
 //!       .on_action(cx.listener(Editor::redo))
 //!     ...
@@ -31,8 +31,8 @@
 //!
 //! ```ignore
 //! cx.bind_keys([
-//!   KeyBinding::new("cmd-z", Editor::undo, Some("Editor")),
-//!   KeyBinding::new("cmd-shift-z", Editor::redo, Some("Editor")),
+//!   KeyBinding::new("cmd-z", Editor::undo, Some("编辑器")),
+//!   KeyBinding::new("cmd-shift-z", Editor::redo, Some("编辑器")),
 //! ])
 //! ```
 //!
@@ -721,7 +721,7 @@ mod tests {
             cx: &mut App,
         ) {
             let mut key_context = KeyContext::default();
-            key_context.add("Terminal");
+            key_context.add("终端");
             window.set_key_context(key_context);
             window.handle_input(&self.focus_handle, self.clone(), cx);
             let action_count = self.action_count.clone();
@@ -838,7 +838,7 @@ mod tests {
             let action_count = self.action_count.clone();
             let secondary_action_count = self.secondary_action_count.clone();
             crate::div()
-                .key_context("Terminal")
+                .key_context("终端")
                 .track_focus(&self.focus_handle)
                 .size_full()
                 .on_action(move |_: &TestAction, _, _| {
@@ -904,7 +904,7 @@ mod tests {
     }
 
     fn terminal_context() -> KeyContext {
-        KeyContext::parse("Terminal").expect("valid key context")
+        KeyContext::parse("终端").expect("valid key context")
     }
 
     fn setup_pending_input_timeout_test(
@@ -913,9 +913,9 @@ mod tests {
         setup_pending_input_test(
             cx,
             [
-                KeyBinding::new("ctrl-b", TestAction, Some("Terminal")),
-                KeyBinding::new("ctrl-b h", SecondaryTestAction, Some("Terminal")),
-                KeyBinding::new("ctrl-b h j", TestAction, Some("Terminal")),
+                KeyBinding::new("ctrl-b", TestAction, Some("终端")),
+                KeyBinding::new("ctrl-b h", SecondaryTestAction, Some("终端")),
+                KeyBinding::new("ctrl-b h j", TestAction, Some("终端")),
             ],
         )
     }
@@ -935,7 +935,7 @@ mod tests {
         test.update_in(cx, |test, window, cx| {
             window.focus(&test.focus_handle, cx);
             window.activate_window();
-            cx.bind_keys([KeyBinding::new("ctrl-alt-a", TestAction, Some("Terminal"))]);
+            cx.bind_keys([KeyBinding::new("ctrl-alt-a", TestAction, Some("终端"))]);
         });
         (test, cx)
     }
@@ -986,7 +986,7 @@ mod tests {
     #[test]
     fn test_bindings_for_action_hides_targeted_unbind_in_active_context() {
         let tree = test_dispatch_tree(vec![
-            KeyBinding::new("tab", TestAction, Some("Editor")),
+            KeyBinding::new("tab", TestAction, Some("编辑器")),
             KeyBinding::new(
                 "tab",
                 Unbind("dispatch_test::TestAction".into()),
@@ -1018,7 +1018,7 @@ mod tests {
     #[test]
     fn test_bindings_for_action_keeps_targeted_binding_outside_unbind_context() {
         let tree = test_dispatch_tree(vec![
-            KeyBinding::new("tab", TestAction, Some("Editor")),
+            KeyBinding::new("tab", TestAction, Some("编辑器")),
             KeyBinding::new(
                 "tab",
                 Unbind("dispatch_test::TestAction".into()),
@@ -1033,7 +1033,7 @@ mod tests {
 
         let contexts = vec![
             KeyContext::parse("Workspace").unwrap(),
-            KeyContext::parse("Editor").unwrap(),
+            KeyContext::parse("编辑器").unwrap(),
         ];
 
         let bindings = tree.bindings_for_action(&TestAction, &contexts);
@@ -1058,7 +1058,7 @@ mod tests {
         // editor::AddSelectionBelow), TestAction for the picker action.
         let contexts = vec![
             KeyContext::parse("Picker").unwrap(),
-            KeyContext::parse("Editor").unwrap(),
+            KeyContext::parse("编辑器").unwrap(),
         ];
 
         // Default keymap (picker binding) followed by a base keymap that binds
@@ -1066,7 +1066,7 @@ mod tests {
         // picker action is shadowed, so its footer tooltip renders no shortcut.
         let shadowed = test_dispatch_tree(vec![
             KeyBinding::new("ctrl-alt-down", TestAction, Some("Picker > Editor")),
-            KeyBinding::new("ctrl-alt-down", SecondaryTestAction, Some("Editor")),
+            KeyBinding::new("ctrl-alt-down", SecondaryTestAction, Some("编辑器")),
         ]);
         let highest = shadowed.highest_precedence_binding_for_action(&TestAction, &contexts);
         assert!(
@@ -1078,7 +1078,7 @@ mod tests {
         // restores it as the resolved binding.
         let fixed = test_dispatch_tree(vec![
             KeyBinding::new("ctrl-alt-down", TestAction, Some("Picker > Editor")),
-            KeyBinding::new("ctrl-alt-down", SecondaryTestAction, Some("Editor")),
+            KeyBinding::new("ctrl-alt-down", SecondaryTestAction, Some("编辑器")),
             // overlay loaded last:
             KeyBinding::new("ctrl-alt-down", TestAction, Some("Picker > Editor")),
         ]);
@@ -1094,7 +1094,7 @@ mod tests {
         let override_before_base = test_dispatch_tree(vec![
             KeyBinding::new("ctrl-alt-down", TestAction, Some("Picker > Editor")),
             KeyBinding::new("ctrl-alt-down", TestAction, Some("Picker > Editor")),
-            KeyBinding::new("ctrl-alt-down", SecondaryTestAction, Some("Editor")),
+            KeyBinding::new("ctrl-alt-down", SecondaryTestAction, Some("编辑器")),
         ]);
         let highest =
             override_before_base.highest_precedence_binding_for_action(&TestAction, &contexts);
@@ -1117,7 +1117,7 @@ mod tests {
         fn dispatch(
             tree: &mut DispatchTree,
             pending: SmallVec<[Keystroke; 1]>,
-            key: &str,
+            key: &'static str,
             path: &DispatchPath,
         ) -> DispatchResult {
             tree.dispatch_key(pending, Keystroke::parse(key).unwrap(), path)
@@ -1207,7 +1207,7 @@ mod tests {
                 cx: &mut App,
             ) {
                 let mut key_context = KeyContext::default();
-                key_context.add("Terminal");
+                key_context.add("终端");
                 window.set_key_context(key_context);
                 window.handle_input(&self.focus_handle, self.clone(), cx);
                 window.on_action(std::any::TypeId::of::<TestAction>(), |_, _, _, _| {});
@@ -1301,8 +1301,8 @@ mod tests {
         }
 
         cx.update(|cx| {
-            cx.bind_keys([KeyBinding::new("ctrl-b", TestAction, Some("Terminal"))]);
-            cx.bind_keys([KeyBinding::new("ctrl-b h", TestAction, Some("Terminal"))]);
+            cx.bind_keys([KeyBinding::new("ctrl-b", TestAction, Some("终端"))]);
+            cx.bind_keys([KeyBinding::new("ctrl-b h", TestAction, Some("终端"))]);
             cx.bind_keys([KeyBinding::new("ctrl-d", TestAction, None)]);
             cx.bind_keys([KeyBinding::new("ctrl-d h", TestAction, None)]);
         });
@@ -1400,7 +1400,7 @@ mod tests {
     #[crate::test]
     fn test_standalone_modifier_dispatch(cx: &mut TestAppContext) {
         let (cx, action_count, _) =
-            setup_pending_input_test(cx, [KeyBinding::new("shift", TestAction, Some("Terminal"))]);
+            setup_pending_input_test(cx, [KeyBinding::new("shift", TestAction, Some("终端"))]);
         let intercepted_keystrokes = Rc::new(RefCell::new(Vec::new()));
         let should_consume = Rc::new(Cell::new(true));
         let terminal_context = terminal_context();
@@ -1502,7 +1502,7 @@ mod tests {
                 let consume = self.consume.clone();
                 let releases = self.releases.clone();
                 crate::div()
-                    .key_context("Terminal")
+                    .key_context("终端")
                     .track_focus(&self.focus_handle)
                     .size_full()
                     .on_action(|_: &TestAction, _, cx| cx.propagate())
@@ -1518,7 +1518,7 @@ mod tests {
         }
 
         cx.update(|cx| {
-            cx.bind_keys([KeyBinding::new("shift", TestAction, Some("Terminal"))]);
+            cx.bind_keys([KeyBinding::new("shift", TestAction, Some("终端"))]);
         });
         let consume = Rc::new(Cell::new(true));
         let releases = Rc::new(Cell::new(0));
@@ -1556,8 +1556,8 @@ mod tests {
         let (cx, action_count, secondary_action_count) = setup_pending_input_test(
             cx,
             [
-                KeyBinding::new("shift", TestAction, Some("Terminal")),
-                KeyBinding::new("shift f1", SecondaryTestAction, Some("Terminal")),
+                KeyBinding::new("shift", TestAction, Some("终端")),
+                KeyBinding::new("shift f1", SecondaryTestAction, Some("终端")),
             ],
         );
         let (observed_keystrokes, _observer) = capture_observed_keystrokes(cx);
@@ -1599,8 +1599,8 @@ mod tests {
         let (cx, action_count, _) = setup_pending_input_test(
             cx,
             [
-                KeyBinding::new("shift", TestAction, Some("Terminal")),
-                KeyBinding::new("shift-f1", TestAction, Some("Terminal")),
+                KeyBinding::new("shift", TestAction, Some("终端")),
+                KeyBinding::new("shift-f1", TestAction, Some("终端")),
             ],
         );
         let intercepted_keystrokes = Rc::new(RefCell::new(Vec::new()));
@@ -1789,7 +1789,7 @@ mod tests {
         for binding in ["j shift", "j k"] {
             cx.update(|_, cx| {
                 cx.clear_key_bindings();
-                cx.bind_keys([KeyBinding::new(binding, TestAction, Some("Terminal"))]);
+                cx.bind_keys([KeyBinding::new(binding, TestAction, Some("终端"))]);
             });
             test.update(cx, |test, _| test.text.borrow_mut().clear());
             cx.simulate_keystrokes("j");
@@ -1832,7 +1832,7 @@ mod tests {
     #[crate::test]
     fn test_printable_pending_input_replays_on_timeout(cx: &mut TestAppContext) {
         cx.update(|cx| {
-            cx.bind_keys([KeyBinding::new("j k", TestAction, Some("Terminal"))]);
+            cx.bind_keys([KeyBinding::new("j k", TestAction, Some("终端"))]);
         });
         let (test, cx) = cx.add_window_view(|_, cx| PendingTextInputTestView::new(cx));
         let focus_handle = test.update(cx, |test, _| test.focus_handle.clone());
@@ -1936,8 +1936,8 @@ mod tests {
         let (cx, action_count, secondary_action_count) = setup_pending_input_test(
             cx,
             [
-                KeyBinding::new("ctrl-b h", SecondaryTestAction, Some("Terminal")),
-                KeyBinding::new("ctrl-b h j", TestAction, Some("Terminal")),
+                KeyBinding::new("ctrl-b h", SecondaryTestAction, Some("终端")),
+                KeyBinding::new("ctrl-b h j", TestAction, Some("终端")),
             ],
         );
         simulate_pending_binding(cx);
@@ -1971,9 +1971,9 @@ mod tests {
         let (cx, action_count, secondary_action_count) = setup_pending_input_test(
             cx,
             [
-                KeyBinding::new("ctrl-b", TestAction, Some("Terminal")),
-                KeyBinding::new("ctrl-b h", SecondaryTestAction, Some("Terminal")),
-                KeyBinding::new("x", SecondaryTestAction, Some("Terminal")),
+                KeyBinding::new("ctrl-b", TestAction, Some("终端")),
+                KeyBinding::new("ctrl-b h", SecondaryTestAction, Some("终端")),
+                KeyBinding::new("x", SecondaryTestAction, Some("终端")),
             ],
         );
         simulate_pending_binding(cx);
@@ -2165,9 +2165,9 @@ mod tests {
     #[crate::test]
     fn test_input_handler_pending(cx: &mut TestAppContext) {
         cx.update(|cx| {
-            cx.bind_keys([KeyBinding::new("ctrl-b", TestAction, Some("Terminal"))]);
-            cx.bind_keys([KeyBinding::new("ctrl-b h", TestAction, Some("Terminal"))]);
-            cx.bind_keys([KeyBinding::new("ctrl-x k", TestAction, Some("Terminal"))]);
+            cx.bind_keys([KeyBinding::new("ctrl-b", TestAction, Some("终端"))]);
+            cx.bind_keys([KeyBinding::new("ctrl-b h", TestAction, Some("终端"))]);
+            cx.bind_keys([KeyBinding::new("ctrl-x k", TestAction, Some("终端"))]);
         });
         let (test, cx) = cx.add_window_view(|_, cx| PendingTextInputTestView::new(cx));
         let focus_handle = test.update(cx, |test, _| test.focus_handle.clone());

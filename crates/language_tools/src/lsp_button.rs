@@ -364,16 +364,16 @@ impl LanguageServerState {
                     BinaryStatus::Stopping | BinaryStatus::Stopped => {
                         Some((Color::Disabled, "Stopped"))
                     }
-                    BinaryStatus::Failed { .. } => Some((Color::Error, "Error")),
+                    BinaryStatus::Failed { .. } => Some((Color::Error, "错误")),
                 })
                 .or_else(|| {
                     Some(match server_info.health? {
-                        ServerHealth::Ok => (Color::Success, "Running"),
-                        ServerHealth::Warning => (Color::Warning, "Warning"),
-                        ServerHealth::Error => (Color::Error, "Error"),
+                        ServerHealth::Ok => (Color::Success, "运行中"),
+                        ServerHealth::Warning => (Color::Warning, "警告"),
+                        ServerHealth::Error => (Color::Error, "错误"),
                     })
                 })
-                .unwrap_or((Color::Success, "Running"));
+                .unwrap_or((Color::Success, "运行中"));
 
             let message = server_info
                 .message
@@ -712,7 +712,10 @@ fn tooltip_for_server_binary(
         .map(Path::new)
         .unwrap_or(&server_binary.path);
 
-    let display_path = path_style.normalize(&target_path.compact().to_string_lossy());
+    let display_path = path_style
+        .normalize_lexically(&target_path.compact())
+        .to_string_lossy()
+        .into_owned();
 
     match runtime {
         Some(runtime) => format!("{display_path} ({runtime})").into(),

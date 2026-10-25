@@ -165,7 +165,7 @@ impl ImeMirror {
         let enter_key_hint = match configuration.input_action {
             TextInputAction::Unspecified => None,
             TextInputAction::Enter => Some("enter"),
-            TextInputAction::Done => Some("done"),
+            TextInputAction::Done => Some("完成"),
             TextInputAction::Go => Some("go"),
             TextInputAction::Next => Some("next"),
             TextInputAction::Previous => Some("previous"),

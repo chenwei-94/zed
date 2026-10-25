@@ -179,7 +179,7 @@ impl MentionUri {
                     })
                 } else if path.starts_with("/agent/pasted-image") {
                     let name =
-                        single_query_param(&url, "name")?.unwrap_or_else(|| "Image".to_string());
+                        single_query_param(&url, "name")?.unwrap_or_else(|| "图像".to_string());
                     Ok(Self::PastedImage { name })
                 } else if path.starts_with("/agent/untitled-buffer") {
                     let fragment = url
@@ -344,7 +344,7 @@ impl MentionUri {
             MentionUri::Symbol { name, .. } => name.clone(),
             MentionUri::Thread { name, .. } => name.clone(),
             MentionUri::Rule { name, .. } => name.clone(),
-            MentionUri::Diagnostics { .. } => "Diagnostics".to_string(),
+            MentionUri::Diagnostics { .. } => "诊断".to_string(),
             MentionUri::TerminalSelection { line_count } => {
                 if *line_count == 1 {
                     "Terminal (1 line)".to_string()

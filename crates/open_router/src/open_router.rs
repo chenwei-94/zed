@@ -521,7 +521,7 @@ pub async fn list_models(
     let request = HttpRequest::builder()
         .method(Method::GET)
         .uri(uri)
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .header("Authorization", format!("Bearer {}", api_key))
         .header("HTTP-Referer", "https://zed.dev")
         .header("X-Title", OPEN_ROUTER_APP_TITLE)

@@ -1160,7 +1160,7 @@ fn main() {
             };
             gpui::block_on(async {
                 if let Err(e) = run_synthesize(config).await {
-                    eprintln!("Error: {:?}", e);
+                    eprintln!("错误：{:?}", e);
                     std::process::exit(1);
                 }
             });

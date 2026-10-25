@@ -92,7 +92,7 @@ fn build_grouped_entries(store: &ReplStore, worktree_id: WorktreeId) -> Vec<Kern
 
     // Recommended section
     if let Some(rec) = recommended_entry {
-        entries.push(KernelPickerEntry::SectionHeader("Recommended".into()));
+        entries.push(KernelPickerEntry::SectionHeader("推荐".into()));
         entries.push(rec);
     }
 

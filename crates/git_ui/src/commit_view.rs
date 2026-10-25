@@ -902,7 +902,7 @@ impl CommitView {
     fn apply_stash(workspace: &mut Workspace, window: &mut Window, cx: &mut App) {
         Self::stash_action(
             workspace,
-            "Apply",
+            "应用",
             window,
             cx,
             async move |repository, sha, stash, commit_view, workspace, cx| {
@@ -929,7 +929,7 @@ impl CommitView {
     fn pop_stash(workspace: &mut Workspace, window: &mut Window, cx: &mut App) {
         Self::stash_action(
             workspace,
-            "Pop",
+            "弹出",
             window,
             cx,
             async move |repository, sha, stash, commit_view, workspace, cx| {
@@ -956,7 +956,7 @@ impl CommitView {
     fn remove_stash(workspace: &mut Workspace, window: &mut Window, cx: &mut App) {
         Self::stash_action(
             workspace,
-            "Drop",
+            "放下",
             window,
             cx,
             async move |repository, sha, stash, commit_view, workspace, cx| {
@@ -1008,7 +1008,7 @@ impl CommitView {
             PromptLevel::Info,
             &format!("{} stash@{{{}}}?", str_action, stash),
             None,
-            &[str_action, "Cancel"],
+            &[str_action, "取消"],
             cx,
         );
 

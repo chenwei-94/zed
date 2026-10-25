@@ -139,7 +139,7 @@ impl ProjectDiff {
             source = if entry.is_some() {
                 "Git 面板"
             } else {
-                "Action"
+                "操作"
             }
         );
         let intended_repo = workspace.project().read(cx).active_repository(cx);
@@ -1502,7 +1502,7 @@ mod tests {
         assert_eq!(diff_item.entity_id(), uncommitted_item.entity_id());
         assert_eq!(
             uncommitted_item.read_with(cx, |diff, cx| diff.tab_content_text(0, cx)),
-            "Uncommitted Changes"
+            "未提交的更改"
         );
         let uncommitted_editor = uncommitted_item
             .read_with(cx, |diff, cx| diff.editor(cx).read(cx).rhs_editor().clone());

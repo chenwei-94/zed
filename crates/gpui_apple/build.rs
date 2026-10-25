@@ -51,7 +51,7 @@ mod apple_build {
             "ShadowInputIndex".into(),
             "Shadow".into(),
             "QuadInputIndex".into(),
-            "Underline".into(),
+            "下划线".into(),
             "UnderlineInputIndex".into(),
             "Quad".into(),
             "BorderStyle".into(),

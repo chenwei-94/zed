@@ -3435,16 +3435,16 @@ mod tests {
                     vec![
                         SerializedPaneGroup::Pane(SerializedPane::new(
                             vec![
-                                SerializedItem::new("Terminal", 5, false, false),
-                                SerializedItem::new("Terminal", 6, true, false),
+                                SerializedItem::new("终端", 5, false, false),
+                                SerializedItem::new("终端", 6, true, false),
                             ],
                             false,
                             0,
                         )),
                         SerializedPaneGroup::Pane(SerializedPane::new(
                             vec![
-                                SerializedItem::new("Terminal", 7, true, false),
-                                SerializedItem::new("Terminal", 8, false, false),
+                                SerializedItem::new("终端", 7, true, false),
+                                SerializedItem::new("终端", 8, false, false),
                             ],
                             false,
                             0,
@@ -3453,8 +3453,8 @@ mod tests {
                 ),
                 SerializedPaneGroup::Pane(SerializedPane::new(
                     vec![
-                        SerializedItem::new("Terminal", 9, false, false),
-                        SerializedItem::new("Terminal", 10, true, false),
+                        SerializedItem::new("终端", 9, false, false),
+                        SerializedItem::new("终端", 10, true, false),
                     ],
                     false,
                     0,
@@ -3896,7 +3896,7 @@ mod tests {
         SerializedPaneGroup::Pane(SerializedPane::new(
             item_ids
                 .iter()
-                .map(|id| SerializedItem::new("Terminal", *id, true, false))
+                .map(|id| SerializedItem::new("终端", *id, true, false))
                 .collect(),
             true,
             0,
@@ -4434,16 +4434,16 @@ mod tests {
                     vec![
                         SerializedPaneGroup::Pane(SerializedPane::new(
                             vec![
-                                SerializedItem::new("Terminal", 1, false, false),
-                                SerializedItem::new("Terminal", 2, true, false),
+                                SerializedItem::new("终端", 1, false, false),
+                                SerializedItem::new("终端", 2, true, false),
                             ],
                             false,
                             0,
                         )),
                         SerializedPaneGroup::Pane(SerializedPane::new(
                             vec![
-                                SerializedItem::new("Terminal", 4, false, false),
-                                SerializedItem::new("Terminal", 3, true, false),
+                                SerializedItem::new("终端", 4, false, false),
+                                SerializedItem::new("终端", 3, true, false),
                             ],
                             true,
                             0,
@@ -4452,8 +4452,8 @@ mod tests {
                 ),
                 SerializedPaneGroup::Pane(SerializedPane::new(
                     vec![
-                        SerializedItem::new("Terminal", 5, true, false),
-                        SerializedItem::new("Terminal", 6, false, false),
+                        SerializedItem::new("终端", 5, true, false),
+                        SerializedItem::new("终端", 6, false, false),
                     ],
                     false,
                     0,
@@ -4484,16 +4484,16 @@ mod tests {
                     vec![
                         SerializedPaneGroup::Pane(SerializedPane::new(
                             vec![
-                                SerializedItem::new("Terminal", 1, false, false),
-                                SerializedItem::new("Terminal", 2, true, false),
+                                SerializedItem::new("终端", 1, false, false),
+                                SerializedItem::new("终端", 2, true, false),
                             ],
                             false,
                             0,
                         )),
                         SerializedPaneGroup::Pane(SerializedPane::new(
                             vec![
-                                SerializedItem::new("Terminal", 4, false, false),
-                                SerializedItem::new("Terminal", 3, true, false),
+                                SerializedItem::new("终端", 4, false, false),
+                                SerializedItem::new("终端", 3, true, false),
                             ],
                             true,
                             0,
@@ -4502,8 +4502,8 @@ mod tests {
                 ),
                 SerializedPaneGroup::Pane(SerializedPane::new(
                     vec![
-                        SerializedItem::new("Terminal", 5, false, false),
-                        SerializedItem::new("Terminal", 6, true, false),
+                        SerializedItem::new("终端", 5, false, false),
+                        SerializedItem::new("终端", 6, true, false),
                     ],
                     false,
                     0,
@@ -4522,16 +4522,16 @@ mod tests {
             vec![
                 SerializedPaneGroup::Pane(SerializedPane::new(
                     vec![
-                        SerializedItem::new("Terminal", 1, false, false),
-                        SerializedItem::new("Terminal", 2, true, false),
+                        SerializedItem::new("终端", 1, false, false),
+                        SerializedItem::new("终端", 2, true, false),
                     ],
                     false,
                     0,
                 )),
                 SerializedPaneGroup::Pane(SerializedPane::new(
                     vec![
-                        SerializedItem::new("Terminal", 4, true, false),
-                        SerializedItem::new("Terminal", 3, false, false),
+                        SerializedItem::new("终端", 4, true, false),
+                        SerializedItem::new("终端", 3, false, false),
                     ],
                     true,
                     0,

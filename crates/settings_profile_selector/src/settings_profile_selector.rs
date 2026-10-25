@@ -279,7 +279,7 @@ impl PickerDelegate for SettingsProfileSelectorDelegate {
 }
 
 fn display_name(profile_name: &Option<String>) -> String {
-    profile_name.clone().unwrap_or("Disabled".into())
+    profile_name.clone().unwrap_or("已禁用".into())
 }
 
 #[cfg(test)]

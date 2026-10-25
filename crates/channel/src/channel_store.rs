@@ -378,7 +378,7 @@ impl ChannelStore {
         let channel_store = cx.entity();
         self.open_channel_resource(
             channel_id,
-            "notes",
+            "备注",
             |this| &mut this.opened_buffers,
             async move |channel, cx| {
                 ChannelBuffer::new(channel, client, user_store, channel_store, cx).await

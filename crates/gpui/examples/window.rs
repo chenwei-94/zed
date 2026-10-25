@@ -84,7 +84,7 @@ impl Render for SubWindow {
                             .unwrap();
                         }))
                     })
-                    .child(button("Close", |window, _| {
+                    .child(button("关闭", |window, _| {
                         window.remove_window();
                     })),
             )
@@ -107,7 +107,7 @@ impl Render for WindowDemo {
             .justify_center()
             .content_center()
             .gap_2()
-            .child(button("Normal", move |_, cx| {
+            .child(button("正常", move |_, cx| {
                 cx.open_window(
                     WindowOptions {
                         window_bounds: Some(window_bounds),
@@ -273,9 +273,9 @@ impl Render for WindowDemo {
             .child(button("Prompt", |window, cx| {
                 let answer = window.prompt(
                     PromptLevel::Info,
-                    "Are you sure?",
+                    "确定吗？",
                     None,
-                    &["OK", "Cancel"],
+                    &["确定", "取消"],
                     cx,
                 );
 
@@ -291,7 +291,7 @@ impl Render for WindowDemo {
             .child(button("Prompt (non-English)", |window, cx| {
                 let answer = window.prompt(
                     PromptLevel::Info,
-                    "Are you sure?",
+                    "确定吗？",
                     None,
                     &[PromptButton::ok("确定"), PromptButton::cancel("取消")],
                     cx,

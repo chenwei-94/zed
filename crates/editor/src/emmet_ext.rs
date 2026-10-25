@@ -1006,8 +1006,8 @@ mod tests {
         cx.executor().run_until_parked();
         cx.update(|_, cx| {
             cx.bind_keys([
-                gpui::KeyBinding::new("up", crate::MoveUp, Some("Editor")),
-                gpui::KeyBinding::new("down", crate::MoveDown, Some("Editor")),
+                gpui::KeyBinding::new("up", crate::MoveUp, Some("编辑器")),
+                gpui::KeyBinding::new("down", crate::MoveDown, Some("编辑器")),
             ]);
         });
         let mut requests = fake_server.set_request_handler::<LspExpandAbbreviation, _, _>(

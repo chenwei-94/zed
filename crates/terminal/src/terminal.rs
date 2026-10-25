@@ -56,7 +56,7 @@ pub use vte::ansi::{Color, NamedColor, Rgb};
 use gpui::{
     App, AppContext as _, BackgroundExecutor, Bounds, ClipboardItem, Context, EventEmitter, Hsla,
     Keystroke, Modifiers, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent, Pixels,
-    Point as GpuiPoint, Rgba, ScrollWheelEvent, Size, Task, TouchPhase, Window, actions, black, px,
+    Point as GpuiPoint, Rgba, ScrollEvent, Size, Task, TouchPhase, Window, actions, black, px,
 };
 
 #[cfg(not(windows))]
@@ -752,7 +752,7 @@ impl fmt::Debug for TerminalBackendEvent {
             Self::CursorBlinkingChange => f.write_str("CursorBlinkingChange"),
             Self::Wakeup => f.write_str("Wakeup"),
             Self::Bell => f.write_str("Bell"),
-            Self::Exit => f.write_str("Exit"),
+            Self::Exit => f.write_str("退出"),
             Self::ChildExit(status) => write!(f, "ChildExit({status})"),
         }
     }
@@ -2609,7 +2609,7 @@ impl Terminal {
         cx: &mut Context<Self>,
     ) {
         if self.selection_phase == SelectionPhase::Selecting
-            || !modifiers.secondary()
+            || !modifiers.secondary(cx)
             || !self.last_content.terminal_bounds.bounds.contains(&position)
         {
             self.clear_hyperlink(cx);
@@ -2743,7 +2743,7 @@ impl Terminal {
         );
 
         if e.button == MouseButton::Left
-            && e.modifiers.secondary()
+            && e.modifiers.secondary(cx)
             && (TerminalSettings::get_global(cx).open_links_in_mouse_mode
                 || !self.mouse_mode(e.modifiers.shift, mode))
         {
@@ -2877,7 +2877,7 @@ impl Terminal {
                     .and_then(|cell| cell.hyperlink())
                 {
                     cx.open_url(link.uri());
-                } else if e.modifiers.secondary() {
+                } else if e.modifiers.secondary(cx) {
                     self.events
                         .push_back(InternalEvent::FindHyperlink(position, true));
                 }
@@ -2890,12 +2890,7 @@ impl Terminal {
     }
 
     ///Scroll the terminal
-    pub fn scroll_wheel(
-        &mut self,
-        e: &ScrollWheelEvent,
-        scroll_multiplier: f32,
-        mode: MouseInputMode,
-    ) {
+    pub fn scroll_wheel(&mut self, e: &ScrollEvent, scroll_multiplier: f32, mode: MouseInputMode) {
         let mouse_mode = self.mouse_mode(e.shift, mode);
         let scroll_multiplier = if mouse_mode { 1. } else { scroll_multiplier };
 
@@ -2934,11 +2929,7 @@ impl Terminal {
         self.schedule_find_hyperlink(window.modifiers(), window.mouse_position(), cx);
     }
 
-    fn determine_scroll_lines(
-        &mut self,
-        e: &ScrollWheelEvent,
-        scroll_multiplier: f32,
-    ) -> Option<i32> {
+    fn determine_scroll_lines(&mut self, e: &ScrollEvent, scroll_multiplier: f32) -> Option<i32> {
         let line_height = self.last_content.terminal_bounds.line_height;
         match e.touch_phase {
             /* Reset scroll state on started */
@@ -3110,8 +3101,8 @@ impl Terminal {
                             };
                             format!("{process_file} — {process_name}")
                         })
-                        .unwrap_or_else(|| "Terminal".to_string()),
-                    TerminalType::DisplayOnly => "Terminal".to_string(),
+                        .unwrap_or_else(|| "终端".to_string()),
+                    TerminalType::DisplayOnly => "终端".to_string(),
                 }),
         }
     }
@@ -4148,7 +4139,7 @@ mod tests {
             assert!(terminal.last_content.mode.intersects(Modes::MOUSE_MODE));
             assert_eq!(display_offset(&terminal.term.lock()), 0);
 
-            let scroll_event = ScrollWheelEvent {
+            let scroll_event = ScrollEvent {
                 position: point(px(50.0), px(10.0)),
                 delta: ScrollDelta::Lines(point(0.0, 1.0)),
                 ..Default::default()
@@ -4177,7 +4168,7 @@ mod tests {
             );
             assert_eq!(display_offset(&terminal.term.lock()), 0);
 
-            let scroll_event = ScrollWheelEvent {
+            let scroll_event = ScrollEvent {
                 position: point(px(50.0), px(10.0)),
                 delta: ScrollDelta::Lines(point(0.0, 1.0)),
                 ..Default::default()
@@ -5257,7 +5248,7 @@ mod tests {
             let mouse_down = MouseDownEvent {
                 button: MouseButton::Left,
                 position,
-                modifiers: Modifiers::secondary_key(),
+                modifiers: Modifiers::secondary_key(cx),
                 click_count: 1,
                 first_mouse: true,
             };
@@ -5273,7 +5264,7 @@ mod tests {
             let drag_event = MouseMoveEvent {
                 position,
                 pressed_button: Some(MouseButton::Left),
-                modifiers: Modifiers::secondary_key(),
+                modifiers: Modifiers::secondary_key(cx),
             };
             terminal.mouse_drag(
                 &drag_event,
@@ -5291,7 +5282,7 @@ mod tests {
             let mouse_up = MouseUpEvent {
                 button: MouseButton::Left,
                 position,
-                modifiers: Modifiers::secondary_key(),
+                modifiers: Modifiers::secondary_key(cx),
                 click_count: 1,
             };
             terminal.mouse_up(&mouse_up, MouseInputMode::ReportToTerminal, cx);
@@ -5351,14 +5342,14 @@ mod tests {
                 let mouse_down = MouseDownEvent {
                     button: MouseButton::Left,
                     position,
-                    modifiers: Modifiers::secondary_key(),
+                    modifiers: Modifiers::secondary_key(cx),
                     click_count: 1,
                     first_mouse: true,
                 };
                 let mouse_up = MouseUpEvent {
                     button: MouseButton::Left,
                     position,
-                    modifiers: Modifiers::secondary_key(),
+                    modifiers: Modifiers::secondary_key(cx),
                     click_count: 1,
                 };
 
@@ -5394,7 +5385,7 @@ mod tests {
                 &MouseMoveEvent {
                     position: up_position,
                     pressed_button: Some(MouseButton::Left),
-                    modifiers: Modifiers::secondary_key(),
+                    modifiers: Modifiers::secondary_key(cx),
                 },
                 MouseInputMode::ReportToTerminal,
                 cx,
@@ -5674,7 +5665,7 @@ mod tests {
             }
 
             fn ctrl_mouse_move_to(&mut self, position: GpuiPoint<Pixels>) {
-                let modifiers = Modifiers::secondary_key();
+                let modifiers = Modifiers::secondary_key(self.cx);
                 let move_event = MouseMoveEvent {
                     position,
                     modifiers,
@@ -5721,7 +5712,7 @@ mod tests {
             }
 
             fn set_window_secondary_key(&mut self) {
-                self.window.set_modifiers(Modifiers::secondary_key());
+                self.window.set_modifiers(Modifiers::secondary_key(self.cx));
             }
 
             fn clear_window_secondary_key(&mut self) {
@@ -5860,7 +5851,7 @@ mod tests {
         }
 
         const OUTPUT_ZED_DEV: &str = "Visit https://zed.dev/ for more";
-        const OUTPUT_NONE: &str = "None";
+        const OUTPUT_NONE: &str = "无";
         const ZED_DEV_STR: &str = "https://zed.dev/";
         const ZED_DEV_PT: GpuiPoint<Pixels> = point(px(30.0), px(2.5));
 
@@ -6028,7 +6019,8 @@ mod tests {
                     // Existing hovered_word cleared when secondary not held
                     cx.assert_hovered_word(None);
 
-                    cx.try_modifiers_change(Modifiers::secondary_key());
+                    let modifiers = Modifiers::secondary_key(cx.cx);
+                    cx.try_modifiers_change(modifiers);
                     Some(Expected(Wakeups(0), Notifies(2)))
                 });
                 update_test_entities(&test_entities, cx, |cx: &mut HyperlinkVisualTestContext| {
@@ -6142,14 +6134,14 @@ mod tests {
         cx.executor().allow_parking();
 
         // Run a command that exits immediately
-        let terminal = build_test_terminal(cx, "echo", &["done"]).await;
+        let terminal = build_test_terminal(cx, "echo", &["完成"]).await;
 
         // Wait for the command to complete naturally
         let exit_status =
             terminal.read_with(cx, |terminal, cx| terminal.wait_for_completed_task(cx));
         assert_eq!(exit_status.await, Some(ExitStatus::default()));
 
-        assert_content_eventually(&terminal, "done", cx).await;
+        assert_content_eventually(&terminal, "完成", cx).await;
 
         // Now try to kill - should be a no-op since task already completed
         terminal.update(cx, |term, _cx| {
@@ -6159,7 +6151,7 @@ mod tests {
         // Content should still be there
         let content = terminal.update(cx, |term, _| term.get_content());
         assert!(
-            content.contains("done"),
+            content.contains("完成"),
             "Output should still be present after no-op kill, got: {content}"
         );
     }
@@ -6210,7 +6202,7 @@ mod tests {
 
     mod perf {
         use super::{super::*, init_terminal_test_with_window};
-        use gpui::{ScrollDelta, ScrollWheelEvent, TestAppContext, VisualContext, point};
+        use gpui::{ScrollDelta, ScrollEvent, TestAppContext, VisualContext, point};
         use util::default;
         use util_macros::perf;
 
@@ -6236,7 +6228,7 @@ mod tests {
                     );
 
                     terminal.scroll_wheel(
-                        &ScrollWheelEvent {
+                        &ScrollEvent {
                             position,
                             delta: ScrollDelta::Lines(GpuiPoint::new(0.0, lines as f32)),
                             ..default()

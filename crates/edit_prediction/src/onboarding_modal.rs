@@ -118,7 +118,7 @@ impl Render for ZedPredictModal {
             .overflow_hidden()
             .on_action(cx.listener(Self::cancel))
             .on_action(cx.listener(|_, _: &menu::Cancel, _window, cx| {
-                onboarding_event!("Cancelled", trigger = "Action");
+                onboarding_event!("Cancelled", trigger = "操作");
                 cx.emit(DismissEvent);
             }))
             .on_any_mouse_down(cx.listener(|this, _: &MouseDownEvent, window, cx| {

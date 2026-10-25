@@ -247,7 +247,7 @@ impl AgentTool for DelayTool {
         if let Ok(input) = input {
             format!("Delay {}ms", input.ms).into()
         } else {
-            "Delay".into()
+            "延迟".into()
         }
     }
 
@@ -310,7 +310,7 @@ impl AgentTool for ToolRequiringPermission {
                 event_stream.authorize("Authorize?", context, cx)
             });
             authorize.await.map_err(|e| e.to_string())?;
-            Ok("Allowed".to_string())
+            Ok("允许".to_string())
         })
     }
 }
@@ -355,7 +355,7 @@ impl AgentTool for ToolRequiringPermission2 {
                 event_stream.authorize("Authorize?", context, cx)
             });
             authorize.await.map_err(|e| e.to_string())?;
-            Ok("Allowed".to_string())
+            Ok("允许".to_string())
         })
     }
 }

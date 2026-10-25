@@ -792,7 +792,7 @@ mod tests {
             .update_in(cx, |outline_view, window, cx| {
                 outline_view
                     .delegate
-                    .update_matches("Keep".to_string(), window, cx)
+                    .update_matches("保留".to_string(), window, cx)
             })
             .await;
         outline_view.read_with(cx, |outline_view, _| {

@@ -711,7 +711,7 @@ mod tests {
         assert_eq!(parsed.rows[0][1].display_value().unwrap().as_ref(), "30");
         assert_eq!(
             parsed.rows[0][2].display_value().unwrap().as_ref(),
-            "New York"
+            "纽约"
         );
     }
 
@@ -739,7 +739,7 @@ Jane,"Simple name""#;
         assert_eq!(parsed.headers[0].display_value().unwrap().as_ref(), "名称");
         assert_eq!(
             parsed.headers[1].display_value().unwrap().as_ref(),
-            "Description"
+            "描述"
         );
         assert_eq!(
             parsed.headers[2].display_value().unwrap().as_ref(),
@@ -766,7 +766,7 @@ Jane,"Simple name""#;
         );
         assert_eq!(
             parsed.rows[1][1].display_value().unwrap().as_ref(),
-            "Simple"
+            "简单"
         );
         assert_eq!(
             parsed.rows[1][2].display_value().unwrap().as_ref(),

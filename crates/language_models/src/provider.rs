@@ -24,7 +24,7 @@ pub mod vercel_ai_gateway;
 pub mod x_ai;
 pub mod x_ai_subscribed;
 
-const COMMON_RESERVED_HEADER_NAMES: &[&str] = &["Authorization", "Content-Type", "Accept"];
+const COMMON_RESERVED_HEADER_NAMES: &[&str] = &["Authorization", "Content-Type", "接受"];
 
 /// Validate the user-supplied custom-headers map once at settings load time,
 /// dropping reserved or malformed entries (each with a `log::warn!`) and
@@ -108,7 +108,7 @@ mod tests {
         let settings = map(&[
             ("Authorization", "Bearer leak"),
             ("Content-Type", "text/plain"),
-            ("Accept", "text/plain"),
+            ("接受", "text/plain"),
             ("X-Api-Key", "leak"),
             ("X-Allowed", "yes"),
         ]);

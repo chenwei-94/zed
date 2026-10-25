@@ -949,7 +949,7 @@ pub async fn perform_dcr(
         .method(http_client::http::Method::POST)
         .uri(registration_endpoint.as_str())
         .header("Content-Type", "application/json")
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .body(AsyncBody::from(body_bytes))?;
 
     let mut response = http_client.send(request).await?;
@@ -1032,7 +1032,7 @@ async fn post_token_request(
         .method(http_client::http::Method::POST)
         .uri(token_endpoint.as_str())
         .header("Content-Type", "application/x-www-form-urlencoded")
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .body(AsyncBody::from(body.into_bytes()))?;
 
     let mut response = http_client.send(request).await?;
@@ -1132,7 +1132,7 @@ async fn fetch_json<T: serde::de::DeserializeOwned>(
     let request = Request::builder()
         .method(http_client::http::Method::GET)
         .uri(url.as_str())
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .body(AsyncBody::default())?;
 
     let mut response = http_client.send(request).await?;

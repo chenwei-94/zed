@@ -2372,6 +2372,7 @@ impl Workspace {
                 .map(|ws| !ws.paths.is_empty())
                 .unwrap_or(false);
 
+            let all_paths_resolved = project_paths.iter().all(|(_, path)| path.is_some());
             let opened_items = window
                 .update(cx, |_, window, cx| {
                     workspace.update(cx, |_workspace: &mut Workspace, cx| {
@@ -2380,6 +2381,16 @@ impl Workspace {
                 })?
                 .await
                 .unwrap_or_default();
+
+            if all_paths_resolved
+                && !opened_items.is_empty()
+                && opened_items.iter().all(Option::is_none)
+                && let Ok(task) = window.update(cx, |_, window, cx| {
+                    workspace.update(cx, |workspace, cx| workspace.open_readme(window, cx))
+                })
+            {
+                task.await;
+            }
 
             // Restore default dock state for empty workspaces
             // Only restore if:
@@ -3680,7 +3691,7 @@ impl Workspace {
                             PromptLevel::Warning,
                             "要离开当前通话吗？",
                             None,
-                            &["关闭窗口并挂断", "Cancel"],
+                            &["关闭窗口并挂断", "取消"],
                             cx,
                         )
                     })?;
@@ -3775,7 +3786,7 @@ impl Workspace {
         let keystrokes: Vec<Keystroke> = action
             .0
             .split(' ')
-            .flat_map(|k| Keystroke::parse(k).log_err())
+            .flat_map(|k| Keystroke::parse_with_os(k, cx.platform_info().os).log_err())
             .map(|k| {
                 cx.keyboard_mapper()
                     .map_key_equivalent(k, false)
@@ -3928,7 +3939,7 @@ impl Workspace {
                             PromptLevel::Warning,
                             "是否保存以下文件中的所有更改？",
                             Some(&detail),
-                            &["全部保存", "全部放弃", "Cancel"],
+                            &["全部保存", "全部放弃", "取消"],
                             cx,
                         )
                     })?;
@@ -4021,7 +4032,7 @@ impl Workspace {
 
         // Sort the paths to ensure we add worktrees for parents before their children.
         abs_paths.sort_unstable();
-        cx.spawn_in(window, async move |this, cx| {
+        cx.spawn_in(window, async move |workspace, cx| {
             let mut tasks = Vec::with_capacity(abs_paths.len());
 
             for abs_path in &abs_paths {
@@ -4040,16 +4051,16 @@ impl Workspace {
                     },
                 };
                 let project_path = match visible {
-                    Some(visible) => match this
-                        .update(cx, |this, cx| {
+                    Some(visible) => match workspace
+                        .update(cx, |workspace, cx| {
                             Workspace::project_path_for_path(
-                                this.project.clone(),
+                                workspace.project.clone(),
                                 abs_path,
                                 visible,
                                 cx,
                             )
                         })
-                        .log_err()
+                        .ok()
                     {
                         Some(project_path) => project_path.await.log_err(),
                         None => None,
@@ -4057,7 +4068,7 @@ impl Workspace {
                     None => None,
                 };
 
-                let this = this.clone();
+                let workspace = workspace.clone();
                 let abs_path: Arc<Path> = SanitizedPath::new(&abs_path).as_path().into();
                 let fs = fs.clone();
                 let pane = pane.clone();
@@ -4084,17 +4095,18 @@ impl Workspace {
                         None
                     } else {
                         Some(
-                            this.update_in(cx, |this, window, cx| {
-                                this.open_path(
-                                    project_path,
-                                    pane,
-                                    options.focus.unwrap_or(true),
-                                    window,
-                                    cx,
-                                )
-                            })
-                            .ok()?
-                            .await,
+                            workspace
+                                .update_in(cx, |workspace, window, cx| {
+                                    workspace.open_path(
+                                        project_path,
+                                        pane,
+                                        options.focus.unwrap_or(true),
+                                        window,
+                                        cx,
+                                    )
+                                })
+                                .ok()?
+                                .await,
                         )
                     }
                 });
@@ -4135,7 +4147,7 @@ impl Workspace {
                         OpenVisible::OnlyDirectories => winner_is_dir,
                     };
 
-                    let Some(worktree_task) = this
+                    let Some(worktree_task) = workspace
                         .update(cx, |workspace, cx| {
                             workspace.project.update(cx, |project, cx| {
                                 project.find_or_create_worktree(
@@ -4154,7 +4166,7 @@ impl Workspace {
                         break 'emit_winner;
                     };
 
-                    let Ok(Some(entry_id)) = this.update(cx, |_, cx| {
+                    let Ok(Some(entry_id)) = workspace.update(cx, |_, cx| {
                         let worktree = worktree.read(cx);
                         let worktree_abs_path = worktree.abs_path();
                         let entry = if winner_abs_path.as_ref() == worktree_abs_path.as_ref() {
@@ -4175,12 +4187,13 @@ impl Workspace {
                         break 'emit_winner;
                     };
 
-                    this.update(cx, |workspace, cx| {
-                        workspace.project.update(cx, |_, cx| {
-                            cx.emit(project::Event::ActiveEntryChanged(Some(entry_id)));
-                        });
-                    })
-                    .ok();
+                    workspace
+                        .update(cx, |workspace, cx| {
+                            workspace.project.update(cx, |_, cx| {
+                                cx.emit(project::Event::ActiveEntryChanged(Some(entry_id)));
+                            });
+                        })
+                        .ok();
                 }
             }
 
@@ -5319,6 +5332,94 @@ impl Workspace {
                 })
             })
             .map(|option| option.context("pane was dropped"))?
+        })
+    }
+
+    fn open_readme(&mut self, window: &mut Window, cx: &mut Context<Self>) -> Task<()> {
+        if WorkspaceSettings::get_global(cx).on_new_window != settings::OnNewWindow::Readme
+            || self.items(cx).next().is_some()
+        {
+            return Task::ready(());
+        }
+
+        let project = self.project.clone();
+        let mut candidates = Vec::new();
+        for worktree in project.read(cx).visible_worktrees(cx) {
+            let worktree = worktree.read(cx);
+            for file_name in [
+                "README.md",
+                "readme.md",
+                "Readme.md",
+                "README",
+                "readme",
+                "Readme",
+                "README.txt",
+                "readme.txt",
+                "Readme.txt",
+            ] {
+                let Some(path) = RelPath::from_unix_str(file_name).ok() else {
+                    continue;
+                };
+                let metadata = project
+                    .read(cx)
+                    .resolve_abs_path(&worktree.absolutize(path).to_string_lossy(), cx);
+                let path = ProjectPath {
+                    worktree_id: worktree.id(),
+                    path: Arc::from(path),
+                };
+                candidates.push((path, metadata));
+            }
+        }
+        let pane = self.active_pane().downgrade();
+        cx.spawn_in(window, async move |workspace, cx| {
+            for (path, metadata) in candidates {
+                if !metadata.await.is_some_and(|metadata| metadata.is_file()) {
+                    continue;
+                }
+                let worktree_id = path.worktree_id;
+                let Ok(Some(task)) = workspace.update_in(cx, |workspace, window, cx| {
+                    if WorkspaceSettings::get_global(cx).on_new_window
+                        != settings::OnNewWindow::Readme
+                        || workspace.items(cx).next().is_some()
+                        || project.read(cx).worktree_for_id(worktree_id, cx).is_none()
+                        || pane.upgrade().is_none()
+                    {
+                        return None;
+                    }
+                    Some(workspace.load_path(path.clone(), window, cx))
+                }) else {
+                    return;
+                };
+                let (entry_id, build_item) = match task.await {
+                    Ok(loaded) => loaded,
+                    Err(error) => {
+                        log::debug!("Skipping README candidate {path:?}: {error:#}");
+                        continue;
+                    }
+                };
+                workspace
+                    .update_in(cx, |workspace, window, cx| {
+                        if WorkspaceSettings::get_global(cx).on_new_window
+                            != settings::OnNewWindow::Readme
+                            || workspace.items(cx).next().is_some()
+                            || project.read(cx).worktree_for_id(worktree_id, cx).is_none()
+                        {
+                            return;
+                        }
+                        let Some(pane) = pane.upgrade() else {
+                            return;
+                        };
+                        let focus_item = workspace.owns_window_chrome();
+                        pane.update(cx, |pane, cx| {
+                            pane.open_item(
+                                entry_id, path, focus_item, true, true, None, window, cx,
+                                build_item,
+                            );
+                        });
+                    })
+                    .ok();
+                return;
+            }
         })
     }
 
@@ -8012,7 +8113,7 @@ impl Workspace {
     }
 
     pub fn key_context(&self, cx: &App) -> KeyContext {
-        let mut context = KeyContext::new_with_defaults();
+        let mut context = KeyContext::new_with_defaults(cx.platform_info().os);
         context.add("Workspace");
         context.set("keyboard_layout", cx.keyboard_layout().name().to_string());
         if let Some(status) = self
@@ -8876,7 +8977,7 @@ impl Workspace {
     /// technology recognizes the editor as the main region and can navigate to
     /// it. While a screen reader is active the wrapper is also the focus target
     /// for region navigation (it carries the landmark role and label), so
-    /// focusing it announces "Editor" instead of falling back to the whole
+    /// focusing it announces "编辑器" instead of falling back to the whole
     /// window. We only make it focusable in that case so it never adds a hitbox
     /// or intercepts mouse focus for other users.
     fn render_center(
@@ -9443,7 +9544,7 @@ impl FocusablePart {
 /// Focus handles for the landmark region wrappers (the docks and the editor).
 /// Region navigation ([`FocusNextPart`]/[`FocusPreviousPart`]) focuses these so
 /// it lands on the wrapper that actually carries the landmark role and label
-/// (e.g. `Main`/"Editor", `Complementary`/"Left dock"). Without them, region
+/// (e.g. `Main`/"编辑器", `Complementary`/"左侧停靠区"). Without them, region
 /// navigation would focus an inner element that has no accessibility node, and
 /// assistive technology would fall back to announcing the whole window.
 struct RegionFocusHandles {
@@ -10536,7 +10637,7 @@ async fn join_channel_internal(
                         PromptLevel::Warning,
                         "是否切换频道？",
                         Some("离开此通话将取消共享当前项目。"),
-                        &["是，加入频道", "Cancel"],
+                        &["是，加入频道", "取消"],
                         cx,
                     )
                 })?
@@ -10764,7 +10865,7 @@ pub fn join_channel(
                             PromptLevel::Critical,
                             "加入频道失败",
                             Some(&detail),
-                            &["OK"],
+                            &["确定"],
                             cx,
                         )
                     })?
@@ -11144,7 +11245,7 @@ pub fn open_workspace_by_id(
         window
             .update(cx, |_, window, cx| {
                 workspace.update(cx, |_workspace, cx| {
-                    open_items(Some(serialized_workspace), vec![], window, cx)
+                    open_items(Some(serialized_workspace), Vec::new(), window, cx)
                 })
             })?
             .await?;
@@ -11627,6 +11728,15 @@ async fn open_remote_project_inner(
         })?
         .await?;
 
+    if project_path_errors.is_empty()
+        && items.iter().all(Option::is_none)
+        && let Ok(task) = window.update(cx, |_, window, cx| {
+            workspace.update(cx, |workspace, cx| workspace.open_readme(window, cx))
+        })
+    {
+        task.await;
+    }
+
     workspace.update(cx, |workspace, cx| {
         for error in project_path_errors {
             if error.error_code() == proto::ErrorCode::DevServerProjectPathDoesNotExist {
@@ -11784,7 +11894,7 @@ pub fn reload(cx: &mut App) {
                     PromptLevel::Info,
                     "确定要重启吗？",
                     None,
-                    &["Restart", "Cancel"],
+                    &["重启", "取消"],
                     cx,
                 )
             })
@@ -13171,7 +13281,7 @@ mod tests {
             w.prepare_to_close(CloseIntent::CloseWindow, window, cx)
         });
         cx.executor().run_until_parked();
-        cx.simulate_prompt_answer("Cancel"); // cancel save all
+        cx.simulate_prompt_answer("取消"); // cancel save all
         cx.executor().run_until_parked();
         assert!(!cx.has_pending_prompt());
         assert!(!task.await.unwrap());
@@ -13254,7 +13364,7 @@ mod tests {
             .unwrap();
 
         // User cancels the save prompt from workspace B
-        cx.simulate_prompt_answer("Cancel");
+        cx.simulate_prompt_answer("取消");
         cx.run_until_parked();
 
         // Window should still exist because workspace B's close was cancelled
@@ -13331,7 +13441,7 @@ mod tests {
             .unwrap();
 
         // Cancel the prompt — user stays on workspace B.
-        cx.simulate_prompt_answer("Cancel");
+        cx.simulate_prompt_answer("取消");
         cx.run_until_parked();
         let removed = remove_task.await.unwrap();
         assert!(!removed, "removal should have been cancelled");
@@ -13363,7 +13473,7 @@ mod tests {
         cx.run_until_parked();
 
         // Accept the save prompt.
-        cx.simulate_prompt_answer("Don't Save");
+        cx.simulate_prompt_answer("不保存");
         cx.run_until_parked();
         let removed = remove_task.await.unwrap();
         assert!(removed, "removal should have succeeded");
@@ -13457,7 +13567,7 @@ mod tests {
             "closing a no-folder workspace with a dirty serializable item should prompt, \
              since the workspace will not be reachable after close"
         );
-        cx.simulate_prompt_answer("Don't Save");
+        cx.simulate_prompt_answer("不保存");
         cx.executor().run_until_parked();
 
         assert!(task.await.unwrap());
@@ -13493,7 +13603,7 @@ mod tests {
         cx.executor().run_until_parked();
 
         assert!(cx.has_pending_prompt());
-        cx.simulate_prompt_answer("Cancel");
+        cx.simulate_prompt_answer("取消");
         cx.executor().run_until_parked();
 
         assert!(!workspace.read_with(cx, |workspace, _| workspace.removing));
@@ -13527,7 +13637,7 @@ mod tests {
         cx.executor().run_until_parked();
 
         assert!(cx.has_pending_prompt());
-        cx.simulate_prompt_answer("Save");
+        cx.simulate_prompt_answer("保存");
         cx.executor().run_until_parked();
 
         assert!(!workspace.read_with(cx, |workspace, _| workspace.removing));
@@ -13603,7 +13713,7 @@ mod tests {
             "replacing a workspace with a dirty serializable item should prompt, \
              since the workspace will be detached afterwards"
         );
-        cx.simulate_prompt_answer("Don't Save");
+        cx.simulate_prompt_answer("不保存");
         cx.executor().run_until_parked();
 
         assert!(task.await.unwrap());
@@ -13682,7 +13792,7 @@ mod tests {
             "a save/discard prompt should be shown for the dirty scratch item \
              when its serialization fails"
         );
-        cx.simulate_prompt_answer("Don't Save");
+        cx.simulate_prompt_answer("不保存");
         cx.executor().run_until_parked();
 
         // Preparing to close succeeds, even though serialization failed.
@@ -13744,7 +13854,7 @@ mod tests {
         cx.executor().run_until_parked();
 
         assert!(cx.has_pending_prompt());
-        cx.simulate_prompt_answer("Save all");
+        cx.simulate_prompt_answer("全部保存");
 
         cx.executor().run_until_parked();
 
@@ -13759,7 +13869,7 @@ mod tests {
         assert!(cx.has_pending_prompt());
 
         // Cancel saving item 3.
-        cx.simulate_prompt_answer("Discard Edits");
+        cx.simulate_prompt_answer("放弃编辑");
         cx.executor().run_until_parked();
 
         // Item 3 is reloaded. There's a prompt to save item 4.
@@ -13901,7 +14011,7 @@ mod tests {
 
         // With best-effort close, cancelling item 1 keeps it open but items 4
         // and (3,4) still close since their entries exist in left pane.
-        cx.simulate_prompt_answer("Cancel");
+        cx.simulate_prompt_answer("取消");
         close.await;
 
         right_pane.read_with(cx, |pane, _| {
@@ -13935,7 +14045,7 @@ mod tests {
         // But we can only save whole items, so saving (2,3) for entry 3 includes 2.
         // assert!(!details.contains("2.txt"));
 
-        cx.simulate_prompt_answer("Save all");
+        cx.simulate_prompt_answer("全部保存");
         cx.executor().run_until_parked();
         close.await;
 
@@ -17215,7 +17325,7 @@ mod tests {
             cx.has_pending_prompt(),
             "Dirty multi buffer should prompt a save dialog"
         );
-        cx.simulate_prompt_answer("Save");
+        cx.simulate_prompt_answer("保存");
         cx.background_executor.run_until_parked();
         close_multi_buffer_task
             .await

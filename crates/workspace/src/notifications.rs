@@ -925,6 +925,12 @@ pub mod simple_message_notification {
             self
         }
 
+        /// The text copied to the clipboard; for error notifications, the full message.
+        #[cfg(any(test, feature = "test-support"))]
+        pub fn copied_text(&self) -> Option<&SharedString> {
+            self.copy_text.as_ref()
+        }
+
         fn auto_dismiss(mut self, severity: ErrorSeverity, cx: &mut Context<Self>) -> Self {
             if let Some(delay) = severity.auto_dismiss_delay() {
                 self.auto_hide = Some(AutoHideState::new(delay, cx));
@@ -1740,7 +1746,7 @@ where
                         display.push('.');
                     }
                     let detail = f(err, window, cx).unwrap_or(display);
-                    window.prompt(PromptLevel::Critical, &msg, Some(&detail), &["OK"], cx)
+                    window.prompt(PromptLevel::Critical, &msg, Some(&detail), &["确定"], cx)
                 }) {
                     prompt.await.ok();
                 }

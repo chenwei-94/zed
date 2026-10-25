@@ -161,7 +161,7 @@ impl GitJobDebugQueue {
             "summary": {
                 "pending": pending_count,
                 "running": running_count,
-                "finished": finished_count,
+                "已完成": finished_count,
                 "skipped": skipped_count,
             },
             "entries": json_entries,
@@ -183,7 +183,7 @@ impl GitJobDebugQueue {
             "id": job.id,
             "description": job.description.as_ref(),
             "key": job.key.as_ref().map(|k| k.as_ref()),
-            "status": "Running",
+            "status": "运行中",
             "enqueued": format!("{} ago", format_duration(job.enqueued_at.elapsed())),
             "wait_time": format_duration(job.started_at.duration_since(job.enqueued_at)),
             "run_time": format!("{} (still running)", format_duration(job.started_at.elapsed())),

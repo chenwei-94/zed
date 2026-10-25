@@ -453,7 +453,7 @@ impl SerializedItem {
 impl Default for SerializedItem {
     fn default() -> Self {
         SerializedItem {
-            kind: Arc::from("Terminal"),
+            kind: Arc::from("终端"),
             item_id: 100000,
             active: false,
             preview: false,

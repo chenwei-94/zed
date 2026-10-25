@@ -503,7 +503,7 @@ pub async fn get_models(
     let request = HttpRequest::builder()
         .method(Method::GET)
         .uri(uri)
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .when_some(api_key, |builder, api_key| {
             builder.header("Authorization", format!("Bearer {api_key}"))
         })
@@ -549,7 +549,7 @@ pub async fn get_props(
     let request = HttpRequest::builder()
         .method(Method::GET)
         .uri(uri)
-        .header("Accept", "application/json")
+        .header("接受", "application/json")
         .when_some(api_key, |builder, api_key| {
             builder.header("Authorization", format!("Bearer {api_key}"))
         })
@@ -585,7 +585,7 @@ pub async fn stream_model_events(
     let request = HttpRequest::builder()
         .method(Method::GET)
         .uri(uri)
-        .header("Accept", "text/event-stream")
+        .header("接受", "text/event-stream")
         .when_some(api_key, |builder, api_key| {
             builder.header("Authorization", format!("Bearer {api_key}"))
         })

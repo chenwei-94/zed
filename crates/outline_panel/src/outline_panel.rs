@@ -1334,7 +1334,7 @@ impl OutlinePanel {
     }
 
     fn dispatch_context(&self, window: &mut Window, cx: &mut Context<Self>) -> KeyContext {
-        let mut dispatch_context = KeyContext::new_with_defaults();
+        let mut dispatch_context = KeyContext::new_with_defaults(cx.platform_info().os);
         dispatch_context.add("OutlinePanel");
         dispatch_context.add("menu");
         let identifier = if self.filter_editor.focus_handle(cx).is_focused(window) {
@@ -2931,9 +2931,9 @@ impl OutlinePanel {
             .rounded_sm()
             .hover(|style| style.bg(cx.theme().colors().ghost_element_hover))
             .tooltip(Tooltip::text(if is_expanded {
-                "Collapse"
+                "折叠"
             } else {
-                "Expand"
+                "展开"
             }))
             .on_click(
                 cx.listener(move |panel, event: &gpui::ClickEvent, window, cx| {

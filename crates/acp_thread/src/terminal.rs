@@ -586,7 +586,7 @@ impl Terminal {
             id,
             command: cx.new(|cx| {
                 Markdown::new(
-                    format!("```\n{}\n```", command_label.unwrap_or("Terminal")).into(),
+                    format!("```\n{}\n```", command_label.unwrap_or("终端")).into(),
                     Some(language_registry),
                     None,
                     cx,
@@ -786,7 +786,7 @@ impl Terminal {
                 state.command = DisplayCommand::Reported(command.take());
                 self.command.update(cx, |markdown, cx| {
                     markdown.replace(
-                        format!("```\n{}\n```", state.command().unwrap_or("Terminal")),
+                        format!("```\n{}\n```", state.command().unwrap_or("终端")),
                         cx,
                     );
                 });

@@ -564,10 +564,10 @@ impl State {
             }
 
             // Try keychain
-            let (_, credentials_bytes) = credentials_provider
-                .read_credentials(AMAZON_AWS_URL, cx)
-                .await?
-                .ok_or(AuthenticateError::CredentialsNotFound)?;
+            let (_, credentials_bytes) =
+                language_model::read_credentials(credentials_provider.as_ref(), AMAZON_AWS_URL, cx)
+                    .await?
+                    .ok_or(AuthenticateError::CredentialsNotFound)?;
 
             let credentials_str = String::from_utf8(credentials_bytes)
                 .with_context(|| format!("invalid {PROVIDER_NAME} credentials"))?;
@@ -1007,7 +1007,7 @@ fn converse_language_model(model: &ConverseModel) -> LanguageModel {
                     supports_disabling_thinking: None,
                 },
                 language_model::LanguageModelEffortLevel {
-                    name: "Medium".into(),
+                    name: "中".into(),
                     value: "medium".into(),
                     is_default: is_gpt_6_astra,
                     supports_disabling_thinking: None,
@@ -3505,7 +3505,7 @@ mod tests {
         for (model, expected_thinking) in [
             (
                 ConverseModel::Gpt6Astra,
-                serde_json::json!({"Reasoning": {"effort": "Medium"}}),
+                serde_json::json!({"Reasoning": {"effort": "中"}}),
             ),
             (
                 ConverseModel::ClaudeFable5_1,
@@ -4420,7 +4420,7 @@ mod tests {
                 item_id: "msg_1".to_string(),
                 output_index: 0,
                 content_index: Some(0),
-                delta: "Plan".to_string(),
+                delta: "计划".to_string(),
             },
             OpenAiResponseStreamEvent::OutputItemDone {
                 output_index: 0,
@@ -4451,7 +4451,7 @@ mod tests {
                 LanguageModelCompletionEvent::StartMessage {
                     message_id: "msg_1".to_string(),
                 },
-                LanguageModelCompletionEvent::Text("Plan".to_string()),
+                LanguageModelCompletionEvent::Text("计划".to_string()),
                 LanguageModelCompletionEvent::StartMessage {
                     message_id: "msg_2".to_string(),
                 },
@@ -4469,7 +4469,7 @@ mod tests {
         let third_message = mantle_message_item("msg_3");
         let events = map_mantle_response_events(vec![
             item_added(0, first_message.clone()),
-            text_delta("msg_1", 0, "Plan"),
+            text_delta("msg_1", 0, "计划"),
             item_done(0, first_message),
             item_added(1, second_message.clone()),
             text_delta("msg_2", 1, "Plan and go"),
@@ -4485,7 +4485,7 @@ mod tests {
                 LanguageModelCompletionEvent::StartMessage {
                     message_id: "msg_1".to_string(),
                 },
-                LanguageModelCompletionEvent::Text("Plan".to_string()),
+                LanguageModelCompletionEvent::Text("计划".to_string()),
                 LanguageModelCompletionEvent::Text(" and go".to_string()),
                 LanguageModelCompletionEvent::Text(" further".to_string()),
             ]
@@ -4498,7 +4498,7 @@ mod tests {
         let second_message = mantle_message_item("msg_2");
         let events = map_mantle_response_events(vec![
             item_added(0, first_message.clone()),
-            text_delta("msg_1", 0, "Plan"),
+            text_delta("msg_1", 0, "计划"),
             item_done(0, first_message),
             item_added(1, second_message.clone()),
             OpenAiResponseStreamEvent::ContentPartAdded {
@@ -4507,7 +4507,7 @@ mod tests {
                 content_index: 0,
                 part: serde_json::json!({"type": "output_text", "text": ""}),
             },
-            text_delta("msg_2", 1, "Plan"),
+            text_delta("msg_2", 1, "计划"),
             text_delta("msg_2", 1, " and continue"),
             OpenAiResponseStreamEvent::OutputTextDone {
                 item_id: "msg_2".to_string(),
@@ -4530,7 +4530,7 @@ mod tests {
                 LanguageModelCompletionEvent::StartMessage {
                     message_id: "msg_1".to_string(),
                 },
-                LanguageModelCompletionEvent::Text("Plan".to_string()),
+                LanguageModelCompletionEvent::Text("计划".to_string()),
                 LanguageModelCompletionEvent::Text(" and continue".to_string()),
             ]
         );
@@ -4543,7 +4543,7 @@ mod tests {
         let tool_call = mantle_function_call_item("call_1", "get_weather", "server_call_1");
         let events = map_mantle_response_events(vec![
             item_added(0, first_message.clone()),
-            text_delta("msg_1", 0, "Plan"),
+            text_delta("msg_1", 0, "计划"),
             item_done(0, first_message),
             item_done(1, tool_call),
             item_added(2, second_message.clone()),
@@ -4557,7 +4557,7 @@ mod tests {
                 LanguageModelCompletionEvent::StartMessage {
                     message_id: "msg_1".to_string(),
                 },
-                LanguageModelCompletionEvent::Text("Plan".to_string()),
+                LanguageModelCompletionEvent::Text("计划".to_string()),
                 LanguageModelCompletionEvent::StartMessage {
                     message_id: "msg_2".to_string(),
                 },
@@ -4576,7 +4576,7 @@ mod tests {
         let second_message = mantle_message_item("msg_2");
         let events = map_mantle_response_events(vec![
             item_added(0, first_message.clone()),
-            text_delta("msg_1", 0, "Plan"),
+            text_delta("msg_1", 0, "计划"),
             item_done(0, first_message),
             item_added(1, tool_call.clone()),
             OpenAiResponseStreamEvent::FunctionCallArgumentsDone {
@@ -4597,7 +4597,7 @@ mod tests {
                 LanguageModelCompletionEvent::StartMessage {
                     message_id: "msg_1".to_string(),
                 },
-                LanguageModelCompletionEvent::Text("Plan".to_string()),
+                LanguageModelCompletionEvent::Text("计划".to_string()),
                 LanguageModelCompletionEvent::ToolUse(LanguageModelToolUse {
                     id: language_model::LanguageModelToolUseId::from("server_call_1"),
                     name: Arc::<str>::from("get_weather"),
@@ -4625,12 +4625,12 @@ mod tests {
         let second_message = mantle_message_item("msg_2");
         let events = map_mantle_response_events(vec![
             item_added(0, first_message.clone()),
-            text_delta("msg_1", 0, "Plan"),
+            text_delta("msg_1", 0, "计划"),
             item_done(0, first_message),
             item_added(1, reasoning.clone()),
             item_done(1, reasoning),
             item_added(2, second_message.clone()),
-            text_delta("msg_2", 2, "Plan"),
+            text_delta("msg_2", 2, "计划"),
             item_done(2, second_message),
         ]);
 
@@ -4640,11 +4640,11 @@ mod tests {
                 LanguageModelCompletionEvent::StartMessage {
                     message_id: "msg_1".to_string(),
                 },
-                LanguageModelCompletionEvent::Text("Plan".to_string()),
+                LanguageModelCompletionEvent::Text("计划".to_string()),
                 LanguageModelCompletionEvent::StartMessage {
                     message_id: "msg_2".to_string(),
                 },
-                LanguageModelCompletionEvent::Text("Plan".to_string()),
+                LanguageModelCompletionEvent::Text("计划".to_string()),
             ]
         );
     }

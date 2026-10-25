@@ -42,7 +42,6 @@ use unicase::UniCase;
 
 pub use gpui_util::*;
 pub use path::PathExt;
-pub use path::normalize_path;
 pub use path::rel_path;
 
 #[cfg(any(test, feature = "test-support"))]
@@ -1271,9 +1270,9 @@ mod tests {
 
     #[test]
     fn test_truncate_lines_and_trailoff() {
-        let text = r#"Line 1
-Line 2
-Line 3"#;
+        let text = r#"第 1 行
+第 2 行
+第 3 行"#;
 
         assert_eq!(
             truncate_lines_and_trailoff(text, 2),
@@ -1290,9 +1289,9 @@ Line 2
 
         assert_eq!(
             truncate_lines_and_trailoff(text, 4),
-            r#"Line 1
-Line 2
-Line 3"#
+            r#"第 1 行
+第 2 行
+第 3 行"#
         );
     }
 

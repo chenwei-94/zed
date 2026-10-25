@@ -100,7 +100,7 @@ mod tests {
                 code: proto::ErrorCode::Internal as i32,
                 tags: Default::default(),
             },
-            "Pull",
+            "拉取",
         );
 
         let message = format_git_error_toast_message(&rpc_error);
@@ -120,7 +120,7 @@ mod tests {
                 code: proto::ErrorCode::Internal as i32,
                 tags: Default::default(),
             },
-            "Pull",
+            "拉取",
         );
         let wrapped = rpc_error.context("sending pull request");
 
