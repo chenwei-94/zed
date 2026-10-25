@@ -362,7 +362,7 @@ mod tests {
             .join("references")
             .join("notes.md");
         fs.create_dir(skill_file.parent().unwrap()).await.unwrap();
-        fs.insert_file(&skill_file, b"备注".to_vec()).await;
+        fs.insert_file(&skill_file, b"notes".to_vec()).await;
         let project = Project::test(fs.clone(), [path!("/root/project").as_ref()], cx).await;
         cx.executor().run_until_parked();
 

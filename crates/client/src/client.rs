@@ -1524,7 +1524,7 @@ impl Client {
                                     req.respond(
                                         tiny_http::Response::empty(302).with_header(
                                             tiny_http::Header::from_bytes(
-                                                &b"位置"[..],
+                                                &b"Location"[..],
                                                 post_auth_url.as_bytes(),
                                             )
                                             .unwrap(),
