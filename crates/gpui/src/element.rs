@@ -386,7 +386,6 @@ impl<E: Element> Drawable<E> {
                     window,
                     cx,
                 );
-                crate::paint_observer::notify_exit();
 
                 if global_id.is_some() {
                     window.element_id_stack.pop();
@@ -556,6 +555,9 @@ impl<E: Element> Drawable<E> {
                     window,
                     cx,
                 );
+                // 帧级只读绘制观察（paint_observer）：与 paint 前 notify_enter 成对。
+                // 契约：Enter 在绘制前、Exit 在绘制后，嵌套序由绘制递归保证。
+                crate::paint_observer::notify_exit();
 
                 if global_id.is_some() {
                     window.element_id_stack.pop();
