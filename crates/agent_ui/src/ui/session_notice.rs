@@ -92,7 +92,7 @@ impl Component for SessionNoticePreview {
             "可选的文档集成在此远程环境中不可用",
         )
         .description(
-            "Work continues using the files in your project.\nThe agent could not connect to the documentation service after several attempts.\n**This is plain text**, not Markdown.",
+            "将继续使用你项目中的文件进行工作。\n智能体在多次尝试后仍无法连接到文档服务。\n**这是纯文本**，不是 Markdown。",
         );
 
         v_flex()
@@ -122,7 +122,7 @@ impl Component for SessionNoticePreview {
                                     acp::NoticeSeverity::Error,
                                     "Optional integration failed",
                                 )
-                                .description("Work will continue without this integration."),
+                                .description("将在没有此集成的情况下继续工作。"),
                             ),
                         )
                         .width(px(640.)),
@@ -191,7 +191,7 @@ impl Component for SessionNoticePreview {
                                             acp::NoticeSeverity::Warning,
                                             "MCP 服务器不可用",
                                         )
-                                        .description("Continuing without it. Repeated notices are shown as separate events."),
+                                        .description("将在缺少它的情况下继续。重复的通知会作为单独事件显示。"),
                                     )
                                 }))
                                 .into_any_element(),

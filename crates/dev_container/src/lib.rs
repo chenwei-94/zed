@@ -670,7 +670,7 @@ impl DevContainerModal {
                 .child(
                     div().track_focus(&self.focus_handle).child(
                         ModalHeader::new().child(
-                            Headline::new("Create Dev Container").size(HeadlineSize::XSmall),
+                            Headline::new("创建开发容器").size(HeadlineSize::XSmall),
                         ),
                     ),
                 )
@@ -765,7 +765,7 @@ impl DevContainerModal {
                         .child(
                             ModalHeader::new()
                                 .child(
-                                    Headline::new("Template Option: ").size(HeadlineSize::XSmall),
+                                    Headline::new("模板选项： ").size(HeadlineSize::XSmall),
                                 )
                                 .child(
                                     Headline::new(&next_option_entries.option_name)
@@ -887,7 +887,7 @@ impl DevContainerModal {
                         ModalHeader::new()
                             .icon(Icon::new(IconName::Warning).color(Color::Warning))
                             .child(
-                                Headline::new("Overwrite Existing Configuration?")
+                                Headline::new("覆盖现有配置？")
                                     .size(HeadlineSize::XSmall),
                             ),
                     ),
@@ -961,7 +961,7 @@ impl DevContainerModal {
                 .child(
                     div().track_focus(&self.focus_handle).child(
                         ModalHeader::new().child(
-                            Headline::new("Create Dev Container").size(HeadlineSize::XSmall),
+                            Headline::new("创建开发容器").size(HeadlineSize::XSmall),
                         ),
                     ),
                 )
@@ -1013,7 +1013,7 @@ impl DevContainerModal {
                 .child(
                     div().track_focus(&self.focus_handle).child(
                         ModalHeader::new().child(
-                            Headline::new("Create Dev Container").size(HeadlineSize::XSmall),
+                            Headline::new("创建开发容器").size(HeadlineSize::XSmall),
                         ),
                     ),
                 )

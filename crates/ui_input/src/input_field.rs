@@ -247,7 +247,7 @@ impl Component for InputField {
 
     fn preview(window: &mut Window, cx: &mut App) -> AnyElement {
         let input_small =
-            cx.new(|cx| InputField::new(window, cx, "placeholder").label("Small Label"));
+            cx.new(|cx| InputField::new(window, cx, "placeholder").label("小标签"));
 
         let input_regular = cx.new(|cx| {
             InputField::new(window, cx, "placeholder")

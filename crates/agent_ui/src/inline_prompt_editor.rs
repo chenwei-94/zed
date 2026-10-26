@@ -1004,7 +1004,7 @@ impl<T: 'static> PromptEditor<T> {
             .tooltip({
                 move |_window, cx| {
                     Tooltip::for_action_in(
-                        "Close Assistant",
+                        "关闭助手",
                         &editor::actions::Cancel,
                         &focus_handle,
                         cx,

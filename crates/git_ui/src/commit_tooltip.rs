@@ -550,7 +550,7 @@ pub(crate) fn shallow_boundary_notice(
                             .label_size(LabelSize::Small)
                             .disabled(in_flight)
                             .tooltip(Tooltip::text(
-                                "Run `git fetch --unshallow` to download the full history",
+                                "运行 `git fetch --unshallow` 以下载完整历史",
                             ))
                             .on_click(move |_, window, cx| {
                                 cx.stop_propagation();
@@ -620,7 +620,7 @@ pub(crate) fn fetch_unshallow(
                 Ok(_) => {
                     workspace.update(cx, |workspace, cx| {
                         let toast = StatusToast::new(
-                            "Fetched the missing commit history",
+                            "已获取缺失的提交历史",
                             cx,
                             |this, _| {
                                 this.icon(

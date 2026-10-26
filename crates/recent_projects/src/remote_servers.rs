@@ -1025,7 +1025,7 @@ impl RemoteServerPickerDelegate {
                         .text_ellipsis()
                         .when(is_wsl, |this| {
                             this.child(
-                                Label::new("WSL:")
+                                Label::new("WSL：")
                                     .size(LabelSize::Small)
                                     .color(Color::Muted),
                             )
@@ -2525,7 +2525,7 @@ impl RemoteServerProjects {
                                     .gap_1()
                                     .child(
                                         Label::new(
-                                            "Enter the command you use to SSH into this server.",
+                                            "输入你用于通过 SSH 登录此服务器的命令。",
                                         )
                                         .color(Color::Muted)
                                         .size(LabelSize::Small),

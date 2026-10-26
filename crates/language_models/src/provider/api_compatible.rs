@@ -220,7 +220,7 @@ impl<S: ApiCompatibleProviderSettings> Render for ApiCompatibleProviderConfigura
                 )
                 .child(
                     Label::new(format!(
-                        "You can also set the {env_var_name} environment variable and restart Zed.",
+                        "你也可以设置 {env_var_name} 环境变量并重启 Zed。",
                     ))
                     .size(LabelSize::Small)
                     .color(Color::Muted),
@@ -244,7 +244,7 @@ impl<S: ApiCompatibleProviderSettings> Render for ApiCompatibleProviderConfigura
                         .child(
                             div().w_full().overflow_x_hidden().text_ellipsis().child(Label::new(
                                 if env_var_set {
-                                    format!("API key set in {env_var_name} environment variable")
+                                    format!("API 密钥已在 {env_var_name} 环境变量中设置")
                                 } else {
                                     format!("已为 {} 配置 API 密钥", state.settings.api_url())
                                 },

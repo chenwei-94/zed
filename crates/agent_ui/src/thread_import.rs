@@ -572,8 +572,7 @@ impl Render for ThreadImportModal {
                         ModalHeader::new()
                             .headline("导入外部智能体会话")
                             .description(
-                                "Import threads from agents like Claude Agent, Codex, and more, whether started in Zed or another client. \
-                                Choose which agents to include, and their threads will appear in your thread history."
+                                "从 Claude Agent、Codex 等智能体导入线程，无论它们是在 Zed 还是其他客户端中启动。选择要包含的智能体，其线程将出现在你的线程历史中。"
                             )
                             .show_dismiss_button(true),
 

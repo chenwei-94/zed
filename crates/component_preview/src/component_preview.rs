@@ -555,7 +555,7 @@ impl ComponentPreview {
         if let Some(workspace) = self.workspace.upgrade() {
             workspace.update(cx, |workspace, cx| {
                 let status_toast =
-                    StatusToast::new("`zed/new-notification-system` created!", cx, |this, _cx| {
+                    StatusToast::new("已创建 `zed/new-notification-system`！", cx, |this, _cx| {
                         this.icon(
                             Icon::new(IconName::GitBranch)
                                 .size(IconSize::Small)
@@ -644,7 +644,7 @@ impl Render for ComponentPreview {
                             .border_t_1()
                             .border_color(cx.theme().colors().border)
                             .child(
-                                Button::new("toast-test", "Launch Toast")
+                                Button::new("toast-test", "启动 Toast")
                                     .full_width()
                                     .on_click(cx.listener({
                                         move |this, _, _window, cx| {

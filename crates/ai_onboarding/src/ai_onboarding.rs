@@ -315,9 +315,9 @@ impl ZedAiOnboarding {
             .relative()
             .gap_1()
             .child(Self::certified_user_stamp(cx))
-            .child(Headline::new("Welcome to Zed Pro"))
+            .child(Headline::new("欢迎使用 Zed Pro"))
             .child(
-                Label::new("Here's what you get:")
+                Label::new("你将获得以下内容：")
                     .color(Color::Muted)
                     .mb_2(),
             )
@@ -332,9 +332,9 @@ impl ZedAiOnboarding {
             .relative()
             .gap_1()
             .child(Self::business_stamp(cx))
-            .child(Headline::new("Welcome to Zed Business"))
+            .child(Headline::new("欢迎使用 Zed Business"))
             .child(
-                Label::new("Here's what you get:")
+                Label::new("你将获得以下内容：")
                     .color(Color::Muted)
                     .mb_2(),
             )
@@ -349,9 +349,9 @@ impl ZedAiOnboarding {
             .relative()
             .gap_1()
             .child(Self::vip_stamp(cx))
-            .child(Headline::new("Welcome to Zed VIP"))
+            .child(Headline::new("欢迎使用 Zed VIP"))
             .child(
-                Label::new("Here's what you get:")
+                Label::new("你将获得以下内容：")
                     .color(Color::Muted)
                     .mb_2(),
             )
@@ -366,9 +366,9 @@ impl ZedAiOnboarding {
             .relative()
             .gap_1()
             .child(Self::student_stamp(cx))
-            .child(Headline::new("Welcome to Zed Student"))
+            .child(Headline::new("欢迎使用 Zed Student"))
             .child(
-                Label::new("Here's what you get:")
+                Label::new("你将获得以下内容：")
                     .color(Color::Muted)
                     .mb_2(),
             )
@@ -442,11 +442,11 @@ impl Component for ZedAiOnboarding {
             .gap_4()
             .children(vec![
                 single_example(
-                    "Not Signed-in",
+                    "未登录",
                     onboarding(SignInStatus::SignedOut, None, false),
                 ),
                 single_example(
-                    "Young Account",
+                    "新账户",
                     onboarding(SignInStatus::SignedIn, None, true),
                 ),
                 single_example(

@@ -2896,7 +2896,7 @@ impl Pane {
                 .tooltip(move |_, cx| {
                     if toggleable {
                         Tooltip::with_meta(
-                            "Unlock Tab",
+                            "解锁标签页",
                             None,
                             "This will make this tab editable",
                             cx,
@@ -4354,7 +4354,7 @@ fn default_render_tab_bar_buttons(
                             .separator()
                             .action("新建终端", NewTerminal::default().boxed_clone())
                             .action(
-                                "New Center Terminal",
+                                "新建居中终端",
                                 NewCenterTerminal::default().boxed_clone(),
                             )
                     }))

@@ -10514,8 +10514,7 @@ impl ThreadView {
                             )
                             .child(
                                 Label::new(
-                                    "Sandboxes with write access to a location on a Windows \
-                                     drive may not provide full filesystem isolation.",
+                                    "对 Windows 驱动器位置具有写权限的沙箱可能无法提供完整的文件系统隔离。",
                                 )
                                 .size(LabelSize::XSmall)
                                 .color(Color::Muted),
@@ -12744,8 +12743,7 @@ impl ThreadView {
     }
 
     fn render_prompt_too_large_error(&self, cx: &mut Context<Self>) -> Callout {
-        const MESSAGE: &str = "This conversation is too long for the model's context window. \
-            Start a new thread or remove some attached files to continue.";
+        const MESSAGE: &str = "此对话已超出模型的上下文窗口。请新建会话或移除部分附件后继续。";
 
         Callout::new()
             .severity(Severity::Error)

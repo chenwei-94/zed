@@ -576,7 +576,7 @@ fn render_verification_section(
                         } else {
                             this.child(
                                 Label::new(
-                                    "Pattern preview differs from engine — showing authoritative result.",
+                                    "模式预览与引擎结果不一致——显示的是权威结果。",
                                 )
                                 .size(LabelSize::XSmall)
                                 .color(Color::Warning),
@@ -822,8 +822,7 @@ fn render_invalid_patterns_section(
         )
         .child(
             Label::new(
-                "These patterns failed to compile as regular expressions. \
-                 The tool will be blocked until they are fixed or removed.",
+                "这些模式无法编译为正则表达式。在修复或移除它们之前，该工具将被阻止运行。",
             )
             .size(LabelSize::Small)
             .color(Color::Muted),
@@ -1083,7 +1082,7 @@ fn render_global_default_mode_section(current_mode: ToolPermissionMode) -> AnyEl
                 .child(Label::new("默认权限"))
                 .child(
                     Label::new(
-                        "Controls the default behavior for all tool actions. Per-tool rules and patterns can override this.",
+                        "控制所有工具操作的默认行为。单个工具的规则和模式可覆盖此设置。",
                     )
                     .size(LabelSize::Small)
                     .color(Color::Muted),

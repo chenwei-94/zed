@@ -591,12 +591,12 @@ impl TitleBar {
                                     ))
                                 } else if is_sharing_disabled {
                                     this.disabled(true).tooltip(Tooltip::text(
-                                        "This project may not be shared in a public channel.",
+                                        "此项目不能在公开频道中共享。",
                                     ))
                                 } else {
                                     this.tooltip(move |_, cx| {
                                         Tooltip::with_meta(
-                                            "Share Project",
+                                            "共享项目",
                                             None,
                                             share_meta.clone(),
                                             cx,

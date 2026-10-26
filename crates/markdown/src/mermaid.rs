@@ -604,7 +604,7 @@ pub(crate) fn render_mermaid_diagram(
                 let rasterized_scale = cached.map_or(1.0, |cached| cached.rasterized_scale);
                 let image_element =
                     img(ImageSource::Render(render_image.clone())).with_fallback(|| {
-                        Label::new("Failed to Load Mermaid Diagram").into_any_element()
+                        Label::new("加载 Mermaid 图表失败").into_any_element()
                     });
                 let scroll_handle = markdown.update(cx, |markdown, _| {
                     markdown.mermaid_scroll_handle(source_offset)

@@ -718,7 +718,7 @@ impl ActivityIndicator {
         }
         Some(Content {
             icon: ActivityIcon::Icon(IconName::Info),
-            message: "Partial file index".to_string(),
+            message: "部分文件索引".to_string(),
             tooltip_message: Some("Directories outside of git repositories and deeper than the `file_scan_depth` setting will be indexed on demand.".to_string()),
             on_click: Some(Arc::new(|this, _, cx| {
                 this.deferred_scan_message = DeferredScanMessage::Dismissed;

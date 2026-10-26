@@ -1267,7 +1267,7 @@ pub mod simple_message_notification {
 
         fn preview(_window: &mut Window, cx: &mut App) -> AnyElement {
             let normal =
-                cx.new(|cx| MessageNotification::new("A regular informational notification.", cx));
+                cx.new(|cx| MessageNotification::new("普通信息通知。", cx));
 
             let with_title = cx.new(|cx| {
                 MessageNotification::new("面向用户的信息内容。", cx)
@@ -1331,7 +1331,7 @@ pub mod simple_message_notification {
             });
 
             let no_close = cx.new(|cx| {
-                MessageNotification::new("This notification can't be closed manually.", cx)
+                MessageNotification::new("此通知无法手动关闭。", cx)
                     .show_close_button(false)
             });
 

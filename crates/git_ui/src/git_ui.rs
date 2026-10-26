@@ -1399,10 +1399,10 @@ impl Component for GitStatusIcon {
             .gap_6()
             .children(vec![example_group(vec![
                 single_example("已修改", GitStatusIcon::new(modified).into_any_element()),
-                single_example("Added", GitStatusIcon::new(added).into_any_element()),
+                single_example("已添加", GitStatusIcon::new(added).into_any_element()),
                 single_example("已删除", GitStatusIcon::new(deleted).into_any_element()),
                 single_example(
-                    "Conflicted",
+                    "冲突",
                     GitStatusIcon::new(conflict).into_any_element(),
                 ),
             ])])

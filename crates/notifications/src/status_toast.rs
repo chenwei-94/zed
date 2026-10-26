@@ -167,7 +167,7 @@ impl Component for StatusToast {
             StatusToast::new("关闭按钮", cx, |this, _| this.dismiss_button(true));
 
         let icon_example = StatusToast::new(
-            "Nathan Sobo accepted your contact request",
+            "Nathan Sobo 已接受你的联系人请求",
             cx,
             |this, _| {
                 this.icon(
@@ -178,7 +178,7 @@ impl Component for StatusToast {
             },
         );
 
-        let success_example = StatusToast::new("Pushed 4 changes to `zed/main`", cx, |this, _| {
+        let success_example = StatusToast::new("已将 4 个更改推送到 `zed/main`", cx, |this, _| {
             this.icon(
                 Icon::new(IconName::Check)
                     .size(IconSize::Small)
@@ -209,7 +209,7 @@ impl Component for StatusToast {
         });
 
         let pr_example =
-            StatusToast::new("`zed/new-notification-system` created!", cx, |this, _cx| {
+            StatusToast::new("已创建 `zed/new-notification-system`！", cx, |this, _cx| {
                 this.icon(
                     Icon::new(IconName::GitBranch)
                         .size(IconSize::Small)

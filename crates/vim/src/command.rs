@@ -433,7 +433,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                         let rx = (worktree.entry_for_path(&path).is_some() && Some(SaveIntent::Overwrite) != action.save_intent).then(|| {
                             window.prompt(
                                 gpui::PromptLevel::Warning,
-                                &format!("{path:?} already exists. Do you want to replace it?"),
+                                &format!("{path:?} 已存在。是否要替换它？"),
                                 Some(
                                     "{path:?} 已存在。是否替换？",
                                 ),
@@ -455,7 +455,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                                 };
                                 worktree
                                     .write_file(path.into_arc(), text.clone(), line_ending, encoding, has_bom, cx)
-                                    .detach_and_prompt_err("Failed to write lines", window, cx, |_, _, _| None);
+                                    .detach_and_prompt_err("写入行失败", window, cx, |_, _, _| None);
                             });
                         })
                         .detach();
@@ -515,8 +515,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                         project_path.path.display(path_style)
                     ),
                     Some(
-                        "A file or folder with the same name already exists. \
-                        Replacing it will overwrite its current contents.",
+                        "已存在同名文件或文件夹。替换将覆盖其当前内容。",
                     ),
                     &["Replace", "取消"],
                     cx,

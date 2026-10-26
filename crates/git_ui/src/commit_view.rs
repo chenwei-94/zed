@@ -547,12 +547,12 @@ impl CommitView {
             .justify_center()
             .gap_2()
             .child(
-                Label::new("This commit is at the boundary of a shallow clone.")
+                Label::new("此提交位于浅克隆的边界。")
                     .color(Color::Muted),
             )
             .child(
                 Label::new(
-                    "Its parent history was not fetched, so the changes it introduced cannot be shown.",
+                    "未获取其父历史，因此无法显示它引入的更改。",
                 )
                 .color(Color::Muted),
             )
@@ -576,7 +576,7 @@ impl CommitView {
                                 .style(ButtonStyle::Filled)
                                 .disabled(fetch_in_flight)
                                 .tooltip(Tooltip::text(
-                                    "Run `git fetch --unshallow` to download the full history, then show this commit's changes.",
+                                    "运行 `git fetch --unshallow` 以下载完整历史，然后显示此提交的更改。",
                                 ))
                                 .on_click(move |_, window, cx| {
                                     let fetch = crate::commit_tooltip::fetch_unshallow(

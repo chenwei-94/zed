@@ -1855,8 +1855,7 @@ fn open_log_file(workspace: &mut Workspace, window: &mut Window, cx: &mut Contex
                                 cx.new(|cx| {
                                     MessageNotification::new(
                                         format!(
-                                            "Unable to access/open log file at path \
-                                                    {}: {e:#}",
+                                            "无法访问或打开路径 {} 的日志文件：{e:#}",
                                             paths::log_file().display()
                                         ),
                                         cx,
@@ -1937,7 +1936,7 @@ fn notify_settings_errors(result: settings::SettingsParseResult, is_user: bool, 
             } else {
                 show_app_notification(id, cx, move |cx| {
                     cx.new(|cx| {
-                        MessageNotification::new(format!("Invalid user settings file\n{error}"), cx)
+                        MessageNotification::new(format!("无效的用户设置文件\n{error}"), cx)
                             .primary_message("打开设置文件")
                             .primary_icon(IconName::Settings)
                             .primary_on_click(|window, cx| {
@@ -1969,8 +1968,7 @@ fn notify_settings_errors(result: settings::SettingsParseResult, is_user: bool, 
                     cx.new(|cx| {
                         MessageNotification::new(
                             format!(
-                                "Failed to migrate settings\n\
-                                {err}"
+                                "迁移设置失败\n{err}"
                             ),
                             cx,
                         )

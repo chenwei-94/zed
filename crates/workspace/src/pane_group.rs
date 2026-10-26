@@ -408,7 +408,7 @@ impl PaneLeaderDecorator for PaneRenderContext<'_> {
                         if Some(leader_project_id) == self.project.read(cx).remote_id() {
                             is_in_unshared_view.then(|| {
                                 Label::new(format!(
-                                    "{} is in an unshared pane",
+                                    "{} 位于未共享的面板中",
                                     leader.user.username
                                 ))
                             })

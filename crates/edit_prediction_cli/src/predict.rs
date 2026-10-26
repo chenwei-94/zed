@@ -255,7 +255,7 @@ pub async fn run_prediction(
 
         if repetition_count > 1 {
             step_progress.set_substatus(format!(
-                "running prediction {}/{}",
+                "正在运行预测 {}/{}",
                 ix + 1,
                 repetition_count
             ));
@@ -396,7 +396,7 @@ async fn predict_anthropic(
     for ix in 0..repetition_count {
         if repetition_count > 1 {
             step_progress.set_substatus(format!(
-                "running prediction {}/{}",
+                "正在运行预测 {}/{}",
                 ix + 1,
                 repetition_count
             ));
@@ -518,7 +518,7 @@ async fn predict_openai(
     for ix in 0..repetition_count {
         if repetition_count > 1 {
             step_progress.set_substatus(format!(
-                "running prediction {}/{}",
+                "正在运行预测 {}/{}",
                 ix + 1,
                 repetition_count
             ));

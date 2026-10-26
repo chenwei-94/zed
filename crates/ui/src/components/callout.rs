@@ -262,9 +262,9 @@ impl Component for Callout {
                 "带标题和说明",
                 Callout::new()
                     .icon(IconName::Warning)
-                    .title("Your settings contain deprecated values")
+                    .title("你的设置包含已弃用的值")
                     .description(
-                        "We'll backup your current settings and update them to the new format.",
+                        "我们将备份你当前的设置，并将其更新为新格式。",
                     )
                     .actions_slot(single_action())
                     .into_any_element(),
@@ -285,7 +285,7 @@ impl Component for Callout {
                 Callout::new()
                     .icon(IconName::Sparkle)
                     .title("升级到 Pro")
-                    .description("• Unlimited threads\n• Priority support\n• Advanced analytics")
+                    .description("• 无限线程\n• 优先支持\n• 高级分析")
                     .actions_slot(multiple_actions())
                     .into_any_element(),
             )

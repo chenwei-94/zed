@@ -709,8 +709,7 @@ impl SkillCreatorPage {
             .child(self.url_editor.clone())
             .child(match &self.url_import_status {
                 UrlImportStatus::Idle => Label::new(
-                    "Paste a GitHub .md URL to fetch it and fill out the form. \
-                     For private files, Zed retries using GITHUB_TOKEN, if set.",
+                    "粘贴 GitHub .md URL 以获取文件并填写表单。对于私有文件，Zed 会在设置了 GITHUB_TOKEN 时用它重试。",
                 )
                 .size(LabelSize::Small)
                 .color(Color::Muted)

@@ -378,7 +378,7 @@ async fn wait_for_language_servers_to_start(
     });
 
     step_progress.set_substatus(format!(
-        "waiting for {} LSPs",
+        "正在等待 {} 个 LSP",
         servers_pending_diagnostics.len()
     ));
 

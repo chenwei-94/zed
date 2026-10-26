@@ -246,7 +246,7 @@ impl ExtensionCard {
         let rebuild = is_dev.then(|| {
             Button::new(
                 SharedString::from(format!("rebuild-{}", extension.id)),
-                "Rebuild",
+                "重新构建",
             )
             .color(Color::Accent)
             .disabled(Self::disables_actions(status))
@@ -369,7 +369,7 @@ impl ExtensionCard {
                             move |_, cx| {
                                 Tooltip::simple(
                                     format!(
-                                        "v{version} is not compatible with this version of Zed."
+                                        "v{version} 与此版本的 Zed 不兼容。"
                                     ),
                                     cx,
                                 )
@@ -558,7 +558,7 @@ impl Component for ExtensionCard {
                 .into_any_element(),
             ),
             single_example(
-                "Development Extension",
+                "开发扩展",
                 ExtensionCard::manifest(
                     dev_extension(),
                     ExtensionStatus::Installed("0.1.0".into()),

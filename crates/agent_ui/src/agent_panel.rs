@@ -6194,7 +6194,7 @@ impl AgentPanel {
                     {
                         move |_window, cx| {
                             Tooltip::for_action_in(
-                                "New Thread\u{2026}",
+                                "新建线程…",
                                 &ToggleNewThreadMenu,
                                 &focus_handle,
                                 cx,

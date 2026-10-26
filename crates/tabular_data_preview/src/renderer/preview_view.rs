@@ -54,7 +54,7 @@ impl Render for TableView {
                                             .child("加载中…"),
                                     )
                                 })
-                                .when(!is_loading, |div| div.child("No data to display")),
+                                .when(!is_loading, |div| div.child("没有可显示的数据")),
                         )
                         .into_any_element()
                 } else {

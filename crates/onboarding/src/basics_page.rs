@@ -527,9 +527,9 @@ fn render_import_settings_section(tab_index: &mut isize, cx: &mut App) -> impl I
             v_flex()
                 .gap_0p5()
                 .max_w_5_6()
-                .child(Label::new("Import Settings"))
+                .child(Label::new("导入设置"))
                 .child(
-                    Label::new("Automatically pull your settings from other editors")
+                    Label::new("自动从其他编辑器拉取你的设置")
                         .color(Color::Muted),
                 ),
         )
@@ -704,9 +704,9 @@ fn render_ai_section(user_store: &Entity<UserStore>, cx: &mut App) -> impl IntoE
 
     v_flex()
         .gap_0p5()
-        .child(Label::new("Agent Setup"))
+        .child(Label::new("智能体设置"))
         .child(
-            Label::new("Install your favorite agents and start your first thread.")
+            Label::new("安装你喜欢的智能体，开始你的第一个线程。")
                 .color(Color::Muted),
         )
         .child(grid)

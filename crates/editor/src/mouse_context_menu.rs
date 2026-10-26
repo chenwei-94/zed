@@ -256,14 +256,14 @@ pub fn deploy_context_menu(
                     run_to_cursor || (evaluate_selection && has_selections),
                     |builder| builder.separator(),
                 )
-                .action("Go to Definition", Box::new(GoToDefinition::default()))
-                .action("Go to Declaration", Box::new(GoToDeclaration::default()))
+                .action("转到定义", Box::new(GoToDefinition::default()))
+                .action("转到声明", Box::new(GoToDeclaration::default()))
                 .action(
-                    "Go to Type Definition",
+                    "转到类型定义",
                     Box::new(GoToTypeDefinition::default()),
                 )
                 .action(
-                    "Go to Implementation",
+                    "转到实现",
                     Box::new(GoToImplementation::default()),
                 )
                 .action(

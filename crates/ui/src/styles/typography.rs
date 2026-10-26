@@ -271,7 +271,7 @@ impl Component for Headline {
                         .into_any_element(),
                 ),
                 single_example(
-                    "Medium (Default)",
+                    "中（默认）",
                     Headline::new("中标题").into_any_element(),
                 ),
                 single_example(

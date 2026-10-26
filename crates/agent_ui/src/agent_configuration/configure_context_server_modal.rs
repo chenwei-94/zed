@@ -562,7 +562,7 @@ impl ConfigureContextServerModal {
                     secret_editor: cx.new(|cx| {
                         let mut editor = Editor::single_line(window, cx);
                         editor.set_placeholder_text(
-                            "Enter client secret (leave empty for public clients)",
+                            "输入客户端密钥（公共客户端请留空）",
                             window,
                             cx,
                         );
@@ -747,7 +747,7 @@ impl ConfigureContextServerModal {
             .update(cx, {
                 |workspace, cx| {
                     let status_toast = StatusToast::new(
-                        format!("{} configured successfully.", id.0),
+                        format!("{} 配置成功。", id.0),
                         cx,
                         |this, _cx| {
                             this.icon(
@@ -1019,7 +1019,7 @@ impl ConfigureContextServerModal {
                     )
                     .child(
                         Label::new(
-                            "Enter your OAuth client secret, or leave empty for public clients",
+                            "输入你的 OAuth 客户端密钥，公共客户端可留空",
                         )
                         .size(LabelSize::Small)
                         .color(Color::Muted),

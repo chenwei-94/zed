@@ -850,8 +850,7 @@ impl ConfigurationView {
             .gap_2()
             .child(
                 Label::new(
-                    "Run LLMs locally on your machine with Ollama, or connect to an Ollama server. \
-                Can provide access to Llama, Mistral, Gemma, and hundreds of other models.",
+                    "使用 Ollama 在本机运行 LLM，或连接到 Ollama 服务器。可提供对 Llama、Mistral、Gemma 以及数百种其他模型的访问。",
                 )
                 .color(Color::Muted),
             )
@@ -880,8 +879,7 @@ impl ConfigurationView {
             )
             .child(
                 Label::new(
-                    "Alternatively, you can connect to an Ollama server by specifying its \
-                URL and API key (may not be required):",
+                    "或者，你也可以通过指定 URL 和 API 密钥连接到 Ollama 服务器（API 密钥可能不是必需的）：",
                 )
                 .color(Color::Muted),
             )

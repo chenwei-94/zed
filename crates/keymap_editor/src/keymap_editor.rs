@@ -1985,7 +1985,7 @@ impl Render for KeymapEditor {
             let button = IconButton::new("keystrokes-exact-match", IconName::CaseSensitive)
                 .tooltip(move |_window, cx| {
                     Tooltip::for_action(
-                        "Toggle Exact Match Mode",
+                        "切换精确匹配模式",
                         &ToggleExactKeystrokeMatching,
                         cx,
                     )

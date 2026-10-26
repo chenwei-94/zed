@@ -184,7 +184,7 @@ pub fn install_ipykernel_and_assign(
                                 workspace::Toast::new(
                                     notification_id.clone(),
                                     format!(
-                                        "Failed to install ipykernel in {}: {}",
+                                        "在 {} 中安装 ipykernel 失败：{}",
                                         env_name, error
                                     ),
                                 ),

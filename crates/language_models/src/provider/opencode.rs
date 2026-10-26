@@ -887,7 +887,7 @@ impl Render for ConfigurationView {
         let api_key_section = v_flex()
             .on_action(cx.listener(Self::save_api_key))
             .child(Label::new(
-                "To use OpenCode models in Zed, you need an API key:",
+                "要在 Zed 中使用 OpenCode 模型，你需要一个 API 密钥：",
             ).color(Color::Muted))
             .child(
                 List::new()

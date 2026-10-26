@@ -9834,7 +9834,7 @@ fn language_settings_data() -> Box<[SettingsPageItem]> {
             SettingsPageItem::SectionHeader("格式化"),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "保存时格式化",
-                description: "On: format the whole buffer.\nOff: do not format.\nModifications: format only lines with unstaged changes; skips formatting when a git diff or LSP range formatting is unavailable.\nModifications If Available: same, but falls back to formatting the whole buffer.",
+                description: "开启：格式化整个缓冲区。\n关闭：不格式化。\n修改内容：仅格式化包含未暂存更改的行；当 git diff 或 LSP 范围格式化不可用时跳过格式化。\n修改内容（如可用）：同上，但会回退为格式化整个缓冲区。",
                 field: Box::new(
                     // TODO(settings_ui): this setting should just be a bool
                     SettingField {

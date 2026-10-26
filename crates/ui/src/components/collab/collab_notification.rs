@@ -171,7 +171,7 @@ impl Component for CollabNotification {
                             Button::new("decline", "谢绝"),
                         )
                         .child(Label::new(
-                            "maxbrunsfeld invited you to join the #zed channel",
+                            "maxbrunsfeld 邀请你加入 #zed 频道",
                         )),
                     )
                     .into_any_element(),

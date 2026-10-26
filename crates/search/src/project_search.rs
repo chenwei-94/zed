@@ -3129,7 +3129,7 @@ impl Render for ProjectSearchBar {
                     )
                     .when(limit_reached, |this| {
                         this.tooltip(Tooltip::text(
-                            "Search Limits Reached\nTry narrowing your search",
+                            "已达搜索上限\n请尝试缩小搜索范围",
                         ))
                     }),
             );
@@ -3141,7 +3141,7 @@ impl Render for ProjectSearchBar {
                 IconButton::new("project-search-filter-button", IconName::Filter)
                     .shape(IconButtonShape::Square)
                     .tooltip(|_window, cx| {
-                        Tooltip::for_action("Toggle Filters", &ToggleFilters, cx)
+                        Tooltip::for_action("切换筛选器", &ToggleFilters, cx)
                     })
                     .on_click(cx.listener(|this, _, window, cx| {
                         this.toggle_filters(window, cx);
@@ -3156,7 +3156,7 @@ impl Render for ProjectSearchBar {
                         let focus_handle = focus_handle.clone();
                         move |_window, cx| {
                             Tooltip::for_action_in(
-                                "Toggle Filters",
+                                "切换筛选器",
                                 &ToggleFilters,
                                 &focus_handle,
                                 cx,

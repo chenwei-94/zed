@@ -21,7 +21,7 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
             zed_actions::ResetBufferFontSize { persist: false },
         ),
         MenuItem::action(
-            "Reset All Zoom",
+            "重置所有缩放",
             zed_actions::ResetAllZoom { persist: false },
         ),
         MenuItem::separator(),
@@ -60,7 +60,7 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
 
     if ReleaseChannel::try_global(cx) == Some(ReleaseChannel::Dev) {
         view_items.push(MenuItem::action(
-            "Toggle GPUI Inspector",
+            "切换 GPUI 检查器",
             dev::ToggleInspector,
         ));
         view_items.push(MenuItem::separator());
@@ -165,7 +165,7 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                 MenuItem::action("在项目中查找", workspace::DeploySearch::default()),
                 MenuItem::separator(),
                 MenuItem::action(
-                    "Toggle Line Comment",
+                    "切换行注释",
                     editor::actions::ToggleComments::default(),
                 ),
             ],
@@ -181,7 +181,7 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                 ),
                 MenuItem::action("扩展选择", editor::actions::SelectLargerSyntaxNode),
                 MenuItem::action("收缩选择", editor::actions::SelectSmallerSyntaxNode),
-                MenuItem::action("Select Next Sibling", editor::actions::SelectNextSyntaxNode),
+                MenuItem::action("选择下一个同级", editor::actions::SelectNextSyntaxNode),
                 MenuItem::action(
                     "选择上一个同级项",
                     editor::actions::SelectPreviousSyntaxNode,
@@ -235,21 +235,21 @@ pub fn app_menus(cx: &mut App) -> Vec<Menu> {
                 MenuItem::action("转到文件…", workspace::ToggleFileFinder::default()),
                 // MenuItem::action("Go to Symbol in Project", project_symbols::Toggle),
                 MenuItem::action(
-                    "Go to Symbol in Editor...",
+                    "转到编辑器中的符号…",
                     zed_actions::outline::ToggleOutline,
                 ),
-                MenuItem::action("Go to Line/Column...", editor::actions::ToggleGoToLine),
+                MenuItem::action("转到行/列…", editor::actions::ToggleGoToLine),
                 MenuItem::separator(),
                 MenuItem::action(
-                    "Go to Definition",
+                    "转到定义",
                     editor::actions::GoToDefinition::default(),
                 ),
                 MenuItem::action(
-                    "Go to Declaration",
+                    "转到声明",
                     editor::actions::GoToDeclaration::default(),
                 ),
                 MenuItem::action(
-                    "Go to Type Definition",
+                    "转到类型定义",
                     editor::actions::GoToTypeDefinition::default(),
                 ),
                 MenuItem::action(

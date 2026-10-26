@@ -265,7 +265,7 @@ impl Component for UpdateButton {
                     "可操作状态",
                     vec![
                         single_example(
-                            "Ready to Update",
+                            "准备更新",
                             UpdateButton::updated(version).into_any_element(),
                         ),
                         single_example(

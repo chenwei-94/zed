@@ -1615,7 +1615,7 @@ impl Render for ExtensionsPage {
                                         .severity(Severity::Warning)
                                         .child(
                                             Label::new(
-                                                "Failed to load extensions. Showing installed extensions only.",
+                                                "加载扩展失败。仅显示已安装的扩展。",
                                             )
                                             .mt_0p5(),
                                         )

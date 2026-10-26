@@ -164,7 +164,7 @@ impl Render for OnboardingBanner {
                         }))
                         .tooltip(|_window, cx| {
                             Tooltip::with_meta(
-                                "Close Announcement Banner",
+                                "关闭公告横幅",
                                 None,
                                 "It won't show again for this feature",
                                 cx,

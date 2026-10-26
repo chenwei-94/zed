@@ -1431,7 +1431,7 @@ impl CollabPanel {
                                 })
                             })
                             .detach_and_prompt_err(
-                                "Failed to grant mic access",
+                                "授予麦克风访问权限失败",
                                 window,
                                 cx,
                                 |_, _, _| None,
@@ -1457,7 +1457,7 @@ impl CollabPanel {
                                     )
                                 })
                             })
-                            .detach_and_prompt_err("Failed to grant write access", window, cx, |e, _, _| {
+                            .detach_and_prompt_err("授予写权限失败", window, cx, |e, _, _| {
                                 match e.error_code() {
                                     ErrorCode::NeedsCla => Some("This user has not yet signed the CLA at https://zed.dev/cla.".into()),
                                     _ => None,
@@ -1490,7 +1490,7 @@ impl CollabPanel {
                                 })
                             })
                             .detach_and_prompt_err(
-                                "Failed to revoke access",
+                                "撤销访问权限失败",
                                 window,
                                 cx,
                                 |_, _, _| None,
@@ -2258,7 +2258,7 @@ impl CollabPanel {
             .update(cx, |channel_store, cx| {
                 channel_store.set_channel_visibility(channel_id, visibility, cx)
             })
-            .detach_and_prompt_err("Failed to set channel visibility", window, cx, |e, _, _| match e.error_code() {
+            .detach_and_prompt_err("设置频道可见性失败", window, cx, |e, _, _| match e.error_code() {
                 ErrorCode::BadPublicNesting =>
                     if e.error_tag("direction") == Some("parent") {
                         Some("要将频道设为公开，其父频道必须是公开的。".to_string())
@@ -2626,7 +2626,7 @@ impl CollabPanel {
                 store.respond_to_contact_request(user_id, accept, cx)
             })
             .detach_and_prompt_err(
-                "Failed to respond to contact request",
+                "回复联系人请求失败",
                 window,
                 cx,
                 |_, _, _| None,
@@ -2698,7 +2698,7 @@ impl CollabPanel {
             .text_center()
             .justify_center()
             .child(Label::new(
-                "Collaboration is disabled for this organization.",
+                "此组织已禁用协作。",
             ))
     }
 

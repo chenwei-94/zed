@@ -414,10 +414,8 @@ impl LanguageModelProvider for CloudLanguageModelProvider {
 
     fn fast_mode_confirmation(&self, _cx: &App) -> Option<FastModeConfirmation> {
         Some(FastModeConfirmation {
-            title: "Enable Fast Mode for Zed?".into(),
-            message: "Fast mode routes requests through the upstream provider's fast mode or priority tier. The \
-                upstream provider's premium per-token pricing applies and is passed through to \
-                your Zed billing."
+            title: "为 Zed 启用快速模式？".into(),
+            message: "快速模式会通过上游提供商的快速模式或优先层级转发请求。适用上游提供商的每 token 溢价费率，并计入你的 Zed 账单。"
                 .into(),
         })
     }

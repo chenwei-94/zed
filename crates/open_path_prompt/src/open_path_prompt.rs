@@ -717,7 +717,7 @@ impl PickerDelegate for OpenPathDelegate {
                         self.should_dismiss = false;
                         let answer = window.prompt(
                             gpui::PromptLevel::Critical,
-                            &format!("{prompted_path:?} already exists. Do you want to replace it?"),
+                            &format!("{prompted_path:?} 已存在。是否要替换它？"),
                             Some(
                                 "{path:?} 已存在。是否替换？",
                             ),

@@ -351,7 +351,7 @@ impl Output {
                                                 let mut multi_buffer =
                                                     MultiBuffer::singleton(buffer.clone(), cx);
                                                 multi_buffer
-                                                    .set_title("Full Error".to_string(), cx);
+                                                    .set_title("完整错误".to_string(), cx);
                                                 multi_buffer
                                             });
                                             Editor::for_multibuffer(multibuffer, None, window, cx)
@@ -767,10 +767,10 @@ impl Render for ExecutionView {
             ExecutionStatus::Finished => Icon::new(IconName::Check)
                 .size(IconSize::Small)
                 .into_any_element(),
-            ExecutionStatus::Unknown => Label::new("Unknown status")
+            ExecutionStatus::Unknown => Label::new("未知状态")
                 .color(Color::Muted)
                 .into_any_element(),
-            ExecutionStatus::ShuttingDown => Label::new("Kernel shutting down...")
+            ExecutionStatus::ShuttingDown => Label::new("内核正在关闭…")
                 .color(Color::Muted)
                 .into_any_element(),
             ExecutionStatus::Restarting => Label::new("正在关闭内核…")
@@ -782,7 +782,7 @@ impl Render for ExecutionView {
             ExecutionStatus::Queued => Label::new("内核已关闭")
                 .color(Color::Muted)
                 .into_any_element(),
-            ExecutionStatus::KernelErrored(error) => Label::new(format!("Kernel error: {}", error))
+            ExecutionStatus::KernelErrored(error) => Label::new(format!("内核错误：{}", error))
                 .color(Color::Error)
                 .into_any_element(),
         };

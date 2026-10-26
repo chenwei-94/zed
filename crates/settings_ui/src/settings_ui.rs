@@ -1451,7 +1451,7 @@ fn render_settings_item_layout(
                         })
                         .when_some(modified_in, |this, modified_in| {
                             this.child(
-                                Label::new(format!("\u{2014}  Modified in {modified_in}"))
+                                Label::new(format!("—  在 {modified_in} 中修改"))
                                     .color(Color::Muted)
                                     .size(LabelSize::Small),
                             )
@@ -1515,7 +1515,7 @@ fn render_settings_item(
                     )
                     .tooltip(|_, cx| {
                         Tooltip::with_meta(
-                            "Overridden by Organization",
+                            "已被组织覆盖",
                             None,
                             "Contact your organization admins to adjust this setting.",
                             cx,
@@ -3996,7 +3996,7 @@ impl SettingsWindow {
                             .child(Label::new("受限模式"))
                             .child(
                                 Label::new(
-                                    "This project is in restricted mode. Some project settings may not apply.",
+                                    "此项目处于受限模式。部分项目设置可能不生效。",
                                 )
                                 .size(LabelSize::Small)
                                 .color(Color::Muted),

@@ -155,7 +155,7 @@ impl Render for MultibufferHint {
                                     .color(Color::Muted),
                             )
                             .child(Label::new(
-                                "Edit and save files directly in the results multibuffer!",
+                                "在结果多重缓冲区中直接编辑和保存文件！",
                             )),
                     )
                     .child(

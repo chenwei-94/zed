@@ -3962,7 +3962,7 @@ impl ProjectPanel {
                                     workspace::Toast::new(
                                         notification_id.clone(),
                                         format!(
-                                            "Downloading {}/{} files...",
+                                            "正在下载 {}/{} 个文件…",
                                             index + 1,
                                             total_files
                                         ),

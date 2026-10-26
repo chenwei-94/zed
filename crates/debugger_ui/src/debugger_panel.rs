@@ -633,7 +633,7 @@ impl DebugPanel {
                     let focus_handle = focus_handle.clone();
                     move |_window, cx| {
                         Tooltip::for_action_in(
-                            "Start Debug Session",
+                            "启动调试会话",
                             &crate::Start,
                             &focus_handle,
                             cx,
@@ -1831,7 +1831,7 @@ impl Render for DebugPanel {
                         .child(
                             Button::new(
                                 "spawn-new-session-install-extensions",
-                                "Debugger Extensions",
+                                "调试器扩展",
                             )
                             .start_icon(
                                 Icon::new(IconName::Blocks)

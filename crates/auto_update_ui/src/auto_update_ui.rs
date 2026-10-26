@@ -213,7 +213,7 @@ fn announcement_for_version(version: &Version, cx: &App) -> Option<AnnouncementC
     Some(AnnouncementContent {
         heading: "Introducing Delta".into(),
         description:
-            "Built on DeltaDB, so your threads and code stay in sync across machines and teammates."
+            "基于 DeltaDB 构建，你的线程和代码可在多台机器和团队成员之间保持同步。"
                 .into(),
         bullet_items: vec![
             "Made by the Zed team, with the same quality and performance".into(),

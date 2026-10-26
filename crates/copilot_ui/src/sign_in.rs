@@ -283,18 +283,18 @@ impl CopilotCodeVerification {
             .items_center()
             .text_center()
             .child(
-                Headline::new("Use GitHub Copilot Edit Predictions in Zed")
+                Headline::new("在 Zed 中使用 GitHub Copilot 编辑预测")
                     .size(HeadlineSize::Large),
             )
             .child(
                 Label::new(
-                    "Using Copilot edit predictions requires an active subscription on GitHub.",
+                    "使用 Copilot 编辑预测需要有效的 GitHub 订阅。",
                 )
                 .color(Color::Muted),
             )
             .child(Self::render_device_code(data, cx))
             .child(
-                Label::new("Paste this code into GitHub after clicking the button below.")
+                Label::new("点击下方按钮后，将此代码粘贴到 GitHub。")
                     .color(Color::Muted),
             )
             .child(
@@ -371,9 +371,9 @@ impl CopilotCodeVerification {
             .gap_2()
             .text_center()
             .justify_center()
-            .child(Headline::new("Copilot Edit Predictions Enabled!").size(HeadlineSize::Large))
+            .child(Headline::new("Copilot 编辑预测已启用！").size(HeadlineSize::Large))
             .child(
-                Label::new("You're all set to use Copilot edit predictions.").color(Color::Muted),
+                Label::new("你已准备好使用 Copilot 编辑预测。").color(Color::Muted),
             )
             .child(
                 Button::new("copilot-enabled-done-button", "完成")
@@ -397,7 +397,7 @@ impl CopilotCodeVerification {
             .text_center()
             .justify_center()
             .child(
-                Headline::new("You must have an active GitHub Copilot subscription.")
+                Headline::new("你必须拥有有效的 GitHub Copilot 订阅。")
                     .size(HeadlineSize::Large),
             )
             .child(Label::new(description).color(Color::Warning))
@@ -606,14 +606,14 @@ impl CopilotChatCodeVerification {
             .gap_2p5()
             .items_center()
             .text_center()
-            .child(Headline::new("Use GitHub Copilot Chat in Zed").size(HeadlineSize::Large))
+            .child(Headline::new("在 Zed 中使用 GitHub Copilot Chat").size(HeadlineSize::Large))
             .child(
-                Label::new("Using Copilot Chat requires an active subscription on GitHub.")
+                Label::new("使用 Copilot Chat 需要有效的 GitHub 订阅。")
                     .color(Color::Muted),
             )
             .child(Self::render_device_code(&device_flow.user_code, cx))
             .child(
-                Label::new("Paste this code into GitHub after clicking the button below.")
+                Label::new("点击下方按钮后，将此代码粘贴到 GitHub。")
                     .color(Color::Muted),
             )
             .child(

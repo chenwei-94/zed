@@ -251,7 +251,7 @@ impl LanguageServerState {
                                         .size(IconSize::XSmall),
                                 )
                                 .child(
-                                    Label::new("Project is in Restricted Mode")
+                                    Label::new("项目处于受限模式")
                                         .size(LabelSize::Small),
                                 ),
                         )

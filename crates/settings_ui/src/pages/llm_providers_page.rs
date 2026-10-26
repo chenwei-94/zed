@@ -281,7 +281,7 @@ fn render_api_key_providers_item(
                                 )
                                 .child(
                                     ButtonLink::new(
-                                        format!("{provider_name} dashboard"),
+                                        format!("{provider_name} 仪表盘"),
                                         api_key_url,
                                     )
                                     .no_icon(true)
@@ -666,7 +666,7 @@ fn render_llm_provider_form_page(
                 .overflow_y_scroll()
                 .child(Label::new(match form.kind {
                     CompatibleProviderKind::OpenAi => {
-                        "This provider will use an OpenAI-compatible API."
+                        "此提供商将使用兼容 OpenAI 的 API。"
                     }
                     CompatibleProviderKind::Anthropic => {
                         "此提供商将使用兼容 Anthropic Messages 的 API。"
@@ -764,9 +764,9 @@ fn render_models_section(
         .child(
             h_flex()
                 .justify_between()
-                .child(Label::new("Models"))
+                .child(Label::new("模型"))
                 .child(
-                    Button::new("add-model", "Add Model")
+                    Button::new("add-model", "添加模型")
                         .start_icon(
                             Icon::new(IconName::Plus)
                                 .size(IconSize::XSmall)

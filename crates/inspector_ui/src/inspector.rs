@@ -125,9 +125,9 @@ fn render_inspector_id(inspector_id: &InspectorElementId, cx: &App) -> Div {
                         .id("instance-id")
                         .text_ui(cx)
                         .tooltip(Tooltip::text(
-                            "Disambiguates elements from the same source location",
+                            "用于区分来自同一源位置的元素",
                         ))
-                        .child(format!("Instance {}", inspector_id.instance_id)),
+                        .child(format!("实例 {}", inspector_id.instance_id)),
                 ),
         )
         .child(
@@ -151,7 +151,7 @@ fn render_inspector_id(inspector_id: &InspectorElementId, cx: &App) -> Div {
                 .text_ui(cx)
                 .min_h_20()
                 .tooltip(Tooltip::text(
-                    "GlobalElementId of the nearest ancestor with an ID",
+                    "具有 ID 的最近祖先的 GlobalElementId",
                 ))
                 .child(inspector_id.path.global_id.to_string()),
         )

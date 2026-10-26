@@ -792,7 +792,7 @@ impl Render for ConfigurationView {
                     .gap_1()
                     .child(Headline::new("LM Studio").size(HeadlineSize::Small))
                     .child(
-                        Label::new("Run local LLMs like Llama, Phi, and Qwen.").color(Color::Muted),
+                        Label::new("运行 Llama、Phi 和 Qwen 等本地 LLM。").color(Color::Muted),
                     )
                     .child(
                         List::new()
@@ -801,13 +801,12 @@ impl Render for ConfigurationView {
                             ).label_color(Color::Muted))
                             .child(
                                 ListBulletItem::new("")
-                                    .child(Label::new("To get your first model, try running").color(Color::Muted))
+                                    .child(Label::new("要获取你的第一个模型，请尝试运行").color(Color::Muted))
                                     .child(Label::new("lms get qwen2.5-coder-7b").inline_code(cx).color(Color::Muted).ml_1()),
                             ),
                     )
                     .child(Label::new(
-                        "Alternatively, you can connect to an LM Studio server by specifying its \
-                        URL and API key (may not be required):",
+                        "或者，你也可以通过指定 URL 和 API 密钥连接到 LM Studio 服务器（API 密钥可能不是必需的）：",
                     ).color(Color::Muted)),
             )
             .child(self.render_api_url_editor(cx))
@@ -843,7 +842,7 @@ impl Render for ConfigurationView {
                                     this.child(
                                         Button::new(
                                             "download_lmstudio_button",
-                                            "Download LM Studio",
+                                            "下载 LM Studio",
                                         )
                                         .style(ButtonStyle::OutlinedGhost)
                                         .size(ButtonSize::Medium)

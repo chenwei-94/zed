@@ -496,8 +496,7 @@ pub async fn handle_import_vscode_settings(
         let prompt = cx.prompt(
             gpui::PromptLevel::Warning,
             &format!(
-                "Importing {} settings may overwrite your existing settings. \
-                Will import settings from {}",
+                "导入 {} 设置可能会覆盖你现有的设置。将从 {} 导入设置",
                 vscode_settings.source,
                 truncate_and_remove_front(&vscode_settings.path.to_string_lossy(), 128),
             ),
@@ -550,7 +549,7 @@ pub async fn handle_import_vscode_settings(
             }
             Err(_) => {
                 let error_toast = StatusToast::new(
-                    "Failed to import settings. See log for details",
+                    "导入设置失败。详情请查看日志",
                     cx,
                     |this, _| {
                         this.icon(

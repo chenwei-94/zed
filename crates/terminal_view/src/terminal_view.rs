@@ -601,7 +601,7 @@ impl TerminalView {
                 .when(self.shows_workspace_actions(), |menu| {
                     menu.action("新建终端", Box::new(NewTerminal::default()))
                         .action(
-                            "New Center Terminal",
+                            "新建居中终端",
                             Box::new(NewCenterTerminal::default()),
                         )
                         .separator()

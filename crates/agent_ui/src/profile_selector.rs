@@ -752,7 +752,7 @@ impl PickerDelegate for ProfilePickerDelegate {
                                                 .color(Color::Warning),
                                         )
                                         .child(
-                                            Label::new("Disabled in Restricted Mode")
+                                            Label::new("在受限模式下已禁用")
                                                 .size(LabelSize::Small),
                                         ),
                                 )
@@ -827,7 +827,7 @@ impl PickerDelegate for ProfilePickerDelegate {
                                             .color(Color::Warning),
                                     )
                                     .tooltip(Tooltip::text(
-                                        "Some tools are disabled. Click to review trust settings.",
+                                        "部分工具已禁用。点击以查看信任设置。",
                                     ))
                                     .on_click(|_, window, cx| {
                                         window.dispatch_action(

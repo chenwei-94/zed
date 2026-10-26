@@ -96,7 +96,7 @@ impl Render for ApiKeysWithProviders {
                                 div()
                                     .w_full()
                                     .child(
-                                        Label::new("Start now using API keys from your environment for the following providers:")
+                                        Label::new("立即开始，为以下提供商使用环境中的 API 密钥：")
                                             .color(Color::Muted)
                                     )
                             )

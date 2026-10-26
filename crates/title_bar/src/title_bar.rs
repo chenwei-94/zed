@@ -1081,7 +1081,7 @@ impl TitleBar {
                             format!("当前检出：{}", branch_tooltip_label)
                         };
                         Tooltip::with_meta(
-                            "Branch & Stash",
+                            "分支与贮藏",
                             Some(&zed_actions::git::Branch),
                             meta,
                             cx,

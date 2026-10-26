@@ -3622,8 +3622,7 @@ fn show_free_plan_edit_predictions_ended_notice_once(user_store: &Entity<UserSto
         |cx| {
             cx.new(|cx| {
                 MessageNotification::new(
-                    "Edit predictions are no longer included in the Free plan. \
-                    Upgrade to Pro for unlimited edit predictions.",
+                    "编辑预测已不再包含在免费套餐中。升级到 Pro 即可无限使用编辑预测。",
                     cx,
                 )
                 .primary_message("升级")
