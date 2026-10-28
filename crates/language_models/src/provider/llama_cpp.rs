@@ -1202,16 +1202,12 @@ impl ConfigurationView {
                     )
                     .child(
                         ListBulletItem::new("")
-                            .child(
-                                Label::new("以路由模式启动服务器：").color(Color::Muted),
-                            )
+                            .child(Label::new("以路由模式启动服务器：").color(Color::Muted))
                             .child(Label::new("llama serve").inline_code(cx)),
                     )
                     .child(
-                        ListBulletItem::new(
-                            "点击下方的“连接”，即可在 Zed 中开始使用 llama.cpp",
-                        )
-                        .label_color(Color::Muted),
+                        ListBulletItem::new("点击下方的“连接”，即可在 Zed 中开始使用 llama.cpp")
+                            .label_color(Color::Muted),
                     ),
             )
             .child(

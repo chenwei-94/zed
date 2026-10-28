@@ -265,7 +265,10 @@ use theme::{
 use theme_settings::{ThemeSettings, observe_buffer_font_size_adjustment};
 use ui::{
     Avatar, ContextMenu, Disclosure, IconButtonShape, Indicator, Key, KeyBinding, Tooltip,
-    prelude::*, scrollbars::ScrollbarAutoHide, tooltip_container, utils::WithRemSize,
+    prelude::*,
+    scrollbars::ScrollbarAutoHide,
+    tooltip_container,
+    utils::{RetainedFocusExt as _, WithRemSize},
 };
 use ui_input::ErasedEditor;
 use util::{RangeExt, ResultExt, TryFutureExt, maybe, post_inc};
@@ -2327,7 +2330,11 @@ impl Editor {
 
         let inlay_hint_settings =
             inlay_hint_settings(selections.newest_anchor().head(), &buffer_snapshot, cx);
-        let focus_handle = cx.focus_handle();
+        let focus_handle = if mode.is_single_line() {
+            cx.retained_focus_handle()
+        } else {
+            cx.focus_handle()
+        };
         if !is_minimap {
             cx.on_focus(&focus_handle, window, Self::handle_focus)
                 .detach();
@@ -2996,9 +3003,9 @@ impl Editor {
             cx,
             |e, _, _| match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
-                "远程 Zed 实例尚不支持此功能。需要升级到 {}",
-                e.error_tag("required").unwrap_or("最新版本")
-            )),
+                    "远程 Zed 实例尚不支持此功能。需要升级到 {}",
+                    e.error_tag("required").unwrap_or("最新版本")
+                )),
                 _ => None,
             },
         );
@@ -3082,9 +3089,9 @@ impl Editor {
         .detach_and_prompt_err("创建缓冲区失败", window, cx, |e, _, _| {
             match e.error_code() {
                 ErrorCode::RemoteUpgradeRequired => Some(format!(
-                "远程 Zed 实例尚不支持此功能。需要升级到 {}",
-                e.error_tag("required").unwrap_or("最新版本")
-            )),
+                    "远程 Zed 实例尚不支持此功能。需要升级到 {}",
+                    e.error_tag("required").unwrap_or("最新版本")
+                )),
                 _ => None,
             }
         });
@@ -6276,12 +6283,8 @@ impl Editor {
         .unwrap_or_default();
 
         let placeholder_text = match edit_action {
-            BreakpointPromptEditAction::Log => {
-                "断点命中时记录的消息。{} 内的表达式会被插值。"
-            }
-            BreakpointPromptEditAction::Condition => {
-                "断点命中时的条件。{} 内的表达式会被插值。"
-            }
+            BreakpointPromptEditAction::Log => "断点命中时记录的消息。{} 内的表达式会被插值。",
+            BreakpointPromptEditAction::Condition => "断点命中时的条件。{} 内的表达式会被插值。",
             BreakpointPromptEditAction::HitCondition => "忽略多少次断点命中",
         };
 

@@ -2930,11 +2930,7 @@ impl OutlinePanel {
             .cursor_pointer()
             .rounded_sm()
             .hover(|style| style.bg(cx.theme().colors().ghost_element_hover))
-            .tooltip(Tooltip::text(if is_expanded {
-                "折叠"
-            } else {
-                "展开"
-            }))
+            .tooltip(Tooltip::text(if is_expanded { "折叠" } else { "展开" }))
             .on_click(
                 cx.listener(move |panel, event: &gpui::ClickEvent, window, cx| {
                     if event.is_right_click() || event.first_focus() {

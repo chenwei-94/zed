@@ -200,8 +200,7 @@ impl State {
                             log::error!("SuperGrok sign-in failed to persist credentials: {err:?}");
                             this.update(cx, |state, cx| {
                                 state.sign_in_task = None;
-                                state.last_auth_error =
-                                    Some("保存凭据失败。请重试。".into());
+                                state.last_auth_error = Some("保存凭据失败。请重试。".into());
                                 cx.notify();
                             })
                             .log_err();

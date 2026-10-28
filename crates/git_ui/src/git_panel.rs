@@ -317,7 +317,11 @@ fn git_panel_context_menu(
         context_menu
             .context(focus_handle.clone())
             .action_disabled_when(!has_unstaged_changes, "全部暂存", StageAll.boxed_clone())
-            .action_disabled_when(!has_staged_changes, "全部取消暂存", UnstageAll.boxed_clone())
+            .action_disabled_when(
+                !has_staged_changes,
+                "全部取消暂存",
+                UnstageAll.boxed_clone(),
+            )
             .action_disabled_when(
                 !has_staged_tracked_changes,
                 "恢复所有变更",
@@ -3070,10 +3074,7 @@ impl GitPanel {
                     .or_else(|| untracked.first().map(|entry| (entry, true)))?;
 
                 let (message, confirm_text) = if entry.status.is_deleted() {
-                    (
-                        "确定要恢复 ".to_string(),
-                        "恢复文件",
-                    )
+                    ("确定要恢复 ".to_string(), "恢复文件")
                 } else if is_trashed {
                     ("移入回收站 ".to_string(), "移入回收站")
                 } else {
@@ -3106,7 +3107,9 @@ impl GitPanel {
                         format!("Discard {changes} to {tracked_count} files?"),
                         "丢弃",
                     ),
-                    (0, untracked_count) => (format!("Trash {untracked_count} files?"), "移入回收站"),
+                    (0, untracked_count) => {
+                        (format!("Trash {untracked_count} files?"), "移入回收站")
+                    }
                     (tracked_count, untracked_count) => (
                         format!(
                             "确定要放弃 {tracked_count} 个文件的{changes}，并将 {untracked_count} 个文件移入回收站吗？"
@@ -3167,12 +3170,9 @@ impl GitPanel {
 
                 Ok(())
             })
-            .detach_and_prompt_err(
-                "还原更改失败",
-                window,
-                cx,
-                |e, _, _| Some(format!("{e}")),
-            );
+            .detach_and_prompt_err("还原更改失败", window, cx, |e, _, _| {
+                Some(format!("{e}"))
+            });
 
             Some(())
         });
@@ -3305,12 +3305,7 @@ impl GitPanel {
             RestoreTrackedFiles,
             Cancel,
         }
-        let prompt = prompt(
-            "放弃这些文件的更改？",
-            Some(&details),
-            window,
-            cx,
-        );
+        let prompt = prompt("放弃这些文件的更改？", Some(&details), window, cx);
         cx.spawn_in(window, async move |this, cx| {
             if let Ok(RestoreCancel::RestoreTrackedFiles) = prompt.await {
                 this.update_in(cx, |this, window, cx| {
@@ -9477,9 +9472,7 @@ impl Render for GenerateCommitMessageConfigurationTooltip {
         ui::tooltip_container(cx, |container, _cx| {
             container
                 .gap_1p5()
-                .child(Label::new(
-                    "配置 LLM 提供商以生成提交信息。",
-                ))
+                .child(Label::new("配置 LLM 提供商以生成提交信息。"))
                 .child(
                     h_flex()
                         .gap_1()
@@ -13450,10 +13443,7 @@ mod tests {
         cx.run_until_parked();
 
         panel.update_in(cx, |panel, window, cx| {
-            assert_eq!(
-                panel.commit_message_buffer(cx).read(cx).text(),
-                "初始提交"
-            );
+            assert_eq!(panel.commit_message_buffer(cx).read(cx).text(), "初始提交");
             assert_eq!(
                 panel.original_commit_message,
                 Some("refactor: update main.rs".to_string())

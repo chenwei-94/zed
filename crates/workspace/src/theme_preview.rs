@@ -358,8 +358,13 @@ impl ThemePreview {
             .child(
                 v_flex()
                     .child(Headline::new("主题预览").size(HeadlineSize::Large))
-                    .child(div().w_full().text_color(cx.theme().colors().text_muted).child("此视图可让你跨主题预览一系列 UI 元素。可用它测试主题的更改。"))
-                    )
+                    .child(
+                        div()
+                            .w_full()
+                            .text_color(cx.theme().colors().text_muted)
+                            .child("此视图可让你跨主题预览一系列 UI 元素。可用它测试主题的更改。"),
+                    ),
+            )
             .child(self.render_theme_layer(ElevationIndex::Background, window, cx))
             .child(self.render_theme_layer(ElevationIndex::Surface, window, cx))
             .child(self.render_theme_layer(ElevationIndex::EditorSurface, window, cx))

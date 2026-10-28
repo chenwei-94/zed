@@ -350,8 +350,7 @@ impl Output {
                                             let multibuffer = cx.new(|cx| {
                                                 let mut multi_buffer =
                                                     MultiBuffer::singleton(buffer.clone(), cx);
-                                                multi_buffer
-                                                    .set_title("完整错误".to_string(), cx);
+                                                multi_buffer.set_title("完整错误".to_string(), cx);
                                                 multi_buffer
                                             });
                                             Editor::for_multibuffer(multibuffer, None, window, cx)

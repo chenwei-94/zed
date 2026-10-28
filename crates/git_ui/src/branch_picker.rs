@@ -356,9 +356,7 @@ impl BranchList {
         .detach_and_log_err(cx);
 
         cx.spawn(async move |this, cx| {
-            let remote_urls = remote_urls_request
-                .context("没有活动仓库")?
-                .await??;
+            let remote_urls = remote_urls_request.context("没有活动仓库")?.await??;
             let remote_provider_icons = cx.update(|cx| remote_provider_icons(&remote_urls, cx));
             this.update(cx, |this, cx| {
                 this.picker.update(cx, |picker, cx| {
@@ -1588,12 +1586,7 @@ impl PickerDelegate for BranchListDelegate {
 
                     anyhow::Ok(())
                 })
-                .detach_and_prompt_err(
-                    "切换分支失败",
-                    window,
-                    cx,
-                    |_, _, _| None,
-                );
+                .detach_and_prompt_err("切换分支失败", window, cx, |_, _, _| None);
             }
             Entry::NewUrl { url } => {
                 self.state = PickerState::CreateRemote(url.clone().into());

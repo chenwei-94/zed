@@ -934,9 +934,7 @@ impl LineBreakpoint {
                                 .truncate()
                         }))
                         .when_some(self.dir.as_ref(), |this, parent_dir| {
-                            this.tooltip(Tooltip::text(format!(
-                                "工作树父路径：{parent_dir}"
-                            )))
+                            this.tooltip(Tooltip::text(format!("工作树父路径：{parent_dir}")))
                         }),
                 )
                 .child(BreakpointOptionsStrip {

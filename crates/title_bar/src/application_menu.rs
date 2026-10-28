@@ -428,10 +428,7 @@ mod tests {
                 OpenApplicationMenu(String::new()),
             ));
         }
-        items.push(MenuItem::action(
-            "诊断",
-            OpenApplicationMenu(String::new()),
-        ));
+        items.push(MenuItem::action("诊断", OpenApplicationMenu(String::new())));
 
         Menu {
             name: "视图".into(),
@@ -446,8 +443,7 @@ mod tests {
             ApplicationMenu::build_entries(vec![owned_menu("视图", "智能体面板")]);
         assert!(has_item(&with_agent_panel, "视图", "智能体面板"));
 
-        let without_agent_panel =
-            ApplicationMenu::build_entries(vec![owned_menu("视图", "诊断")]);
+        let without_agent_panel = ApplicationMenu::build_entries(vec![owned_menu("视图", "诊断")]);
         assert!(!has_item(&without_agent_panel, "视图", "智能体面板"));
     }
 
@@ -525,10 +521,8 @@ mod tests {
 
         cx.update(|cx| {
             cx.set_menus(vec![
-                Menu::new("Zed").items([MenuItem::action(
-                    "设置",
-                    OpenApplicationMenu(String::new()),
-                )]),
+                Menu::new("Zed")
+                    .items([MenuItem::action("设置", OpenApplicationMenu(String::new()))]),
                 view_menu(true),
             ]);
         });

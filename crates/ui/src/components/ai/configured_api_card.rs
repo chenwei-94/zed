@@ -148,9 +148,7 @@ impl Component for ConfiguredApiCard {
             single_example(
                 "已禁用",
                 container()
-                    .child(
-                        ConfiguredApiCard::new("disabled", "已配置 API 密钥").disabled(true),
-                    )
+                    .child(ConfiguredApiCard::new("disabled", "已配置 API 密钥").disabled(true))
                     .into_any_element(),
             ),
         ];

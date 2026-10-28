@@ -746,18 +746,15 @@ impl ConfigureContextServerModal {
         self.workspace
             .update(cx, {
                 |workspace, cx| {
-                    let status_toast = StatusToast::new(
-                        format!("{} 配置成功。", id.0),
-                        cx,
-                        |this, _cx| {
+                    let status_toast =
+                        StatusToast::new(format!("{} 配置成功。", id.0), cx, |this, _cx| {
                             this.icon(
                                 Icon::new(IconName::ToolHammer)
                                     .size(IconSize::Small)
                                     .color(Color::Muted),
                             )
                             .action("忽略", |_, _| {})
-                        },
-                    );
+                        });
 
                     workspace.toggle_status_toast(status_toast, cx);
                 }
@@ -1018,11 +1015,9 @@ impl ConfigureContextServerModal {
                             .color(Color::Muted),
                     )
                     .child(
-                        Label::new(
-                            "输入你的 OAuth 客户端密钥，公共客户端可留空",
-                        )
-                        .size(LabelSize::Small)
-                        .color(Color::Muted),
+                        Label::new("输入你的 OAuth 客户端密钥，公共客户端可留空")
+                            .size(LabelSize::Small)
+                            .color(Color::Muted),
                     ),
             )
             .child(

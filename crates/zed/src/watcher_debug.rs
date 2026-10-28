@@ -771,10 +771,7 @@ mod tests {
             .unwrap();
 
         let mut visual = gpui::VisualTestContext::from_window(window.into(), cx);
-        assert_eq!(
-            visual.window_title().as_deref(),
-            Some("调试文件系统监视")
-        );
+        assert_eq!(visual.window_title().as_deref(), Some("调试文件系统监视"));
         visual.run_until_parked();
         let footer = visual.debug_bounds("watcher-footer").unwrap();
         let status_bar_height = visual.update(|window, cx| {

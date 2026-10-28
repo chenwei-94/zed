@@ -1984,11 +1984,7 @@ impl Render for KeymapEditor {
         if let SearchMode::KeyStroke { exact_match } = self.search_mode {
             let button = IconButton::new("keystrokes-exact-match", IconName::CaseSensitive)
                 .tooltip(move |_window, cx| {
-                    Tooltip::for_action(
-                        "切换精确匹配模式",
-                        &ToggleExactKeystrokeMatching,
-                        cx,
-                    )
+                    Tooltip::for_action("切换精确匹配模式", &ToggleExactKeystrokeMatching, cx)
                 })
                 .shape(IconButtonShape::Square)
                 .toggle_state(exact_match)
@@ -3123,9 +3119,7 @@ impl Render for KeybindingEditorModal {
                                         },
                                     )
                                 })
-                                .when(self.creating, |this| {
-                                    this.child(Label::new("创建快捷键"))
-                                }),
+                                .when(self.creating, |this| this.child(Label::new("创建快捷键"))),
                         ),
                     )
                     .section(

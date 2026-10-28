@@ -2524,11 +2524,9 @@ impl RemoteServerProjects {
                                     .w_full()
                                     .gap_1()
                                     .child(
-                                        Label::new(
-                                            "输入你用于通过 SSH 登录此服务器的命令。",
-                                        )
-                                        .color(Color::Muted)
-                                        .size(LabelSize::Small),
+                                        Label::new("输入你用于通过 SSH 登录此服务器的命令。")
+                                            .color(Color::Muted)
+                                            .size(LabelSize::Small),
                                     )
                                     .child(
                                         Button::new("learn-more", "了解更多")

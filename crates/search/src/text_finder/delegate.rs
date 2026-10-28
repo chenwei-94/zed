@@ -789,10 +789,7 @@ impl PickerDelegate for Delegate {
         use gpui::Action as _;
         vec![
             picker::PickerAction::header("Split…"),
-            picker::PickerAction::button(
-                "左",
-                workspace::pane::SplitLeft::default().boxed_clone(),
-            ),
+            picker::PickerAction::button("左", workspace::pane::SplitLeft::default().boxed_clone()),
             picker::PickerAction::button(
                 "右",
                 workspace::pane::SplitRight::default().boxed_clone(),

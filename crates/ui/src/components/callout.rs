@@ -263,9 +263,7 @@ impl Component for Callout {
                 Callout::new()
                     .icon(IconName::Warning)
                     .title("你的设置包含已弃用的值")
-                    .description(
-                        "我们将备份你当前的设置，并将其更新为新格式。",
-                    )
+                    .description("我们将备份你当前的设置，并将其更新为新格式。")
                     .actions_slot(single_action())
                     .into_any_element(),
             )

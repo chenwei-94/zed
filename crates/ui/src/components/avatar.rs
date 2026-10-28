@@ -258,59 +258,64 @@ impl Component for Avatar {
         let example_avatar = "https://avatars.githubusercontent.com/u/1714999?v=4";
 
         v_flex()
-                .gap_6()
-                .children(vec![
-                    example_group(vec![
-                        single_example("默认", Avatar::new(example_avatar).into_any_element()),
+            .gap_6()
+            .children(vec![
+                example_group(vec![
+                    single_example("默认", Avatar::new(example_avatar).into_any_element()),
+                    single_example(
+                        "已静音",
+                        Avatar::new(example_avatar)
+                            .grayscale(true)
+                            .into_any_element(),
+                    ),
+                    single_example(
+                        "已拒听",
+                        Avatar::new(example_avatar)
+                            .border_color(cx.theme().colors().border)
+                            .into_any_element(),
+                    )
+                    .description(
+                        "可将边框颜色设为与背景一致来营造视觉留白，从而让头像周围看起来像有间隙。",
+                    ),
+                ]),
+                example_group_with_title(
+                    "指示器样式",
+                    vec![
                         single_example(
                             "已静音",
                             Avatar::new(example_avatar)
-                                .grayscale(true)
+                                .indicator(AvatarAudioStatusIndicator::new(AudioStatus::Muted))
                                 .into_any_element(),
-                        ),
+                        )
+                        .description("表示协作者的麦克风已静音。"),
                         single_example(
-                            "已拒听",
+                            "已关闭声音",
                             Avatar::new(example_avatar)
-                                .border_color(cx.theme().colors().border)
+                                .indicator(AvatarAudioStatusIndicator::new(AudioStatus::Deafened))
                                 .into_any_element(),
-                        ).description("可将边框颜色设为与背景一致来营造视觉留白，从而让头像周围看起来像有间隙。"),
-                    ]),
-                    example_group_with_title(
-                        "指示器样式",
-                        vec![
-                            single_example(
-                                "已静音",
-                                Avatar::new(example_avatar)
-                                    .indicator(AvatarAudioStatusIndicator::new(AudioStatus::Muted))
-                                    .into_any_element(),
-                            ).description("表示协作者的麦克风已静音。"),
-                            single_example(
-                                "已关闭声音",
-                                Avatar::new(example_avatar)
-                                    .indicator(AvatarAudioStatusIndicator::new(
-                                        AudioStatus::Deafened,
-                                    ))
-                                    .into_any_element(),
-                            ).description("表示协作者的麦克风和音频均已静音。"),
-                            single_example(
-                                "可用性：空闲",
-                                Avatar::new(example_avatar)
-                                    .indicator(AvatarAvailabilityIndicator::new(
-                                        CollaboratorAvailability::Free,
-                                    ))
-                                    .into_any_element(),
-                            ).description("表示此人空闲，通常意味着其当前不在通话中。"),
-                            single_example(
-                                "可用性：忙碌",
-                                Avatar::new(example_avatar)
-                                    .indicator(AvatarAvailabilityIndicator::new(
-                                        CollaboratorAvailability::Busy,
-                                    ))
-                                    .into_any_element(),
-                            ).description("表示此人正忙，通常意味着其正在频道通话或一对一通话中。"),
-                        ],
-                    ),
-                ])
-                .into_any_element()
+                        )
+                        .description("表示协作者的麦克风和音频均已静音。"),
+                        single_example(
+                            "可用性：空闲",
+                            Avatar::new(example_avatar)
+                                .indicator(AvatarAvailabilityIndicator::new(
+                                    CollaboratorAvailability::Free,
+                                ))
+                                .into_any_element(),
+                        )
+                        .description("表示此人空闲，通常意味着其当前不在通话中。"),
+                        single_example(
+                            "可用性：忙碌",
+                            Avatar::new(example_avatar)
+                                .indicator(AvatarAvailabilityIndicator::new(
+                                    CollaboratorAvailability::Busy,
+                                ))
+                                .into_any_element(),
+                        )
+                        .description("表示此人正忙，通常意味着其正在频道通话或一对一通话中。"),
+                    ],
+                ),
+            ])
+            .into_any_element()
     }
 }

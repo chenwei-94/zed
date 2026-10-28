@@ -230,8 +230,7 @@ fn render_skill_row(
                                 return;
                             }
 
-                            let prompt_message =
-                                format!("删除 {skill_scope} 技能“{skill_name}”？");
+                            let prompt_message = format!("删除 {skill_scope} 技能“{skill_name}”？");
                             let prompt_detail = format!(
                                 "This will move {} to the trash. This skill is shared with other \
                                  agent tools {shared_scope}, so it will no longer be available to \

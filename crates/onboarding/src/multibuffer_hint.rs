@@ -154,9 +154,7 @@ impl Render for MultibufferHint {
                                     .size(IconSize::XSmall)
                                     .color(Color::Muted),
                             )
-                            .child(Label::new(
-                                "在结果多重缓冲区中直接编辑和保存文件！",
-                            )),
+                            .child(Label::new("在结果多重缓冲区中直接编辑和保存文件！")),
                     )
                     .child(
                         Button::new("open_docs", "了解更多")

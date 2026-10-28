@@ -302,12 +302,13 @@ impl Render for QuickActionBar {
                             .action("转到行/列", Box::new(ToggleGoToLine))
                             .separator()
                             .action("下一个问题", Box::new(GoToDiagnostic::default()))
-                            .action(
-                                "上一个问题",
-                                Box::new(GoToPreviousDiagnostic::default()),
-                            )
+                            .action("上一个问题", Box::new(GoToPreviousDiagnostic::default()))
                             .separator()
-                            .action_disabled_when(!has_diff_hunks, "下一个差异块", Box::new(GoToHunk))
+                            .action_disabled_when(
+                                !has_diff_hunks,
+                                "下一个差异块",
+                                Box::new(GoToHunk),
+                            )
                             .action_disabled_when(
                                 !has_diff_hunks,
                                 "上一个差异块",

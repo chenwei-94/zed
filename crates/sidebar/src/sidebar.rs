@@ -3840,11 +3840,7 @@ impl Sidebar {
     }
 
     fn show_no_thread_summary_model_toast(workspace: Entity<Workspace>, cx: &mut App) {
-        Self::show_thread_title_toast(
-            workspace,
-            "未配置用于汇总会话标题的模型。",
-            cx,
-        );
+        Self::show_thread_title_toast(workspace, "未配置用于汇总会话标题的模型。", cx);
     }
 
     fn regenerate_thread_title(
@@ -8286,9 +8282,8 @@ pub fn dump_workspace_info(
             buffer.set_text(output, cx);
         });
 
-        let buffer = cx.new(|cx| {
-            editor::MultiBuffer::singleton(buffer, cx).with_title("工作区信息".into())
-        });
+        let buffer =
+            cx.new(|cx| editor::MultiBuffer::singleton(buffer, cx).with_title("工作区信息".into()));
 
         _this.update_in(cx, |workspace, window, cx| {
             workspace.add_item_to_active_pane(

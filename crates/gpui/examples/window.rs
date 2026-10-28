@@ -271,13 +271,8 @@ impl Render for WindowDemo {
                 window.resize(size(content_size.height, content_size.width));
             }))
             .child(button("Prompt", |window, cx| {
-                let answer = window.prompt(
-                    PromptLevel::Info,
-                    "确定吗？",
-                    None,
-                    &["确定", "取消"],
-                    cx,
-                );
+                let answer =
+                    window.prompt(PromptLevel::Info, "确定吗？", None, &["确定", "取消"], cx);
 
                 cx.spawn(async move |_| {
                     if answer.await.unwrap() == 0 {

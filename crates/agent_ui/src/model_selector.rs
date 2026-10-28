@@ -705,10 +705,7 @@ mod tests {
 
     #[gpui::test]
     async fn test_fuzzy_match_prioritizes_names_over_group(cx: &mut TestAppContext) {
-        let models = create_model_list(vec![(
-            "High Provider",
-            vec!["Reasoner", "极高", "High"],
-        )]);
+        let models = create_model_list(vec![("High Provider", vec!["Reasoner", "极高", "High"])]);
 
         let results = fuzzy_search(models, "high".into(), cx.executor()).await;
         assert_models_eq(

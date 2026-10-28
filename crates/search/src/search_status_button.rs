@@ -41,11 +41,7 @@ impl Render for SearchButton {
                             cx,
                         )
                     } else {
-                        Tooltip::for_action(
-                            "项目搜索",
-                            &workspace::DeploySearch::default(),
-                            cx,
-                        )
+                        Tooltip::for_action("项目搜索", &workspace::DeploySearch::default(), cx)
                     }
                 })
                 .on_click(cx.listener(|_this, _, window, cx| {

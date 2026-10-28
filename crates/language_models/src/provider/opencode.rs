@@ -884,36 +884,39 @@ impl Render for ConfigurationView {
                 .into_any_element()
         };
 
-        let api_key_section = v_flex()
-            .on_action(cx.listener(Self::save_api_key))
-            .child(Label::new(
-                "要在 Zed 中使用 OpenCode 模型，你需要一个 API 密钥：",
-            ).color(Color::Muted))
-            .child(
-                List::new()
-                    .child(
-                        ListBulletItem::new("")
-                            .child(Label::new("登录并在此获取密钥").color(Color::Muted))
-                            .child(ButtonLink::new(
-                                "OpenCode 控制台",
-                                "https://opencode.ai/auth",
-                            )),
-                    )
-                    .when(is_editing, |this| {
-                        this.child(ListBulletItem::new(
+        let api_key_section =
+            v_flex()
+                .on_action(cx.listener(Self::save_api_key))
+                .child(
+                    Label::new("要在 Zed 中使用 OpenCode 模型，你需要一个 API 密钥：")
+                        .color(Color::Muted),
+                )
+                .child(
+                    List::new()
+                        .child(
+                            ListBulletItem::new("")
+                                .child(Label::new("登录并在此获取密钥").color(Color::Muted))
+                                .child(ButtonLink::new(
+                                    "OpenCode 控制台",
+                                    "https://opencode.ai/auth",
+                                )),
+                        )
+                        .when(is_editing, |this| {
+                            this.child(ListBulletItem::new(
                             "Paste your API key below and hit enter to start using OpenCode",
                         ).label_color(Color::Muted))
-                    }),
-            )
-            .child(api_key_control)
-            .child(
-                Label::new(format!(
-                    "你也可以设置 {API_KEY_ENV_VAR_NAME} 环境变量并重启 Zed。"
-                ))
-                .size(LabelSize::Small)
-                .color(Color::Muted).mt_1p5(),
-            )
-            .into_any_element();
+                        }),
+                )
+                .child(api_key_control)
+                .child(
+                    Label::new(format!(
+                        "你也可以设置 {API_KEY_ENV_VAR_NAME} 环境变量并重启 Zed。"
+                    ))
+                    .size(LabelSize::Small)
+                    .color(Color::Muted)
+                    .mt_1p5(),
+                )
+                .into_any_element();
 
         if self.load_credentials_task.is_some() {
             Label::new("正在加载凭证…").into_any_element()

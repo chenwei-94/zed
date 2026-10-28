@@ -2180,12 +2180,9 @@ impl RecentProjectsDelegate {
                     } else {
                         workspace
                             .open_workspace_for_paths(OpenMode::NewWindow, paths, window, cx)
-                            .detach_and_prompt_err(
-                                "打开项目失败",
-                                window,
-                                cx,
-                                |_, _, _| None,
-                            );
+                            .detach_and_prompt_err("打开项目失败", window, cx, |_, _, _| {
+                                None
+                            });
                     }
                 }
                 SerializedWorkspaceLocation::Remote(mut connection) => {

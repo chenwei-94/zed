@@ -180,12 +180,7 @@ fn distance_string(
     } else if distance < 31_540_000 {
         format!("{} 个月", months)
     } else if distance < 39_425_000 {
-        if hide_prefix {
-            "1 年"
-        } else {
-            "about 1 year"
-        }
-        .to_string()
+        if hide_prefix { "1 年" } else { "about 1 year" }.to_string()
     } else if distance < 55_195_000 {
         if hide_prefix { "1 年" } else { "1 年以上" }.to_string()
     } else if distance < 63_080_000 {
@@ -314,22 +309,10 @@ mod tests {
 
     #[test]
     fn test_format_distance_string() {
-        assert_eq!(
-            distance_string(3, false, false, false),
-            "不到 1 分钟"
-        );
-        assert_eq!(
-            distance_string(7, false, false, false),
-            "不到 1 分钟"
-        );
-        assert_eq!(
-            distance_string(13, false, false, false),
-            "不到 1 分钟"
-        );
-        assert_eq!(
-            distance_string(21, false, false, false),
-            "不到 1 分钟"
-        );
+        assert_eq!(distance_string(3, false, false, false), "不到 1 分钟");
+        assert_eq!(distance_string(7, false, false, false), "不到 1 分钟");
+        assert_eq!(distance_string(13, false, false, false), "不到 1 分钟");
+        assert_eq!(distance_string(21, false, false, false), "不到 1 分钟");
         assert_eq!(distance_string(45, false, false, false), "1 分钟");
         assert_eq!(distance_string(61, false, false, false), "1 分钟");
         assert_eq!(distance_string(1920, false, false, false), "32 minutes");
@@ -337,23 +320,14 @@ mod tests {
         assert_eq!(distance_string(18002, false, false, false), "about 5 hours");
         assert_eq!(distance_string(86470, false, false, false), "1 天");
         assert_eq!(distance_string(345880, false, false, false), "4 days");
-        assert_eq!(
-            distance_string(2764800, false, false, false),
-            "约 1 个月"
-        );
-        assert_eq!(
-            distance_string(5184000, false, false, false),
-            "约 2 个月"
-        );
+        assert_eq!(distance_string(2764800, false, false, false), "约 1 个月");
+        assert_eq!(distance_string(5184000, false, false, false), "约 2 个月");
         assert_eq!(distance_string(10368000, false, false, false), "4 months");
         assert_eq!(
             distance_string(34694000, false, false, false),
             "about 1 year"
         );
-        assert_eq!(
-            distance_string(47310000, false, false, false),
-            "1 年以上"
-        );
+        assert_eq!(distance_string(47310000, false, false, false), "1 年以上");
         assert_eq!(
             distance_string(61503000, false, false, false),
             "almost 2 years"
@@ -378,19 +352,10 @@ mod tests {
             distance_string(3, true, false, false),
             "less than 5 seconds"
         );
-        assert_eq!(
-            distance_string(7, true, false, false),
-            "不到 10 秒"
-        );
-        assert_eq!(
-            distance_string(13, true, false, false),
-            "不到 20 秒"
-        );
+        assert_eq!(distance_string(7, true, false, false), "不到 10 秒");
+        assert_eq!(distance_string(13, true, false, false), "不到 20 秒");
         assert_eq!(distance_string(21, true, false, false), "半分钟");
-        assert_eq!(
-            distance_string(45, true, false, false),
-            "不到 1 分钟"
-        );
+        assert_eq!(distance_string(45, true, false, false), "不到 1 分钟");
         assert_eq!(distance_string(61, true, false, false), "1 分钟");
     }
 }

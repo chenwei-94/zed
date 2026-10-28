@@ -250,10 +250,7 @@ impl LanguageServerState {
                                         .color(Color::Warning)
                                         .size(IconSize::XSmall),
                                 )
-                                .child(
-                                    Label::new("项目处于受限模式")
-                                        .size(LabelSize::Small),
-                                ),
+                                .child(Label::new("项目处于受限模式").size(LabelSize::Small)),
                         )
                         .child(
                             Label::new("在信任此项目之前，语言服务器无法运行。")
@@ -1418,10 +1415,7 @@ impl Render for LspButton {
         }
 
         let (indicator, description) = if is_restricted {
-            (
-                Some(Indicator::dot().color(Color::Warning)),
-                "受限模式",
-            )
+            (Some(Indicator::dot().color(Color::Warning)), "受限模式")
         } else if has_errors {
             (
                 Some(Indicator::dot().color(Color::Error)),

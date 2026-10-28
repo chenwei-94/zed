@@ -70,10 +70,7 @@ pub fn set_paint_observer(observer: Option<PaintObserver>) {
 
 /// Whether an observer is currently installed.
 pub fn has_paint_observer() -> bool {
-    OBSERVER
-        .read()
-        .map(|slot| slot.is_some())
-        .unwrap_or(false)
+    OBSERVER.read().map(|slot| slot.is_some()).unwrap_or(false)
 }
 
 fn observer() -> Option<PaintObserver> {

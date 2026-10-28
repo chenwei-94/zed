@@ -1266,8 +1266,7 @@ pub mod simple_message_notification {
         }
 
         fn preview(_window: &mut Window, cx: &mut App) -> AnyElement {
-            let normal =
-                cx.new(|cx| MessageNotification::new("普通信息通知。", cx));
+            let normal = cx.new(|cx| MessageNotification::new("普通信息通知。", cx));
 
             let with_title = cx.new(|cx| {
                 MessageNotification::new("面向用户的信息内容。", cx)
@@ -1322,8 +1321,8 @@ pub mod simple_message_notification {
             let error_state =
                 cx.new(|cx| MessageNotification::from_workspace_error(PreviewError, cx));
 
-            let close_only = cx
-                .new(|cx| MessageNotification::new("仅带关闭按钮的默认标题栏。", cx));
+            let close_only =
+                cx.new(|cx| MessageNotification::new("仅带关闭按钮的默认标题栏。", cx));
 
             let copy_and_close = cx.new(|cx| {
                 let msg: SharedString = "此消息可复制到剪贴板。".into();
@@ -1331,8 +1330,7 @@ pub mod simple_message_notification {
             });
 
             let no_close = cx.new(|cx| {
-                MessageNotification::new("此通知无法手动关闭。", cx)
-                    .show_close_button(false)
+                MessageNotification::new("此通知无法手动关闭。", cx).show_close_button(false)
             });
 
             // --- Workspace errors ---
@@ -1356,8 +1354,7 @@ pub mod simple_message_notification {
             struct LanguageServerError;
             impl WorkspaceError for LanguageServerError {
                 fn primary_message(&self) -> SharedString {
-                    "错误：通过 rust-analyzer 准备重命名失败：在该位置未找到引用"
-                        .into()
+                    "错误：通过 rust-analyzer 准备重命名失败：在该位置未找到引用".into()
                 }
                 fn secondary_message(&self) -> Option<SharedString> {
                     None

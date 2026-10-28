@@ -1038,8 +1038,7 @@ mod tests {
                 continue;
             }
 
-            let parsed: serde_json::Value =
-                serde_json::from_str(line).expect("解析 JSON 失败");
+            let parsed: serde_json::Value = serde_json::from_str(line).expect("解析 JSON 失败");
 
             // Try to extract data from various JSON shapes
             let (data, edits, new_result_id) = extract_semantic_tokens(&parsed);

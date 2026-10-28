@@ -145,20 +145,18 @@ fn emit_update(response: &WebSearchResponse, event_stream: &ToolCallEventStream)
         format!("{} 个结果", response.results.len())
     };
     event_stream.update_fields(|update| {
-        update
-            .title(format!("已搜索网络：{result_text}"))
-            .content(
-                response
-                    .results
-                    .iter()
-                    .map(|result| {
-                        acp::ToolCallContent::from(acp::ContentBlock::ResourceLink(
-                            acp::ResourceLink::new(result.title.clone(), result.url.clone())
-                                .title(result.title.clone())
-                                .description(result.text.clone()),
-                        ))
-                    })
-                    .collect::<Vec<_>>(),
-            )
+        update.title(format!("已搜索网络：{result_text}")).content(
+            response
+                .results
+                .iter()
+                .map(|result| {
+                    acp::ToolCallContent::from(acp::ContentBlock::ResourceLink(
+                        acp::ResourceLink::new(result.title.clone(), result.url.clone())
+                            .title(result.title.clone())
+                            .description(result.text.clone()),
+                    ))
+                })
+                .collect::<Vec<_>>(),
+        )
     });
 }

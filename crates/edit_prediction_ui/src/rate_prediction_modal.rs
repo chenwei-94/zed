@@ -997,9 +997,7 @@ impl RatePredictionsModal {
                             )
                             .into_any_element()
                         } else {
-                            div()
-                                .child("没有活动的补全".to_string())
-                                .into_any_element()
+                            div().child("没有活动的补全".to_string()).into_any_element()
                         }),
                 )
                 .id("raw-input-view"),
@@ -1233,9 +1231,7 @@ impl RatePredictionsModal {
                     };
                 let (trigger_icon, trigger_tooltip) = match completion.trigger {
                     PredictEditsRequestTrigger::Testing => (IconName::Debug, "Testing"),
-                    PredictEditsRequestTrigger::Diagnostics => {
-                        (IconName::ToolDiagnostics, "诊断")
-                    }
+                    PredictEditsRequestTrigger::Diagnostics => (IconName::ToolDiagnostics, "诊断"),
                     PredictEditsRequestTrigger::DiagnosticNavigation => {
                         (IconName::ArrowRight, "诊断导航")
                     }

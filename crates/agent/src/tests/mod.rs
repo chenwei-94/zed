@@ -105,7 +105,7 @@ impl FakeTerminalHandle {
         }
     }
 
-    pub(crate) fn new_with_immediate_exit(cx: &mut App, exit_code: u32) -> Self {
+    pub(crate) fn new_with_immediate_exit(cx: &mut App, exit_code: i64) -> Self {
         let killed = Arc::new(AtomicBool::new(false));
         let stopped_by_user = Arc::new(AtomicBool::new(false));
         let (exit_sender, _exit_receiver) = futures::channel::oneshot::channel();
@@ -1906,7 +1906,9 @@ async fn test_mcp_tools(cx: &mut TestAppContext) {
     // Send again after adding the echo tool, ensuring the name collision is resolved.
     let events = thread.update(cx, |thread, cx| {
         thread.add_tool(EchoTool);
-        thread.send(ClientUserMessageId::new(), ["转到"], cx).unwrap()
+        thread
+            .send(ClientUserMessageId::new(), ["转到"], cx)
+            .unwrap()
     });
     cx.run_until_parked();
     let completion = fake.pending_completions().pop().unwrap();

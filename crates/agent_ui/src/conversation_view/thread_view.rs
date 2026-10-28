@@ -294,11 +294,7 @@ impl ThreadFeedbackState {
                 window,
                 cx,
             );
-            editor.set_placeholder_text(
-                "哪里出了问题？请分享你的反馈，帮助我们改进。",
-                window,
-                cx,
-            );
+            editor.set_placeholder_text("哪里出了问题？请分享你的反馈，帮助我们改进。", window, cx);
             editor
         });
 
@@ -2165,7 +2161,7 @@ impl ThreadView {
                     .read()
                     .available_commands()
                     .iter()
-                    .any(|available_command| available_command.name == "logout");
+                    .any(|available_command| available_command.name() == "logout");
             if can_login && !logout_supported {
                 message_editor.update(cx, |editor, cx| editor.clear(window, cx));
                 self.clear_external_source_prompt_warning(cx);
@@ -3782,19 +3778,6 @@ impl ThreadView {
     }
 
     // thread stuff
-
-    pub fn restore_checkpoint(&mut self, client_id: &ClientUserMessageId, cx: &mut Context<Self>) {
-        self.thread
-            .update(cx, |thread, cx| {
-                telemetry::event!(
-                    "Agent Checkpoint Restored",
-                    agent = thread.connection().telemetry_id(),
-                    session = thread.session_id().clone(),
-                );
-                thread.restore_checkpoint(client_id.clone(), cx)
-            })
-            .detach_and_log_err(cx);
-    }
 
     pub fn clear_thread_error(&mut self, cx: &mut Context<Self>) {
         self.thread_error = None;
@@ -6264,11 +6247,7 @@ impl ThreadView {
         let (tooltip_label, icon, color) = if !supports_disabling_thinking {
             (None, IconName::ThinkingMode, Color::Accent)
         } else if thinking {
-            (
-                Some("关闭思考模式"),
-                IconName::ThinkingMode,
-                Color::Accent,
-            )
+            (Some("关闭思考模式"), IconName::ThinkingMode, Color::Accent)
         } else {
             (
                 Some("启用思考模式"),
@@ -6615,12 +6594,7 @@ impl ThreadView {
                     .icon_color(Color::Muted),
                 {
                     move |_window, cx| {
-                        Tooltip::for_action_in(
-                            "添加上下文",
-                            &OpenAddContextMenu,
-                            &focus_handle,
-                            cx,
-                        )
+                        Tooltip::for_action_in("添加上下文", &OpenAddContextMenu, &focus_handle, cx)
                     }
                 },
             )
@@ -7142,8 +7116,7 @@ fn sandbox_section(title: &str, policy: &SandboxPolicyDisplay, show_empty: bool)
     let mut section = SandboxSection::new(title.to_string());
 
     if show_empty || !write_empty {
-        section =
-            section.group(SandboxGroup::new("写入权限").rows(sandbox_fs_rows(&policy.fs)));
+        section = section.group(SandboxGroup::new("写入权限").rows(sandbox_fs_rows(&policy.fs)));
     }
 
     if show_empty || !network_empty {
@@ -7286,13 +7259,8 @@ impl ThreadView {
                 let opaque_window = cx.theme().window_background_appearance()
                     == gpui::WindowBackgroundAppearance::Opaque;
 
-                let has_checkpoint_button = message
-                    .checkpoint
-                    .as_ref()
-                    .is_some_and(|checkpoint| checkpoint.show);
-
                 let is_subagent = self.is_subagent();
-                let can_restore_checkpoint = self
+                let can_rewind = self
                     .thread
                     .read(cx)
                     .can_rewind_to(message.client_id.as_ref(), cx);
@@ -7301,7 +7269,7 @@ impl ThreadView {
                     .source_blocks()
                     .iter()
                     .all(acp_thread::content::can_convert_to_v1);
-                let is_editable = can_restore_checkpoint && source_is_representable;
+                let is_editable = can_rewind && source_is_representable;
                 let agent_name = if is_subagent {
                     "subagents".into()
                 } else {
@@ -7321,25 +7289,7 @@ impl ThreadView {
                     .px_2()
                     .gap_1p5()
                     .w_full()
-                    .when(can_restore_checkpoint && has_checkpoint_button, |this| {
-                        this.children(message.client_id.clone().map(|client_id| {
-                            h_flex()
-                                .px_3()
-                                .gap_2()
-                                .child(Divider::horizontal())
-                                .child(
-                                    Button::new("restore-checkpoint", "恢复检查点")
-                                        .start_icon(Icon::new(IconName::Undo).size(IconSize::XSmall).color(Color::Muted))
-                                        .label_size(LabelSize::XSmall)
-                                        .color(Color::Muted)
-                                        .tooltip(Tooltip::text("将项目中所有文件恢复到会话中此时间点的内容。"))
-                                        .on_click(cx.listener(move |this, _, _window, cx| {
-                                            this.restore_checkpoint(&client_id, cx);
-                                        }))
-                                )
-                                .child(Divider::horizontal())
-                        }))
-                    })
+
                     .child(
                         div()
                             .relative()
@@ -7645,7 +7595,9 @@ impl ThreadView {
                                 ),
                         )
                         .child(Divider::horizontal())
-                        .tooltip(Tooltip::text("此行以下的内容均为该子智能体发送给主智能体的输出。")),
+                        .tooltip(Tooltip::text(
+                            "此行以下的内容均为该子智能体发送给主智能体的输出。",
+                        )),
                 )
                 .child(primary)
                 .into_any_element()
@@ -8015,8 +7967,7 @@ impl ThreadView {
             .then(|| {
                 (self.is_subagent() && self.is_thread_feedback_enabled(cx)).then(|| {
                     let feedback = self.thread_feedback.feedback;
-                    let tooltip_meta =
-                        "评价会话会将你当前的全部对话发送给 Zed 团队。";
+                    let tooltip_meta = "评价会话会将你当前的全部对话发送给 Zed 团队。";
 
                     h_flex()
                         .child(
@@ -8030,15 +7981,14 @@ impl ThreadView {
                                     Some(ThreadFeedback::Positive) => {
                                         Tooltip::text("感谢反馈！")(window, cx)
                                     }
-                                    _ => Tooltip::with_meta(
-                                        "回答有帮助",
-                                        None,
-                                        tooltip_meta,
-                                        cx,
-                                    ),
+                                    _ => Tooltip::with_meta("回答有帮助", None, tooltip_meta, cx),
                                 })
                                 .on_click(cx.listener(move |this, _, window, cx| {
-                                    this.handle_feedback_click(ThreadFeedback::Positive, window, cx);
+                                    this.handle_feedback_click(
+                                        ThreadFeedback::Positive,
+                                        window,
+                                        cx,
+                                    );
                                 })),
                         )
                         .child(
@@ -8049,20 +7999,19 @@ impl ThreadView {
                                     _ => Color::Muted,
                                 })
                                 .tooltip(move |window, cx| match feedback {
-                                    Some(ThreadFeedback::Negative) => Tooltip::text(
-                                        "感谢你的反馈，我们会据此在未来改进。",
-                                    )(
-                                        window, cx
-                                    ),
-                                    _ => Tooltip::with_meta(
-                                        "回答没帮助",
-                                        None,
-                                        tooltip_meta,
-                                        cx,
-                                    ),
+                                    Some(ThreadFeedback::Negative) => {
+                                        Tooltip::text("感谢你的反馈，我们会据此在未来改进。")(
+                                            window, cx,
+                                        )
+                                    }
+                                    _ => Tooltip::with_meta("回答没帮助", None, tooltip_meta, cx),
                                 })
                                 .on_click(cx.listener(move |this, _, window, cx| {
-                                    this.handle_feedback_click(ThreadFeedback::Negative, window, cx);
+                                    this.handle_feedback_click(
+                                        ThreadFeedback::Negative,
+                                        window,
+                                        cx,
+                                    );
                                 })),
                         )
                 })
@@ -8768,8 +8717,8 @@ impl ThreadView {
                     let selected_markdown = markdown
                         .and_then(|markdown| markdown.context_menu_selected_markdown().cloned());
 
-                    let copy_this_agent_response =
-                        ContextMenuEntry::new("复制此智能体回复").handler({
+                    let copy_this_agent_response = ContextMenuEntry::new("复制此智能体回复")
+                        .handler({
                             let entity = entity.clone();
                             move |_, cx| {
                                 entity.update(cx, |this, cx| {
@@ -9357,9 +9306,7 @@ impl ThreadView {
                                 error.user_facing_message()
                             ))
                         })
-                        .unwrap_or_else(|| {
-                            "在本会话剩余时间内允许无沙箱执行。".into()
-                        });
+                        .unwrap_or_else(|| "在本会话剩余时间内允许无沙箱执行。".into());
                     let docs_section = thread_error.as_ref().map(|error| error.docs_section());
                     ("未在沙箱中运行".into(), detail, docs_section)
                 }
@@ -10392,19 +10339,18 @@ impl ThreadView {
                     .gap_1p5()
                     .items_start()
                     .child(
-                        h_flex()
-                            .h(line_height)
-                            .flex_none()
-                            .justify_center()
-                            .child(
-                                Icon::new(IconName::Warning)
-                                    .size(IconSize::Small)
-                                    .color(Color::Error),
-                            ),
+                        h_flex().h(line_height).flex_none().justify_center().child(
+                            Icon::new(IconName::Warning)
+                                .size(IconSize::Small)
+                                .color(Color::Error),
+                        ),
                     )
                     .child(
-                        v_flex().min_w_0().flex_1().gap_1().children(findings.iter().map(
-                            |(value, suspicious)| {
+                        v_flex()
+                            .min_w_0()
+                            .flex_1()
+                            .gap_1()
+                            .children(findings.iter().map(|(value, suspicious)| {
                                 v_flex()
                                     .min_w_0()
                                     .gap_0p5()
@@ -10423,8 +10369,7 @@ impl ThreadView {
                                                 .buffer_font(cx)
                                         }),
                                     ))
-                            },
-                        )),
+                            })),
                     )
                     .child(
                         IconButton::new("configure-confusable-warning", IconName::Settings)
@@ -11516,7 +11461,10 @@ impl ThreadView {
                             selections.select_anchor_ranges([anchor..anchor]);
                         })
                     } else {
-                        let row = tool_call_location.line.unwrap_or_default();
+                        // ACP numbers lines from 1; editor rows start at 0.
+                        let row = tool_call_location
+                            .line
+                            .map_or(0, |line| line.saturating_sub(1));
                         editor.change_selections(Default::default(), window, cx, |selections| {
                             selections.select_ranges([Point::new(row, 0)..Point::new(row, 0)]);
                         })
@@ -12494,9 +12442,7 @@ impl ThreadView {
             ThreadError::NoCredentials { provider } => {
                 let message = Self::provider_by_name(provider, cx)
                     .map(|provider| provider.missing_credentials_error_message())
-                    .unwrap_or_else(|| {
-                        format!("未为 {provider} 配置凭据。").into()
-                    });
+                    .unwrap_or_else(|| format!("未为 {provider} 配置凭据。").into());
                 self.render_error_callout("缺少凭据", message, false, true, cx)
             }
             ThreadError::StreamError { provider } => self.render_error_callout(
@@ -12517,10 +12463,9 @@ impl ThreadView {
                 self.render_error_callout("身份验证失败", message, false, false, cx)
             }
             ThreadError::PermissionDenied { provider, message } => {
-                let message: SharedString = message.clone().unwrap_or_else(|| {
-                    format!("{provider} 因权限不足拒绝了该请求。")
-                        .into()
-                });
+                let message: SharedString = message
+                    .clone()
+                    .unwrap_or_else(|| format!("{provider} 因权限不足拒绝了该请求。").into());
 
                 self.render_error_callout("权限被拒绝", message, false, false, cx)
             }
@@ -13259,10 +13204,7 @@ impl ThreadView {
                 .severity(Severity::Warning)
                 .icon(IconName::Warning)
                 .title("此智能体目前不支持多根工作区")
-                .description(format!(
-                    "它目前默认仅作用于“{}”。",
-                    active_dir
-                ))
+                .description(format!("它目前默认仅作用于“{}”。", active_dir))
                 .border_position(self.callout_border_position())
                 .dismiss_action(
                     IconButton::new("dismiss-multi-root-callout", IconName::Close)
@@ -13348,11 +13290,9 @@ impl ThreadView {
                 IconName::Warning,
                 "会话即将达到 token 上限",
             ),
-            acp_thread::TokenUsageRatio::Exceeded => (
-                Severity::Error,
-                IconName::XCircle,
-                "会话已达 token 上限",
-            ),
+            acp_thread::TokenUsageRatio::Exceeded => {
+                (Severity::Error, IconName::XCircle, "会话已达 token 上限")
+            }
         };
 
         let description = "要继续，请运行 /compact，或新建一个会话并 @ 提及此会话";
@@ -14333,8 +14273,8 @@ fn leading_native_command(
     let name_end = rest.find(char::is_whitespace).unwrap_or(rest.len());
     let name = &rest[..name_end];
     let is_native = available_commands.iter().any(|command| {
-        command.name == name
-            && acp_thread::command_category_from_meta(&command.meta)
+        command.name() == name
+            && acp_thread::command_category_from_meta(command.meta())
                 == Some(acp_thread::CommandCategory::Native)
     });
     is_native.then(|| name.to_string())
@@ -14416,14 +14356,14 @@ mod tests {
     }
 
     fn native_command(name: &str) -> acp_v2::AvailableCommand {
-        acp_v2::AvailableCommand::new(name, "").meta(acp_thread::meta_with_command_category(
-            acp_thread::CommandCategory::Native,
+        acp_v2::AvailableCommand::Command(acp_v2::Command::new(name, "").meta(
+            acp_thread::meta_with_command_category(acp_thread::CommandCategory::Native),
         ))
     }
 
     fn mcp_command(name: &str) -> acp_v2::AvailableCommand {
-        acp_v2::AvailableCommand::new(name, "").meta(acp_thread::meta_with_command_category(
-            acp_thread::CommandCategory::Mcp,
+        acp_v2::AvailableCommand::Command(acp_v2::Command::new(name, "").meta(
+            acp_thread::meta_with_command_category(acp_thread::CommandCategory::Mcp),
         ))
     }
 

@@ -553,56 +553,53 @@ fn prepaint_view(
             return Some(element);
         };
 
-        window.with_element_state::<ViewElementState, _>(
-            global_id,
-            |element_state, window| {
-                let content_mask = window.content_mask();
-                let text_style = window.text_style();
+        window.with_element_state::<ViewElementState, _>(global_id, |element_state, window| {
+            let content_mask = window.content_mask();
+            let text_style = window.text_style();
 
-                if let Some(mut element_state) = element_state
-                    && element_state.cache_key.bounds == bounds
-                    && element_state.cache_key.content_mask == content_mask
-                    && element_state.cache_key.text_style == text_style
-                    && !window.dirty_views.contains(&entity_id)
-                    && !window.refreshing
-                {
-                    let prepaint_start = window.prepaint_index();
-                    window.reuse_prepaint(element_state.prepaint_range.clone());
-                    cx.entities
-                        .extend_accessed(&element_state.accessed_entities);
-                    let prepaint_end = window.prepaint_index();
-                    element_state.prepaint_range = prepaint_start..prepaint_end;
-
-                    return (None, element_state);
-                }
-
-                let refreshing = mem::replace(&mut window.refreshing, true);
+            if let Some(mut element_state) = element_state
+                && element_state.cache_key.bounds == bounds
+                && element_state.cache_key.content_mask == content_mask
+                && element_state.cache_key.text_style == text_style
+                && !window.dirty_views.contains(&entity_id)
+                && !window.refreshing
+            {
                 let prepaint_start = window.prepaint_index();
-                let (element, accessed_entities) = cx.detect_accessed_entities(|cx| {
-                    let mut element = render(window, cx);
-                    element.layout_as_root(Size::<AvailableSpace>::from(bounds.size), window, cx);
-                    element.prepaint_at(bounds.origin, window, cx);
-                    element
-                });
-
+                window.reuse_prepaint(element_state.prepaint_range.clone());
+                cx.entities
+                    .extend_accessed(&element_state.accessed_entities);
                 let prepaint_end = window.prepaint_index();
-                window.refreshing = refreshing;
+                element_state.prepaint_range = prepaint_start..prepaint_end;
 
-                (
-                    Some(element),
-                    ViewElementState {
-                        accessed_entities,
-                        prepaint_range: prepaint_start..prepaint_end,
-                        paint_range: PaintIndex::default()..PaintIndex::default(),
-                        cache_key: ViewElementCacheKey {
-                            bounds,
-                            content_mask,
-                            text_style,
-                        },
+                return (None, element_state);
+            }
+
+            let refreshing = mem::replace(&mut window.refreshing, true);
+            let prepaint_start = window.prepaint_index();
+            let (element, accessed_entities) = cx.detect_accessed_entities(|cx| {
+                let mut element = render(window, cx);
+                element.layout_as_root(Size::<AvailableSpace>::from(bounds.size), window, cx);
+                element.prepaint_at(bounds.origin, window, cx);
+                element
+            });
+
+            let prepaint_end = window.prepaint_index();
+            window.refreshing = refreshing;
+
+            (
+                Some(element),
+                ViewElementState {
+                    accessed_entities,
+                    prepaint_range: prepaint_start..prepaint_end,
+                    paint_range: PaintIndex::default()..PaintIndex::default(),
+                    cache_key: ViewElementCacheKey {
+                        bounds,
+                        content_mask,
+                        text_style,
                     },
-                )
-            },
-        )
+                },
+            )
+        })
     })
 }
 
@@ -689,11 +686,9 @@ mod cached_view_tests {
     use std::rc::Rc;
 
     use super::*;
-    use crate::prelude::*;
     use crate::TestAppContext;
-    use crate::{
-        AnyView, Context, Entity, IntoElement, Render, StyleRefinement, Window, div, px,
-    };
+    use crate::prelude::*;
+    use crate::{AnyView, Context, Entity, IntoElement, Render, StyleRefinement, Window, div, px};
 
     struct 计数视图 {
         渲染次数: Rc<Cell<usize>>,
@@ -713,9 +708,9 @@ mod cached_view_tests {
     impl Render for 根视图 {
         fn render(&mut self, _window: &mut Window, _cx: &mut Context<Self>) -> impl IntoElement {
             // 与 RLT 顶栏同款用法：AnyView::cached + 宿主给的布局样式
-            div().size_full().child(
-                AnyView::from(self.子视图.clone()).cached(StyleRefinement::default()),
-            )
+            div()
+                .size_full()
+                .child(AnyView::from(self.子视图.clone()).cached(StyleRefinement::default()))
         }
     }
 

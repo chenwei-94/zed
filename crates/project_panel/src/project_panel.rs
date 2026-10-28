@@ -1300,10 +1300,7 @@ impl ProjectPanel {
                             .when(is_dir && !is_root, |menu| {
                                 menu.separator()
                                     .action("全部展开", Box::new(ExpandSelectedEntryAndChildren))
-                                    .action(
-                                        "全部折叠",
-                                        Box::new(CollapseSelectedEntryAndChildren),
-                                    )
+                                    .action("全部折叠", Box::new(CollapseSelectedEntryAndChildren))
                             })
                             .when(is_dir && is_root, |menu| {
                                 menu.separator()
@@ -3961,11 +3958,7 @@ impl ProjectPanel {
                                 workspace.show_toast(
                                     workspace::Toast::new(
                                         notification_id.clone(),
-                                        format!(
-                                            "正在下载 {}/{} 个文件…",
-                                            index + 1,
-                                            total_files
-                                        ),
+                                        format!("正在下载 {}/{} 个文件…", index + 1, total_files),
                                     ),
                                     cx,
                                 );

@@ -709,10 +709,7 @@ mod tests {
         assert_eq!(parsed.rows.len(), 2);
         assert_eq!(parsed.rows[0][0].display_value().unwrap().as_ref(), "John");
         assert_eq!(parsed.rows[0][1].display_value().unwrap().as_ref(), "30");
-        assert_eq!(
-            parsed.rows[0][2].display_value().unwrap().as_ref(),
-            "纽约"
-        );
+        assert_eq!(parsed.rows[0][2].display_value().unwrap().as_ref(), "纽约");
     }
 
     #[test]
@@ -737,10 +734,7 @@ Jane,"Simple name""#;
 
         assert_eq!(parsed.headers.cols(), 3);
         assert_eq!(parsed.headers[0].display_value().unwrap().as_ref(), "名称");
-        assert_eq!(
-            parsed.headers[1].display_value().unwrap().as_ref(),
-            "描述"
-        );
+        assert_eq!(parsed.headers[1].display_value().unwrap().as_ref(), "描述");
         assert_eq!(
             parsed.headers[2].display_value().unwrap().as_ref(),
             "Status"
@@ -764,10 +758,7 @@ Jane,"Simple name""#;
             parsed.rows[1][0].display_value().unwrap().as_ref(),
             "Jane Smith"
         );
-        assert_eq!(
-            parsed.rows[1][1].display_value().unwrap().as_ref(),
-            "简单"
-        );
+        assert_eq!(parsed.rows[1][1].display_value().unwrap().as_ref(), "简单");
         assert_eq!(
             parsed.rows[1][2].display_value().unwrap().as_ref(),
             "Also\nActive"

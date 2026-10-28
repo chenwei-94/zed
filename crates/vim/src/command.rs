@@ -338,13 +338,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
     });
 
     Vim::action(editor, cx, |_, _: &ArgumentRequired, window, cx| {
-        let _ = window.prompt(
-            gpui::PromptLevel::Critical,
-            "需要参数",
-            None,
-            &["取消"],
-            cx,
-        );
+        let _ = window.prompt(gpui::PromptLevel::Critical, "需要参数", None, &["取消"], cx);
     });
 
     Vim::action(editor, cx, |vim, action: &VimSave, window, cx| {
@@ -353,17 +347,19 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                 let Some(range) = range.buffer_range(vim, editor, window, cx).ok() else {
                     return;
                 };
-                let Some((line_ending, encoding, has_bom, text, whole_buffer)) = editor.buffer().update(cx, |multi, cx| {
-                    Some(multi.as_singleton()?.update(cx, |buffer, _| {
-                        (
-                            buffer.line_ending(),
-                            buffer.encoding(),
-                            buffer.has_bom(),
-                            buffer.as_rope().slice_rows(range.start.0..range.end.0 + 1),
-                            range.start.0 == 0 && range.end.0 + 1 >= buffer.row_count(),
-                        )
-                    }))
-                }) else {
+                let Some((line_ending, encoding, has_bom, text, whole_buffer)) =
+                    editor.buffer().update(cx, |multi, cx| {
+                        Some(multi.as_singleton()?.update(cx, |buffer, _| {
+                            (
+                                buffer.line_ending(),
+                                buffer.encoding(),
+                                buffer.has_bom(),
+                                buffer.as_rope().slice_rows(range.start.0..range.end.0 + 1),
+                                range.start.0 == 0 && range.end.0 + 1 >= buffer.row_count(),
+                            )
+                        }))
+                    })
+                else {
                     return;
                 };
 
@@ -430,17 +426,17 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                             return;
                         };
 
-                        let rx = (worktree.entry_for_path(&path).is_some() && Some(SaveIntent::Overwrite) != action.save_intent).then(|| {
-                            window.prompt(
-                                gpui::PromptLevel::Warning,
-                                &format!("{path:?} 已存在。是否要替换它？"),
-                                Some(
-                                    "{path:?} 已存在。是否替换？",
-                                ),
-                                &["Replace", "取消"],
-                                cx
-                            )
-                        });
+                        let rx = (worktree.entry_for_path(&path).is_some()
+                            && Some(SaveIntent::Overwrite) != action.save_intent)
+                            .then(|| {
+                                window.prompt(
+                                    gpui::PromptLevel::Warning,
+                                    &format!("{path:?} 已存在。是否要替换它？"),
+                                    Some("{path:?} 已存在。是否替换？"),
+                                    &["Replace", "取消"],
+                                    cx,
+                                )
+                            });
                         let filename = filename.clone();
                         cx.spawn_in(window, async move |this, cx| {
                             if let Some(rx) = rx
@@ -450,12 +446,26 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                             }
 
                             let _ = this.update_in(cx, |worktree, window, cx| {
-                                let Some(path) = RelPath::new(Path::new(&filename), path_style).ok() else {
+                                let Some(path) =
+                                    RelPath::new(Path::new(&filename), path_style).ok()
+                                else {
                                     return;
                                 };
                                 worktree
-                                    .write_file(path.into_arc(), text.clone(), line_ending, encoding, has_bom, cx)
-                                    .detach_and_prompt_err("写入行失败", window, cx, |_, _, _| None);
+                                    .write_file(
+                                        path.into_arc(),
+                                        text.clone(),
+                                        line_ending,
+                                        encoding,
+                                        has_bom,
+                                        cx,
+                                    )
+                                    .detach_and_prompt_err(
+                                        "写入行失败",
+                                        window,
+                                        cx,
+                                        |_, _, _| None,
+                                    );
                             });
                         })
                         .detach();
@@ -496,12 +506,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                 Task::ready(Err::<(), _>(anyhow!(
                     "Cannot save buffer with absolute path"
                 )))
-                .detach_and_prompt_err(
-                    "保存失败",
-                    window,
-                    cx,
-                    |_, _, _| None,
-                );
+                .detach_and_prompt_err("保存失败", window, cx, |_, _, _| None);
                 return;
             };
 
@@ -514,9 +519,7 @@ pub fn register(editor: &mut Editor, cx: &mut Context<Vim>) {
                         "{} 已存在。是否替换？",
                         project_path.path.display(path_style)
                     ),
-                    Some(
-                        "已存在同名文件或文件夹。替换将覆盖其当前内容。",
-                    ),
+                    Some("已存在同名文件或文件夹。替换将覆盖其当前内容。"),
                     &["Replace", "取消"],
                     cx,
                 );

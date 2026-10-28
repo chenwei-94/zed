@@ -178,13 +178,14 @@ impl Component for StatusToast {
             },
         );
 
-        let success_example = StatusToast::new("已将 4 个更改推送到 `zed/main`", cx, |this, _| {
-            this.icon(
-                Icon::new(IconName::Check)
-                    .size(IconSize::Small)
-                    .color(Color::Success),
-            )
-        });
+        let success_example =
+            StatusToast::new("已将 4 个更改推送到 `zed/main`", cx, |this, _| {
+                this.icon(
+                    Icon::new(IconName::Check)
+                        .size(IconSize::Small)
+                        .color(Color::Success),
+                )
+            });
 
         let error_example = StatusToast::new(
             "git push：找不到远程 origin `iamnbutler/zed`",
@@ -208,8 +209,10 @@ impl Component for StatusToast {
             .action("更多信息", |_, _| {})
         });
 
-        let pr_example =
-            StatusToast::new("已创建 `zed/new-notification-system`！", cx, |this, _cx| {
+        let pr_example = StatusToast::new(
+            "已创建 `zed/new-notification-system`！",
+            cx,
+            |this, _cx| {
                 this.icon(
                     Icon::new(IconName::GitBranch)
                         .size(IconSize::Small)
@@ -218,7 +221,8 @@ impl Component for StatusToast {
                 .action("打开拉取请求", |_, cx| {
                     cx.open_url("https://github.com/")
                 })
-            });
+            },
+        );
 
         v_flex()
             .gap_6()

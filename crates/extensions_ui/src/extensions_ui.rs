@@ -1614,10 +1614,8 @@ impl Render for ExtensionsPage {
                                     Banner::new()
                                         .severity(Severity::Warning)
                                         .child(
-                                            Label::new(
-                                                "加载扩展失败。仅显示已安装的扩展。",
-                                            )
-                                            .mt_0p5(),
+                                            Label::new("加载扩展失败。仅显示已安装的扩展。")
+                                                .mt_0p5(),
                                         )
                                         .action_slot(self.retry_button(cx)),
                                 ),
