@@ -3149,7 +3149,7 @@ impl GitGraph {
                                     let focus_handle = self.focus_handle.clone();
                                     move |_window, cx: &mut App| {
                                         Tooltip::for_action_in(
-                                            "Close Details Panel",
+                                            "关闭详情面板",
                                             &Cancel,
                                             &focus_handle,
                                             cx,
@@ -3369,7 +3369,7 @@ impl GitGraph {
                                         )
                                         .tooltip({
                                             move |_window, cx: &mut App| {
-                                                Tooltip::simple("Open In Browser", cx)
+                                                Tooltip::simple("在浏览器中打开", cx)
                                             }
                                         })
                                         .start_icon(
