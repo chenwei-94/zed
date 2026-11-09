@@ -470,14 +470,6 @@ struct PrepaintState {
     selection: Option<PaintQuad>,
 }
 
-impl IntoElement for TextElement {
-    type Element = Self;
-
-    fn into_element(self) -> Self::Element {
-        self
-    }
-}
-
 impl Element for TextElement {
     type RequestLayoutState = ();
     type PrepaintState = PrepaintState;
@@ -788,7 +780,7 @@ fn run_example() {
                     let text_input = cx.new(|cx| TextInput {
                         focus_handle: cx.focus_handle(),
                         content: "".into(),
-                        placeholder: "Type here...".into(),
+                        placeholder: "在此处输入…".into(),
                         selected_range: 0..0,
                         selection_reversed: false,
                         marked_range: None,

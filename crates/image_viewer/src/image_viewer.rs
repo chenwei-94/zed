@@ -39,15 +39,15 @@ pub use crate::image_viewer_settings::*;
 actions!(
     image_viewer,
     [
-        /// Zoom in the image.
+        /// 放大图片。
         ZoomIn,
-        /// Zoom out the image.
+        /// 缩小图片。
         ZoomOut,
-        /// Reset zoom to 100%.
+        /// 将缩放重置为 100%。
         ResetZoom,
-        /// Fit the image to view.
+        /// 让图片适应视图。
         FitToView,
-        /// Zoom to actual size (100%).
+        /// 缩放到实际大小（100%）。
         ZoomToActualSize
     ]
 );
@@ -364,14 +364,6 @@ struct ImageContentElement {
 impl ImageContentElement {
     fn new(image_view: Entity<ImageView>) -> Self {
         Self { image_view }
-    }
-}
-
-impl IntoElement for ImageContentElement {
-    type Element = Self;
-
-    fn into_element(self) -> Self::Element {
-        self
     }
 }
 
