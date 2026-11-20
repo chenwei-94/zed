@@ -4423,9 +4423,23 @@ fn window_and_layout_page() -> SettingsPage {
         ]
     }
 
-    fn title_bar_section() -> [SettingsPageItem; 12] {
+    fn title_bar_section() -> [SettingsPageItem; 13] {
         [
             SettingsPageItem::SectionHeader("标题栏"),
+            SettingsPageItem::SettingItem(SettingItem {
+                title: "显示标题栏",
+                description: "何时显示标题栏及其窗口控件。",
+                field: Box::new(SettingField {
+                    organization_override: None,
+                    json_path: Some("title_bar.show"),
+                    pick: |settings_content| settings_content.title_bar.as_ref()?.show.as_ref(),
+                    write: |settings_content, value, _| {
+                        settings_content.title_bar.get_or_insert_default().show = value;
+                    },
+                }),
+                metadata: None,
+                files: USER,
+            }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "显示分支状态图标",
                 description: "在标题栏的分支图标上显示 Git 状态指示器。",

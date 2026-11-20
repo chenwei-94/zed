@@ -45,6 +45,7 @@ mod key_dispatch;
 mod keymap;
 mod paint_observer;
 mod path_builder;
+mod path_winding;
 mod platform;
 mod platform_scheduler;
 pub use paint_observer::{
@@ -138,6 +139,7 @@ pub use inspector::*;
 pub use interactive::*;
 pub use keymap::*;
 pub use path_builder::*;
+pub(crate) use path_winding::*;
 pub use platform::*;
 pub use profiler::*;
 pub use refineable::*;

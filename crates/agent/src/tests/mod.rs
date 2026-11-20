@@ -3583,7 +3583,7 @@ async fn test_refusal(cx: &mut TestAppContext) {
     // If the model refuses to continue, the thread should remove all the messages after the last user message.
     fake.send_last_event(
         &model,
-        LanguageModelCompletionEvent::Stop(StopReason::Refusal),
+        LanguageModelCompletionEvent::Stop(StopReason::Refusal(None)),
     );
     let events = events.collect::<Vec<_>>().await;
     assert_eq!(stop_events(events), vec![acp_v2::StopReason::Refusal]);
@@ -7348,7 +7348,7 @@ async fn test_subagent_auto_compaction(cx: &mut TestAppContext) {
         }
         test.fake.send_last_event(
             &test.model,
-            LanguageModelCompletionEvent::Stop(StopReason::Refusal),
+            LanguageModelCompletionEvent::Stop(StopReason::Refusal(None)),
         );
         test.fake.end_last(&test.model);
         assert_eq!(
@@ -7879,7 +7879,6 @@ async fn test_edit_file_tool_deny_rule_blocks_edit(cx: &mut TestAppContext) {
     });
     let action_log = cx.update(|cx| thread.read(cx).action_log.clone());
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::EditFileTool::new(
         project.clone(),
         thread.downgrade(),
@@ -7933,7 +7932,6 @@ async fn test_delete_path_tool_deny_rule_blocks_deletion(cx: &mut TestAppContext
 
     let action_log = cx.new(|_cx| action_log::ActionLog::new(project.clone()));
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::DeletePathTool::new(project, action_log));
     let (event_stream, _rx) = crate::ToolCallEventStream::test();
 
@@ -7985,7 +7983,6 @@ async fn test_move_path_tool_denies_if_destination_denied(cx: &mut TestAppContex
         agent_settings::AgentSettings::override_global(settings, cx);
     });
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::MovePathTool::new(project));
     let (event_stream, _rx) = crate::ToolCallEventStream::test();
 
@@ -8041,7 +8038,6 @@ async fn test_move_path_tool_denies_if_source_denied(cx: &mut TestAppContext) {
         agent_settings::AgentSettings::override_global(settings, cx);
     });
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::MovePathTool::new(project));
     let (event_stream, _rx) = crate::ToolCallEventStream::test();
 
@@ -8099,7 +8095,6 @@ async fn test_copy_path_tool_deny_rule_blocks_copy(cx: &mut TestAppContext) {
         agent_settings::AgentSettings::override_global(settings, cx);
     });
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::CopyPathTool::new(project));
     let (event_stream, _rx) = crate::ToolCallEventStream::test();
 
@@ -8143,7 +8138,6 @@ async fn test_web_search_tool_deny_rule_blocks_search(cx: &mut TestAppContext) {
         agent_settings::AgentSettings::override_global(settings, cx);
     });
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::WebSearchTool);
     let (event_stream, _rx) = crate::ToolCallEventStream::test();
 
@@ -8205,7 +8199,6 @@ async fn test_edit_file_tool_allow_rule_skips_confirmation(cx: &mut TestAppConte
     });
     let action_log = thread.read_with(cx, |thread, _cx| thread.action_log().clone());
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::EditFileTool::new(
         project,
         thread.downgrade(),
@@ -8273,7 +8266,6 @@ async fn test_edit_file_tool_allow_still_prompts_for_local_settings(cx: &mut Tes
     });
     let action_log = thread.read_with(cx, |thread, _cx| thread.action_log().clone());
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::EditFileTool::new(
         project,
         thread.downgrade(),
@@ -8322,7 +8314,6 @@ async fn test_fetch_tool_deny_rule_blocks_url(cx: &mut TestAppContext) {
 
     let http_client = gpui::http_client::FakeHttpClient::with_200_response();
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::FetchTool::new(http_client));
     let (event_stream, _rx) = crate::ToolCallEventStream::test();
 
@@ -8366,7 +8357,6 @@ async fn test_fetch_tool_allow_rule_skips_confirmation(cx: &mut TestAppContext) 
 
     let http_client = gpui::http_client::FakeHttpClient::with_200_response();
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::FetchTool::new(http_client));
     let (event_stream, mut rx) = crate::ToolCallEventStream::test();
 
@@ -8407,7 +8397,6 @@ async fn test_fetch_tool_prompts_for_ungranted_host(cx: &mut TestAppContext) {
 
     let http_client = gpui::http_client::FakeHttpClient::with_200_response();
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::FetchTool::new(http_client));
     let (event_stream, mut rx) = crate::ToolCallEventStream::test();
 
@@ -8455,7 +8444,6 @@ async fn test_fetch_tool_granted_host_skips_prompt(cx: &mut TestAppContext) {
 
     let http_client = gpui::http_client::FakeHttpClient::with_200_response();
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::FetchTool::new(http_client));
     let (event_stream, mut rx) = crate::ToolCallEventStream::test();
 
@@ -8497,7 +8485,6 @@ async fn test_fetch_tool_refuses_loopback_without_unsandboxed(cx: &mut TestAppCo
 
     let http_client = gpui::http_client::FakeHttpClient::with_200_response();
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::FetchTool::new(http_client));
     let (event_stream, _rx) = crate::ToolCallEventStream::test();
 
@@ -8539,7 +8526,6 @@ async fn test_fetch_tool_unsandboxed_lifts_restrictions(cx: &mut TestAppContext)
 
     let http_client = gpui::http_client::FakeHttpClient::with_200_response();
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::FetchTool::new(http_client));
     let (event_stream, mut rx) = crate::ToolCallEventStream::test();
 
@@ -8600,7 +8586,6 @@ async fn test_fetch_tool_refuses_redirect_to_loopback(cx: &mut TestAppContext) {
             .unwrap())
     });
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::FetchTool::new(http_client));
     let (event_stream, _rx) = crate::ToolCallEventStream::test();
 
@@ -8659,7 +8644,6 @@ async fn test_fetch_tool_reauthorizes_redirect_to_new_host(cx: &mut TestAppConte
             .unwrap())
     });
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::FetchTool::new(http_client));
     let (event_stream, mut rx) = crate::ToolCallEventStream::test();
 
@@ -8727,7 +8711,6 @@ async fn test_fetch_tool_follows_same_host_redirect(cx: &mut TestAppContext) {
         }
     });
 
-    #[allow(clippy::arc_with_non_send_sync)]
     let tool = Arc::new(crate::FetchTool::new(http_client));
     let (event_stream, mut rx) = crate::ToolCallEventStream::test();
 
