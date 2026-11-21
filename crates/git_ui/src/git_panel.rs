@@ -7305,12 +7305,7 @@ impl GitPanel {
                                     if is_branch_mode {
                                         Tooltip::simple("查看分支差异", cx)
                                     } else {
-                                        Tooltip::for_action_in(
-                                            "查看差异",
-                                            &Diff,
-                                            &focus_handle,
-                                            cx,
-                                        )
+                                        Tooltip::for_action_in("查看差异", &Diff, &focus_handle, cx)
                                     }
                                 })
                                 .on_click(cx.listener(move |this, _, window, cx| {

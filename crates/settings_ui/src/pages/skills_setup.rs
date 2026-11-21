@@ -311,7 +311,7 @@ pub(crate) fn render_skills_setup_page(
                     .when_some(remote_host, |this, remote_host| {
                         this.child(
                             div().px_8().pb_1().child(
-                                Label::new(format!("Global skills on {remote_host}"))
+                                Label::new(format!("{remote_host} 上的全局技能"))
                                     .size(LabelSize::Small)
                                     .color(Color::Muted),
                             ),

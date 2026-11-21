@@ -9719,7 +9719,7 @@ fn ai_page(cx: &App) -> SettingsPage {
             }),
             SettingsPageItem::SettingItem(SettingItem {
                 title: "自动生成会话标题",
-                description: "Whether to automatically generate a title for Zed Agent threads using the summary model. When disabled, titles are only created when manually requested.",
+                description: "是否使用摘要模型自动为 Zed 智能体会话生成标题。停用后，仅在手动请求时才创建标题。",
                 field: Box::new(SettingField {
                     organization_override: None,
                     json_path: Some("agent.auto_generate_thread_titles"),

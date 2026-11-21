@@ -701,7 +701,7 @@ pub async fn handle_cli_request(
             let response = match serde_json::to_string_pretty(&state) {
                 Ok(message) => CliResponse::Stdout { message },
                 Err(error) => CliResponse::Stderr {
-                    message: format!("failed to serialize debug state: {error}"),
+                    message: format!("序列化调试状态失败：{error}"),
                 },
             };
             let status = match response {

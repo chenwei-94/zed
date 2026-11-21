@@ -1984,7 +1984,13 @@ impl ThreadView {
                         Itertools::intersperse(Self::submission_text_parts(&record.content), " ")
                             .flat_map(str::chars)
                             .take(201)
-                            .map(|character| if character.is_whitespace() { ' ' } else { character })
+                            .map(|character| {
+                                if character.is_whitespace() {
+                                    ' '
+                                } else {
+                                    character
+                                }
+                            })
                             .collect();
                     (
                         submission_id,
@@ -4921,7 +4927,7 @@ impl ThreadView {
                     IconButton::new("open-plan-file", IconName::ArrowUpRight)
                         .icon_size(IconSize::XSmall)
                         .shape(ui::IconButtonShape::Square)
-                        .tooltip(Tooltip::text("Open Plan File"))
+                        .tooltip(Tooltip::text("打开计划文件"))
                         .on_click(cx.listener(move |this, _, window, cx| {
                             this.open_plan_file(path.clone(), window, cx);
                             cx.stop_propagation();
@@ -7119,7 +7125,7 @@ impl Render for ResponseSpeedTooltip {
                                 .gap_4()
                                 .justify_between()
                                 .child(
-                                    Label::new("Cycle Response Speed")
+                                    Label::new("循环切换响应速度")
                                         .when(!enabled, |label| label.color(Color::Muted)),
                                 )
                                 .child(KeyBinding::for_action_in(
@@ -7135,9 +7141,9 @@ impl Render for ResponseSpeedTooltip {
                         .gap_4()
                         .justify_between()
                         .child(Label::new(if enabled {
-                            "Disable Fast Mode"
+                            "禁用快速模式"
                         } else {
-                            "Enable Fast Mode"
+                            "启用快速模式"
                         }))
                         .child(KeyBinding::for_action_in(&ToggleFastMode, &self.focus, cx)),
                 )
@@ -10289,7 +10295,7 @@ impl ThreadView {
                                                 div()
                                                     .id(("paused-tool-call", entry_ix))
                                                     .pr_0p5()
-                                                    .tooltip(Tooltip::text("Paused"))
+                                                    .tooltip(Tooltip::text("已暂停"))
                                                     .child(
                                                         Icon::new(IconName::DebugPause)
                                                             .color(Color::Muted)
@@ -12059,7 +12065,7 @@ impl ThreadView {
                 .child(
                     Button::new(SharedString::from(element_id), label)
                         .label_size(LabelSize::Small)
-                        .tooltip(Tooltip::text("Open Session"))
+                        .tooltip(Tooltip::text("打开会话"))
                         .on_click(cx.listener({
                             let session_id = reference.session_id.clone();
                             move |this, _, window, cx| {
@@ -12075,7 +12081,7 @@ impl ThreadView {
                 .into_any_element(),
             // The reference is display-only, so a session this conversation has no thread for
             // is shown rather than loaded.
-            None => Label::new("Unavailable Session")
+            None => Label::new("会话不可用")
                 .size(LabelSize::Small)
                 .color(Color::Muted)
                 .into_any_element(),

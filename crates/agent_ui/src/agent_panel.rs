@@ -350,7 +350,7 @@ pub(crate) fn open_global_rules(
                     workspace::Toast::new(
                         workspace::notifications::NotificationId::unique::<NoGlobalRulesToast>(),
                         format!(
-                            "No global rules yet. Create {} on this machine to add them.",
+                            "还没有全局规则。在本机创建 {} 即可添加。",
                             agents_file.display()
                         ),
                     )

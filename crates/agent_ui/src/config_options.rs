@@ -436,8 +436,8 @@ impl ConfigOptionsView {
                     .icon_size(IconSize::Small)
                     .icon_color(Color::Muted)
                     .selected_style(ButtonStyle::Tinted(ui::TintColor::Accent))
-                    .aria_label("Agent Options"),
-                Tooltip::text("Agent Options"),
+                    .aria_label("智能体选项"),
+                Tooltip::text("智能体选项"),
             )
             .anchor(gpui::Anchor::BottomRight)
             .offset(gpui::point(px(0.), px(-2.)))

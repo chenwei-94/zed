@@ -62,7 +62,7 @@ fn remote_skills_load_error(error: anyhow::Error) -> SkillLoadError {
             agent_skills::AGENTS_DIR_NAME,
             agent_skills::SKILLS_DIR_NAME
         )),
-        message: format!("Failed to load global skills from the remote machine: {error:#}"),
+        message: format!("从远程机器加载全局技能失败：{error:#}"),
     }
 }
 

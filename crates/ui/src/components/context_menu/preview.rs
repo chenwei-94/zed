@@ -164,7 +164,7 @@ impl MenuPreview {
             Example::Standard => menu
                 .context(this.focus_handle.clone())
                 .header("命令")
-                .action("Dispatch preview action", Box::new(PreviewAction))
+                .action("派发预览动作", Box::new(PreviewAction))
                 .item(
                     ContextMenuEntry::new("已禁用的命令")
                         .disabled(true)
@@ -330,10 +330,7 @@ impl MenuPreview {
                                 .p_3()
                                 .gap_1()
                                 .child(Label::new("旁侧说明"))
-                                .child(
-                                    Label::new("悬停或键盘选中时显示。")
-                                        .size(LabelSize::Small),
-                                )
+                                .child(Label::new("悬停或键盘选中时显示。").size(LabelSize::Small))
                                 .into_any_element()
                         })
                         .handler(Self::handler(preview, |_| {})),
